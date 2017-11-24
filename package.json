@@ -1,12 +1,14 @@
 {
   "name": "tensult-cloud-reports",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.1.0",
+  "description": "Collects and analyzes cloud resources",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "collect": "node dist/collect.js",
+    "analyze": "node dist/analyze.js"
   },
-  "keywords": [],
+  "keywords": ["aws", "cloud", "security", "reports", "scans"],
   "author": "dilip@tensult.com",
   "license": "GPLv3",
   "devDependencies": {
