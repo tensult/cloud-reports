@@ -1,0 +1,16 @@
+import * as AWS from 'aws-sdk';
+import { BaseCollector } from "../../base";
+
+export class SecurityGroupsCollector extends BaseCollector {
+    async collect() {
+        const serviceName = 'EC2';
+        const ec2Regions = this.getRegions(serviceName);
+        const security_groups = {};
+        for (let region of ec2Regions) {
+            let ec2 = this.getClient(serviceName, region) as AWS.EC2;
+            const securityGroupsResponse: AWS.EC2.DescribeSecurityGroupsResult = await ec2.describeSecurityGroups().promise();
+            security_groups[region] = securityGroupsResponse.SecurityGroups;
+        }
+        return { security_groups };
+    }
+}

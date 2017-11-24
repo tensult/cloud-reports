@@ -1,0 +1,21 @@
+{
+  "name": "tensult-cloud-reports",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "dilip@tensult.com",
+  "license": "GPLv3",
+  "devDependencies": {
+    "@types/core-js": "^0.9.43",
+    "@types/node": "^8.0.53",
+    "typescript": "^2.6.1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.156.0",
+    "cli": "^1.0.1"
+  }
+}
