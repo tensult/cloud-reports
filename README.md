@@ -2,7 +2,8 @@
 Currently this application only supports AWS, but can be extendable to other cloud providers. Contributions are most welcome.
 
 ### Installation 
-* npm install
+
+    npm install
 
 ### Execution
 
