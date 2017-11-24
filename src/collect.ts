@@ -36,7 +36,7 @@ function collect(collectors: any, keyPath?: string) {
 
 const cliArgs = Cli.parse({
     profile: ['p', 'AWS profile name', 'string'],
-    output: ['o', 'output file name', 'file', 'report.json'],
+    output: ['o', 'output file name', 'file', 'collection_report.json'],
     module: ['m', 'name of the module', 'string', 'all']
 });
 

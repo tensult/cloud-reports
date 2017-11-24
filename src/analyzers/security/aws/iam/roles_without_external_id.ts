@@ -10,7 +10,7 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
         const cross_accounts_without_external_id: CheckAnalysisResult = {};
         cross_accounts_without_external_id.what = 'Are there accounts without ExternalId?';
         cross_accounts_without_external_id.why = 'It is important to associate ExternalId for cross account role access';
-        cross_accounts_without_external_id.recommendation ="Recommended to use ExternalId for third party accounts"
+        cross_accounts_without_external_id.recommendation = "Recommended to use ExternalId for third party accounts"
         const analysis: ResourceAnalysisResult[] = [];
 
         permittedAccounts.forEach((roleAccountsObject) => {
@@ -60,7 +60,7 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
         roleAccountsObject['Accounts'] = Statements.map((eachStatement) => {
             let accountDetails: object = {};
             accountDetails['AccountID'] = this.getAccountID(eachStatement.Principal.AWS);
-            if (eachStatement.Condition.StringEquals) {
+            if (eachStatement.Condition && eachStatement.Condition.StringEquals) {
                 accountDetails['ExternalID'] = eachStatement.Condition.StringEquals['sts:ExternalId'];
             }
             return accountDetails;
@@ -69,7 +69,9 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
     };
 
     private getAccountID(arn: string) {
-        return arn.split(':')[4];
+        if (arn) {
+            return arn.split(':')[4];
+        }
     }
 }
 

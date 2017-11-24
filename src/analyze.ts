@@ -34,7 +34,7 @@ function analyze(analyzers: any, report: any, keyPath?: string) {
 
 const cliArgs = Cli.parse({
     analyzer: ['a', 'Analyzer type', 'string', 'security'],
-    report_file: ['r', 'Report JSON file name', 'file'],
+    report_file: ['r', 'Report JSON file name', 'file', 'collection_report.json'],
     output: ['o', 'output file name', 'file', 'analysis_report.json']
 });
 
