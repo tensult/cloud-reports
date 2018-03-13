@@ -11,13 +11,10 @@ Currently this application only supports AWS, but can be extendable to other clo
 To convert typescript to javascript
 
     npm run build 
-#### Collection
-This collects information about your AWS cloud and stores as a JSON file with name **collection_report.json**.
+#### Scan
+This collects and analyzes information about your AWS cloud and stores as a JSON file with name **scan_report.json**.
 
-    npm run collect -- --profile <your AWS profile>
+    npm run scan -- --profile <your AWS profile>
 #### Analysis
-This uses the above collection report and analyzes for various security best practices of AWS and stores as a JSON file with name **analysis_report.json**
-
-    npm run analyze
 
 

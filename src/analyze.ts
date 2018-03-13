@@ -1,49 +1,23 @@
 import * as Analyzers from './analyzers';
-import { BaseAnalyzer } from './analyzers/base';
 import { Dictionary } from './types';
-import * as Cli from 'cli';
-import { readFileSync, writeFileSync } from 'fs';
+import * as flat from 'flat';
+import { BaseAnalyzer } from './analyzers/base';
 
-const result: Dictionary<any> = {};
-
-function copyDataToResult(keyPath, data) {
-    if (!data) {
-        return;
-    }
-    result[keyPath] = result[keyPath] || {};
-    for (let key in data) {
-        result[keyPath][key] = data[key];
-    }
-}
-
-let skippedAnalyzers: string[] = [];
-function analyze(analyzers: any, report: any, keyPath?: string) {
-    for (let analyzerName in analyzers) {
-        if (keyPath && analyzerName.endsWith('Analyzer') &&
-            analyzers[analyzerName] instanceof Function &&
-            skippedAnalyzers.indexOf(analyzerName) === -1) {
-            const analyzer: BaseAnalyzer = new analyzers[analyzerName]();
-            let result = analyzer.analyze(report[keyPath], report);
-            copyDataToResult(keyPath, result);
-        } else if (analyzers[analyzerName]) {
-            const newKeyPath = keyPath ? `${keyPath}.${analyzerName}` : analyzerName
-            analyze(analyzers[analyzerName], report, newKeyPath);
+export function analyze(collectorData: any, analyzerType: string = 'security') {
+    const flatListOfAnalyzers = flat(Analyzers);
+    const result: Dictionary<any> = {}
+    for (let analyzerName in flatListOfAnalyzers) {
+        if (!analyzerName.endsWith('Analyzer')) {
+            continue;
         }
+        const analyzerNameSpace = analyzerName.replace(/.[A-Za-z]+$/, '').replace(/^[A-Za-z]+./, '');
+        if(!collectorData[analyzerNameSpace]) {
+            continue;
+        }
+        const analyzer: BaseAnalyzer = new flatListOfAnalyzers[analyzerName]();
+        const data = analyzer.analyze(collectorData[analyzerNameSpace], collectorData);
+        result[analyzerNameSpace] = result[analyzerNameSpace] || {};
+        result[analyzerNameSpace] = Object.assign(result[analyzerNameSpace], data);
     }
+    return result;
 }
-
-const cliArgs = Cli.parse({
-    analyzer: ['a', 'Analyzer type', 'string', 'security'],
-    report_file: ['r', 'Report JSON file name', 'file', 'collection_report.json'],
-    output: ['o', 'output file name', 'file', 'analysis_report.json']
-});
-
-if (!cliArgs.report_file) {
-    Cli.getUsage();
-}
-
-const report = JSON.parse(readFileSync(cliArgs.report_file, 'utf-8'));
-analyze(Analyzers[cliArgs.analyzer], report);
-process.on('exit', function () {
-    writeFileSync(cliArgs.output, JSON.stringify(result, null, 2), { encoding: 'utf-8' });
-  });
