@@ -5,19 +5,25 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "collect": "node dist/collect.js",
-    "analyze": "node dist/analyze.js"
+    "scan": "node dist/scan.js"
   },
-  "keywords": ["aws", "cloud", "security", "reports", "scans"],
+  "keywords": [
+    "aws",
+    "cloud",
+    "security",
+    "reports",
+    "scans"
+  ],
   "author": "dilip@tensult.com",
   "license": "GPLv3",
   "devDependencies": {
     "@types/core-js": "^0.9.43",
-    "@types/node": "^8.0.53",
+    "@types/node": "^9.4.7",
     "typescript": "^2.6.1"
   },
   "dependencies": {
     "aws-sdk": "^2.156.0",
-    "cli": "^1.0.1"
+    "cli": "^1.0.1",
+    "flat": "^4.0.0"
   }
 }
