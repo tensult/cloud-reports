@@ -3,17 +3,23 @@ import { CollectorUtil } from './utils';
 import * as Collectors from './collectors';
 import * as flat from 'flat';
 
-export async function collect(moduleName?: string) {
+export async function collect(moduleNames?: string) {
     const promises: Promise<any>[] = [];
     const flatListOfCollectors = flat(Collectors);
     
-    for (let collectorName in flatListOfCollectors) {
+    const modules = moduleNames? moduleNames.split(',') : [];
+    const filteredCollectorNames = Object.keys(flatListOfCollectors).filter((collectorName) => {
         if(!collectorName.endsWith('Collector')) {
-            continue;
+            return false;
         }
-        if(moduleName && !collectorName.includes(moduleName)) {
-            continue;
+        if(modules.length) {
+            return modules.some((moduleName) => {
+                return collectorName.includes(moduleName);
+            });
         }
+        return true;
+    });
+    for (let collectorName of filteredCollectorNames) {
         const collectorPromise = CollectorUtil.cachedCollect(new flatListOfCollectors[collectorName]()).then((data) => {
             const collectNameSpace = collectorName.replace(/.[A-Za-z]+$/, '');
             return {
