@@ -15,11 +15,14 @@ Currently this application only supports AWS, but can be extendable to other clo
 * trails: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/trails)
 * vpc: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/vpc)
 
-### Installation 
+### Installation from source
+#### Download
 
+    git clone https://github.com/tensult/cloud-reports.git
+
+#### Install npm dependencies
+    cd cloud-reports
     npm install
-
-### Execution
 
 #### Building
 To convert typescript to javascript
@@ -36,5 +39,21 @@ This collects and analyzes information about your AWS cloud and stores as a JSON
 * To run for single module
 
     npm run scan -- --profile <your AWS profile> --module s3
+
+### Install as npm module to an existing package
+#### Install cloud-reports npm module
+    npm install -S cloud-reports
+#### Usage
+Make sure you have initialized [AWS.config](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/global-config-object.html), otherwise this will use default AWS profile.
+```js
+    const cloudReporter = require('cloud-reports');
+    // To collect for all modules
+    const collectionPromise = cloudReporter.collect()
+    // To collect for specific modules
+    // const collectedJson = cloudReporter.collect(['s3', 'iam']);
+    // const collectedJson = cloudReporter.collect('vpc');
+    const analysisPromise = collectionPromise.then((collectedJson) => cloudReporter.analyze(collectedJson));
+    analysisPromise.then((analysisJson) => console.log(JSON.stringify(analysisJson, null, 2)));
+```
 
 

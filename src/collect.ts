@@ -3,11 +3,24 @@ import { CollectorUtil } from './utils';
 import * as Collectors from './collectors';
 import * as flat from 'flat';
 
-export async function collect(moduleNames?: string) {
+function getModules(moduleNames?: string | Array<string>) {
+    if(!moduleNames) {
+        return [];
+    }
+    if(Array.isArray(moduleNames)) {
+        return moduleNames;
+    }
+    else if(typeof moduleNames === 'string' ){
+        return moduleNames.split(',');
+    }
+    return [];
+}
+
+export async function collect(moduleNames?: string | Array<string>) {
     const promises: Promise<any>[] = [];
     const flatListOfCollectors = flat(Collectors);
     
-    const modules = moduleNames? moduleNames.split(',') : [];
+    const modules = getModules(moduleNames);
     const filteredCollectorNames = Object.keys(flatListOfCollectors).filter((collectorName) => {
         if(!collectorName.endsWith('Collector')) {
             return false;
