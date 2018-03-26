@@ -1,5 +1,5 @@
 {
-  "name": "tensult-cloud-reports",
+  "name": "cloud-reports",
   "version": "0.2.0",
   "description": "Collects and analyzes cloud resources",
   "main": "./dist/index.js",
