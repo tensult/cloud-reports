@@ -1,4 +1,4 @@
-import { Dictionary } from './types';
+import { Dictionary, Collect } from './types';
 import { CollectorUtil } from './utils';
 import * as Collectors from './collectors';
 import * as flat from 'flat';
@@ -16,11 +16,11 @@ function getModules(moduleNames?: string | Array<string>) {
     return [];
 }
 
-export async function collect(moduleNames?: string | Array<string>) {
+export async function collect(params?: Collect.Params) {
     const promises: Promise<any>[] = [];
     const flatListOfCollectors = flat(Collectors);
     
-    const modules = getModules(moduleNames);
+    const modules = getModules(params? params.moduleNames : undefined);
     const filteredCollectorNames = Object.keys(flatListOfCollectors).filter((collectorName) => {
         if(!collectorName.endsWith('Collector')) {
             return false;
@@ -31,7 +31,7 @@ export async function collect(moduleNames?: string | Array<string>) {
             });
         }
         return true;
-    });
+    }).sort();
     for (let collectorName of filteredCollectorNames) {
         const collectorPromise = CollectorUtil.cachedCollect(new flatListOfCollectors[collectorName]()).then((data) => {
             const collectNameSpace = collectorName.replace(/.[A-Za-z]+$/, '');

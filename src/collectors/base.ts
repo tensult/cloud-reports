@@ -1,11 +1,11 @@
-import {ClientsProvider, RegionsProvider} from '../utils';
+import {ClientsUtil, RegionsUtil} from '../utils';
 
 export abstract class BaseCollector {
     abstract collect(params?: any);
     getClient(serviceName: string, region: string) {
-        return ClientsProvider.getClient(serviceName, region);
+        return ClientsUtil.getClient(serviceName, region);
     }
     getRegions(serviceName: string) {
-        return RegionsProvider.getServiceRegions(serviceName);
+        return RegionsUtil.getServiceRegions(serviceName);
     }
 }

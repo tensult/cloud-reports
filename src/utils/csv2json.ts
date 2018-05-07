@@ -1,5 +1,5 @@
-export class CsvUtil {
-    private static CSVToArray(strData: string, strDelimiter?: string) {
+export namespace CsvUtil {
+    const CSVToArray = (strData: string, strDelimiter?: string) => {
         // Check to see if the delimiter is defined. If not,
         // then default to comma.
         strDelimiter = (strDelimiter || ",");
@@ -52,8 +52,8 @@ export class CsvUtil {
         return (arrData);
     }
 
-    static toObject(csv) {
-        let array = CsvUtil.CSVToArray(csv);
+    export const toObject = (csv) => {
+        let array = CSVToArray(csv);
         let objArray: any[] = [];
         for (let i = 1; i < array.length; i++) {
             objArray[i - 1] = {};
