@@ -1,7 +1,8 @@
 # Cloud Reports
-Currently this application only supports AWS, but can be extendable to other cloud providers. Contributions are most welcome.
+Collects info about various cloud resources and analyzes then against best practices and give a JSON report.
 
 ## Modules
+### AWS (Amazon Web Services)
 * acm: [AWS Certificate Manager](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/acm)
 * ebs: [AWS Elastic Block Storage](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/ebs)
 * ec2: [AWS Elastic Cloud Computing](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/ec2)
@@ -56,4 +57,5 @@ Make sure you have initialized [AWS.config](https://docs.aws.amazon.com/sdk-for-
     analysisPromise.then((analysisJson) => console.log(JSON.stringify(analysisJson, null, 2)));
 ```
 
-
+## Contribute
+Currently this application only supports AWS, but can be extendable to other cloud providers. Contributions are most welcome.
