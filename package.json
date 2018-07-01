@@ -17,16 +17,18 @@
     "scans"
   ],
   "author": "dilip@tensult.com",
-  "license": "GPLv3",
+  "license": "MIT",
   "devDependencies": {
-    "@types/core-js": "^0.9.43",
-    "@types/node": "^9.4.7",
-    "typescript": "^2.6.1"
+    "@types/core-js": "^2.5.0",
+    "@types/node": "^10.5.1",
+    "typescript": "^2.9.2"
   },
   "dependencies": {
-    "aws-sdk": "^2.156.0",
+    "aws-sdk": "^2.266.1",
     "cli": "^1.0.1",
+    "cpy": "^7.0.1",
+    "ejs": "^2.6.1",
     "flat": "^4.0.0",
-    "npm": "^5.7.1"
+    "html-pdf": "^2.2.0"
   }
 }

@@ -1,0 +1,17 @@
+<% var severity = [ 'failure', 'warning', 'ok', 'good'] %>
+<div class="checkTableRow <%= severity[analysis.severity] %>">
+    <% if(regionName != 'global') { %>
+        <div class="checkTableCell regionName">
+            <span><%= regionName %></span>
+        </div>
+    <% } %>
+    <div class="checkTableCell resourceName">
+        <span><%= resourceValue %></span>
+    </div>
+    <div class="checkTableCell">
+        <span><%= analysis.message %></span>
+    </div>
+    <div class="checkTableCell">
+        <span><%= analysis.action? analysis.action : "All good" %></span>
+    </div>
+</div>

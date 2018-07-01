@@ -60,3 +60,5 @@ typings/
 # generated files
 dist
 *report.json
+*report.html
+*report.pdf

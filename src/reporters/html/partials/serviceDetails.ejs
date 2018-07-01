@@ -1,0 +1,8 @@
+<% for(var checkName in serviceData) { %>
+    <% var checkData = serviceData[checkName]; %>
+    <% if(checkData.resourceName) { %>
+    <div class="checkDetails" id="<%= checkName %>">
+        <%- include('checkDetails', {checkData: checkData, checkName: checkName, serviceName: serviceName}) %>
+    </div>
+    <% } %>
+<% } %>

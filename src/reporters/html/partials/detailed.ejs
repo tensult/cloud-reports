@@ -1,0 +1,13 @@
+<div class="reportDetails">
+<% for(var serviceName in reportData) { %>
+    <% var serviceData = reportData[serviceName]; 
+        if(!serviceData.isUsed) {
+            continue;
+        }
+       serviceName = serviceName.replace('aws.', '');
+    %>
+    <div class="serviceDetails" id="<%= serviceName %>">
+        <%- include('serviceDetails', {serviceData: serviceData, serviceName: serviceName}) %>
+    </div>
+<% } %>
+</div>
