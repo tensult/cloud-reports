@@ -28,7 +28,7 @@ function processReportData(reportData: any, includeOnlyIssues: boolean) {
 }
 
 function copyEJSFiles() {
-    return cpy(["reporters/**/*.ejs", "reporters/**/img/*"], '../dist', {
+    return cpy(["reporters/**/*.ejs"], '../dist', {
         cwd: "src", parents: true
     });
 }
