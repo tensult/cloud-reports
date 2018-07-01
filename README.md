@@ -33,24 +33,24 @@ To convert typescript to javascript
 This collects and analyzes information about your AWS cloud and stores as a report file with name **scan_report.pdf**.
 * To run for all modules
 
-    npm run scan -- --profile <your AWS profile>
+    npm run scan -- --profile Your-AWS-profile
 * To run for specific module
 
-    npm run scan -- --profile <your AWS profile> --module s3,acm
+    npm run scan -- --profile Your-AWS-profile --module s3,acm
 * To run for single module
 
-    npm run scan -- --profile <your AWS profile> --module s3
+    npm run scan -- --profile Your-AWS-profile  --module s3
 * We can generate report in following formats: 
 * To generate HTML report file
 
-    npm run scan -- --profile <your AWS profile> -f html
+    npm run scan -- --profile Your-AWS-profile  -f html
 
 * To generate PDF report file
 
-    npm run scan -- --profile <your AWS profile> -f pdf
+    npm run scan -- --profile Your-AWS-profile  -f pdf
 * To generate JSON report file
 
-    npm run scan -- --profile <your AWS profile> -f json
+    npm run scan -- --profile Your-AWS-profile  -f json
 
 ### Install as npm module to an existing package
 #### Install cloud-reports npm module
