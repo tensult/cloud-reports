@@ -1,5 +1,5 @@
 # Cloud Reports
-Collects info about various cloud resources and analyzes then against best practices and give a JSON report.
+Collects info about various cloud resources and analyzes then against best practices and give a JSON, HTML or PDF reports.
 
 ## Modules
 ### AWS (Amazon Web Services)
