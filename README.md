@@ -52,6 +52,8 @@ This collects and analyzes information about your AWS cloud and stores as a repo
 
     npm run scan -- --profile Your-AWS-profile  -f json
 
+#### [Sample reports](https://github.com/tensult/cloud-reports/tree/master/sample-reports)
+
 ### Install as npm module to an existing package
 #### Install cloud-reports npm module
     npm install -S cloud-reports
