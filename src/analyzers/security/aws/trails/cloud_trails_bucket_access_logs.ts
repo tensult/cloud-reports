@@ -26,7 +26,7 @@ export class CloudTrailsBucketAccessLogsAnalyzer extends BaseAnalyzer {
             } else {
                 bucketAnalysis.severity = SeverityStatus.Failure;
                 bucketAnalysis.message = 'Access logs are not enabled';
-                bucketAnalysis.action = "Enabled access logs"
+                bucketAnalysis.action = "Enable access logs"
             }
 
             allBucketsAnalysis.push(bucketAnalysis);

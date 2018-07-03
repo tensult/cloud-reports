@@ -1,0 +1,5703 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+  <head>
+        <style>
+     .status {
+          font-weight: bold;
+      }
+      .good {
+          background-color: #40a977;
+      }
+      .warning {
+          background-color: #FFC300;
+      }
+      .failure {
+          background-color: #FF3933;
+      }
+      .detailed.danger, .detailed.warning  {
+          font-weight: bold;
+      }
+      .header {
+          margin-bottom: 2px;
+      }
+      h3, h4, .header-body {
+        color: #40a977;
+      }
+      .service {
+          text-transform: uppercase;
+      }
+      .capitalize {
+        text-transform: capitalize;
+      }
+      .normal {
+        text-transform: none !important;
+      }
+      .service h4 {
+          text-align: center;
+      }
+      .header-body strong {
+          width: 80%;
+      }
+      .header-body img {
+          float: right;
+          width: 20%;
+      }
+      hr {
+          clear: both;
+      }
+      .checkDetails {
+        margin: 3px;
+        page-break-inside: avoid;
+      }
+      .checkTable {
+          display: table;
+          width: 100%;
+      }
+      .checkTableRow {
+          display: table-row;
+      }
+      .checkTableCell.desc {
+          width: 100%;
+      }
+      .checkTableCell,
+      .checkTableHead {
+          display: table-cell;
+          padding: 2px;
+          border: 1px solid #999999;
+      }
+      .resourceName {
+          max-width: 200px;
+      }
+      .checkTableHeading {
+          padding: 2px;
+          display: table-caption;
+          font-weight: bold;
+          page-break-inside: avoid;
+      }
+      .checkTableBody {
+          display: table-row-group;
+      }
+    </style>
+  </head>
+  <body>
+        <div id="pageHeader">
+      <div class="header">
+        <div class='header-body'>
+          <img src='img/tensult-logo.png'/>
+          <strong>
+            Security Report
+          </strong>
+        </div>
+        <hr>
+      </div>
+    </div>
+    <div class="reportDetails">
+
+    
+    <div class="serviceDetails" id="acm">
+        
+    
+    
+    <div class="checkDetails" id="certificates_expiry">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">acm: certificates_expiry</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are certificates expiring soon?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">Expired certificates can make services inaccessible for your customers.</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+            <div class="checkTableHead"><strong>Region</strong></div>
+        
+        <div class="checkTableHead"><strong>Certificate</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>somedomain.com | 4a2750cd-35bb-4970-a0d6-270fc81d2247</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Certicate is valid for more than 3 months</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>somedomain.com | 4a2750cd-35bb-4970-a0d6-270fc81d2247</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Certicate is valid for more than 3 months</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>somedomain.com | 4a2750cd-35bb-4970-a0d6-270fc81d2247</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Certicate is valid for more than 3 months</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+
+    </div>
+
+    
+    
+    <div class="serviceDetails" id="ec2">
+        
+    
+    
+    <div class="checkDetails" id="security_groups_open_to_world">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">ec2: security_groups_open_to_world</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are there any security groups open to world?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">Security group open to world posses serious security threat so we need to allow only intended parties to access</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+            <div class="checkTableHead"><strong>Region</strong></div>
+        
+        <div class="checkTableHead"><strong>SecurityGroup</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>launch-wizard-2 | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is open to entire world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP range: 0.0.0.0/0.</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>demo-sg | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is restricted to few IP ranges</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>launch-wizard-1 | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is open to entire world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP range: 0.0.0.0/0.</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>launch-wizard-2 | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is open to entire world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP range: 0.0.0.0/0.</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>sg_all | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is open to entire world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP range: 0.0.0.0/0.</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>sg_csr | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is open to entire world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP range: 0.0.0.0/0.</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>somesg | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is open to entire world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP range: 0.0.0.0/0.</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>launch-wizard-3 | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is open to entire world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP range: 0.0.0.0/0.</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>WinServer | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is open to entire world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP range: 0.0.0.0/0.</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>SEC_outside 1a | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is open to entire world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP range: 0.0.0.0/0.</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>Application 1a | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is restricted to few IP ranges</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>sg_shared | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is open to entire world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP range: 0.0.0.0/0.</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>SomeApp 1a | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is restricted to few IP ranges</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>SEC_Inside1a | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is restricted to few IP ranges</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>Database 1a | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is restricted to few IP ranges</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>Core Services 1a | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is restricted to few IP ranges</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>WAN 1a | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is restricted to few IP ranges</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>replication-bastion | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is open to entire world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP range: 0.0.0.0/0.</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>rds-launch-wizard | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is restricted to few IP ranges</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>DMS | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is restricted to few IP ranges</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>BastionSG | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is restricted to few IP ranges</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>launch-wizard-1 | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is open to entire world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP range: 0.0.0.0/0.</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>RDS | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is restricted to few IP ranges</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>launch-wizard-1 | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is open to entire world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP range: 0.0.0.0/0.</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>WinServer | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Security group is open to entire world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP range: 0.0.0.0/0.</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="security_groups_wide_port_range">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">ec2: security_groups_wide_port_range</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are there any security groups with wide range of ports?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">Security group should not expose wide range of port as it will be valnerable for port scan attacks</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+            <div class="checkTableHead"><strong>Region</strong></div>
+        
+        <div class="checkTableHead"><strong>SecurityGroup</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>launch-wizard-2 | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>demo-sg | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>launch-wizard-1 | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>launch-wizard-2 | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>sg_all | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes wide port range</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP protocol: -1</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>sg_csr | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>somesg | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>launch-wizard-3 | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>WinServer | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>SEC_outside 1a | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>Application 1a | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>sg_shared | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes wide port range</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP protocol: -1</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>SomeApp 1a | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>SEC_Inside1a | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes wide port range</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP protocol: -1</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>Database 1a | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>Core Services 1a | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes wide port range</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP protocol: -1</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>WAN 1a | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes wide port range</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Remove rule containing IP protocol: -1</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>replication-bastion | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>rds-launch-wizard | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>DMS | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>BastionSG | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>launch-wizard-1 | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>RDS | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>launch-wizard-1 | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>WinServer | sg-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Exposes only specific ports</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+
+    </div>
+
+    
+    
+    <div class="serviceDetails" id="iam">
+        
+    
+    
+    <div class="checkDetails" id="admin_count">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">iam: admin_count</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are there too many admins for the account?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">It is hard to manage security goals when there too many admins as chances of mistakes increases</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+        <div class="checkTableHead"><strong>AdminUsers</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user, user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account has 2 admins</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="password_policy">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">iam: password_policy</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Is account password policy following best practices?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">It is important to have secure password policy as leaked or weak passwords can give direct access to attackers</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+        <div class="checkTableHead"><strong>Option</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>Minimum Password Length</span>
+    </div>
+    <div class="checkTableCell">
+        <span>This has a somedomain.commended value</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>Require Symbols</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Already Enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>Require Numbers</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Already Enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>Require Uppercase Characters</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Already Enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>Require Lowercase Characters</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Already Enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>Expire Passwords</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Already Enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>Max Password Age</span>
+    </div>
+    <div class="checkTableCell">
+        <span>This has a somedomain.commended value</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Password Reuse Prevention</span>
+    </div>
+    <div class="checkTableCell">
+        <span>New password shouldn&#39;t be same as at least last 3 used passwords</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Set this to 3</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow warning">
+    
+    <div class="checkTableCell resourceName">
+        <span>Hard Expiry</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User should contact the admin to reset the expired password</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Set this to true. Use caution here if there is only admin for your account then don&#39;t set this</span>
+    </div>
+</div>
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="root_user_access_keys_active">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">iam: root_user_access_keys_active</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are there any root user access keys active?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">Root user access keys are unrestrictable hence shouldn&#39;t be used as damage will be determental if they gets leaked</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+        <div class="checkTableHead"><strong>User</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>&lt;root_account&gt;</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Root user access keys are not active</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="cross_accounts_without_external_id">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">iam: cross_accounts_without_external_id</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are there accounts without ExternalId?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">It is important to associate ExternalId for cross account role access</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+        <div class="checkTableHead"><strong>Roles</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>somedomain.commandRoleForManagedInstances</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>apexDemoProject_lambda_function</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>AppDiscovery</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>aws-ec2-spot-fleet-tagging-role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>aws-elasticbeanstalk-ec2-role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>aws-elasticbeanstalk-service-role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>AWSServiceRoleForAmazonElasticsearchService</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>AWSServiceRoleForAmazonGuardDuty</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>AWSServiceRoleForAutoScaling</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>AWSServiceRoleForEC2Spot</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>AWSServiceRoleForEC2SpotFleet</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>AWSServiceRoleForECS</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>AWSServiceRoleForElastiCache</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>AWSServiceRoleForElasticLoadBalancing</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>AWSServiceRoleForOrganizations</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>AWSServiceRoleForRDS</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>AWS_Events_Invoke_Step_Functions_805721827</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>aws_ssm</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Cisco_CSR_EEM</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>CloudwatchLogAgent</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudwatchlogpush</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>cloud_report</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account 147967597763 has ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>CognitoAccessForAmazonES</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Cognito_useridentitypoolAuth_Role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Cognito_useridentitypoolUnauth_Role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Cognito_dev_tensult_customersAuth_Role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Cognito_dev_tensult_customersUnauth_Role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Cognito_myIdPool1Unauth_Role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Cognito_myIdPool1Unauth_Role1</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Cognito_usertestAuth_Role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Cognito_usertestUnauth_Role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Cognito_testpoolAuth_Role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Cognito_testpoolUnauth_Role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Cognito_test_customersAuth_Role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Cognito_test_customersAuth_Role2</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>Cognito_test_customersUnauth_Role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>config-role-ap-south-1</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>userCloudWatchMetric</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>dms-access-for-tasks</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>dms-cloudwatch-logs-role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>dms-vpc-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>dynamoDbReadAccess</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>ec2-read-role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account 173268405833 has ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>EC2FullAccess</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>EC2SSMRole</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>EC2_Full</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>ecsInstanceRole</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>flowlogsRole</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>user-test-delete</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>ImageResizerLambda</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>KibanaUserGroup-SMS-Role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>lambda_basic_execution</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>user-windows-ssm</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>migrationhub-discovery</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>migrationhub-dms</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>migrationhub-sms</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>nessus-role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>rds-monitoring-role</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>S3ReadAccess</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>SampleForLeanring</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>stepFunctionsLamdaRole</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Account undefined does not have ExternalId</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Add an ExternalId</span>
+    </div>
+</div>
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="users_access_keys_unused">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">iam: users_access_keys_unused</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are there any user access keys unused?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">It is important to delete unused or unneeded access keys as it reduces risk of misusing them</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+        <div class="checkTableHead"><strong>User</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User access key 1 is unused</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Delete unused user access key 1</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User access key 1 is unused</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Delete unused user access key 1</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>usera</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User access key 1 is unused</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Delete unused user access key 1</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User access key 1 is actively used</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User access key 1 is actively used</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User access key 1 is actively used</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User access key 1 is actively used</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="users_access_keys_old">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">iam: users_access_keys_old</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are user access keys are too old?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">It is important to rotate access keys regularly as it will reduce improper use</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+        <div class="checkTableHead"><strong>User</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User access key 1 is not rotated from last 180 days</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Rotate user access key 1</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User access key 1 is rotated within last 180 days</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>usera</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User access key 1 is rotated within last 180 days</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User access key 1 is rotated within last 180 days</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User access key 1 is rotated within last 180 days</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User access key 1 is rotated within last 180 days</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User access key 1 is not rotated from last 180 days</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Rotate user access key 1</span>
+    </div>
+</div>
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="user_accounts_mfa_enabled">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">iam: user_accounts_mfa_enabled</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are there any user access keys unused?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">It is important to delete unused or unneeded access keys as it reduces risk of misusing them</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+        <div class="checkTableHead"><strong>User</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User account is MFA enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User account is MFA enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User account is MFA enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>usera</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User account is MFA enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User account is MFA enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User account is MFA enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User account is MFA enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User account is MFA enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User account is MFA enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+    <div class="checkTableCell resourceName">
+        <span>user</span>
+    </div>
+    <div class="checkTableCell">
+        <span>User account is MFA enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+
+    </div>
+
+    
+    <div class="serviceDetails" id="rds">
+        
+    
+    
+    <div class="checkDetails" id="default_security_groups_used">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">rds: default_security_groups_used</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are there any default security groups used for RDS instances?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">Default security groups are open to world by default and requires extra setup make them secure</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+            <div class="checkTableHead"><strong>Region</strong></div>
+        
+        <div class="checkTableHead"><strong>Instance</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>someapp-123456abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Default security groups are used</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Use custom security group instead default security group</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="default_vpcs_used">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">rds: default_vpcs_used</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are there any default vpc used for RDS instances?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">Default vpcs are open to world by default and requires extra setup make them secure</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+            <div class="checkTableHead"><strong>Region</strong></div>
+        
+        <div class="checkTableHead"><strong>Instance</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>someapp-123456abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Default VPC is not used</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="encryption_enabled">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">rds: encryption_enabled</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Is encryption enabled for RDS instances?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">It is important to encrypt data at rest</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+            <div class="checkTableHead"><strong>Region</strong></div>
+        
+        <div class="checkTableHead"><strong>Instance</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>someapp-123456abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>RDS instance is not encrypted at rest</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable storage ecryption at rest for the instace</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="publically_accessible">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">rds: publically_accessible</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are there any publically accessible RDS instances?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">It is important to restrict RDS instances for private access only for most of the usecases</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+            <div class="checkTableHead"><strong>Region</strong></div>
+        
+        <div class="checkTableHead"><strong>Instance</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>someapp-123456abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>RDS instance is not publically accessible</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+
+    </div>
+
+    
+    
+    
+    <div class="serviceDetails" id="trails">
+        
+    
+    
+    <div class="checkDetails" id="cloud_trails_bucket_access_logs">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">trails: cloud_trails_bucket_access_logs</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are access logs enabled for buckets containing Cloud Trails?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">Cloud trails contains important security information so we need to limit access to them and also enable access logs for such buckets</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+        <div class="checkTableHead"><strong>Bucket</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>dev.tensult.cloudtrail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Access logs are not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enabled access logs</span>
+    </div>
+</div>
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="cloud_trails_bucket_deletes_mfa_enabled">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">trails: cloud_trails_bucket_deletes_mfa_enabled</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Is deleting cloud trails protected by MFA?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">Cloud trails deletes should be MFA enabled so that attacker won&#39;t able to delete them</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+        <div class="checkTableHead"><strong>Bucket</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+    <div class="checkTableCell resourceName">
+        <span>dev.tensult.cloudtrail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Deletes are not MFA enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable MFADelete</span>
+    </div>
+</div>
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="cloud_trails_enabled">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">trails: cloud_trails_enabled</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Is cloud trails enabled for account?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">Cloud trails helps understand who did what and this is utmost important when a security breach happens</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+            <div class="checkTableHead"><strong>Region</strong></div>
+        
+        <div class="checkTableHead"><strong>CloudTrails</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Cloud trails are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Cloud trails are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Cloud trails are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Cloud trails are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ca-central-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Cloud trails are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Cloud trails are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-northeast-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Cloud trails are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Cloud trails are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Cloud trails are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-northeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Cloud trails are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-central-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Cloud trails are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Cloud trails are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-west-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Cloud trails are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>sa-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Cloud trails are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="cloud_trails_encryption_at_rest">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">trails: cloud_trails_encryption_at_rest</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are Cloud trails encrypted at rest?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">Critical data should always be encrypted at rest</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+            <div class="checkTableHead"><strong>Region</strong></div>
+        
+        <div class="checkTableHead"><strong>CloudTrail</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Encryption not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable encryption at rest</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Encryption not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable encryption at rest</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Encryption not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable encryption at rest</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Encryption not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable encryption at rest</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ca-central-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Encryption not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable encryption at rest</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Encryption not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable encryption at rest</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-northeast-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Encryption not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable encryption at rest</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Encryption not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable encryption at rest</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Encryption not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable encryption at rest</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-northeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Encryption not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable encryption at rest</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-central-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Encryption not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable encryption at rest</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Encryption not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable encryption at rest</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-west-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Encryption not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable encryption at rest</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>sa-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Encryption not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable encryption at rest</span>
+    </div>
+</div>
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="cloud_trails_global_service_events">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">trails: cloud_trails_global_service_events</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Are global service events included in CloudTrails?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">We need to enable this option to keep track of events from global service like IAM</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+            <div class="checkTableHead"><strong>Region</strong></div>
+        
+        <div class="checkTableHead"><strong>CloudTrail</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Global service events are included</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Global service events are included</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Global service events are included</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Global service events are included</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ca-central-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Global service events are included</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Global service events are included</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-northeast-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Global service events are included</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Global service events are included</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Global service events are included</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-northeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Global service events are included</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-central-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Global service events are included</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Global service events are included</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-west-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Global service events are included</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>sa-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Global service events are included</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="cloud_trails_log_validation">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">trails: cloud_trails_log_validation</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Is log file validation enabled for cloud trails?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">Cloud trails helps understand who did what so enabling log file validation keep their integrity intact</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+            <div class="checkTableHead"><strong>Region</strong></div>
+        
+        <div class="checkTableHead"><strong>CloudTrail</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Log validation is enabled for the cloud trail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Log validation is enabled for the cloud trail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Log validation is enabled for the cloud trail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Log validation is enabled for the cloud trail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ca-central-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Log validation is enabled for the cloud trail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Log validation is enabled for the cloud trail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-northeast-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Log validation is enabled for the cloud trail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Log validation is enabled for the cloud trail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Log validation is enabled for the cloud trail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-northeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Log validation is enabled for the cloud trail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-central-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Log validation is enabled for the cloud trail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Log validation is enabled for the cloud trail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>eu-west-2</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Log validation is enabled for the cloud trail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>sa-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>cloudtrail-dev</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Log validation is enabled for the cloud trail</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+
+    </div>
+
+    
+    <div class="serviceDetails" id="vpc">
+        
+    
+    
+    <div class="checkDetails" id="flow_logs_enabled">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">vpc: flow_logs_enabled</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Is flow logs enabled for vpc?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">VPC flow logs tells about the request patterns and helps to detect security threats</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+            <div class="checkTableHead"><strong>Region</strong></div>
+        
+        <div class="checkTableHead"><strong>Vpc</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>vpc-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>VPC flow logs are not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable vpc flow logs for debugging access requests to the VPC</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>vpc-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>VPC flow logs are not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable vpc flow logs for debugging access requests to the VPC</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>vpc-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>VPC flow logs are not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable vpc flow logs for debugging access requests to the VPC</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>vpc-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>VPC flow logs are not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable vpc flow logs for debugging access requests to the VPC</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>vpc-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>VPC flow logs are enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>vpc-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>VPC flow logs are not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable vpc flow logs for debugging access requests to the VPC</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>vpc-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>VPC flow logs are not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable vpc flow logs for debugging access requests to the VPC</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow failure">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>vpc-1234567abc</span>
+    </div>
+    <div class="checkTableCell">
+        <span>VPC flow logs are not enabled</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Enable vpc flow logs for debugging access requests to the VPC</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+    <div class="checkDetails" id="subnets_with_igw_route">
+        <div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">vpc: subnets_with_igw_route</span>
+    </div> 
+    <div class="checkTableRow">
+        <span class="checkTableHead">Which subnets have route to public?</span>
+    </div>
+    <div class="checkTableBody">
+        <div class="checkTableRow checkExplaination">
+            <span class="checkTableHead">It is important to know which subnets have routes to public and can somedomain.come valnerable to attacks. Also sometimes we misconfigure private subnets with public routes</span>
+        </div>
+        <div class="checkTableRow checkRecoemmendation">
+            <span class="checkTableHead"></span>
+        </div>
+    </div>
+</div>
+<div class="checkTable">
+    <div class="checkTableRow">
+        
+            <div class="checkTableHead"><strong>Region</strong></div>
+        
+        <div class="checkTableHead"><strong>Subnet</strong></div>
+        <div class="checkTableHead"><strong>Message</strong></div>
+        <div class="checkTableHead"><strong>Action</strong></div>
+    </div>
+    <div class="checkTableBody">
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow warning">
+    
+        <div class="checkTableCell regionName">
+            <span>us-east-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>default-east-1-1a | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet has route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>If the subnet is private then it shouldn&#39;t have route to the world</span>
+    </div>
+</div>
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>dms-subnet-abc123 | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>dms-subnet-abc123 | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>rds-subnet-abc123 | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>us-west-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>rds-subnet-abc123 | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>sb_shared_1b | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>sb_secure_In_1a | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>sb_secure_out_1a | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>sb_secure_App_1a | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow warning">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>sb_Transit_1b | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet has route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>If the subnet is private then it shouldn&#39;t have route to the world</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow warning">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>sb_Transit-1a | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet has route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>If the subnet is private then it shouldn&#39;t have route to the world</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow warning">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>default_1b | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet has route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>If the subnet is private then it shouldn&#39;t have route to the world</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-south-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>sb_shared_1a | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+        
+            
+            
+<div class="checkTableRow warning">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>public 1 | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet has route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>If the subnet is private then it shouldn&#39;t have route to the world</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>private 2 | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>Private2-Slave | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>rds_sub1 | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>Private1-DMS | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>replication_sub | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>private 1 | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>public 1 | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>Private1-Slave | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+        
+            
+            
+<div class="checkTableRow good">
+    
+        <div class="checkTableCell regionName">
+            <span>ap-southeast-1</span>
+        </div>
+    
+    <div class="checkTableCell resourceName">
+        <span>rds_sub2 | subnet-abc123</span>
+    </div>
+    <div class="checkTableCell">
+        <span>Subnet does not have route to the world</span>
+    </div>
+    <div class="checkTableCell">
+        <span>All good</span>
+    </div>
+</div>
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+           
+         
+    
+    </div>
+</div>
+
+    </div>
+    
+
+    
+    
+
+    </div>
+
+</div>
+  </body>
+</html>
