@@ -3,14 +3,14 @@ import { Dictionary } from './types';
 import * as flat from 'flat';
 import { BaseAnalyzer } from './analyzers/base';
 
-export function analyze(collectorData: any, analyzerType: string = 'security') {
+export function analyze(collectorData: any) {
     const flatListOfAnalyzers = flat(Analyzers);
     const result: Dictionary<any> = {}
     for (let analyzerName in flatListOfAnalyzers) {
         if (!analyzerName.endsWith('Analyzer')) {
             continue;
         }
-        const analyzerNameSpace = analyzerName.replace(/.[A-Za-z]+$/, '').replace(/^[A-Za-z]+./, '');
+        const analyzerNameSpace = analyzerName.replace(/.[A-Za-z]+$/, '');
         if(!collectorData[analyzerNameSpace]) {
             continue;
         }

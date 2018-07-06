@@ -1,0 +1,20 @@
+import { Dictionary } from './dictionary'
+import { ResourceAnalysisResult } from './resource'
+
+export interface CheckAnalysisResult {
+    why?: string;
+    what?: string;
+    recommendation?: string;
+    reference?: string;
+    resourceKeys?: string[];
+    type: CheckAnalysisType;
+    regions?: Dictionary<ResourceAnalysisResult[]>;
+}
+
+export enum CheckAnalysisType {
+    Security = "Security",
+    Reliability = "Reliability",
+    PerformanceEfficiency = "PerformanceEfficiency",
+    CostOptimization = "CostOptimization",
+    OperationalExcellence = "OperationalExcellence"
+}

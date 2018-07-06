@@ -1,1 +1,1 @@
-export import security = require('./security');
+export import aws = require('./aws');
