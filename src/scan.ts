@@ -10,7 +10,8 @@ const cliArgs = Cli.parse({
     profile: ['p', 'AWS profile name', 'string'],
     format: ["f", "output format: html, json or pdf", 'string', 'pdf'],
     output: ['o', 'output file name', 'file', 'scan_report'],
-    module: ['m', 'name of the module', 'string']
+    module: ['m', 'name of the module', 'string'],
+    debug: ['d', 'if you enable Debug then it will generate intermediate reports', 'boolean', false]
 });
 
 if (!cliArgs.profile) {
@@ -48,7 +49,18 @@ async function makeFileContents(analyzedData) {
 async function scan() {
     try {
         const collectorResults = await CollectorMain.collect(cliArgs.module);
+        if(cliArgs.debug) {
+            const collectorReportFileName = "collector_report.json";
+            writeFileSync(collectorReportFileName, JSON.stringify(collectorResults, null, 2));
+            console.log(`${collectorReportFileName} is generated`);
+
+        }
         const analyzedData = AnalyzerMain.analyze(collectorResults);
+        if(cliArgs.debug) {
+            const analyzerReportFileName = "analyzer_report.json";
+            writeFileSync("analyzer_report.json", JSON.stringify(analyzedData, null, 2));
+            console.log(`${analyzerReportFileName} is generated`);
+        }
         const reportFileData = await makeFileContents(analyzedData);
         const reportFileName = makeFileName();
         writeFileSync(reportFileName, reportFileData);

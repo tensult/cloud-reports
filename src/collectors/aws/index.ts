@@ -1,5 +1,6 @@
 export import acm = require('./acm');
 export import cloudwatch = require('./cloudwatch');
+export import dynamodb = require('./dynamodb');
 export import ebs = require('./ebs');
 export import ec2 = require('./ec2');
 export import elb = require('./elb');

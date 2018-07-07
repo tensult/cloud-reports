@@ -21,6 +21,8 @@
   "devDependencies": {
     "@types/core-js": "^2.5.0",
     "@types/node": "^10.5.1",
+    "cheerio": "^1.0.0-rc.2",
+    "node-fetch": "^2.1.2",
     "typescript": "^2.9.2"
   },
   "dependencies": {

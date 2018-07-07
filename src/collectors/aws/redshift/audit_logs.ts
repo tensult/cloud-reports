@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { RedshiftClustersCollector } from "./"
+import { RedshiftClustersCollector } from "."
 import { CollectorUtil } from "../../../utils";
 
 export class RedshiftAuditLogsCollector extends BaseCollector {

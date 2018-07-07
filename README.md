@@ -32,31 +32,42 @@ To convert typescript to javascript
 #### Scan
 This collects and analyzes information about your AWS cloud and stores as a report file with name **scan_report.pdf**.
 * To run for all modules
-
-    npm run scan -- --profile Your-AWS-profile
+```
+npm run scan -- --profile Your-AWS-profile
+```
 * To run for specific module
-
-    npm run scan -- --profile Your-AWS-profile --module s3,acm
+```
+npm run scan -- --profile Your-AWS-profile --module s3,acm
+```
 * To run for single module
-
-    npm run scan -- --profile Your-AWS-profile  --module s3
+```
+npm run scan -- --profile Your-AWS-profile  --module s3
+```
 * We can generate report in following formats: 
 * To generate HTML report file
-
-    npm run scan -- --profile Your-AWS-profile  -f html
-
+```
+npm run scan -- --profile Your-AWS-profile  -f html
+```
 * To generate PDF report file
-
-    npm run scan -- --profile Your-AWS-profile  -f pdf
+```
+npm run scan -- --profile Your-AWS-profile  -f pdf
+```
 * To generate JSON report file
-
-    npm run scan -- --profile Your-AWS-profile  -f json
-
+```
+npm run scan -- --profile Your-AWS-profile  -f json
+```
 #### [Sample reports](https://github.com/tensult/cloud-reports/tree/master/sample-reports)
 
+### Debugging
+You can run this tool in debug mode to generate intermediate reports: collector_report.json and analyzer_report.json
+```
+npm run scan -- --profile Your-AWS-profile  -f pdf -d
+```
 ### Install as npm module to an existing package
 #### Install cloud-reports npm module
-    npm install -S cloud-reports
+```
+npm install -S cloud-reports
+```
 #### Usage
 Make sure you have initialized [AWS.config](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/global-config-object.html), otherwise this will use default AWS profile.
 ```js
@@ -69,6 +80,10 @@ Make sure you have initialized [AWS.config](https://docs.aws.amazon.com/sdk-for-
     const analysisPromise = collectionPromise.then((collectedJson) => cloudReporter.analyze(collectedJson));
     analysisPromise.then((analysisJson) => console.log(JSON.stringify(analysisJson, null, 2)));
 ```
-
+### Update service regions
+We have written a [script](https://github.com/tensult/cloud-reports/blob/master/src/scripts/extractAwsServiceRegions.js) which updates the [AWS regions data](https://github.com/tensult/cloud-reports/blob/master/src/utils/regions_data.ts)
+```
+node src/utils/aws/extractAwsServiceRegions.js
+```
 ## Contribute
 Currently this application only supports AWS, but can be extendable to other cloud providers. Contributions are most welcome.
