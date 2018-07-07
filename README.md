@@ -13,6 +13,7 @@ These are for generating reports in various formats and currently supported form
 * [AWS Analyzers](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws): Analyzes the information collected.
 * Currently supported AWS service modules:
 * * acm: [AWS Certificate Manager](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/acm)
+* * dynamodb: [AWS DynamoDB](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/dynamodb)
 * * ebs: [AWS Elastic Block Storage](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/ebs)
 * * ec2: [AWS Elastic Cloud Computing](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/ec2)
 * * elb: [AWS Elastic Load Balancer](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/elb)
