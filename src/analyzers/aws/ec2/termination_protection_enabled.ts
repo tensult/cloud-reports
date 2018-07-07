@@ -11,7 +11,7 @@ export class TerminationProtectionEnabledAnalyzer extends BaseAnalyzer {
         }
         const termination_protection_enabled: CheckAnalysisResult = { type: CheckAnalysisType.Reliability };
         termination_protection_enabled.what = "Are there any instances without termination protection?";
-        termination_protection_enabled.why = "Instances can accidentally terminated and data can be lost when they are without termination protection"
+        termination_protection_enabled.why = "Instances can be accidentally terminated and data can be lost when they are without termination protection"
         termination_protection_enabled.recommendation = "Recommended to enable termination protection for all production critical instances";
         const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allInstances) {

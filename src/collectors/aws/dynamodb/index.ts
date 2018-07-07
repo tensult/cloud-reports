@@ -1,3 +1,3 @@
-export * from './table_backups';
+export * from './tables_backup';
 export * from './tables';
 
