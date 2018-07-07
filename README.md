@@ -10,7 +10,7 @@ Analyzers are the codified best practices for the cloud and these analyzes each 
 These are for generating reports in various formats and currently supported formats are JSON, HTML and PDF.
 ### AWS (Amazon Web Services)
 * [AWS Collectors](https://github.com/tensult/cloud-reports/tree/master/src/collectors/aws): Collects information from various AWS services.
-* [AWS Analyzers](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws): Analyzes the information collected by [AWS Collectors](https://github.com/tensult/cloud-reports/tree/master/src/collectors/aws)
+* [AWS Analyzers](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws): Analyzes the information collected.
 * acm: [AWS Certificate Manager](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/acm)
 * ebs: [AWS Elastic Block Storage](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/ebs)
 * ec2: [AWS Elastic Cloud Computing](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/ec2)
