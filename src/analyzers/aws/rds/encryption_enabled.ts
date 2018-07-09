@@ -29,7 +29,7 @@ export class RdsEncryptionEnabledAnalyzer extends BaseAnalyzer {
                 } else {
                     instance_analysis.severity = SeverityStatus.Failure;
                     instance_analysis.message = 'RDS instance is not encrypted at rest';
-                    instance_analysis.action = 'Enable storage ecryption at rest for the instace'
+                    instance_analysis.action = 'Enable storage encryption at rest for the instance'
                 }
                 allRegionsAnalysis[region].push(instance_analysis);
             }
