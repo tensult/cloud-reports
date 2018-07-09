@@ -24,7 +24,7 @@ export class DynamoDBTableBackupsCollector extends BaseCollector {
                     tables_backup[region][tableName] = tableBackupResponse.ContinuousBackupsDescription;
                 }
             } catch(err) {
-                console.error(err);
+                console.error(region, err);
                 continue;
             }
         }

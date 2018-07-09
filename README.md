@@ -12,19 +12,20 @@ These are for generating reports in various formats and currently supported form
 * [AWS Collectors](https://github.com/tensult/cloud-reports/tree/master/src/collectors/aws): Collects information from various AWS services.
 * [AWS Analyzers](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws): Analyzes the information collected.
 * Currently supported AWS service modules:
-* * acm: [AWS Certificate Manager](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/acm)
-* * dynamodb: [AWS DynamoDB](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/dynamodb)
-* * ebs: [AWS Elastic Block Storage](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/ebs)
-* * ec2: [AWS Elastic Cloud Computing](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/ec2)
-* * elb: [AWS Elastic Load Balancer](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/elb)
-* * iam: [AWS Identity and Access Management](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/iam)
-* * rds: [AWS Relational Databases](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/rds)
-* * redshift: [AWS Redshift](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/redshift)
-* * route53: [AWS Elastic Load Balancer](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/elb)
-* * s3: [AWS Simple Storage Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/s3)
-* * route53: [AWS Elastic Load Balancer](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/elb)
-* * trails: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/trails)
-* * vpc: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/security/aws/vpc)
+* * acm: [AWS Certificate Manager](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/acm)
+* * cloudwatch: [AWS CloudWatch](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/cloudwatch)
+* * dynamodb: [AWS DynamoDB](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/dynamodb)
+* * ebs: [AWS Elastic Block Storage](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/ebs)
+* * ec2: [AWS Elastic Cloud Computing](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/ec2)
+* * elb: [AWS Elastic Load Balancer](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/elb)
+* * iam: [AWS Identity and Access Management](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/iam)
+* * rds: [AWS Relational Databases](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/rds)
+* * redshift: [AWS Redshift](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/redshift)
+* * route53: [AWS Elastic Load Balancer](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/elb)
+* * s3: [AWS Simple Storage Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/s3)
+* * route53: [AWS Elastic Load Balancer](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/elb)
+* * trails: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/trails)
+* * vpc: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/vpc)
 
 ### Installation from source
 #### Download
