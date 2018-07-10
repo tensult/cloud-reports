@@ -9,6 +9,7 @@ Analyzers are the codified best practices for the cloud and these analyzes each 
 ### [Reporters](https://github.com/tensult/cloud-reports/tree/master/src/reporters)
 These are for generating reports in various formats and currently supported formats are JSON, HTML and PDF.
 ### AWS (Amazon Web Services)
+We are implementing checks based on [AWS Well Architected](https://aws.amazon.com/architecture/well-architected/) best practices. 
 * [AWS Collectors](https://github.com/tensult/cloud-reports/tree/master/src/collectors/aws): Collects information from various AWS services.
 * [AWS Analyzers](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws): Analyzes the information collected.
 * Currently supported AWS service modules:

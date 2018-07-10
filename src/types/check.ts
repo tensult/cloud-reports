@@ -7,7 +7,7 @@ export interface CheckAnalysisResult {
     recommendation?: string;
     reference?: string;
     resourceKeys?: string[];
-    type: CheckAnalysisType;
+    type: CheckAnalysisType | CheckAnalysisType[];
     regions?: Dictionary<ResourceAnalysisResult[]>;
 }
 
