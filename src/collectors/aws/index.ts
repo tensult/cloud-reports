@@ -5,6 +5,7 @@ export import ebs = require('./ebs');
 export import ec2 = require('./ec2');
 export import elb = require('./elb');
 export import iam = require('./iam');
+export import lambda = require('./lambda');
 export import rds = require('./rds');
 export import redshift = require('./redshift');
 export import route53 = require('./route53');

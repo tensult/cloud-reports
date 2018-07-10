@@ -3,7 +3,7 @@ import { BaseCollector } from "../../base";
 import { BucketsCollector } from './buckets';
 import { CollectorUtil } from "../../../utils";
 
-export class BucketPoliciesCollector extends BaseCollector {
+export class BucketAnalyticsCollector extends BaseCollector {
     collect() {
         return this.listAllBucketAnalytics();
     }

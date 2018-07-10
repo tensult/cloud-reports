@@ -1,7 +1,6 @@
 import { BaseAnalyzer } from '../../base'
 import { ResourceAnalysisResult, SeverityStatus, CheckAnalysisResult, CheckAnalysisType } from '../../../types';
 
-const millsIn30Days = 30 * 24 * 60 * 60 * 1000;
 export class DnsQueryLogsConfigAnalyzer extends BaseAnalyzer {
 
     analyze(params: any): any {
