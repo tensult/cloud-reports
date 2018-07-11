@@ -24,6 +24,7 @@ if(["json", "pdf", "html"].indexOf(cliArgs.format) === -1) {
 
 
 AWS.config.signatureVersion = 'v4';
+AWS.config.maxRetries = 3;
 AWS.config.credentials = new AWS.SharedIniFileCredentials({
     profile: cliArgs.profile
 });
