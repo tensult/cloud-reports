@@ -1,7 +1,7 @@
 import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisType } from '../../../types';
 
-export class VolumesEncrptionEnabledAnalyzer extends BaseAnalyzer {
+export class VolumesEncryptionEnabledAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const allVolumes = params.volumes;
