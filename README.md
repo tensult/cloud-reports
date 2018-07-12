@@ -25,6 +25,7 @@ We are implementing checks based on [AWS Well Architected](https://aws.amazon.co
 * * redshift: [AWS Redshift](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/redshift)
 * * route53: [AWS Elastic Load Balancer](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/elb)
 * * s3: [AWS Simple Storage Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/s3)
+* * sns: [AWS Simple Notification Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/sns)
 * * route53: [AWS Elastic Load Balancer](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/elb)
 * * trails: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/trails)
 * * vpc: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/vpc)

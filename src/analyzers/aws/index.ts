@@ -9,5 +9,6 @@ export import lambda = require('./lambda');
 export import rds = require('./rds');
 export import route53 = require('./route53');
 export import s3 = require('./s3');
+export import sns = require('./sns');
 export import trails = require('./trails');
 export import vpc = require('./vpc');
