@@ -13,26 +13,31 @@ export class EC2InstancesCollector extends BaseCollector {
         const instances = {};
 
         for (let region of ec2Regions) {
-            let ec2 = this.getClient(serviceName, region) as AWS.EC2;
-            instances[region] = [];
-            let fetchPending = true;
-            let marker: string | undefined = undefined;
-            while (fetchPending) {
-                const instancesResponse: AWS.EC2.DescribeInstancesResult = await ec2.describeInstances({ NextToken: marker }).promise();
-                if (instancesResponse && instancesResponse.Reservations) {
-                    instances[region] = instances[region].concat(
-                        instancesResponse.Reservations.reduce((instancesFromReservations: AWS.EC2.Instance[], reservation) => {
-                            if (!reservation.Instances) {
-                                return instancesFromReservations;
-                            } else {
-                                return instancesFromReservations.concat(reservation.Instances);
-                            }
-                        }, []));
-                    marker = instancesResponse.NextToken;
-                    fetchPending = marker !== undefined;
-                } else {
-                    fetchPending = false;
+            try {
+                let ec2 = this.getClient(serviceName, region) as AWS.EC2;
+                instances[region] = [];
+                let fetchPending = true;
+                let marker: string | undefined = undefined;
+                while (fetchPending) {
+                    const instancesResponse: AWS.EC2.DescribeInstancesResult = await ec2.describeInstances({ NextToken: marker }).promise();
+                    if (instancesResponse && instancesResponse.Reservations) {
+                        instances[region] = instances[region].concat(
+                            instancesResponse.Reservations.reduce((instancesFromReservations: AWS.EC2.Instance[], reservation) => {
+                                if (!reservation.Instances) {
+                                    return instancesFromReservations;
+                                } else {
+                                    return instancesFromReservations.concat(reservation.Instances);
+                                }
+                            }, []));
+                        marker = instancesResponse.NextToken;
+                        fetchPending = marker !== undefined;
+                    } else {
+                        fetchPending = false;
+                    }
                 }
+            } catch (error) {
+                console.error(error);
+                continue;
             }
         }
         return { instances };

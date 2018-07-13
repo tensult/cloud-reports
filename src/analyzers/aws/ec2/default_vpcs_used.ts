@@ -1,5 +1,6 @@
 import { BaseAnalyzer } from '../../base'
 import { ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisResult, CheckAnalysisType } from '../../../types';
+import { ResourceUtil } from '../../../utils';
 
 export class DefaultVpcUsedEC2InstancesAnalyzer extends BaseAnalyzer {
 
@@ -21,7 +22,7 @@ export class DefaultVpcUsedEC2InstancesAnalyzer extends BaseAnalyzer {
             allRegionsAnalysis[region] = [];
             for (let instance of regionInstances) {
                 let instanceAnalysis: ResourceAnalysisResult = {};
-                instanceAnalysis.resource = { instanceName: this.getName(instance), instanceId: instance.InstanceId, vpcId: instance.VpcId } ;
+                instanceAnalysis.resource = { instanceName: ResourceUtil.getNameByTags(instance), instanceId: instance.InstanceId, vpcId: instance.VpcId } ;
                 instanceAnalysis.resourceSummary = {
                     name: 'Instance',
                     value: `${instanceAnalysis.resource.instanceName} | ${instance.InstanceId}`
@@ -39,17 +40,6 @@ export class DefaultVpcUsedEC2InstancesAnalyzer extends BaseAnalyzer {
         }
         default_vpcs_used.regions = allRegionsAnalysis;
         return { default_vpcs_used };
-    }
-
-    private getName(instance: any) {
-        const nameTags = instance.Tags.filter((tag) => {
-            return tag.Key == 'Name';
-        });
-        if (nameTags.length) {
-            return nameTags[0].Value;
-        } else {
-            return 'Unassigned';
-        }
     }
 
     private getDefaultVpcs(vpcs: any[]) {

@@ -40,30 +40,4 @@ export class KeyPairsUnusedAnalyzer extends BaseAnalyzer {
         key_pairs_unused.regions = allRegionsAnalysis;
         return { key_pairs_unused };
     }
-
-    private getName(instance: any) {
-        const nameTags = instance.Tags.filter((tag) => {
-            return tag.Key == 'Name';
-        });
-        if (nameTags.length) {
-            return nameTags[0].Value;
-        } else {
-            return 'Unassigned';
-        }
-    }
-
-    private getDefaultSecurityGroups(securityGroups: any[]) {
-        return securityGroups.filter((securityGroup) => {
-            return securityGroup.GroupName === 'default';
-        });
-    }
-
-    private isCommonSecurityGroupExist(securityGroups1, securityGroups2) {
-        const commonSecurityGroups = securityGroups1.filter((securityGroup1) => {
-            return securityGroups2.filter((securityGroup2) => {
-                return securityGroup1.GroupId === securityGroup2.GroupId;
-            }).length > 0;
-        });
-        return commonSecurityGroups.length > 0;
-    }
 }

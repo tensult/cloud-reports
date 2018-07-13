@@ -1,5 +1,6 @@
 import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisType } from '../../../types';
+import { ResourceUtil } from '../../../utils';
 
 export class VolumesEncryptionEnabledAnalyzer extends BaseAnalyzer {
 
@@ -21,7 +22,7 @@ export class VolumesEncryptionEnabledAnalyzer extends BaseAnalyzer {
                 volumeAnalysis.resource = volume ;
                 volumeAnalysis.resourceSummary = {
                     name: 'Volume',
-                    value: `${this.getName(volume)} | ${volume.VolumeId}`
+                    value: `${ResourceUtil.getNameByTags(volume)} | ${volume.VolumeId}`
                 }
                 if (volume.Encrypted) {
                     volumeAnalysis.severity = SeverityStatus.Good;
@@ -36,16 +37,5 @@ export class VolumesEncryptionEnabledAnalyzer extends BaseAnalyzer {
         }
         volumes_encrypted_at_rest.regions = allRegionsAnalysis;
         return { volumes_encrypted_at_rest };
-    }
-
-    private getName(volume: any) {
-        const nameTags = volume.Tags.filter((tag) => {
-            return tag.Key == 'Name';
-        });
-        if (nameTags.length) {
-            return nameTags[0].Value;
-        } else {
-            return 'Unassigned';
-        }
     }
 }

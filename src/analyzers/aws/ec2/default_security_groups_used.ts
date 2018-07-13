@@ -1,5 +1,6 @@
 import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisType } from '../../../types';
+import { ResourceUtil } from '../../../utils';
 
 export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
 
@@ -21,7 +22,7 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
             allRegionsAnalysis[region] = [];
             for (let instance of regionInstances) {
                 let instanceAnalysis: ResourceAnalysisResult = {};
-                instanceAnalysis.resource = { instanceName: this.getName(instance), instanceId: instance.InstanceId, security_groups: instance.SecurityGroups } ;
+                instanceAnalysis.resource = { instanceName: ResourceUtil.getNameByTags(instance), instanceId: instance.InstanceId, security_groups: instance.SecurityGroups } ;
                 instanceAnalysis.resourceSummary = {
                     name: 'Instance',
                     value: `${instanceAnalysis.resource.instanceName} | ${instance.InstanceId}`
@@ -39,17 +40,6 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
         }
         default_security_groups_used.regions = allRegionsAnalysis;
         return { default_security_groups_used };
-    }
-
-    private getName(instance: any) {
-        const nameTags = instance.Tags.filter((tag) => {
-            return tag.Key == 'Name';
-        });
-        if (nameTags.length) {
-            return nameTags[0].Value;
-        } else {
-            return 'Unassigned';
-        }
     }
 
     private getDefaultSecurityGroups(securityGroups: any[]) {
