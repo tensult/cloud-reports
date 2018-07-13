@@ -14,6 +14,7 @@ We are implementing checks based on [AWS Well Architected](https://aws.amazon.co
 * [AWS Analyzers](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws): Analyzes the information collected.
 * Currently supported AWS service modules:
 * * acm: [AWS Certificate Manager](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/acm)
+* * apigateway: [Amazon APIGateway](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/apigateway)
 * * cloudwatch: [AWS CloudWatch](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/cloudwatch)
 * * dynamodb: [AWS DynamoDB](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/dynamodb)
 * * ebs: [AWS Elastic Block Storage](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/ebs)

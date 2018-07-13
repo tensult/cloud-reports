@@ -1,4 +1,5 @@
 export import acm = require('./acm');
+export import apigateway = require('./apigateway');
 export import cloudwatch = require('./cloudwatch');
 export import dynamodb = require('./dynamodb');
 export import ebs = require('./ebs');
