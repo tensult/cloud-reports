@@ -11,17 +11,22 @@ export class AlarmsCollector extends BaseCollector {
     const CloudWatchRegions = self.getRegions(serviceName);
     const alarms = {};
     for (let region of CloudWatchRegions) {
-      let CloudWatchService = self.getClient(serviceName, region) as AWS.CloudWatch;
-      alarms[region] = [];
-      let fetchPending = true;
-      let marker: string | undefined = undefined;
-      while (fetchPending) {
-        const alarmsResponse: AWS.CloudWatch.Types.DescribeAlarmsOutput = await CloudWatchService.describeAlarms({ NextToken: marker }).promise();
-        if (alarmsResponse.MetricAlarms) {
-          alarms[region] = alarms[region].concat(alarmsResponse.MetricAlarms);
+      try {
+        let CloudWatchService = self.getClient(serviceName, region) as AWS.CloudWatch;
+        alarms[region] = [];
+        let fetchPending = true;
+        let marker: string | undefined = undefined;
+        while (fetchPending) {
+          const alarmsResponse: AWS.CloudWatch.Types.DescribeAlarmsOutput = await CloudWatchService.describeAlarms({ NextToken: marker }).promise();
+          if (alarmsResponse.MetricAlarms) {
+            alarms[region] = alarms[region].concat(alarmsResponse.MetricAlarms);
+          }
+          marker = alarmsResponse.NextToken;
+          fetchPending = marker !== undefined;
         }
-        marker = alarmsResponse.NextToken;
-        fetchPending = marker !== undefined;
+      } catch (error) {
+        console.error(error);
+        continue;
       }
     }
     return { alarms };
