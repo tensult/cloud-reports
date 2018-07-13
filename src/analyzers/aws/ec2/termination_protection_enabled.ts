@@ -2,7 +2,7 @@ import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisType } from '../../../types';
 import { ResourceUtil } from '../../../utils';
 
-export class TerminationProtectionEnabledAnalyzer extends BaseAnalyzer {
+export class EC2InstanceTerminationProtectionAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const allTerminationProtectionStatuses = params.termination_protection;

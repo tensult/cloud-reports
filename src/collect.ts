@@ -34,7 +34,7 @@ export async function collect(moduleNames?: string | Array<string>) {
     });
     for (let collectorName of filteredCollectorNames) {
         const collectorPromise = CollectorUtil.cachedCollect(new flatListOfCollectors[collectorName]()).then((data) => {
-            const collectNameSpace = collectorName.replace(/.[A-Za-z]+$/, '');
+            const collectNameSpace = collectorName.replace(/.[A-Za-z0-9]+$/, '');
             return {
                 data,
                 namespace: collectNameSpace

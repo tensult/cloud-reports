@@ -5,10 +5,10 @@ export class LambdaErrorsAlarmAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
-        const allLambdaFunctions: any[] = fullReport['aws.lambda'].functions;
-        if (!allAlarms || !allLambdaFunctions) {
+        if (!allAlarms || !fullReport['aws.lambda'] || !fullReport['aws.lambda'].functions) {
             return undefined;
         }
+        const allLambdaFunctions: any[] = fullReport['aws.lambda'].functions;
         const lambda_errors_alarm: CheckAnalysisResult = { type: [CheckAnalysisType.OperationalExcellence] };
         lambda_errors_alarm.what = "Are alarms are enabled for Lambda function Errors?";
         lambda_errors_alarm.why = "It is important to set Errors alarm for all Lambda functions so that when Lambda functions are failing we will be notified."

@@ -5,11 +5,12 @@ import { ResourceUtil } from '../../../utils';
 export class DefaultVpcUsedEC2InstancesAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
-        const allVpcs = fullReport['aws.vpc'].vpcs;
         const allInstances = params.instances;
-        if (!allVpcs || !allInstances) {
+        if (!fullReport['aws.vpc'] || !fullReport['aws.vpc'].vpcs || !allInstances) {
             return undefined;
         }
+        const allVpcs = fullReport['aws.vpc'].vpcs;
+
         const default_vpcs_used: CheckAnalysisResult = { type: CheckAnalysisType.Security };
         default_vpcs_used.what = "Are there any default vpc used for EC2 instances?";
         default_vpcs_used.why = "Default vpcs are open to world by default and requires extra setup make them secure"
@@ -43,6 +44,9 @@ export class DefaultVpcUsedEC2InstancesAnalyzer extends BaseAnalyzer {
     }
 
     private getDefaultVpcs(vpcs: any[]) {
+        if(!vpcs) {
+            return [];
+        }
         return vpcs.filter((vpc) => {
             return vpc.IsDefault;
         });

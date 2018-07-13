@@ -10,7 +10,7 @@ export function analyze(collectorData: any) {
         if (!analyzerName.endsWith('Analyzer')) {
             continue;
         }
-        const analyzerNameSpace = analyzerName.replace(/.[A-Za-z]+$/, '');
+        const analyzerNameSpace = analyzerName.replace(/.[A-Za-z0-9]+$/, '');
         if(!collectorData[analyzerNameSpace]) {
             continue;
         }

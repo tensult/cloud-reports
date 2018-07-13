@@ -5,10 +5,11 @@ export class LambdaInvocationsCountAlarmAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
-        const allLambdaFunctions: any[] = fullReport['aws.lambda'].functions;
-        if (!allAlarms || !allLambdaFunctions) {
+        if (!allAlarms || !fullReport['aws.lambda'] || !fullReport['aws.lambda'].functions) {
             return undefined;
         }
+        const allLambdaFunctions: any[] = fullReport['aws.lambda'].functions;
+
         const lambda_invocations_count_alarm: CheckAnalysisResult = { type: [CheckAnalysisType.OperationalExcellence] };
         lambda_invocations_count_alarm.what = "Are alarms are enabled for Lambda function based on invocation count?";
         lambda_invocations_count_alarm.why = "It is important to set invocation count alarm for all Lambda functions as if there is any bug in the code then Lambda functions can be triggered continuously in a loop and eventually you will get a huge AWS bill."

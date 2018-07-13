@@ -43,6 +43,9 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
     }
 
     private getDefaultSecurityGroups(securityGroups: any[]) {
+        if(!securityGroups) {
+            return [];
+        }
         return securityGroups.filter((securityGroup) => {
             return securityGroup.GroupName === 'default';
         });

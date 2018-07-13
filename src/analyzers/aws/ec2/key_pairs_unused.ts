@@ -21,6 +21,9 @@ export class KeyPairsUnusedAnalyzer extends BaseAnalyzer {
             let usedKeyPairs = regionInstances.map(instance => {
                 return instance.KeyName;
             });
+            if(!regionKeyPairs) {
+                continue;
+            }
 
             regionKeyPairs.forEach(keyPair => {
                 let keyPairAnalysis: ResourceAnalysisResult = {};

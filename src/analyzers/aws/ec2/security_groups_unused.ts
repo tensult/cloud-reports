@@ -20,12 +20,18 @@ export class SecurityGroupsUnusedAnalyzer extends BaseAnalyzer {
             let regionSecurityGroups = allSecurityGroups[region];
             allRegionsAnalysis[region] = [];
             let securityGroupInstancesMap: Dictionary<any[]> = {};
+            if(!regionInstances) {
+                continue;
+            }
             for (let instance of regionInstances) {
                 let instanceData = { name: ResourceUtil.getNameByTags(instance), instanceId: instance.InstanceId }
                 for(let securityGroup of instance.SecurityGroups) {
                     securityGroupInstancesMap[securityGroup.GroupId] = securityGroupInstancesMap[securityGroup.GroupId] || [];
                     securityGroupInstancesMap[securityGroup.GroupId].push(instanceData);
                 }
+            }
+            if(!regionSecurityGroups) {
+                continue;
             }
             for (let securityGroup of regionSecurityGroups) {
                 if(securityGroup.GroupName === 'default') {
