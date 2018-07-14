@@ -4,11 +4,13 @@ import { ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisResult
 export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
-        const allVpcSecurityGroups = fullReport['aws.ec2'].security_groups;
         const allInstances = params.instances;
-        if (!allVpcSecurityGroups || !allInstances) {
+        if (!fullReport['aws.ec2'] || !fullReport['aws.ec2'].security_groups || !allInstances) {
             return undefined;
         }
+        
+        const allVpcSecurityGroups = fullReport['aws.ec2'].security_groups;
+
         const default_security_groups_used: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         default_security_groups_used.what = "Are there any default security groups used for RDS instances?";
         default_security_groups_used.why = "Default security groups are open to world by default and requires extra setup make them secure"

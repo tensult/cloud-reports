@@ -15,15 +15,20 @@ export class RDSInstancesCollector extends BaseCollector {
         const instances = {};
 
         for (let region of rdsRegions) {
-            let rds = self.getClient(serviceName, region) as AWS.RDS;
-            instances[region] = [];
-            let fetchPending = true;
-            let marker: string | undefined = undefined;
-            while (fetchPending) {
-                const instancesResponse: AWS.RDS.DBInstanceMessage = await rds.describeDBInstances({ Marker: marker }).promise();
-                instances[region] = instances[region].concat(instancesResponse.DBInstances);
-                marker = instancesResponse.Marker;
-                fetchPending = marker !== undefined;
+            try {
+                let rds = self.getClient(serviceName, region) as AWS.RDS;
+                instances[region] = [];
+                let fetchPending = true;
+                let marker: string | undefined = undefined;
+                while (fetchPending) {
+                    const instancesResponse: AWS.RDS.DBInstanceMessage = await rds.describeDBInstances({ Marker: marker }).promise();
+                    instances[region] = instances[region].concat(instancesResponse.DBInstances);
+                    marker = instancesResponse.Marker;
+                    fetchPending = marker !== undefined;
+                }
+            } catch (error) {
+                console.error(error);
+                continue;
             }
         }
         return { instances };

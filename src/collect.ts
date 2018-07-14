@@ -27,7 +27,7 @@ export async function collect(moduleNames?: string | Array<string>) {
         }
         if(modules.length) {
             return modules.some((moduleName) => {
-                return collectorName.includes(moduleName);
+                return collectorName.split(".").indexOf(moduleName) !== -1;
             });
         }
         return true;
