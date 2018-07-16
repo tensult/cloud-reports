@@ -13,17 +13,22 @@ export class VolumesCollector extends BaseCollector {
         const volumes = {};
 
         for (let region of ec2Regions) {
-            let ec2 = this.getClient(serviceName, region) as AWS.EC2;
-            volumes[region] = [];
-            let fetchPending = true;
-            let marker: string | undefined = undefined;
-            while (fetchPending) {
-                const volumesResponse: AWS.EC2.DescribeVolumesResult = await ec2.describeVolumes({ NextToken: marker }).promise();
-                if (volumesResponse.Volumes) {
-                    volumes[region] = volumes[region].concat(volumesResponse.Volumes);
+            try {
+                let ec2 = this.getClient(serviceName, region) as AWS.EC2;
+                volumes[region] = [];
+                let fetchPending = true;
+                let marker: string | undefined = undefined;
+                while (fetchPending) {
+                    const volumesResponse: AWS.EC2.DescribeVolumesResult = await ec2.describeVolumes({ NextToken: marker }).promise();
+                    if (volumesResponse.Volumes) {
+                        volumes[region] = volumes[region].concat(volumesResponse.Volumes);
+                    }
+                    marker = volumesResponse.NextToken;
+                    fetchPending = marker !== undefined;
                 }
-                marker = volumesResponse.NextToken;
-                fetchPending = marker !== undefined;
+            } catch (error) {
+                console.error(error);
+                continue;
             }
         }
         return { volumes };
