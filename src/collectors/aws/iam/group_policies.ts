@@ -15,23 +15,28 @@ export class GroupPoliciesCollector extends BaseCollector {
         const groups: AWS.IAM.Group[] = groupsData.groups;
         const group_policies: Dictionary<AWS.IAM.AttachedPolicy[]> = {};
         for (let i = 0; i < groups.length; i++) {
-            const groupName = groups[i].GroupName
-            let fetchPending = true;
-            let marker: string | undefined;
-            let groupPolicies: AWS.IAM.AttachedPolicy[] = [];
-            while (fetchPending) {
-                let params: AWS.IAM.ListAttachedGroupPoliciesRequest = { GroupName: groupName }
-                if (marker) {
-                    params.Marker = marker;
+            try {
+                const groupName = groups[i].GroupName
+                let fetchPending = true;
+                let marker: string | undefined;
+                let groupPolicies: AWS.IAM.AttachedPolicy[] = [];
+                while (fetchPending) {
+                    let params: AWS.IAM.ListAttachedGroupPoliciesRequest = { GroupName: groupName }
+                    if (marker) {
+                        params.Marker = marker;
+                    }
+                    let policiesData: AWS.IAM.ListAttachedGroupPoliciesResponse = await iam.listAttachedGroupPolicies(params).promise();
+                    if (policiesData.AttachedPolicies) {
+                        groupPolicies = groupPolicies.concat(policiesData.AttachedPolicies);
+                    }
+                    marker = policiesData.Marker;
+                    fetchPending = policiesData.IsTruncated === true
                 }
-                let policiesData: AWS.IAM.ListAttachedGroupPoliciesResponse = await iam.listAttachedGroupPolicies(params).promise();
-                if (policiesData.AttachedPolicies) {
-                    groupPolicies = groupPolicies.concat(policiesData.AttachedPolicies);
-                }
-                marker = policiesData.Marker;
-                fetchPending = policiesData.IsTruncated === true
+                group_policies[groupName] = groupPolicies;
+            } catch (error) {
+                console.error(error);
+                continue;
             }
-            group_policies[groupName] = groupPolicies;
         }
         return { group_policies };
     }

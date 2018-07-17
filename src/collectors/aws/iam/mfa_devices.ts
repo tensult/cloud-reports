@@ -7,16 +7,20 @@ export class MFADevicesCollector extends BaseCollector {
     }
 
     private async listMfaDevices() {
-        const iam = this.getClient('IAM', 'us-east-1') as AWS.IAM;
-        let fetchPending = true;
-        let marker: string | undefined = undefined;
-        let mfaDevices: AWS.IAM.MFADevice[] = [];
-        while (fetchPending) {
-            let iamMfaDevicesData: AWS.IAM.ListMFADevicesResponse = await iam.listMFADevices({ Marker: marker }).promise();
-            mfaDevices = mfaDevices.concat(iamMfaDevicesData.MFADevices);
-            marker = iamMfaDevicesData.Marker;
-            fetchPending = iamMfaDevicesData.IsTruncated === true;
+        try {
+            const iam = this.getClient('IAM', 'us-east-1') as AWS.IAM;
+            let fetchPending = true;
+            let marker: string | undefined = undefined;
+            let mfaDevices: AWS.IAM.MFADevice[] = [];
+            while (fetchPending) {
+                let iamMfaDevicesData: AWS.IAM.ListMFADevicesResponse = await iam.listMFADevices({ Marker: marker }).promise();
+                mfaDevices = mfaDevices.concat(iamMfaDevicesData.MFADevices);
+                marker = iamMfaDevicesData.Marker;
+                fetchPending = iamMfaDevicesData.IsTruncated === true;
+            }
+            return { mfaDevices };
+        } catch (error) {
+            console.error(error);
         }
-        return { mfaDevices };
     }
 }

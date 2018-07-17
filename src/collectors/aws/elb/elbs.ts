@@ -13,17 +13,22 @@ export class ElbsCollector extends BaseCollector {
         const elbs = {};
 
         for (let region of elbRegions) {
-            let elb = this.getClient(serviceName, region) as AWS.ELB;
-            elbs[region] = [];
-            let fetchPending = true;
-            let marker: string | undefined = undefined;
-            while (fetchPending) {
-                const elbsResponse: AWS.ELB.DescribeAccessPointsOutput = await elb.describeLoadBalancers({ Marker: marker }).promise();
-                if (elbsResponse.LoadBalancerDescriptions) {
-                    elbs[region] = elbs[region].concat(elbsResponse.LoadBalancerDescriptions);
+            try {
+                let elb = this.getClient(serviceName, region) as AWS.ELB;
+                elbs[region] = [];
+                let fetchPending = true;
+                let marker: string | undefined = undefined;
+                while (fetchPending) {
+                    const elbsResponse: AWS.ELB.DescribeAccessPointsOutput = await elb.describeLoadBalancers({ Marker: marker }).promise();
+                    if (elbsResponse.LoadBalancerDescriptions) {
+                        elbs[region] = elbs[region].concat(elbsResponse.LoadBalancerDescriptions);
+                    }
+                    marker = elbsResponse.NextMarker;
+                    fetchPending = marker !== undefined;
                 }
-                marker = elbsResponse.NextMarker;
-                fetchPending = marker !== undefined;
+            } catch (error) {
+                console.error(error);
+                continue;
             }
         }
         return { elbs };

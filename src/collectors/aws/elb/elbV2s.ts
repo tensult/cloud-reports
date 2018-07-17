@@ -15,15 +15,20 @@ export class ElbV2sCollector extends BaseCollector {
         const elbV2s = {};
 
         for (let region of elbRegions) {
-            let elb = self.getClient(serviceName, region) as AWS.ELBv2;
-            elbV2s[region] = [];
-            let fetchPending = true;
-            let marker: string | undefined = undefined;
-            while (fetchPending) {
-                const elbsResponse: AWS.ELBv2.DescribeLoadBalancersOutput = await elb.describeLoadBalancers({ Marker: marker }).promise();
-                elbV2s[region] = elbV2s[region].concat(elbsResponse.LoadBalancers);
-                marker = elbsResponse.NextMarker;
-                fetchPending = marker !== undefined;
+            try {
+                let elb = self.getClient(serviceName, region) as AWS.ELBv2;
+                elbV2s[region] = [];
+                let fetchPending = true;
+                let marker: string | undefined = undefined;
+                while (fetchPending) {
+                    const elbsResponse: AWS.ELBv2.DescribeLoadBalancersOutput = await elb.describeLoadBalancers({ Marker: marker }).promise();
+                    elbV2s[region] = elbV2s[region].concat(elbsResponse.LoadBalancers);
+                    marker = elbsResponse.NextMarker;
+                    fetchPending = marker !== undefined;
+                }
+            } catch (error) {
+                console.error(error);
+                continue;
             }
         }
         return { elbV2s };

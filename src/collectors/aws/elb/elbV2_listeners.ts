@@ -16,14 +16,19 @@ export class ElbV2ListenersCollector extends BaseCollector {
         const elbs = elbsData.elbV2s;
         const elbV2_listeners = {};
         for (let region of elbRegions) {
-            let elbService = self.getClient(serviceName, region) as AWS.ELBv2;
-            let regionElbs = elbs[region];
-            let allRegionElbListeners = {};
-            for (let elb of regionElbs) {
-                let regionElbListeners: AWS.ELBv2.DescribeListenersOutput = await elbService.describeListeners({ LoadBalancerArn: elb.LoadBalancerArn }).promise();
-                allRegionElbListeners[elb.LoadBalancerName] = regionElbListeners.Listeners;
+            try {
+                let elbService = self.getClient(serviceName, region) as AWS.ELBv2;
+                let regionElbs = elbs[region];
+                let allRegionElbListeners = {};
+                for (let elb of regionElbs) {
+                    let regionElbListeners: AWS.ELBv2.DescribeListenersOutput = await elbService.describeListeners({ LoadBalancerArn: elb.LoadBalancerArn }).promise();
+                    allRegionElbListeners[elb.LoadBalancerName] = regionElbListeners.Listeners;
+                }
+                elbV2_listeners[region] = allRegionElbListeners;
+            } catch (error) {
+                console.error(error);
+                continue;
             }
-            elbV2_listeners[region] = allRegionElbListeners;
         }
         return { elbV2_listeners };
     }

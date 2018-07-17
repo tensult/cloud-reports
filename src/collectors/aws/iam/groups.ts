@@ -7,16 +7,20 @@ export class GroupsCollector extends BaseCollector {
     }
 
     private async listAllGroups() {
-        const iam = this.getClient('IAM', 'us-east-1') as AWS.IAM;
-        let fetchPending = true;
-        let marker: string | undefined = undefined;
-        let groups: AWS.IAM.Group[] = [];
-        while (fetchPending) {
-            let iamGroupsData: AWS.IAM.ListGroupsResponse = await iam.listGroups({ Marker: marker }).promise();
-            groups = groups.concat(iamGroupsData.Groups);
-            marker = iamGroupsData.Marker;
-            fetchPending = iamGroupsData.IsTruncated === true;
+        try {
+            const iam = this.getClient('IAM', 'us-east-1') as AWS.IAM;
+            let fetchPending = true;
+            let marker: string | undefined = undefined;
+            let groups: AWS.IAM.Group[] = [];
+            while (fetchPending) {
+                let iamGroupsData: AWS.IAM.ListGroupsResponse = await iam.listGroups({ Marker: marker }).promise();
+                groups = groups.concat(iamGroupsData.Groups);
+                marker = iamGroupsData.Marker;
+                fetchPending = iamGroupsData.IsTruncated === true;
+            }
+            return { groups };
+        } catch (error) {
+            console.error(error);
         }
-        return { groups };
     }
 }

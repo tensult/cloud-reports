@@ -16,14 +16,19 @@ export class ElbAttributesCollector extends BaseCollector {
         const elbs = elbsData.elbs;
         const elb_attributes = {};
         for (let region of elbRegions) {
-            let elbService = self.getClient(serviceName, region) as AWS.ELB;
-            let regionElbs = elbs[region];
-            let allRegionElbAttributes = {};
-            for (let elb of regionElbs) {
-                let regionElbAttributes: AWS.ELB.DescribeLoadBalancerAttributesOutput = await elbService.describeLoadBalancerAttributes({ LoadBalancerName: elb.LoadBalancerName }).promise();
-                allRegionElbAttributes[elb.LoadBalancerName] = regionElbAttributes.LoadBalancerAttributes;
+            try {
+                let elbService = self.getClient(serviceName, region) as AWS.ELB;
+                let regionElbs = elbs[region];
+                let allRegionElbAttributes = {};
+                for (let elb of regionElbs) {
+                    let regionElbAttributes: AWS.ELB.DescribeLoadBalancerAttributesOutput = await elbService.describeLoadBalancerAttributes({ LoadBalancerName: elb.LoadBalancerName }).promise();
+                    allRegionElbAttributes[elb.LoadBalancerName] = regionElbAttributes.LoadBalancerAttributes;
+                }
+                elb_attributes[region] = allRegionElbAttributes;
+            } catch (error) {
+                console.error(error);
+                continue;
             }
-            elb_attributes[region] = allRegionElbAttributes;
         }
         return { elb_attributes };
     }

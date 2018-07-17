@@ -13,17 +13,22 @@ export class CertificateCollector extends BaseCollector {
         const certificates = {};
 
         for (let region of acmRegions) {
-            let acm = this.getClient(serviceName, region) as AWS.ACM;
-            certificates[region] = [];
-            let fetchPending = true;
-            let marker: string | undefined = undefined;
-            while (fetchPending) {
-                const certificatesResponse: AWS.ACM.ListCertificatesResponse = await acm.listCertificates({ NextToken: marker }).promise();
-                if (certificatesResponse.CertificateSummaryList) {
-                    certificates[region] = certificates[region].concat(certificatesResponse.CertificateSummaryList);
+            try {
+                let acm = this.getClient(serviceName, region) as AWS.ACM;
+                certificates[region] = [];
+                let fetchPending = true;
+                let marker: string | undefined = undefined;
+                while (fetchPending) {
+                    const certificatesResponse: AWS.ACM.ListCertificatesResponse = await acm.listCertificates({ NextToken: marker }).promise();
+                    if (certificatesResponse.CertificateSummaryList) {
+                        certificates[region] = certificates[region].concat(certificatesResponse.CertificateSummaryList);
+                    }
+                    marker = certificatesResponse.NextToken;
+                    fetchPending = marker !== undefined;
                 }
-                marker = certificatesResponse.NextToken;
-                fetchPending = marker !== undefined;
+            } catch (error) {
+                console.error(error);
+                continue;
             }
         }
         return { certificates };
