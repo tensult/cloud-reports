@@ -42,6 +42,9 @@ export class SecurityGroupsOpenToWorldAnalyzer extends BaseAnalyzer {
     }
 
     private isOpenToWorld(securityGroup: any) {
+        if(securityGroup) {
+            return false;
+        }
         const openIpRanges = securityGroup.IpPermissions.filter((rule) => {
             return rule.IpRanges.findIndex((ipRange) => {
                 return ipRange.CidrIp === '0.0.0.0/0';

@@ -25,7 +25,8 @@ export class EC2InstanceTerminationProtectionAnalyzer extends BaseAnalyzer {
                     name: 'Instance',
                     value: `${instanceAnalysis.resource.instanceName} | ${instance.InstanceId}`
                 }
-                if (allTerminationProtectionStatuses[region][instance.InstanceId].Value) {
+                if (allTerminationProtectionStatuses[region][instance.InstanceId] &&
+                    allTerminationProtectionStatuses[region][instance.InstanceId].Value) {
                     instanceAnalysis.severity = SeverityStatus.Good;
                     instanceAnalysis.message = 'Already enabled';
                 } else {

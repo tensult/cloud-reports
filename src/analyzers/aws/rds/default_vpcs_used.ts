@@ -42,12 +42,18 @@ export class DefaultVpcUsedRDSInstancesAnalyzer extends BaseAnalyzer {
     }
 
     private getDefaultVpcs(vpcs: any[]) {
+        if(!vpcs) {
+            return [];
+        }
         return vpcs.filter((vpc) => {
             return vpc.IsDefault;
         });
     }
 
     private isVpcExist(vpcs, vpcId) {
+        if(!vpcs || !vpcId) {
+            return false;
+        }
         return vpcs.filter((vpc) => {
             return vpc.VpcId === vpcId;
         }).length > 0;

@@ -53,6 +53,9 @@ export class DefaultVpcUsedEC2InstancesAnalyzer extends BaseAnalyzer {
     }
 
     private isVpcExist(vpcs, vpcId) {
+        if(!vpcs || !vpcId) {
+            return false;
+        }
         return vpcs.filter((vpc) => {
             return vpc.VpcId === vpcId;
         }).length > 0;

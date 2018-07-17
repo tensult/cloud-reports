@@ -52,6 +52,9 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
     }
 
     private isCommonSecurityGroupExist(securityGroups1, securityGroups2) {
+        if(!securityGroups1 || !securityGroups2) {
+            return false;
+        }
         const commonSecurityGroups = securityGroups1.filter((securityGroup1) => {
             return securityGroups2.filter((securityGroup2) => {
                 return securityGroup1.GroupId === securityGroup2.GroupId;

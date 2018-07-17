@@ -9,10 +9,10 @@ export class RdsPubliclyAccessibleAnalyzer extends BaseAnalyzer {
         if (!allInstances) {
             return undefined;
         }
-        const publically_accessible: CheckAnalysisResult = { type: CheckAnalysisType.Security };
-        publically_accessible.what = "Are there any publically accessible RDS instances?";
-        publically_accessible.why = "It is important to restrict RDS instances for private access only for most of the usecases"
-        publically_accessible.recommendation = "Recommended to disable public access for RDS instances";
+        const publicly_accessible: CheckAnalysisResult = { type: CheckAnalysisType.Security };
+        publicly_accessible.what = "Are there any publicly accessible RDS instances?";
+        publicly_accessible.why = "It is important to restrict RDS instances for private access only for most of the usecases"
+        publicly_accessible.recommendation = "Recommended to disable public access for RDS instances";
         const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allInstances) {
             let regionInstances = allInstances[region];
@@ -26,16 +26,16 @@ export class RdsPubliclyAccessibleAnalyzer extends BaseAnalyzer {
                 }
                 if (instance.PubliclyAccessible) {
                     instance_analysis.severity = SeverityStatus.Warning;
-                    instance_analysis.message = 'RDS instance is publically accessible';
-                    instance_analysis.action = 'Recommanded to access Database instance privately'
+                    instance_analysis.message = 'RDS instance is publicly accessible';
+                    instance_analysis.action = 'Recommended to access Database instance privately'
                 } else {
                     instance_analysis.severity = SeverityStatus.Good;
-                    instance_analysis.message = 'RDS instance is not publically accessible';
+                    instance_analysis.message = 'RDS instance is not publicly accessible';
                 }
                 allRegionsAnalysis[region].push(instance_analysis);
             }
         }
-        publically_accessible.regions = allRegionsAnalysis;
-        return { publically_accessible };
+        publicly_accessible.regions = allRegionsAnalysis;
+        return { publicly_accessible };
     }
 }
