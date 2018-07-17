@@ -36,15 +36,15 @@ export class CertificatesExpiryAnalyzer extends BaseAnalyzer {
                     certificate_analysis.action = "Renew the certificate or remove it if no longer needed"
                 } else if (expirationTime < dateAfter30Days) {
                     certificate_analysis.severity = SeverityStatus.Warning;
-                    certificate_analysis.message = "Certicate is expiring within a month";
+                    certificate_analysis.message = "Certificate is expiring within a month";
                     certificate_analysis.action = "Renew the certificate immediately"
                 } else if (expirationTime < dateAfter90Days) {
-                    certificate_analysis.severity = SeverityStatus.Ok;
-                    certificate_analysis.message = "Certicate is expiring within 3 months";
+                    certificate_analysis.severity = SeverityStatus.Info;
+                    certificate_analysis.message = "Certificate is expiring within 3 months";
                     certificate_analysis.action = "Plan for its renewal"
                 } else {
                     certificate_analysis.severity = SeverityStatus.Good;
-                    certificate_analysis.message = "Certicate is valid for more than 3 months";
+                    certificate_analysis.message = "Certificate is valid for more than 3 months";
                 }
                 allRegionsAnalysis[region].push(certificate_analysis);
             }

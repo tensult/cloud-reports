@@ -48,12 +48,12 @@ export class DomainsExpiryAnalyzer extends BaseAnalyzer {
             domain_analysis.message = "Domain is expiring within a month";
             domain_analysis.action = "Renew the domain immediately"
         } else if (expirationTime < dateAfter90Days) {
-            domain_analysis.severity = SeverityStatus.Ok;
-            domain_analysis.message = "Certicate is expiring within 3 months";
+            domain_analysis.severity = SeverityStatus.Info;
+            domain_analysis.message = "Domain is expiring within 3 months";
             domain_analysis.action = "Plan for its renewal"
         } else {
             domain_analysis.severity = SeverityStatus.Good;
-            domain_analysis.message = "Certicate is valid for more than 3 months";
+            domain_analysis.message = "Domain is valid for more than 3 months";
         }
         domain_analysis.action = domain_analysis.action ? domain_analysis.action + '. ' : '';
         domain_analysis.action = domain_analysis.action + 'Consider enabling auto renewal for the domain'
