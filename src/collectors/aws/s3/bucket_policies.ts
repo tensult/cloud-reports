@@ -18,6 +18,7 @@ export class BucketPoliciesCollector extends BaseCollector {
                 bucket_policies[bucket.Name] = s3BucketPolicy.Policy;
             } catch (err) {
                 console.error(err);
+                continue;
             }
         }
         return { bucket_policies };

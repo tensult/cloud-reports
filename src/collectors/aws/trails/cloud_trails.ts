@@ -8,9 +8,14 @@ export class CloudTrailsCollector extends BaseCollector {
         const self = this;
         const cloud_trails = {};
         for (let region of cloudTrailRegions) {
-            let cloudTrail = self.getClient(serviceName, region) as AWS.CloudTrail;
-            const cloudTrailsResponse: AWS.CloudTrail.DescribeTrailsResponse = await cloudTrail.describeTrails().promise();
-            cloud_trails[region] = cloudTrailsResponse.trailList;
+            try {
+                let cloudTrail = self.getClient(serviceName, region) as AWS.CloudTrail;
+                const cloudTrailsResponse: AWS.CloudTrail.DescribeTrailsResponse = await cloudTrail.describeTrails().promise();
+                cloud_trails[region] = cloudTrailsResponse.trailList;
+            } catch (error) {
+                console.error(error);
+                continue;
+            }
         }
         return { cloud_trails };
     }

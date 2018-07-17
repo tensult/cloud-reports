@@ -9,9 +9,14 @@ export class SubnetsCollector extends BaseCollector {
         const self = this;
         const subnets = {};
         for (let region of ec2Regions) {
-            let ec2 = self.getClient(serviceName, region) as AWS.EC2;
-            const subnetsResponse: AWS.EC2.DescribeSubnetsResult = await ec2.describeSubnets().promise();
-            subnets[region] = subnetsResponse.Subnets;
+            try {
+                let ec2 = self.getClient(serviceName, region) as AWS.EC2;
+                const subnetsResponse: AWS.EC2.DescribeSubnetsResult = await ec2.describeSubnets().promise();
+                subnets[region] = subnetsResponse.Subnets;
+            } catch (error) {
+                console.error(error);
+                continue;
+            }
         }
         return { subnets };
     }

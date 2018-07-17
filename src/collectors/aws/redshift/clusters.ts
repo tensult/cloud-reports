@@ -15,15 +15,19 @@ export class RedshiftClustersCollector extends BaseCollector {
         const clusters = {};
 
         for (let region of redshiftRegions) {
-            let redshift = self.getClient(serviceName, region) as AWS.Redshift;
-            clusters[region] = [];
-            let fetchPending = true;
-            let marker: string | undefined = undefined;
-            while (fetchPending) {
-                const clustersResponse: AWS.Redshift.Types.ClustersMessage = await redshift.describeClusters({ Marker: marker }).promise();
-                clusters[region] = clusters[region].concat(clustersResponse.Clusters);
-                marker = clustersResponse.Marker;
-                fetchPending = marker !== undefined;
+            try {
+                let redshift = self.getClient(serviceName, region) as AWS.Redshift;
+                clusters[region] = [];
+                let fetchPending = true;
+                let marker: string | undefined = undefined;
+                while (fetchPending) {
+                    const clustersResponse: AWS.Redshift.Types.ClustersMessage = await redshift.describeClusters({ Marker: marker }).promise();
+                    clusters[region] = clusters[region].concat(clustersResponse.Clusters);
+                    marker = clustersResponse.Marker;
+                    fetchPending = marker !== undefined;
+                }
+            } catch (error) {
+                console.error(error);
             }
         }
         return { clusters };

@@ -8,7 +8,7 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
         if (!fullReport['aws.ec2'] || !fullReport['aws.ec2'].security_groups || !allInstances) {
             return undefined;
         }
-        
+
         const allVpcSecurityGroups = fullReport['aws.ec2'].security_groups;
 
         const default_security_groups_used: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
@@ -44,12 +44,18 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
     }
 
     private getDefaultSecurityGroups(securityGroups: any[]) {
+        if(!securityGroups) {
+            return [];
+        }
         return securityGroups.filter((securityGroup) => {
             return securityGroup.GroupName === 'default';
         });
     }
 
     private isCommonSecurityGroupExist(securityGroups1, vpcSecurityGroups2) {
+        if(!securityGroups1 || !vpcSecurityGroups2) {
+            return false;
+        }
         const commonSecurityGroups = securityGroups1.filter((securityGroup1) => {
             return vpcSecurityGroups2.filter((securityGroup2) => {
                 return securityGroup1.GroupId === securityGroup2.VpcSecurityGroupId;

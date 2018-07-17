@@ -7,16 +7,20 @@ export class DomainsCollector extends BaseCollector {
     }
 
     private async listAllDomains() {
-        const route53 = this.getClient('Route53Domains', 'us-east-1') as AWS.Route53Domains;
-        let fetchPending = true;
-        let marker: string | undefined = undefined;
-        let domains: AWS.Route53Domains.DomainSummary[] = [];
-        while (fetchPending) {
-            let route53DomainsData: AWS.Route53Domains.ListDomainsResponse = await route53.listDomains({ Marker: marker }).promise();
-            domains = domains.concat(route53DomainsData.Domains);
-            marker = route53DomainsData.NextPageMarker;
-            fetchPending = marker !== undefined;
+        try {
+            const route53 = this.getClient('Route53Domains', 'us-east-1') as AWS.Route53Domains;
+            let fetchPending = true;
+            let marker: string | undefined = undefined;
+            let domains: AWS.Route53Domains.DomainSummary[] = [];
+            while (fetchPending) {
+                let route53DomainsData: AWS.Route53Domains.ListDomainsResponse = await route53.listDomains({ Marker: marker }).promise();
+                domains = domains.concat(route53DomainsData.Domains);
+                marker = route53DomainsData.NextPageMarker;
+                fetchPending = marker !== undefined;
+            }
+            return { domains };
+        } catch (error) {
+            console.error(error);
         }
-        return { domains };
     }
 }

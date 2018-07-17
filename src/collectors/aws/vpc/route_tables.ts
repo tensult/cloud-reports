@@ -9,9 +9,14 @@ export class RouteTablesCollector extends BaseCollector {
         const self = this;
         const route_tables = {};
         for (let region of ec2Regions) {
-            let ec2 = self.getClient(serviceName, region) as AWS.EC2;
-            const routeTablesResponse: AWS.EC2.DescribeRouteTablesResult = await ec2.describeRouteTables().promise();
-            route_tables[region] = routeTablesResponse.RouteTables;
+            try {
+                let ec2 = self.getClient(serviceName, region) as AWS.EC2;
+                const routeTablesResponse: AWS.EC2.DescribeRouteTablesResult = await ec2.describeRouteTables().promise();
+                route_tables[region] = routeTablesResponse.RouteTables;
+            } catch (error) {
+                console.error(error);
+                continue;
+            }
         }
         return { route_tables };
     }
