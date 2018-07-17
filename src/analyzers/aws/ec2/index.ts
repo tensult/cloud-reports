@@ -1,5 +1,6 @@
 export * from './default_security_groups_used';
 export * from './default_vpcs_used';
+export * from './instance_profiles_used';
 export * from './key_pairs_unused';
 export * from './security_groups_open_to_world';
 export * from './security_groups_unused';
