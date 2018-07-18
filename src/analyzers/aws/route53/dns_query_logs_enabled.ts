@@ -10,9 +10,9 @@ export class DnsQueryLogsConfigAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const dns_query_logs_enabled: CheckAnalysisResult = { type: CheckAnalysisType.Security };
-        dns_query_logs_enabled.what = "Is DNS Query Logs enabled for Hosted Zones?";
-        dns_query_logs_enabled.why = "DNS query logs provides insights into who and how is domain is getting accessed and this helps to enable proper security controls"
-        dns_query_logs_enabled.recommendation = "Recommended to enable query logs for all hosted zones.";
+        dns_query_logs_enabled.what = "Is the DNS Query Logs enabled for Hosted Zones?";
+        dns_query_logs_enabled.why = "DNS query logs provides insights into who and how is the domain getting accessed and this helps to enable proper security controls"
+        dns_query_logs_enabled.recommendation = "It is recommended to enable query logs for all hosted zones.";
         const allHostZonesAnalysis: ResourceAnalysisResult[] = [];
         const allHostZoneQueryLogsConfigMapByHostedZoneId = this.getHostZoneQueryLogsConfigMapByHostedZoneId(allHostZoneQueryLogsConfig);
         for (let hostedZone of allHostedZones) {
