@@ -2,7 +2,7 @@ import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisType } from '../../../types';
 import { ResourceUtil } from '../../../utils';
 
-export class ElasticIPsUnusedAnalyzer extends BaseAnalyzer {
+export class ElasticIPsUsageAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const allElasticIPs = params.elastic_ips;
