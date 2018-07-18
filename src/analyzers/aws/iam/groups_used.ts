@@ -25,11 +25,11 @@ export class GroupsAnalyzerAnalyzer extends BaseAnalyzer {
             }
             if (groupsByUser[user.UserName] && groupsByUser[user.UserName].length) {
                 userAnalysis.severity = SeverityStatus.Good;
-                userAnalysis.message = `Use belongs to ${groupsByUser[user.UserName].join(", ")} groups`
+                userAnalysis.message = `User belongs to ${groupsByUser[user.UserName].join(", ")} groups`
             } else {
                 userAnalysis.severity = SeverityStatus.Failure;
                 userAnalysis.message = "User doesn't belong to any group"
-                userAnalysis.action = "Use groups for granting access to the users"
+                userAnalysis.action = "User groups for granting access to the users"
             }
             allUserAnalysis.push(userAnalysis);
         }

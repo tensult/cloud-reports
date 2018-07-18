@@ -6,7 +6,7 @@ export class ResourceUtil {
         if (nameTags.length) {
             return nameTags[0].Value;
         } else {
-            return 'Unassigned';
+            return 'Untagged';
         }
     }
 }
