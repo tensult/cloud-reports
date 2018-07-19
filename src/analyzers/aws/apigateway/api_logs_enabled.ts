@@ -11,7 +11,7 @@ export class ApiLogsAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const api_logs_enabled: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        api_logs_enabled.what = "Are logs enabled for Apis?";
+        api_logs_enabled.what = "Are CloudWatch logs enabled for Apis?";
         api_logs_enabled.why = "It is important to set logs for Apis for debugging API issues"
         api_logs_enabled.recommendation = "Recommended to set logs for all Apis";
         const allRegionsAnalysis: Dictionary<ResourceAnalysisResult[]> = {};
@@ -19,34 +19,37 @@ export class ApiLogsAnalyzer extends BaseAnalyzer {
             let regionApis = allApis[region];
             allRegionsAnalysis[region] = [];
             for (let api of regionApis) {
-                let apiAnalysis: ResourceAnalysisResult = {};
-                let apiStages = allApiStages[region][api.id];
-                if(!apiStages) {
+                if (!allApiStages[region][api.id] || !allApiStages[region][api.id].length) {
                     continue;
                 }
-                apiAnalysis.resource = { api, stages: apiStages };
-                apiAnalysis.resourceSummary = {
-                    name: 'Api',
-                    value: api.name
+                for (let apiStage of allApiStages[region][api.id]) {
+                    let apiStageAnalysis: ResourceAnalysisResult = {};
+
+                    apiStageAnalysis.resource = { apiName: api.name, stage: apiStage };
+                    apiStageAnalysis.resourceSummary = {
+                        name: 'ApiState',
+                        value: `${api.name} | ${apiStage.stageName}`
+                    }
+                    const stageLogLevel = this.getLogLevel(apiStage);
+                    if (stageLogLevel && stageLogLevel !== 'OFF') {
+                        apiStageAnalysis.severity = SeverityStatus.Good;
+                        apiStageAnalysis.message = `Logs are enabled with logLevel: ${stageLogLevel}`;
+                    } else {
+                        apiStageAnalysis.severity = SeverityStatus.Warning;
+                        apiStageAnalysis.message = 'Logs are not enabled';
+                        apiStageAnalysis.action = 'Set logs for API Stage';
+                    }
+                    allRegionsAnalysis[region].push(apiStageAnalysis);
                 }
-                if (this.isApiLogsEnabled(apiStages)) {
-                    apiAnalysis.severity = SeverityStatus.Good;
-                    apiAnalysis.message = 'Logs are enabled';
-                } else {
-                    apiAnalysis.severity = SeverityStatus.Warning;
-                    apiAnalysis.message = 'Logs are not enabled';
-                    apiAnalysis.action = 'Set logs for API';
-                }
-                allRegionsAnalysis[region].push(apiAnalysis);
             }
         }
         api_logs_enabled.regions = allRegionsAnalysis;
         return { api_logs_enabled };
     }
 
-    private isApiLogsEnabled(stages: any[]) {
-        return stages.some((stage) => {
-            return stage.methodSettings["*/*"] && stage.methodSettings["*/*"].loggingLevel !== "OFF";
-        });
+    private getLogLevel(stage: any) {
+        if(stage.methodSettings["*/*"]) {
+            return stage.methodSettings["*/*"].loggingLevel;
+        }
     }
 }

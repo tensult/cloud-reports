@@ -5,6 +5,9 @@ export class RootUserMfaEnabledAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const credentials: any[] = params.credentials
+        if(!credentials) {
+            return;
+        }
         const rootUserIndex = credentials.findIndex((credential) => {
             return credential.user === '<root_>';
         });
