@@ -31,9 +31,9 @@ We are implementing checks based on [AWS Well Architected](https://aws.amazon.co
 * * trails: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/trails)
 * * vpc: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/vpc)
 
-### Installation from source
-#### Install NodeJS
+### Install NodeJS
 This package is based on NodeJS framework so you can it install from [here](https://nodejs.org/en/).
+### Installing cloud-reports from source
 #### Download
 
     git clone https://github.com/tensult/cloud-reports.git
