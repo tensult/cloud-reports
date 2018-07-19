@@ -8,14 +8,14 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
         const mainAccountID = this.getAccountID(params.roles[0].Arn);
         const permittedAccounts = this.getPermittedAccounts(allRolesPolicies);
         const cross_accounts_without_external_id: CheckAnalysisResult = { type: CheckAnalysisType.Security };
-        cross_accounts_without_external_id.what = 'Are there accounts without ExternalId?';
+        cross_accounts_without_external_id.what = 'Are there cross account roles without ExternalId?';
         cross_accounts_without_external_id.why = 'It is important to associate ExternalId for cross account role access';
-        cross_accounts_without_external_id.recommendation = "Recommended to use ExternalId for third party accounts"
+        cross_accounts_without_external_id.recommendation = "Recommended to use ExternalId for roles which give access to third party accounts"
         const analysis: ResourceAnalysisResult[] = [];
 
         permittedAccounts.forEach((roleAccountsObject) => {
-            roleAccountsObject['Accounts'].forEach((account) => {
-                const crossaccountAnalysis: ResourceAnalysisResult = {
+            roleAccountsObject.Accounts.forEach((account) => {
+                const crossAccountAnalysis: ResourceAnalysisResult = {
                     resourceSummary: {
                         name: "Roles",
                         value: roleAccountsObject['Role']
@@ -23,15 +23,15 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
                 }
                 if (account.AccountID !== mainAccountID) {
                     if (account.AccountID && account.ExternalID) {
-                        crossaccountAnalysis.severity = SeverityStatus.Good;
-                        crossaccountAnalysis.message = `Account ${account.AccountID} has ExternalId`;
+                        crossAccountAnalysis.severity = SeverityStatus.Good;
+                        crossAccountAnalysis.message = `Account ${account.AccountID} has ExternalId`;
                     }
                     else {
-                        crossaccountAnalysis.severity = SeverityStatus.Failure;
-                        crossaccountAnalysis.action = 'Add an ExternalId'
-                        crossaccountAnalysis.message = `Account ${account.AccountID} does not have ExternalId`;
+                        crossAccountAnalysis.severity = SeverityStatus.Failure;
+                        crossAccountAnalysis.action = 'Add an ExternalId'
+                        crossAccountAnalysis.message = `Account ${account.AccountID} does not have ExternalId`;
                     }
-                    analysis.push(crossaccountAnalysis);
+                    analysis.push(crossAccountAnalysis);
                 }
             });
         });
@@ -41,9 +41,9 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
 
     private getAssumeRolePolicyDocument(roles: any[]) {
         return roles.map((role) => {
-            let rolePolicies: object = {};
-            rolePolicies['Role'] = role.RoleName;
-            rolePolicies['AssumeRolePolicyDocument'] = role.AssumeRolePolicyDocument;
+            let rolePolicies: any = {};
+            rolePolicies.Role = role.RoleName;
+            rolePolicies.AssumeRolePolicyDocument = role.AssumeRolePolicyDocument;
             return rolePolicies
         });
     };
@@ -55,16 +55,18 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
     };
 
     private getRoleAccountsObject(role: string, Statements: any[]) {
-        let roleAccountsObject: object = {};
-        roleAccountsObject['Role'] = role;
-        roleAccountsObject['Accounts'] = Statements.map((eachStatement) => {
-            let accountDetails: object = {};
-            accountDetails['AccountID'] = this.getAccountID(eachStatement.Principal.AWS);
-            if (eachStatement.Condition && eachStatement.Condition.StringEquals) {
-                accountDetails['ExternalID'] = eachStatement.Condition.StringEquals['sts:ExternalId'];
+        let roleAccountsObject: any = {};
+        roleAccountsObject.Role = role;
+        roleAccountsObject.Accounts = Statements.filter((statement) => {
+            return statement.Principal.AWS;
+        }).map((statement) => {
+            let accountDetails: any = {};
+            accountDetails.AccountID = this.getAccountID(statement.Principal.AWS);
+            if (statement.Condition && statement.Condition.StringEquals) {
+                accountDetails.ExternalID = statement.Condition.StringEquals['sts:ExternalId'];
             }
             return accountDetails;
-        });
+        })
         return roleAccountsObject;
     };
 

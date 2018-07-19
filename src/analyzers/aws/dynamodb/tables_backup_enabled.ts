@@ -8,7 +8,6 @@ export class DynamoDBTablesBackupEnabledAnalyzer extends BaseAnalyzer {
         if (!allTablesBackupStatuses) {
             return undefined;
         }
-        console.log("allTablesBackupStatuses", params.tables_backup)
         const tables_backup_enabled: CheckAnalysisResult = { type: CheckAnalysisType.Reliability };
         tables_backup_enabled.what = "Are there any DynamoDB table without backup enabled?";
         tables_backup_enabled.why = "DynamoDB can be accidentally deleted and data can be lost when tables are without backup enabled"
