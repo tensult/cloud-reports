@@ -2,7 +2,7 @@ import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisType } from '../../../types';
 import { ResourceUtil, CommonUtil } from '../../../utils';
 
-export class InstancesReservationAnalyzer extends BaseAnalyzer {
+export class EC2InstancesReservationAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
@@ -10,10 +10,10 @@ export class InstancesReservationAnalyzer extends BaseAnalyzer {
         if (!allInstances || !allReservedInstances) {
             return undefined;
         }
-        const reserved_instances: CheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
-        reserved_instances.what = "Are there any long running instances which should be reserved?";
-        reserved_instances.why = "You can reserve the EC2 instance which are you going to run for long time to save the cost."
-        reserved_instances.recommendation = "Recommended to reserve all long running instances";
+        const instances_reserved: CheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
+        instances_reserved.what = "Are there any long running instances which should be reserved?";
+        instances_reserved.why = "You can reserve the EC2 instance which are you going to run for long time to save the cost."
+        instances_reserved.recommendation = "Recommended to reserve all long running instances";
         const allRegionsAnalysis: Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allInstances) {
             let regionInstances = allInstances[region];
@@ -45,8 +45,8 @@ export class InstancesReservationAnalyzer extends BaseAnalyzer {
                 allRegionsAnalysis[region].push(instanceAnalysis);
             }
         }
-        reserved_instances.regions = allRegionsAnalysis;
-        return { reserved_instances };
+        instances_reserved.regions = allRegionsAnalysis;
+        return { instances_reserved };
     }
 
     private isInstanceReserved(reservedInstances, instance) {

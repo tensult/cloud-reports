@@ -4,14 +4,15 @@ import * as CollectorMain from './collect';
 import * as AnalyzerMain from './analyze';
 import * as Reporters from './reporters';
 
-import {writeFileSync} from 'fs';
+import {writeFileSync, existsSync, readFileSync} from 'fs';
 
 const cliArgs = Cli.parse({
     profile: ['p', 'AWS profile name', 'string'],
     format: ["f", "output format: html, json or pdf", 'string', 'pdf'],
     output: ['o', 'output file name', 'file', 'scan_report'],
     module: ['m', 'name of the module', 'string'],
-    debug: ['d', 'if you enable Debug then it will generate intermediate reports', 'boolean', false]
+    debug: ['d', 'if you enable Debug then it will generate intermediate reports', 'boolean', false],
+    reuseCollectorReport: ['u', 'Reuse collection report', 'boolean', false]
 });
 
 if (!cliArgs.profile) {
@@ -28,6 +29,8 @@ AWS.config.maxRetries = 3;
 AWS.config.credentials = new AWS.SharedIniFileCredentials({
     profile: cliArgs.profile
 });
+
+const collectorReportFileName = "collector_report.json";
 
 function makeFileName() {
     return cliArgs.output + "." + cliArgs.format;
@@ -47,14 +50,20 @@ async function makeFileContents(analyzedData) {
     }
 }
 
+async function getCollectorResults() {
+    if(cliArgs.debug && cliArgs.reuseCollectorReport && existsSync(collectorReportFileName)) {
+        console.info("Reusing collection report");
+        return JSON.parse(readFileSync(collectorReportFileName, {encoding: "utf-8"}));
+    }
+    return await CollectorMain.collect(cliArgs.module);
+}
+
 async function scan() {
     try {
-        const collectorResults = await CollectorMain.collect(cliArgs.module);
+        const collectorResults = await getCollectorResults();
         if(cliArgs.debug) {
-            const collectorReportFileName = "collector_report.json";
             writeFileSync(collectorReportFileName, JSON.stringify(collectorResults, null, 2));
             console.log(`${collectorReportFileName} is generated`);
-
         }
         const analyzedData = AnalyzerMain.analyze(collectorResults);
         if(cliArgs.debug) {
