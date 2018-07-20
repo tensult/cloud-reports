@@ -82,7 +82,7 @@ You can run this tool in debug mode to generate intermediate reports: collector_
 npm run scan -- --profile Your-AWS-profile  -f pdf -d
 ```
 #### Reusing Collector report
-When we are working on analyzers and testing them multiple times and every time collecting data will cause delays, to avoid such delays you can following command to reuse already collected collector report.
+When we are working on analyzers and testing them multiple times and every time collecting data will cause delays, to avoid such delays you can use the following command to reuse already collected collector report.
 ```
 npm run scan -- --profile Your-AWS-profile  -f pdf -d -u
 ```
