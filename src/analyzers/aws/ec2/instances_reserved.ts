@@ -1,41 +1,60 @@
 import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisType } from '../../../types';
-import { ResourceUtil } from '../../../utils';
+import { ResourceUtil, CommonUtil } from '../../../utils';
 
-export class InstancesUnnamedAnalyzer extends BaseAnalyzer {
+export class InstancesReservationAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
-        if ( !allInstances) {
+        const allReservedInstances = params.reserved_instances;
+        if (!allInstances || !allReservedInstances) {
             return undefined;
         }
-        const unnamed_instances: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        unnamed_instances.what = "Are there any EC2 instances without Name tags";
-        unnamed_instances.why = "Tags help to follow security practices easily"
-        unnamed_instances.recommendation = "Recommended to add Name tag to all instances";
-        const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
+        const reserved_instances: CheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
+        reserved_instances.what = "Are there any long running instances which should be reserved?";
+        reserved_instances.why = "You can reserve the EC2 instance which are you going to run for long time to save the cost."
+        reserved_instances.recommendation = "Recommended to reserve all long running instances";
+        const allRegionsAnalysis: Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allInstances) {
             let regionInstances = allInstances[region];
             allRegionsAnalysis[region] = [];
             for (let instance of regionInstances) {
+                if (instance.State.Name !== 'running') {
+                    continue;
+                }
                 let instanceAnalysis: ResourceAnalysisResult = {};
-                instanceAnalysis.resource = { instanceName: ResourceUtil.getNameByTags(instance), instanceId: instance.InstanceId, security_groups: instance.SecurityGroups } ;
+                instanceAnalysis.resource = instance;
                 instanceAnalysis.resourceSummary = {
                     name: 'Instance',
-                    value: `${instanceAnalysis.resource.instanceName} | ${instance.InstanceId}`
+                    value: `${ResourceUtil.getNameByTags(instance)} | ${instance.InstanceId}`
                 }
-                if (instanceAnalysis.resource.instanceName === 'Unassigned') {
-                    instanceAnalysis.severity = SeverityStatus.Warning;
-                    instanceAnalysis.message = 'No Name tag';
-                    instanceAnalysis.action = 'Add Name tag';
+                const runningFromDays = CommonUtil.daysFrom(instance.LaunchTime)
+                if (runningFromDays > 365) {
+                    if(this.isInstanceReserved(allReservedInstances[region], instance)) {
+                        instanceAnalysis.severity = SeverityStatus.Good;
+                        instanceAnalysis.message = 'Instance is already reserved';
+                    } else {
+                        instanceAnalysis.severity = SeverityStatus.Warning;
+                        instanceAnalysis.message = `Instance is running from ${runningFromDays} days`;
+                        instanceAnalysis.action = 'Reserve the instance to save costs';
+                    }
                 } else {
-                    instanceAnalysis.severity = SeverityStatus.Good;
-                    instanceAnalysis.message = `Name tag is present`;
+                    instanceAnalysis.severity = SeverityStatus.Info;
+                    instanceAnalysis.message = `Instance is running from ${runningFromDays} days`;
                 }
                 allRegionsAnalysis[region].push(instanceAnalysis);
             }
         }
-        unnamed_instances.regions = allRegionsAnalysis;
-        return { unnamed_instances };
+        reserved_instances.regions = allRegionsAnalysis;
+        return { reserved_instances };
     }
+
+    private isInstanceReserved(reservedInstances, instance) {
+        if(!reservedInstances || !reservedInstances.length) {
+            return false;
+        }
+    
+
+    }
+
 }

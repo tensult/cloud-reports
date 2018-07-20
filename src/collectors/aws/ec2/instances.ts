@@ -30,7 +30,7 @@ export class EC2InstancesCollector extends BaseCollector {
                                 }
                             }, []));
                         marker = instancesResponse.NextToken;
-                        fetchPending = marker !== undefined;
+                        fetchPending = marker !== undefined && marker !== null;
                     } else {
                         fetchPending = false;
                     }
