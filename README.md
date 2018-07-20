@@ -98,9 +98,9 @@ Make sure you have initialized [AWS.config](https://docs.aws.amazon.com/sdk-for-
     analysisPromise.then((analysisJson) => console.log(JSON.stringify(analysisJson, null, 2)));
 ```
 ### Update service regions
-We have written a [script](https://github.com/tensult/cloud-reports/blob/master/src/scripts/extractAwsServiceRegions.js) which updates the [AWS regions data](https://github.com/tensult/cloud-reports/blob/master/src/utils/aws/regions_data.ts)
+We have written a [script](https://github.com/tensult/cloud-reports/blob/master/src/scripts/updateAwsServiceRegionsData.js) which updates the [AWS regions data](https://github.com/tensult/cloud-reports/blob/master/src/utils/aws/regions_data.ts)
 ```
-node src/utils/aws/extractAwsServiceRegions.js
+node src/scripts/updateAwsServiceRegionsData.js
 ```
 ## Contribute
 Currently this application only supports AWS, but can be extendable to other cloud providers. Contributions are most welcome.
