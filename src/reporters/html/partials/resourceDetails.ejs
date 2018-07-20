@@ -1,5 +1,4 @@
-<% var severity = [ 'failure', 'warning', 'info', 'good'] %>
-<div class="checkTableRow <%= severity[analysis.severity] %>">
+<div class="checkTableRow <%= analysis.severity.toLowerCase() %>">
     <% if(regionName != 'global') { %>
         <div class="checkTableCell regionName">
             <span><%= regionName %></span>

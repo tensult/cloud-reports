@@ -1,6 +1,6 @@
 export enum SeverityStatus {
-    Failure,
-    Warning,
-    Info,
-    Good
+    Failure = "Failure",
+    Warning = "Warning",
+    Info = "Info",
+    Good = "Good"
 }
