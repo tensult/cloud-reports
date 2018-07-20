@@ -10,7 +10,7 @@ export class DomainsTransferLockAnalyzer extends BaseAnalyzer {
         }
         const domains_transfer_lock: CheckAnalysisResult = {type: CheckAnalysisType.Reliability};
         domains_transfer_lock.what = "Is transfer lock enabled for the domains?";
-        domains_transfer_lock.why = "It is important to enable transfer lock for domains as it protects from someone to claiming them"
+        domains_transfer_lock.why = "It is important to enable transfer lock for domains as it protects from someone from claiming them"
         domains_transfer_lock.recommendation = "Recommended to enable transfer lock for all your domains";
         const allDomainAnalysis: ResourceAnalysisResult[] = [];
 
