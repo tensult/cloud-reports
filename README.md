@@ -1,7 +1,9 @@
 # Cloud Reports
 Collects info about various cloud resources and analyzes then against best practices and give a JSON, HTML or PDF reports.
 
-![cloudreports](https://user-images.githubusercontent.com/33080863/43033177-3b6466f4-8ce3-11e8-8c6a-7efca76d1043.png)
+<p align="center"> 
+<img width="600" src="https://user-images.githubusercontent.com/33080863/43033177-3b6466f4-8ce3-11e8-8c6a-7efca76d1043.png">
+</p>
 ## Modules
 ### [Collectors](https://github.com/tensult/cloud-reports/tree/master/src/collectors)
 These collect the information about various cloud resources from the cloud provider. This information later used by [Analyzers](https://github.com/tensult/cloud-reports/tree/master/src/analyzers) to analyze.
