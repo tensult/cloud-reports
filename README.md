@@ -1,5 +1,5 @@
 # Cloud Reports
-Collects info about various cloud resources and analyzes then against best practices and give a JSON, HTML or PDF reports.
+Collects info about various cloud resources and analyzes them against best practices and give a JSON, HTML or PDF reports.
 
 
 <p align="center"> 
