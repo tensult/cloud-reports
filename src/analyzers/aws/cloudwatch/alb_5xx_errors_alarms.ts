@@ -12,8 +12,8 @@ export class Alb5xxAlarmsAnalyzer extends BaseAnalyzer {
 
         const alb_5xx_errors_alarm: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         alb_5xx_errors_alarm.what = "Are alarms are enabled for ALB 5XX errors?";
-        alb_5xx_errors_alarm.why = "It is important to set alarms for 5xx Errors as otherwise you won't be aware when the application is failing"
-        alb_5xx_errors_alarm.recommendation = "Recommended to set alarm for 5xx Errors to take appropriative action.";
+        alb_5xx_errors_alarm.why = "It is important to set alarms for 5XX Errors as otherwise you won't be aware when the application is failing"
+        alb_5xx_errors_alarm.recommendation = "Recommended to set alarm for 5XX Errors to take appropriative action.";
         const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allELBs) {
             let regionELBs = allELBs[region];
