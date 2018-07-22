@@ -70,7 +70,7 @@ export class EC2InstanceMemoryUsageAlarmsAnalyzer extends BaseAnalyzer {
             return alarm.ActionsEnabled && 
             alarm.AlarmActions &&
             alarm.AlarmActions.length &&
-            alarm.MetricName.toLowerCase().startsWith("mem");
+            alarm.MetricName.toLowerCase().includes("memory");
         });
     }
 }
