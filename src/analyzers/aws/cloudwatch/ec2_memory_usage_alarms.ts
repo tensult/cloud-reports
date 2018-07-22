@@ -2,7 +2,7 @@ import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, SeverityStatus, CheckAnalysisType, Dictionary } from '../../../types';
 import { ResourceUtil } from '../../../utils';
 
-export class EC2InstanceMemoryUsageAlarmAnalyzer extends BaseAnalyzer {
+export class EC2InstanceMemoryUsageAlarmsAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
@@ -11,10 +11,10 @@ export class EC2InstanceMemoryUsageAlarmAnalyzer extends BaseAnalyzer {
         }
         const allInstances: any[] = fullReport['aws.ec2'].instances;
 
-        const ec2_instance_memory_usage_alarm: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        ec2_instance_memory_usage_alarm.what = "Are alarms are enabled for RAM (Memory) of EC2 instance?";
-        ec2_instance_memory_usage_alarm.why = "It is important to set alarms for RAM (Memory) as otherwise suddenly your applications might be running slower."
-        ec2_instance_memory_usage_alarm.recommendation = "Recommended to set alarm for RAM (Memory) of EC2 instances to take appropriative action.";
+        const ec2_instance_memory_usage_alarms: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
+        ec2_instance_memory_usage_alarms.what = "Are alarms are enabled for RAM (Memory) of EC2 instance?";
+        ec2_instance_memory_usage_alarms.why = "It is important to set alarms for RAM (Memory) as otherwise suddenly your applications might be running slower."
+        ec2_instance_memory_usage_alarms.recommendation = "Recommended to set alarm for RAM (Memory) of EC2 instances to take appropriative action.";
         const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allInstances) {
             let regionInstances = allInstances[region];
@@ -45,8 +45,8 @@ export class EC2InstanceMemoryUsageAlarmAnalyzer extends BaseAnalyzer {
                 allRegionsAnalysis[region].push(alarmAnalysis);
             }
         }
-        ec2_instance_memory_usage_alarm.regions = allRegionsAnalysis;
-        return { ec2_instance_memory_usage_alarm };
+        ec2_instance_memory_usage_alarms.regions = allRegionsAnalysis;
+        return { ec2_instance_memory_usage_alarms };
     }
 
     private mapAlarmsByInstance(alarms: any[]): Dictionary<any[]> {

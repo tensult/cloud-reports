@@ -2,7 +2,7 @@ import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, SeverityStatus, CheckAnalysisType, Dictionary } from '../../../types';
 import { ResourceUtil } from '../../../utils';
 
-export class EC2InstanceCPUUtilizationAlarmAnalyzer extends BaseAnalyzer {
+export class EC2InstanceCPUUtilizationAlarmsAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;

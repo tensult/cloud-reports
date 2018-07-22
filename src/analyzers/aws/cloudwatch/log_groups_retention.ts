@@ -27,7 +27,7 @@ export class LogGroupsRetentionAnalyzer extends BaseAnalyzer {
                     logGroupAnalysis.severity = SeverityStatus.Good;
                     logGroupAnalysis.message = `Retention is set to ${logGroup.retentionInDays} days`;
                 } else {
-                    logGroupAnalysis.severity = SeverityStatus.Failure;
+                    logGroupAnalysis.severity = SeverityStatus.Warning;
                     logGroupAnalysis.message = 'Retention is not set';
                     logGroupAnalysis.action = 'Set proper Retention';                    
                 }
