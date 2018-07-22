@@ -1,5 +1,6 @@
 import * as AWS from "aws-sdk";
 import { BaseCollector } from "../../base";
+import { LogUtil } from "../../../utils/log";
 
 export class LogGroupsCollector extends BaseCollector {
     collect(callback: (err?: Error, data?: any) => void) {
@@ -25,7 +26,7 @@ export class LogGroupsCollector extends BaseCollector {
                     fetchPending = marker !== undefined;
                 }
             } catch (err) {
-                console.error(region, err);
+                LogUtil.error(region, err);
                 continue
             }
         }

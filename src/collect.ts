@@ -1,7 +1,7 @@
-import { Dictionary } from './types';
 import { CollectorUtil, CommonUtil } from './utils';
 import * as Collectors from './collectors';
 import * as flat from 'flat';
+import { LogUtil } from './utils/log';
 
 function getModules(moduleNames?: string | Array<string>) {
     if (!moduleNames) {
@@ -33,16 +33,17 @@ export async function collect(moduleNames?: string | Array<string>) {
         return true;
     });
     for (let collectorName of filteredCollectorNames) {
-        console.info("Running", collectorName);
+        LogUtil.log("Running", collectorName);
         const collectorPromise = CollectorUtil.cachedCollect(new flatListOfCollectors[collectorName]())
             .then((data) => {
+                LogUtil.log(collectorName, "completed");
                 const collectNameSpace = collectorName.replace(/.[A-Za-z0-9]+$/, '');
                 return {
                     data,
                     namespace: collectNameSpace
                 }
             }).catch((err) => {
-                console.error(collectorName, "failed", err);
+                LogUtil.error(collectorName, "failed", err);
             });
         await CommonUtil.wait(500);
         promises.push(collectorPromise);

@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class DnsQueryLogsConfigCollector extends BaseCollector {
     collect(callback: (err?: Error, data?: any) => void) {
@@ -20,7 +21,7 @@ export class DnsQueryLogsConfigCollector extends BaseCollector {
             }
             return { query_logs_config };
         } catch (error) {
-            console.error(error);
+            LogUtil.error(error);
         }
     }
 }

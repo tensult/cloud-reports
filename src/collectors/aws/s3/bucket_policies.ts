@@ -2,6 +2,7 @@ import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
 import { BucketsCollector } from './buckets';
 import { CollectorUtil } from "../../../utils";
+import { LogUtil } from '../../../utils/log';
 
 export class BucketPoliciesCollector extends BaseCollector {
     collect() {
@@ -17,7 +18,7 @@ export class BucketPoliciesCollector extends BaseCollector {
                 let s3BucketPolicy: AWS.S3.GetBucketPolicyOutput = await s3.getBucketPolicy({ Bucket: bucket.Name }).promise();
                 bucket_policies[bucket.Name] = s3BucketPolicy.Policy;
             } catch (err) {
-                console.error(err);
+                LogUtil.error(err);
                 continue;
             }
         }

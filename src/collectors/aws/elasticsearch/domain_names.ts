@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class ESDomainNamesCollector extends BaseCollector {
     collect() {
@@ -22,7 +23,7 @@ export class ESDomainNamesCollector extends BaseCollector {
                     });
                 }
             } catch (error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

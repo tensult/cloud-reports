@@ -2,6 +2,7 @@ import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
 import { RedshiftClustersCollector } from "."
 import { CollectorUtil } from "../../../utils";
+import { LogUtil } from '../../../utils/log';
 
 export class RedshiftAuditLogsCollector extends BaseCollector {
     collect(callback: (err?: Error, data?: any) => void) {
@@ -27,7 +28,7 @@ export class RedshiftAuditLogsCollector extends BaseCollector {
                     audit_logs[region][cluster.ClusterIdentifier] = loggingStatus;
                 }
             } catch (error) {
-                console.error(error);
+                LogUtil.error(error);
             }
         }
         return { audit_logs };

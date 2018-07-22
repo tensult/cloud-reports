@@ -3,6 +3,7 @@ import * as Moment from 'moment';
 import { BaseCollector } from "../../base";
 import { CollectorUtil, CommonUtil } from '../../../utils';
 import { VolumesCollector } from './volumes';
+import { LogUtil } from '../../../utils/log';
 
 export class VolumeSnapshotsCollector extends BaseCollector {
     collect() {
@@ -44,7 +45,7 @@ export class VolumeSnapshotsCollector extends BaseCollector {
                     }
                 }
             } catch (error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

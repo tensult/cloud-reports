@@ -1,8 +1,9 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class TopicsCollector extends BaseCollector {
-    collect(callback: (err?: Error, data?: any) => void) {
+    collect() {
         return this.getAllTopics();
     }
     private async getAllTopics() {
@@ -26,7 +27,7 @@ export class TopicsCollector extends BaseCollector {
                     fetchPending = marker !== undefined && marker !== null;
                 }
             } catch (error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

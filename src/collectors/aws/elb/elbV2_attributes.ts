@@ -2,6 +2,7 @@ import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
 import { ElbV2sCollector } from "./elbV2s"
 import { CollectorUtil } from "../../../utils";
+import { LogUtil } from '../../../utils/log';
 
 export class ElbV2AttributesCollector extends BaseCollector {
     collect() {
@@ -25,7 +26,7 @@ export class ElbV2AttributesCollector extends BaseCollector {
                 }
                 elbV2_attributes[region] = allRegionElbAttributes;
             } catch (error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

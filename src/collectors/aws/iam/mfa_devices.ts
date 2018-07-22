@@ -1,8 +1,9 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class MFADevicesCollector extends BaseCollector {
-    collect(callback: (err?: Error, data?: any) => void) {
+    collect() {
         return this.listMfaDevices();
     }
 
@@ -20,7 +21,7 @@ export class MFADevicesCollector extends BaseCollector {
             }
             return { mfaDevices };
         } catch (error) {
-            console.error(error);
+            LogUtil.error(error);
         }
     }
 }

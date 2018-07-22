@@ -1,8 +1,9 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class GroupsCollector extends BaseCollector {
-    collect(callback: (err?: Error, data?: any) => void) {
+    collect() {
         return this.listAllGroups();
     }
 
@@ -20,7 +21,7 @@ export class GroupsCollector extends BaseCollector {
             }
             return { groups };
         } catch (error) {
-            console.error(error);
+            LogUtil.error(error);
         }
     }
 }

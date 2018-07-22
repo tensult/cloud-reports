@@ -2,6 +2,7 @@ import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
 import { DynamoDBTableNamesCollector } from "./tables";
 import { CollectorUtil } from "../../../utils";
+import { LogUtil } from '../../../utils/log';
 
 export class DynamoDBTableBackupsCollector extends BaseCollector {
     collect() {
@@ -24,7 +25,7 @@ export class DynamoDBTableBackupsCollector extends BaseCollector {
                     tables_backup[region][tableName] = tableBackupResponse.ContinuousBackupsDescription;
                 }
             } catch(err) {
-                console.error(region, err);
+                LogUtil.error(region, err);
                 continue;
             }
         }

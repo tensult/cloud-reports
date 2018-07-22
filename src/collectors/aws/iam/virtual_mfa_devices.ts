@@ -1,9 +1,10 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class VirtualMFADevicesCollector extends BaseCollector {
     private iam = new AWS.IAM({ region: 'us-east-1' });
-    collect(callback: (err?: Error, data?: any) => void) {
+    collect() {
         return this.listVirtualMFADevices();
     }
 
@@ -21,7 +22,7 @@ export class VirtualMFADevicesCollector extends BaseCollector {
             }
             return { mfaVirtualDevices };
         } catch (error) {
-            console.error(error);
+            LogUtil.error(error);
         }
     }
 }

@@ -1,8 +1,9 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class RolesCollector extends BaseCollector {
-    collect(callback: (err?: Error, data?: any) => void) {
+    collect() {
         return this.listAllRoles();
     }
 
@@ -26,7 +27,7 @@ export class RolesCollector extends BaseCollector {
             });
             return { roles };
         } catch (error) {
-            console.error(error);
+            LogUtil.error(error);
         }
     }
 }

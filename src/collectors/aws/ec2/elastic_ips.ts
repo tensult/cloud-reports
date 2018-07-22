@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class ElasticIPsCollector extends BaseCollector {
     collect() {
@@ -20,7 +21,7 @@ export class ElasticIPsCollector extends BaseCollector {
                     elastic_ips[region] = elasticIPsResponse.Addresses
                 }
             } catch (error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

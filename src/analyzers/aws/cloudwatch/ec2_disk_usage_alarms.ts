@@ -2,7 +2,7 @@ import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, SeverityStatus, CheckAnalysisType, Dictionary } from '../../../types';
 import { ResourceUtil } from '../../../utils';
 
-export class EC2InstanceSystemChecksAlarmAnalyzer extends BaseAnalyzer {
+export class EC2InstanceDiskUsageAlarmAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
@@ -11,10 +11,10 @@ export class EC2InstanceSystemChecksAlarmAnalyzer extends BaseAnalyzer {
         }
         const allInstances: any[] = fullReport['aws.ec2'].instances;
 
-        const ec2_instance_system_checks_alarms: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        ec2_instance_system_checks_alarms.what = "Are alarms are enabled for EC2 instance System checks?";
-        ec2_instance_system_checks_alarms.why = "It is important to set alarms for EC2 systems checks as otherwise suddenly your applications might be down."
-        ec2_instance_system_checks_alarms.recommendation = "Recommended to set alarm for EC2  system checks to take appropriative action.";
+        const ec2_instance_disk_usage_alarm: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
+        ec2_instance_disk_usage_alarm.what = "Are alarms are enabled for Disks attached to EC2 instance?";
+        ec2_instance_disk_usage_alarm.why = "It is important to set alarms for Disks as otherwise suddenly your applications might be down."
+        ec2_instance_disk_usage_alarm.recommendation = "Recommended to set alarm for Disks to take appropriative action.";
         const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allInstances) {
             let regionInstances = allInstances[region];
@@ -33,20 +33,20 @@ export class EC2InstanceSystemChecksAlarmAnalyzer extends BaseAnalyzer {
                     name: 'Instance',
                     value: `${ResourceUtil.getNameByTags(instance)} | ${instance.InstanceId}`
                 }
-                
-                if (this.isSystemChecksAlarmPresent(instanceAlarms)) {
+            
+                if (this.isDiskAlarmsPresent(instanceAlarms)) {
                     alarmAnalysis.severity = SeverityStatus.Good;
-                    alarmAnalysis.message = "StatusCheckFailed alarm is enabled";
+                    alarmAnalysis.message = "Disk alarms are enabled";
                 } else {
                     alarmAnalysis.severity = SeverityStatus.Failure;
-                    alarmAnalysis.message = "StatusCheckFailed alarm is not enabled";
-                    alarmAnalysis.action = 'Set StatusCheckFailed alarm';               
+                    alarmAnalysis.message = "Disk alarms are not enabled";
+                    alarmAnalysis.action = 'Set Disk usage alarms';               
                 }
                 allRegionsAnalysis[region].push(alarmAnalysis);
             }
         }
-        ec2_instance_system_checks_alarms.regions = allRegionsAnalysis;
-        return { ec2_instance_system_checks_alarms };
+        ec2_instance_disk_usage_alarm.regions = allRegionsAnalysis;
+        return { ec2_instance_disk_usage_alarm };
     }
 
     private mapAlarmsByInstance(alarms: any[]): Dictionary<any[]> {
@@ -65,12 +65,12 @@ export class EC2InstanceSystemChecksAlarmAnalyzer extends BaseAnalyzer {
         }, {});
     }
 
-    private isSystemChecksAlarmPresent(alarms) {
+    private isDiskAlarmsPresent(alarms) {
         return alarms && alarms.some((alarm) => {
             return alarm.ActionsEnabled && 
             alarm.AlarmActions &&
             alarm.AlarmActions.length &&
-            alarm.MetricName === 'StatusCheckFailed_System';
+            alarm.MetricName.toLowerCase().includes("disk");
         });
     }
 }

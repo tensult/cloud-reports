@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class UsersCollector extends BaseCollector {
     collect() {
@@ -20,7 +21,7 @@ export class UsersCollector extends BaseCollector {
             }
             return { users };
         } catch (error) {
-            console.error(error);
+            LogUtil.error(error);
         }
     }
 }

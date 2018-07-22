@@ -11,10 +11,10 @@ export class EC2InstanceCPUUtilizationAlarmAnalyzer extends BaseAnalyzer {
         }
         const allInstances: any[] = fullReport['aws.ec2'].instances;
 
-        const ec2_instance_cpu_utilization_alarm: CheckAnalysisResult = { type: [CheckAnalysisType.OperationalExcellence] };
-        ec2_instance_cpu_utilization_alarm.what = "Are alarms are enabled for EC2 instance CPU utilization?";
-        ec2_instance_cpu_utilization_alarm.why = "It is important to set alarms for EC2 CPU utilization as when utilization is high then the application performance will be degraded."
-        ec2_instance_cpu_utilization_alarm.recommendation = "Recommended to set alarm for EC2 CPU utilization to take appropriative action.";
+        const ec2_instance_cpu_utilization_alarms: CheckAnalysisResult = { type: [CheckAnalysisType.OperationalExcellence] };
+        ec2_instance_cpu_utilization_alarms.what = "Are alarms are enabled for EC2 instance CPU utilization?";
+        ec2_instance_cpu_utilization_alarms.why = "It is important to set alarms for EC2 CPU utilization as when utilization is high then the application performance will be degraded."
+        ec2_instance_cpu_utilization_alarms.recommendation = "Recommended to set alarm for EC2 CPU utilization to take appropriative action.";
         const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allInstances) {
             let regionInstances = allInstances[region];
@@ -44,8 +44,8 @@ export class EC2InstanceCPUUtilizationAlarmAnalyzer extends BaseAnalyzer {
                 allRegionsAnalysis[region].push(alarmAnalysis);
             }
         }
-        ec2_instance_cpu_utilization_alarm.regions = allRegionsAnalysis;
-        return { ec2_instance_cpu_utilization_alarm };
+        ec2_instance_cpu_utilization_alarms.regions = allRegionsAnalysis;
+        return { ec2_instance_cpu_utilization_alarms };
     }
 
     private mapAlarmsByInstance(alarms: any[]): Dictionary<any[]> {

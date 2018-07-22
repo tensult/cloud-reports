@@ -3,6 +3,7 @@ import { BaseCollector } from "../../base";
 import { TopicsCollector } from "./topics"
 import { CollectorUtil } from "../../../utils";
 import { Dictionary } from '../../../types';
+import { LogUtil } from '../../../utils/log';
 
 export class TopicsDetailsCollector extends BaseCollector {
     collect() {
@@ -34,7 +35,7 @@ export class TopicsDetailsCollector extends BaseCollector {
                 }
                 topics_details[region] = allRegionTopicDetails;
             } catch (error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

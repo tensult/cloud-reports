@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class VpcsCollector extends BaseCollector {
     async collect() {
@@ -13,7 +14,7 @@ export class VpcsCollector extends BaseCollector {
                 const vpcsResponse: AWS.EC2.DescribeVpcsResult = await ec2.describeVpcs().promise();
                 vpcs[region] = vpcsResponse.Vpcs;
             } catch (error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class LambdaFunctionsCollector extends BaseCollector {
     collect() {
@@ -27,7 +28,7 @@ export class LambdaFunctionsCollector extends BaseCollector {
                     fetchPending = marker !== undefined && marker !== null;
                 }
             } catch(error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

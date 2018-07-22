@@ -2,6 +2,7 @@ import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
 import { EC2InstancesCollector } from "./instances";
 import { CollectorUtil } from "../../../utils";
+import { LogUtil } from '../../../utils/log';
 
 export class TerminationProtectionCollector extends BaseCollector {
     collect() {
@@ -24,7 +25,7 @@ export class TerminationProtectionCollector extends BaseCollector {
                     termination_protection[region][instance.InstanceId] = instanceAttributeResponse.DisableApiTermination;
                 }
             } catch (error) {
-                console.log(error);
+                LogUtil.log(error);
                 continue;
             }
         }
