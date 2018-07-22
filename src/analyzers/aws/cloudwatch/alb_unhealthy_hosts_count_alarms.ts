@@ -1,7 +1,7 @@
 import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, SeverityStatus, CheckAnalysisType, Dictionary } from '../../../types';
 
-export class Alb5xxAlarmsAnalyzer extends BaseAnalyzer {
+export class AlbUnHealthyHostAlarmsAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
@@ -10,10 +10,10 @@ export class Alb5xxAlarmsAnalyzer extends BaseAnalyzer {
         }
         const allELBs: any[] = fullReport['aws.elb'].elbs;
 
-        const alb_5xx_errors_alarms: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        alb_5xx_errors_alarms.what = "Are alarms are enabled for ALB 5XX errors?";
-        alb_5xx_errors_alarms.why = "It is important to set alarms for 5XX Errors as otherwise you won't be aware when the application is failing"
-        alb_5xx_errors_alarms.recommendation = "Recommended to set alarm for 5XX Errors to take appropriative action.";
+        const alb_unhealthy_hosts_alarms: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
+        alb_unhealthy_hosts_alarms.what = "Are alarms are enabled for ALB Unhealthy hosts?";
+        alb_unhealthy_hosts_alarms.why = "It is important to set alarms for Unhealthy hosts as otherwise the performance of the application will be degraded"
+        alb_unhealthy_hosts_alarms.recommendation = "Recommended to set alarm for Unhealthy hosts to take appropriative action.";
         const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allELBs) {
             let regionELBs = allELBs[region];
@@ -29,19 +29,19 @@ export class Alb5xxAlarmsAnalyzer extends BaseAnalyzer {
                     value: elb.LoadBalancerName
                 }
             
-                if (this.is5xxAlarmsPresent(elbAlarms)) {
+                if (this.isUnHealthyHostCountAlarmsPresent(elbAlarms)) {
                     alarmAnalysis.severity = SeverityStatus.Good;
-                    alarmAnalysis.message = "5XX errors alarms are enabled";
+                    alarmAnalysis.message = "Unhealthy hosts alarms are enabled";
                 } else {
                     alarmAnalysis.severity = SeverityStatus.Failure;
-                    alarmAnalysis.message = "5XX errors alarms are not enabled";
-                    alarmAnalysis.action = 'Set 5XX errors alarms';               
+                    alarmAnalysis.message = "Unhealthy hosts alarms are not enabled";
+                    alarmAnalysis.action = 'Set Unhealthy hosts alarms';               
                 }
                 allRegionsAnalysis[region].push(alarmAnalysis);
             }
         }
-        alb_5xx_errors_alarms.regions = allRegionsAnalysis;
-        return { alb_5xx_errors_alarms };
+        alb_unhealthy_hosts_alarms.regions = allRegionsAnalysis;
+        return { alb_unhealthy_hosts_alarms };
     }
 
     private mapAlarmsByELB(alarms: any[]): Dictionary<any[]> {
@@ -60,12 +60,12 @@ export class Alb5xxAlarmsAnalyzer extends BaseAnalyzer {
         }, {});
     }
 
-    private is5xxAlarmsPresent(alarms) {
+    private isUnHealthyHostCountAlarmsPresent(alarms) {
         return alarms && alarms.some((alarm) => {
             return alarm.ActionsEnabled && 
             alarm.AlarmActions &&
             alarm.AlarmActions.length &&
-            alarm.MetricName.toLowerCase().includes("5xx");
+            alarm.MetricName === 'UnHealthyHostCount';
         });
     }
 

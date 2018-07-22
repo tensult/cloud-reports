@@ -11,7 +11,7 @@ export class EC2InstanceCPUUtilizationAlarmsAnalyzer extends BaseAnalyzer {
         }
         const allInstances: any[] = fullReport['aws.ec2'].instances;
 
-        const ec2_instance_cpu_utilization_alarms: CheckAnalysisResult = { type: [CheckAnalysisType.OperationalExcellence] };
+        const ec2_instance_cpu_utilization_alarms: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         ec2_instance_cpu_utilization_alarms.what = "Are alarms are enabled for EC2 instance CPU utilization?";
         ec2_instance_cpu_utilization_alarms.why = "It is important to set alarms for EC2 CPU utilization as when utilization is high then the application performance will be degraded."
         ec2_instance_cpu_utilization_alarms.recommendation = "Recommended to set alarm for EC2 CPU utilization to take appropriative action.";
