@@ -1,5 +1,6 @@
 import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, SeverityStatus, CheckAnalysisType, Dictionary } from '../../../types';
+import { CloudFrontUtil } from '../../../utils/aws/cloudfront';
 
 export class DistributionLogsAnalyzer extends BaseAnalyzer {
 
@@ -19,9 +20,9 @@ export class DistributionLogsAnalyzer extends BaseAnalyzer {
             let distributionsAnalysis: ResourceAnalysisResult = {};
 
             distributionsAnalysis.resource = { distributionId, logging: distribution.Logging }
-            let distributionAlias = this.getAliasName(distribution);
+            let distributionAlias = CloudFrontUtil.getAliasName(distribution);
             distributionsAnalysis.resourceSummary = {
-                name: 'DistributionId',
+                name: 'Distribution',
                 value: distributionAlias ? `${distributionAlias} | ${distributionId}` : distributionId
             }
             if (distribution.Logging.Enabled) {
@@ -36,12 +37,5 @@ export class DistributionLogsAnalyzer extends BaseAnalyzer {
         }
         distributions_logs_enabled.regions = { global: allDistributionsAnalysis };
         return { distributions_logs_enabled };
-    }
-
-    private getAliasName(distribution) {
-        if(!distribution || !distribution.Aliases) {
-            return undefined;
-        }
-        return distribution.Aliases.Items[0];
     }
 }
