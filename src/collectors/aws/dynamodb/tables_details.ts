@@ -4,31 +4,33 @@ import { DynamoDBTableNamesCollector } from "./table_names";
 import { CollectorUtil } from "../../../utils";
 import { LogUtil } from '../../../utils/log';
 
-export class DynamoDBTableBackupsCollector extends BaseCollector {
+export class DynamoDBTablesDetailsCollector extends BaseCollector {
     collect() {
-        return this.getAllTableBackups();
+        return this.getAllTablesDetails();
     }
 
-    private async getAllTableBackups() {
+    private async getAllTablesDetails() {
 
         const serviceName = 'DynamoDB';
         const dynamoDBRegions = this.getRegions(serviceName);
-        const tables_backup = {};
+        const tables_details = {};
         const tablesData = await CollectorUtil.cachedCollect(new DynamoDBTableNamesCollector());
         const tableNames = tablesData.tableNames;
         for (let region of dynamoDBRegions) {
             try {
                 let dynamoDB = this.getClient(serviceName, region) as AWS.DynamoDB;
-                tables_backup[region] = {};
+                tables_details[region] = [];
                 for (let tableName of tableNames[region]) {
-                    const tableBackupResponse: AWS.DynamoDB.DescribeContinuousBackupsOutput = await dynamoDB.describeContinuousBackups({ TableName: tableName }).promise();
-                    tables_backup[region][tableName] = tableBackupResponse.ContinuousBackupsDescription;
+                    const tableResponse: AWS.DynamoDB.DescribeTableOutput = await dynamoDB.describeTable({ TableName: tableName }).promise();
+                    if(tableResponse.Table) {
+                        tables_details[region].push(tableResponse.Table);
+                    }
                 }
             } catch(err) {
                 LogUtil.error(region, err);
                 continue;
             }
         }
-        return { tables_backup };
+        return { tables_details };
     }
 }
