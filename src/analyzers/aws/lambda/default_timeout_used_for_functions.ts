@@ -8,7 +8,7 @@ export class DefaultFunctionTimeoutAnalyzer extends BaseAnalyzer {
         if ( !allFunctions) {
             return undefined;
         }
-        const default_timeout_used_for_functions: CheckAnalysisResult = { type: [CheckAnalysisType.PerformanceEfficiency, CheckAnalysisType.Reliability] };
+        const default_timeout_used_for_functions: CheckAnalysisResult = { type: CheckAnalysisType.PerformanceEfficiency };
         default_timeout_used_for_functions.what = "Is default timeout is used for Lambda functions?";
         default_timeout_used_for_functions.why = "We need to set proper timeout for Lambda functions in order achieve desire performance."
         default_timeout_used_for_functions.recommendation = "Recommended to set proper timeout as per your requirements";
@@ -36,16 +36,5 @@ export class DefaultFunctionTimeoutAnalyzer extends BaseAnalyzer {
         }
         default_timeout_used_for_functions.regions = allRegionsAnalysis;
         return { default_timeout_used_for_functions };
-    }
-
-    private getName(fn: any) {
-        const nameTags = fn.Tags.filter((tag) => {
-            return tag.Key == 'Name';
-        });
-        if (nameTags.length) {
-            return nameTags[0].Value;
-        } else {
-            return 'Unassigned';
-        }
     }
 }
