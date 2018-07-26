@@ -8,22 +8,23 @@ export class LambdaFunctionVersioningUsageAnalyzer extends BaseAnalyzer {
         if ( !allFunctionVersions) {
             return undefined;
         }
-        const versioning_used_for_functions: CheckAnalysisResult = { type: CheckAnalysisType.Reliability };
-        versioning_used_for_functions.what = "Are you using versioning for Lambda functions?";
-        versioning_used_for_functions.why = "We need to use versioning for Lambda functions; when every we update the function, it is important that we create a new version and make changes there so that if required we can roll back to previous version."
-        versioning_used_for_functions.recommendation = "Recommended to use versioning while deploying the Lambda functions";
+        const function_versions_used: CheckAnalysisResult = { type: CheckAnalysisType.Reliability };
+        function_versions_used.what = "Are you using versioning for Lambda functions?";
+        function_versions_used.why = "We need to use versioning for Lambda functions; when every we update the function, it is important that we create a new version and make changes there so that if required we can roll back to previous version."
+        function_versions_used.recommendation = "Recommended to use versioning while deploying the Lambda functions";
         const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allFunctionVersions) {
             let regionFunctionVersions = allFunctionVersions[region];
             allRegionsAnalysis[region] = [];
             for (let functionName in regionFunctionVersions) {
                 let functionAnalysis: ResourceAnalysisResult = {};
-                functionAnalysis.resource = { functionName, versions: regionFunctionVersions[functionName]} ;
+                let functionVersions = this.getNonDefaultVersions(regionFunctionVersions[functionName]);
+                functionAnalysis.resource = { functionName, versions: functionVersions} ;
                 functionAnalysis.resourceSummary = {
                     name: 'Function',
                     value: functionName
                 }
-                if (regionFunctionVersions[functionName].length > 1) {
+                if (functionVersions.length) {
                     functionAnalysis.severity = SeverityStatus.Good;
                     functionAnalysis.message = 'Versioning is used';
                 } else {
@@ -34,7 +35,16 @@ export class LambdaFunctionVersioningUsageAnalyzer extends BaseAnalyzer {
                 allRegionsAnalysis[region].push(functionAnalysis);
             }
         }
-        versioning_used_for_functions.regions = allRegionsAnalysis;
-        return { versioning_used_for_functions };
+        function_versions_used.regions = allRegionsAnalysis;
+        return { function_versions_used };
+    }
+
+    private getNonDefaultVersions(functions: any[]) {
+        if (!functions) {
+            return [];
+        }
+        return functions.filter((fn) => {
+            return fn.Version !== '$LATEST';
+        });
     }
 }
