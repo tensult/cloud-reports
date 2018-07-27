@@ -1,5 +1,6 @@
 import * as Cli from 'cli';
 import * as AWS from 'aws-sdk';
+import * as Moment from 'moment';
 import * as CollectorMain from './collect';
 import * as AnalyzerMain from './analyze';
 import * as Reporters from './reporters';
@@ -10,7 +11,8 @@ import { LogUtil } from './utils/log';
 const cliArgs = Cli.parse({
     profile: ['p', 'AWS profile name', 'string'],
     format: ["f", "output format: html, json or pdf", 'string', 'pdf'],
-    output: ['o', 'output file name', 'file', 'scan_report'],
+    output: ['o', 'Report file name', 'string', 'scan_report'],
+    outputDir: ['D', 'Output directory', 'string', '.'],
     module: ['m', 'name of the module', 'string'],
     debug: ['d', 'if you enable Debug then it will generate intermediate reports', 'boolean', false],
     reuseCollectorReport: ['u', 'Reuse collection report', 'boolean', false],
@@ -34,10 +36,11 @@ AWS.config.credentials = new AWS.SharedIniFileCredentials({
     profile: cliArgs.profile
 });
 
-const collectorReportFileName = "collector_report.json";
+const collectorReportFileName = cliArgs.outputDir  + "/collector_report.json";
 
 function makeFileName() {
-    return cliArgs.output + "." + cliArgs.format;
+    return cliArgs.outputDir + "/" + cliArgs.output + "_" + 
+    Moment().format("YYYY-MM-DD-hh-mm-ss") + "." + cliArgs.format;
 }
 
 async function makeFileContents(analyzedData) {
@@ -71,8 +74,8 @@ async function scan() {
         }
         const analyzedData = AnalyzerMain.analyze(collectorResults);
         if(cliArgs.debug) {
-            const analyzerReportFileName = "analyzer_report.json";
-            writeFileSync("analyzer_report.json", JSON.stringify(analyzedData, null, 2));
+            const analyzerReportFileName = cliArgs.outputDir + "/analyzer_report.json";
+            writeFileSync(analyzerReportFileName, JSON.stringify(analyzedData, null, 2));
             LogUtil.log(`${analyzerReportFileName} is generated`);
         }
         const reportFileData = await makeFileContents(analyzedData);

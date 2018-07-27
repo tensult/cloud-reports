@@ -1,3 +1,4 @@
+export import account = require('./account');
 export import acm = require('./acm');
 export import apigateway = require('./apigateway');
 export import cloudfront = require('./cloudfront');
