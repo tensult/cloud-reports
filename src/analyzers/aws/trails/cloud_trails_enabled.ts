@@ -35,6 +35,9 @@ export class CloudTrailsEnabledAnalyzer extends BaseAnalyzer {
     }
 
     private getTrailNames(trails: any[]): string {
+        if(!trails || !trails.length) {
+            return "None";
+        }
         return trails.map((trail) => {
             return trail.Name;
         }).join(", ");
