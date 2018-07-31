@@ -4,15 +4,15 @@ import { CheckAnalysisResult, ResourceAnalysisResult, SeverityStatus, CheckAnaly
 export class CloudTrailsBucketAccessLogsAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport: any): any {
-        const allBucketAccessLogs = fullReport['aws.s3'].bucket_access_logs;
-        const allCloudTrails = params.cloud_trails;
-        if (!allBucketAccessLogs || !allCloudTrails) {
+        const allBucketAccessLogs = params.bucket_access_logs;
+        if (!allBucketAccessLogs || !fullReport['aws.trails'] || !fullReport['aws.trails'].cloud_trails) {
             return undefined;
         }
-        const cloud_trails_bucket_access_logs: CheckAnalysisResult = {type: CheckAnalysisType.Security};
-        cloud_trails_bucket_access_logs.what = "Are access logs enabled for buckets containing Cloud Trails?";
-        cloud_trails_bucket_access_logs.why = "Cloud trails contains important security information so we need to limit access to them and also enable access logs for such buckets"
-        cloud_trails_bucket_access_logs.recommendation = "Recommended to enable access logs for buckets containing Cloud Trails";
+        const allCloudTrails = fullReport['aws.trails'].cloud_trails;
+
+        const bucket_access_logs: CheckAnalysisResult = {type: CheckAnalysisType.Security};
+        bucket_access_logs.what = "Are access logs enabled for buckets containing Cloud Trails?";
+        bucket_access_logs.recommendation = "Recommended to enable access logs for buckets containing Cloud Trails";
         const allBucketsAnalysis: ResourceAnalysisResult[] = [];
         const cloudTrailBuckets = this.getCloudTrailBuckets(allCloudTrails);
         for (let bucketName of cloudTrailBuckets) {
@@ -31,8 +31,8 @@ export class CloudTrailsBucketAccessLogsAnalyzer extends BaseAnalyzer {
 
             allBucketsAnalysis.push(bucketAnalysis);
         }
-        cloud_trails_bucket_access_logs.regions = {global: allBucketsAnalysis};
-        return { cloud_trails_bucket_access_logs };
+        bucket_access_logs.regions = {global: allBucketsAnalysis};
+        return { bucket_access_logs };
     }
 
     getCloudTrailBuckets(cloudTrails) {

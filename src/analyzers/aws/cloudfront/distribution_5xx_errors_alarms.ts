@@ -5,11 +5,11 @@ import { CloudFrontUtil } from '../../../utils/aws/cloudfront';
 export class CloudFront5xxAlarmsAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
-        const allAlarms: any[] = params.alarms;
-        if (!allAlarms || !fullReport['aws.cloudfront'] || !fullReport['aws.cloudfront'].distributions) {
+        const allDistributions : any[] = params.distributions;
+        if (!allDistributions || !fullReport['aws.cloudwatch'] || !fullReport['aws.cloudwatch'].alarms) {
             return undefined;
         }
-        const allDistributions: any[] = fullReport['aws.cloudfront'].distributions;
+        const allAlarms: any[] = fullReport['aws.cloudwatch'].alarms;
 
         const distribution_5xx_errors_alarms: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         distribution_5xx_errors_alarms.what = "Are alarms are enabled for Distribution 5XX errors?";
