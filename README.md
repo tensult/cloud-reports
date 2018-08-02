@@ -50,6 +50,12 @@ This package is based on NodeJS framework so you can it install from [here](http
     cd cloud-reports
     npm install
 
+#### To get updates
+If you cloned this repository before then for getting new updates
+```
+git pull
+```
+
 #### Building
 To convert typescript to javascript
 
