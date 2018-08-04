@@ -1,8 +1,8 @@
 import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisType } from '../../../types';
-import { ResourceUtil, CommonUtil } from '../../../utils';
+import { CommonUtil } from '../../../utils';
 
-export class EC2InstancesReservationAnalyzer extends BaseAnalyzer {
+export class RDSInstancesReservationAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
@@ -12,31 +12,28 @@ export class EC2InstancesReservationAnalyzer extends BaseAnalyzer {
         }
         const instances_reserved: CheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
         instances_reserved.what = "Are there any long running instances which should be reserved?";
-        instances_reserved.why = "You can reserve the EC2 instance which are you going to run for long time to save the cost."
+        instances_reserved.why = "You can reserve the RDS instance which are you going to run for long time to save the cost."
         instances_reserved.recommendation = "Recommended to reserve all long running instances";
         const allRegionsAnalysis: Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allInstances) {
             let regionInstances = allInstances[region];
             allRegionsAnalysis[region] = [];
-            let instanceCountMap = this.getCountOfInstancesReservedByInstanceType(allReservedInstances[region]);
+            let instanceCountMap = this.getCountOfInstancesReservedByInstanceClassAndEngine(allReservedInstances[region]);
             for (let instance of regionInstances) {
-                if (instance.State.Name !== 'running') {
-                    continue;
-                }
                 let instanceAnalysis: ResourceAnalysisResult = {};
                 instanceAnalysis.resource = instance;
                 instanceAnalysis.resourceSummary = {
-                    name: 'Instance',
-                    value: `${ResourceUtil.getNameByTags(instance)} | ${instance.InstanceId}`
+                    name: 'DBInstance',
+                    value: instance.DBInstanceIdentifier
                 }
 
                 const runningFromDays = CommonUtil.daysFrom(instance.LaunchTime)
 
-                if (this.getInstancesReservedCount(instanceCountMap, instance.InstanceType) === 1) {
+                if (this.getInstancesReservedCount(instanceCountMap, instance.DBInstanceClass, instance.Engine) === 1) {
                     instanceAnalysis.severity = SeverityStatus.Good;
                     instanceAnalysis.message = 'Instance is reserved';
                 } else {
-                    if(runningFromDays > 365) {
+                    if (runningFromDays > 365) {
                         instanceAnalysis.severity = SeverityStatus.Warning;
                     } else {
                         instanceAnalysis.severity = SeverityStatus.Info;
@@ -51,7 +48,7 @@ export class EC2InstancesReservationAnalyzer extends BaseAnalyzer {
         return { instances_reserved };
     }
 
-    private getCountOfInstancesReservedByInstanceType(reservedInstances) {
+    private getCountOfInstancesReservedByInstanceClassAndEngine(reservedInstances) {
         if (!reservedInstances || !reservedInstances.length) {
             return {};
         }
@@ -59,17 +56,18 @@ export class EC2InstancesReservationAnalyzer extends BaseAnalyzer {
         return reservedInstances.filter((reservedInstance) => {
             return reservedInstance.State === "active"
         }).reduce((instanceCountMap, reservedInstance) => {
-            instanceCountMap[reservedInstance.InstanceType] = instanceCountMap[reservedInstance.InstanceType] || { actual: 0, used: 0 };
-            instanceCountMap[reservedInstance.InstanceType].actual += reservedInstance.InstanceCount;
+            instanceCountMap[reservedInstance.DBInstanceClass] = instanceCountMap[reservedInstance.DBInstanceClass] || {};
+            instanceCountMap[reservedInstance.DBInstanceClass][reservedInstance.ProductDescription] = instanceCountMap[reservedInstance.DBInstanceClass][reservedInstance.ProductDescription] || { actual: 0, used: 0 };
+            instanceCountMap[reservedInstance.DBInstanceClass][reservedInstance.ProductDescription].actual += reservedInstance.DBInstanceCount;
             return instanceCountMap;
         }, {});
     }
 
-    private getInstancesReservedCount(instanceCountMap, instanceType) {
-        const instanceCountObj = instanceCountMap[instanceType];
-        if (!instanceCountObj) {
+    private getInstancesReservedCount(instanceCountMap, instanceClass, dbEngine) {
+        if (!instanceCountMap[instanceClass] || !instanceCountMap[instanceClass][dbEngine]) {
             return 0;
         }
+        const instanceCountObj = instanceCountMap[instanceClass][dbEngine];
 
         if (instanceCountObj.actual - instanceCountObj.used > 0) {
             instanceCountObj.used++;

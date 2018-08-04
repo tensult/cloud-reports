@@ -21,7 +21,7 @@ export class RdsPubliclyAccessibleAnalyzer extends BaseAnalyzer {
                 let instance_analysis: ResourceAnalysisResult = {};
                 instance_analysis.resource = instance;
                 instance_analysis.resourceSummary = {
-                    name: 'Instance',
+                    name: 'DBInstance',
                     value: instance.DBInstanceIdentifier
                 }
                 if (instance.PubliclyAccessible) {

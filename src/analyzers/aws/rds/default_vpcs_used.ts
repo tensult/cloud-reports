@@ -23,7 +23,7 @@ export class DefaultVpcUsedRDSInstancesAnalyzer extends BaseAnalyzer {
                 let instanceAnalysis: ResourceAnalysisResult = {};
                 instanceAnalysis.resource = { instanceName: instance.DBInstanceIdentifier, vpcId: instance.DBSubnetGroup.VpcId } ;
                 instanceAnalysis.resourceSummary = {
-                    name: 'Instance',
+                    name: 'DBInstance',
                     value: instance.DBInstanceIdentifier
                 }
                 if (this.isVpcExist(defaultVpcs, instance.DBSubnetGroup.VpcId)) {
