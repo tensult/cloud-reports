@@ -24,7 +24,7 @@ export class ElasticIPsUsageAnalyzer extends BaseAnalyzer {
                     name: "ElasticIP",
                     value: `${ResourceUtil.getNameByTags(elasticIp)} | ${elasticIp.PublicIp}`
                 }
-                if (elasticIp.AssociationId) {
+                if (elasticIp.AssociationId || elasticIp.InstanceId) {
                     elasticIPAnalysis.severity = SeverityStatus.Good;
                     elasticIPAnalysis.message = 'ElasticIP is used';
                 } else {

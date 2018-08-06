@@ -25,7 +25,7 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
                 let instanceAnalysis: ResourceAnalysisResult = {};
                 instanceAnalysis.resource = { instanceName: instance.DBInstanceIdentifier, security_groups: instance.VpcSecurityGroups } ;
                 instanceAnalysis.resourceSummary = {
-                    name: 'Instance',
+                    name: 'DBInstance',
                     value: instance.DBInstanceIdentifier
                 }
                 if (this.isCommonSecurityGroupExist(defaultSecurityGroups, instance.VpcSecurityGroups)) {

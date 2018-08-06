@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class RouteTablesCollector extends BaseCollector {
 
@@ -14,7 +15,7 @@ export class RouteTablesCollector extends BaseCollector {
                 const routeTablesResponse: AWS.EC2.DescribeRouteTablesResult = await ec2.describeRouteTables().promise();
                 route_tables[region] = routeTablesResponse.RouteTables;
             } catch (error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

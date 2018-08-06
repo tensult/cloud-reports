@@ -1,33 +1,34 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
-export class ElbsCollector extends BaseCollector {
+export class ElbV2sCollector extends BaseCollector {
     collect() {
         return this.getAllElbs();
     }
 
     private async getAllElbs() {
 
-        const serviceName = 'ELB';
-        const elbRegions = this.getRegions(serviceName);
+        const self = this;
+
+        const serviceName = 'ELBv2';
+        const elbRegions = self.getRegions(serviceName);
         const elbs = {};
 
         for (let region of elbRegions) {
             try {
-                let elb = this.getClient(serviceName, region) as AWS.ELB;
+                let elb = self.getClient(serviceName, region) as AWS.ELBv2;
                 elbs[region] = [];
                 let fetchPending = true;
                 let marker: string | undefined = undefined;
                 while (fetchPending) {
-                    const elbsResponse: AWS.ELB.DescribeAccessPointsOutput = await elb.describeLoadBalancers({ Marker: marker }).promise();
-                    if (elbsResponse.LoadBalancerDescriptions) {
-                        elbs[region] = elbs[region].concat(elbsResponse.LoadBalancerDescriptions);
-                    }
+                    const elbsResponse: AWS.ELBv2.DescribeLoadBalancersOutput = await elb.describeLoadBalancers({ Marker: marker }).promise();
+                    elbs[region] = elbs[region].concat(elbsResponse.LoadBalancers);
                     marker = elbsResponse.NextMarker;
                     fetchPending = marker !== undefined;
                 }
             } catch (error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

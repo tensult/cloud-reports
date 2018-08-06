@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class ApisCollector extends BaseCollector {
     collect(callback: (err?: Error, data?: any) => void) {
@@ -27,7 +28,7 @@ export class ApisCollector extends BaseCollector {
                     fetchPending = marker !== undefined && marker !== null;
                 }
             } catch(error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

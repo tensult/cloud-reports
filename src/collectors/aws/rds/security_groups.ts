@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class RDSSecurityGroupsCollector extends BaseCollector {
     collect(callback: (err?: Error, data?: any) => void) {
@@ -27,7 +28,7 @@ export class RDSSecurityGroupsCollector extends BaseCollector {
                     fetchPending = marker !== undefined;
                 }
             } catch (error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

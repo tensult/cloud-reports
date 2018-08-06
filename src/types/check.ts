@@ -12,6 +12,7 @@ export interface CheckAnalysisResult {
 }
 
 export enum CheckAnalysisType {
+    Informational = "Informational",
     Security = "Security",
     Reliability = "Reliability",
     PerformanceEfficiency = "PerformanceEfficiency",

@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class EC2InstancesCollector extends BaseCollector {
     collect() {
@@ -30,13 +31,13 @@ export class EC2InstancesCollector extends BaseCollector {
                                 }
                             }, []));
                         marker = instancesResponse.NextToken;
-                        fetchPending = marker !== undefined;
+                        fetchPending = marker !== undefined && marker !== null;
                     } else {
                         fetchPending = false;
                     }
                 }
             } catch (error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

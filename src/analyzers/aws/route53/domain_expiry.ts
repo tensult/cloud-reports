@@ -12,7 +12,7 @@ export class DomainsExpiryAnalyzer extends BaseAnalyzer {
         const domains_expiry: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         domains_expiry.what = "Are there any domain expiring soon?";
         domains_expiry.why = "When domains get expired, someone may claim them so it is import to keep an eye on them"
-        domains_expiry.recommendation = "Recommended to enable AutoRenewable or else periodically check expiry and renew manually before expiry";
+        domains_expiry.recommendation = "It is recommended to enable AutoRenewable to automatically renew the domain or we can periodically check the expiry and renew it manually";
         const allDomainAnalysis: ResourceAnalysisResult[] = [];
 
         for (let domain of allDomains) {
@@ -42,7 +42,7 @@ export class DomainsExpiryAnalyzer extends BaseAnalyzer {
         if (expirationTime < new Date()) {
             domain_analysis.severity = SeverityStatus.Failure;
             domain_analysis.message = "Domain is expired";
-            domain_analysis.action = "Renew the domain or remove it if no longer needed"
+            domain_analysis.action = "Renew the domain or remove it if it is no longer needed"
         } else if (expirationTime < dateAfter30Days) {
             domain_analysis.severity = SeverityStatus.Warning;
             domain_analysis.message = "Domain is expiring within a month";

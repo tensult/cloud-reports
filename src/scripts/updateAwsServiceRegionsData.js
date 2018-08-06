@@ -13,10 +13,14 @@ fetch('http://docs.aws.amazon.com/general/latest/gr/rande.html')
 function extractServiceRegions(html) {
   const $ = cheerio.load(html);
   const service_regions = {};
-  $("h2[id$='region']").each(function (index, elm) {
+  $("h2[id*='region']").each(function (index, elm) {
     let service = $(elm);
-    let serviceName = service.text().replace(/(\s|Amazon|AWS)/g, '');
-    let shortName = service.text().split(' ').reduce(function (prev, curr) {
+    let fullServiceName = service.text().split("(")[0].trim();
+    let serviceName = fullServiceName.replace(/(Amazon|AWS)/g, '').trim();
+    let shortName = serviceName.split(/\s/).reduce(function (prev, curr) {
+      return prev + curr.charAt(0);
+    }, '');
+    let fullShortName = fullServiceName.split(/\s/).reduce(function (prev, curr) {
       return prev + curr.charAt(0);
     }, '');
     let regions = [];
@@ -28,6 +32,7 @@ function extractServiceRegions(html) {
       regions.push(region.text().trim());
     });
     service_regions[serviceName] = {
+      fullShortName,
       shortName,
       regions
     };
@@ -36,8 +41,9 @@ function extractServiceRegions(html) {
   const actualServiceRegionsV1 = {};
   for (let serviceActualName in AWS) {
     for (let serviceExtractedName in service_regions) {
-      if ((serviceExtractedName.indexOf(serviceActualName) !== -1 ||
-          service_regions[serviceExtractedName].shortName.indexOf(serviceActualName) !== -1) &&
+      if ((serviceExtractedName.includes(serviceActualName) ||
+          service_regions[serviceExtractedName].shortName === serviceActualName ||
+          service_regions[serviceExtractedName].fullShortName === serviceActualName) &&
         service_regions[serviceExtractedName].regions.length) {
         actualServiceRegionsV1[serviceActualName] = service_regions[serviceExtractedName].regions;
       }

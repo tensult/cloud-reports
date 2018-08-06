@@ -11,7 +11,7 @@ export class SecurityGroupsOpenToWorldAnalyzer extends BaseAnalyzer {
         const security_groups_open_to_world: CheckAnalysisResult = { type: CheckAnalysisType.Security };
         security_groups_open_to_world.what = "Are there any security groups open to world?";
         security_groups_open_to_world.why = "Security group open to world posses serious security threat so we need to allow only intended parties to access";
-        security_groups_open_to_world.recommendation = "Recommended to configure security groups as tight as needed";
+        security_groups_open_to_world.recommendation = "Recommended to restrict security groups as tight as needed";
         const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allSecurityGroups) {
             let regionSecurityGroups = allSecurityGroups[region];

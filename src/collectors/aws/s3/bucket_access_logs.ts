@@ -2,6 +2,7 @@ import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
 import { BucketsCollector } from './buckets';
 import { CollectorUtil } from "../../../utils";
+import { LogUtil } from '../../../utils/log';
 
 export class BucketAccessLogsCollector extends BaseCollector {
     collect() {
@@ -17,7 +18,7 @@ export class BucketAccessLogsCollector extends BaseCollector {
                 let s3BucketAccessLogs: AWS.S3.GetBucketLoggingOutput = await s3.getBucketLogging({ Bucket: bucket.Name }).promise();
                 bucket_access_logs[bucket.Name] = s3BucketAccessLogs;
             } catch (error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

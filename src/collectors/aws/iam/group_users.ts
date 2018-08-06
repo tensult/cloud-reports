@@ -3,6 +3,7 @@ import { BaseCollector } from "../../base";
 import { Dictionary } from "../../../types";
 import { CollectorUtil } from "../../../utils";
 import { GroupsCollector } from './groups';
+import { LogUtil } from '../../../utils/log';
 
 export class GroupUsersCollector extends BaseCollector {
     collect() {
@@ -34,7 +35,7 @@ export class GroupUsersCollector extends BaseCollector {
                 }
                 group_users[groupName] = groupUsers;
             } catch (error) {
-                console.error(error);
+                LogUtil.error(error);
                 continue;
             }
         }

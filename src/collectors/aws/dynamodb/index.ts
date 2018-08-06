@@ -1,3 +1,5 @@
 export * from './tables_backup';
-export * from './tables';
+export * from './table_names';
+export * from './tables_details';
+
 

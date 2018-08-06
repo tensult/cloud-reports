@@ -23,13 +23,13 @@ export class DefaultVpcUsedRDSInstancesAnalyzer extends BaseAnalyzer {
                 let instanceAnalysis: ResourceAnalysisResult = {};
                 instanceAnalysis.resource = { instanceName: instance.DBInstanceIdentifier, vpcId: instance.DBSubnetGroup.VpcId } ;
                 instanceAnalysis.resourceSummary = {
-                    name: 'Instance',
+                    name: 'DBInstance',
                     value: instance.DBInstanceIdentifier
                 }
                 if (this.isVpcExist(defaultVpcs, instance.DBSubnetGroup.VpcId)) {
                     instanceAnalysis.severity = SeverityStatus.Failure;
                     instanceAnalysis.message = 'Default VPC is used';
-                    instanceAnalysis.action = 'Use custom VPC instead default VPC';
+                    instanceAnalysis.action = 'Use custom VPC instead of default VPC';
                 } else {
                     instanceAnalysis.severity = SeverityStatus.Good;
                     instanceAnalysis.message = 'Default VPC is not used';

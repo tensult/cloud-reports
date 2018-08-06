@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
+import { LogUtil } from '../../../utils/log';
 
 export class PasswordPolicyCollector extends BaseCollector {
     async collect() {
@@ -9,7 +10,7 @@ export class PasswordPolicyCollector extends BaseCollector {
             const password_policy = passwordPolicyResponse.PasswordPolicy;
             return { password_policy };
         } catch (error) {
-            console.error(error);
+            LogUtil.error(error);
         }
     }
 }

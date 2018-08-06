@@ -1,5 +1,10 @@
 # Cloud Reports
-Collects info about various cloud resources and analyzes then against best practices and give a JSON, HTML or PDF reports.
+Collects info about various cloud resources and analyzes them against best practices and give a JSON, HTML or PDF reports.
+
+
+<p align="center"> 
+<img src="https://user-images.githubusercontent.com/33080863/43033177-3b6466f4-8ce3-11e8-8c6a-7efca76d1043.png">
+</p>
 
 ## Modules
 ### [Collectors](https://github.com/tensult/cloud-reports/tree/master/src/collectors)
@@ -15,10 +20,12 @@ We are implementing checks based on [AWS Well Architected](https://aws.amazon.co
 * Currently supported AWS service modules:
 * * acm: [AWS Certificate Manager](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/acm)
 * * apigateway: [Amazon APIGateway](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/apigateway)
+* * cloudfront: [AWS CloudFront](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/cloudfront)
 * * cloudwatch: [AWS CloudWatch](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/cloudwatch)
 * * dynamodb: [AWS DynamoDB](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/dynamodb)
 * * ebs: [AWS Elastic Block Storage](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/ebs)
 * * ec2: [AWS Elastic Cloud Computing](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/ec2)
+* * elasticsearch: [AWS Elasticsearch Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/elasticsearch)
 * * elb: [AWS Elastic Load Balancer](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/elb)
 * * iam: [AWS Identity and Access Management](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/iam)
 * * lambda: [Amazon Lambda](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/lambda)
@@ -26,12 +33,15 @@ We are implementing checks based on [AWS Well Architected](https://aws.amazon.co
 * * redshift: [AWS Redshift](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/redshift)
 * * route53: [AWS Elastic Load Balancer](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/elb)
 * * s3: [AWS Simple Storage Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/s3)
-* * sns: [AWS Simple Notification Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/snss)
+* * sns: [AWS Simple Notification Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/sns)
+* * sqs: [AWS Simple Queue Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/sqs)
 * * route53: [AWS Elastic Load Balancer](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/elb)
 * * trails: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/trails)
 * * vpc: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/vpc)
 
-### Installation from source
+### Install NodeJS
+This package is based on NodeJS framework so you can it install from [here](https://nodejs.org/en/).
+### Installing cloud-reports from source
 #### Download
 
     git clone https://github.com/tensult/cloud-reports.git
@@ -39,6 +49,12 @@ We are implementing checks based on [AWS Well Architected](https://aws.amazon.co
 #### Install npm dependencies
     cd cloud-reports
     npm install
+
+#### To get updates
+If you cloned this repository before then for getting new updates
+```
+git pull
+```
 
 #### Building
 To convert typescript to javascript
@@ -78,6 +94,11 @@ You can run this tool in debug mode to generate intermediate reports: collector_
 ```
 npm run scan -- --profile Your-AWS-profile  -f pdf -d
 ```
+#### Reusing Collector report
+When we are working on analyzers, we will be testing them multiple times and every time collecting data will cause delays, to avoid such delays you can use the following command to reuse already collected collector report.
+```
+npm run scan -- --profile Your-AWS-profile  -f pdf -d -u
+```
 ### Install as npm module to an existing package
 #### Install cloud-reports npm module
 ```
@@ -96,9 +117,9 @@ Make sure you have initialized [AWS.config](https://docs.aws.amazon.com/sdk-for-
     analysisPromise.then((analysisJson) => console.log(JSON.stringify(analysisJson, null, 2)));
 ```
 ### Update service regions
-We have written a [script](https://github.com/tensult/cloud-reports/blob/master/src/scripts/extractAwsServiceRegions.js) which updates the [AWS regions data](https://github.com/tensult/cloud-reports/blob/master/src/utils/aws/regions_data.ts)
+We have written a [script](https://github.com/tensult/cloud-reports/blob/master/src/scripts/updateAwsServiceRegionsData.js) which updates the [AWS regions data](https://github.com/tensult/cloud-reports/blob/master/src/utils/aws/regions_data.ts)
 ```
-node src/utils/aws/extractAwsServiceRegions.js
+node src/scripts/updateAwsServiceRegionsData.js
 ```
 ## Contribute
 Currently this application only supports AWS, but can be extendable to other cloud providers. Contributions are most welcome.
