@@ -1,6 +1,8 @@
 import * as Cli from 'cli';
 import * as AWS from 'aws-sdk';
 import * as Moment from 'moment';
+const opn = require('opn');
+
 import * as CollectorMain from './collect';
 import * as AnalyzerMain from './analyze';
 import * as Reporters from './reporters';
@@ -49,7 +51,19 @@ async function makeFileContents(analyzedData) {
             return JSON.stringify(analyzedData, null, 2);
         }
         case "html": {
-            return Reporters.generateHTML(analyzedData);
+            writeFileSync("src/reporters/html/dist/html-report/assets/data.json", JSON.stringify(analyzedData, null, 2));
+            const serveStatic = require('serve-static')
+            const finalhandler = require('finalhandler')
+            const http = require('http')
+            const serve = serveStatic('src/reporters/html/dist/html-report/', {'index': ['index.html']})
+            // Create server
+            const server = http.createServer(function onRequest (req, res) {
+                serve(req, res, finalhandler(req, res))
+            });
+            
+            // Listen
+            server.listen(3000)
+            opn("http://localhost:3000");
         }
         case "pdf": {
             return Reporters.generatePDF(analyzedData);
@@ -79,9 +93,13 @@ async function scan() {
             LogUtil.log(`${analyzerReportFileName} is generated`);
         }
         const reportFileData = await makeFileContents(analyzedData);
-        const reportFileName = makeFileName();
-        writeFileSync(reportFileName, reportFileData);
-        LogUtil.log(`${reportFileName} is generated`);
+        if(cliArgs.format !== 'html') {
+            const reportFileName = makeFileName();
+            writeFileSync(reportFileName, reportFileData);
+            LogUtil.log(`${reportFileName} is generated`);
+            opn(reportFileName, {wait: false});
+        }
+        
     } catch(err) {
         LogUtil.log(err);
     }

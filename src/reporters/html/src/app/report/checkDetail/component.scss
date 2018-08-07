@@ -1,0 +1,24 @@
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+table {
+    width: 100%;
+}
+
+.good {
+    background-color: rgb(95, 170, 95);
+}
+
+.warning {
+    background-color: rgb(202, 202, 0);
+}
+
+.failure {
+    background-color: rgb(218, 104, 104);
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }

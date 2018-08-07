@@ -1,0 +1,85 @@
+
+<div style="
+  display: flex;
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  background-color: #8080801f;
+  ">
+  <div style="margin-right: 10px">
+    <mat-form-field>
+      <mat-select placeholder="Services" [(value)]="selectedService" (selectionChange)="fetchServiceCheckCateroies()">
+        <mat-option *ngFor="let service of services" [value]="service">{{service}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div style="margin-right: 10px">
+    <mat-form-field>
+      <mat-select placeholder="Checks" [(value)]="selectedServiceCheckCategory" (selectionChange)="fetchServiceCheckCateroyRegions()">
+        <mat-option *ngFor="let serviceCheckCategory of serviceCheckCategories" [value]="serviceCheckCategory">{{serviceCheckCategory}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div style="margin-right: 10px">
+    <mat-form-field>
+      <mat-select placeholder="Regions" [(value)]="selectedServiceCheckCategoryRegion" (selectionChange)=reload()>
+        <mat-option *ngIf="serviceCheckCategoryRegions && (serviceCheckCategoryRegions.length > 1)" [value]="'all'">all</mat-option>
+        <mat-option *ngFor="let serviceCheckCategoryRegion of serviceCheckCategoryRegions" [value]="serviceCheckCategoryRegion">{{serviceCheckCategoryRegion}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <!-- <div style="margin-right: 10px">
+    <button mat-flat-button (click)="reload()">Go</button>
+  </div> -->
+  <div class="example-spacer"></div>
+  <div>
+      <button mat-button (click)="goToServiceDashboard()">Service dashboard</button>
+    </div>
+  <div>
+    <button mat-button routerLink="/">Main dashboard</button>
+  </div>
+</div>
+
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+<div class="check-detail-container mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="resourceName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Resource Name </th>
+      <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
+        {{element.resourceSummary.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="resourceValue">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Resource Value </th>
+      <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
+        {{element.resourceSummary.value}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="region">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Region </th>
+        <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
+          {{element.region}} </td>
+      </ng-container>
+
+    <ng-container matColumnDef="message">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Message </th>
+      <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ?  'warning' : 'failure')">
+        {{element.message}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="severity">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Severity </th>
+      <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
+        {{element.severity}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [length]="resultLength" [pageSize]="10" showFirstLastButtons></mat-paginator>
+</div>

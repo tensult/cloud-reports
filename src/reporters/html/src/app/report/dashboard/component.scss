@@ -1,0 +1,23 @@
+table {
+    width: 100%;
+  }
+
+.column-header {
+  font-size: 120%;
+}
+
+.column-desc-good {
+  text-align: center;
+  background-color: rgb(9, 155, 9);
+}
+
+.column-desc-alert {
+  text-align: center;
+  background-color: rgb(218, 104, 104);
+}
+
+.column-desc-normal {
+  text-align: center;
+  background-color:lightgray;
+}
+

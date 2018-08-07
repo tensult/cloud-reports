@@ -8,10 +8,10 @@ export class DeletionProtectionEnabledAnalyzer extends BaseAnalyzer {
         if (!allElbsAttributes) {
             return undefined;
         }
-        const access_logs_enabled: CheckAnalysisResult = { type: CheckAnalysisType.Security };
-        access_logs_enabled.what = "Is deletion protection enabled for Load balancers?";
-        access_logs_enabled.why = "Deletion protection should be enabled otherwise if you delete load balancer accidentally then it gets deleted permanently"
-        access_logs_enabled.recommendation = "Recommended to enable deletion protection for all load balancers";
+        const deletion_protection_enabled: CheckAnalysisResult = { type: CheckAnalysisType.Security };
+        deletion_protection_enabled.what = "Is deletion protection enabled for Load balancers?";
+        deletion_protection_enabled.why = "Deletion protection should be enabled otherwise if you delete load balancer accidentally then it gets deleted permanently"
+        deletion_protection_enabled.recommendation = "Recommended to enable deletion protection for all load balancers";
         const allRegionsAnalysis: Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allElbsAttributes) {
             let regionElbsAttributes = allElbsAttributes[region];
@@ -35,8 +35,8 @@ export class DeletionProtectionEnabledAnalyzer extends BaseAnalyzer {
                 allRegionsAnalysis[region].push(elb_analysis);
             }
         }
-        access_logs_enabled.regions = allRegionsAnalysis;
-        return { access_logs_enabled };
+        deletion_protection_enabled.regions = allRegionsAnalysis;
+        return { deletion_protection_enabled };
     }
 
     private isAccessLogsEnabled(elbAttributes) {

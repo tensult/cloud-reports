@@ -63,5 +63,5 @@ dist
 *report.json
 *report.html
 *report.pdf
-
+scan_report*
 .DS_Store

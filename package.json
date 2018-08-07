@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc; cd src/reporters/html; ng build --prod; cd -",
     "publish": "npm run build",
     "scan": "node dist/scan.js"
   },
@@ -30,8 +30,11 @@
     "cli": "^1.0.1",
     "cpy": "^7.0.1",
     "ejs": "^2.6.1",
+    "finalhandler": "^1.1.1",
     "flat": "^4.0.0",
     "html-pdf": "^2.2.0",
-    "moment": "^2.22.2"
+    "moment": "^2.22.2",
+    "opn": "^5.3.0",
+    "serve-static": "^1.13.2"
   }
 }

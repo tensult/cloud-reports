@@ -1,0 +1,41 @@
+
+.example-icon {
+    padding: 0 14px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.detail-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.example-card {
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-width: 400px;
+    min-width: 200px;
+    flex: 1;
+}
+
+.condition-good {
+    background-color: rgb(6, 165, 32)
+}
+
+.condition-bad {
+    background-color: rgb(221, 31, 6)
+}
+
+.container-one {
+    display: flex;
+    flex-direction: column;
+}
+
+.container-two {
+    display: flex;
+}
+
