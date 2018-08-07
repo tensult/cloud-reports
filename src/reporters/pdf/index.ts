@@ -1,5 +1,5 @@
 const pdf = require('html-pdf');
-const htmlReporter = require('../html');
+const htmlGenerator = require('./html');
 
 let pdfOptions = {
     format: 'A4',
@@ -46,7 +46,7 @@ function createPDF(html) {
 export function generatePDF(reportData: any, options?: {
     showIssuesOnly: boolean
 }) {
-    return htmlReporter.generateHTML(reportData, options).then((html) => {
+    return htmlGenerator.generateHTML(reportData, options).then((html) => {
         return createPDF(html);
     });
 }
