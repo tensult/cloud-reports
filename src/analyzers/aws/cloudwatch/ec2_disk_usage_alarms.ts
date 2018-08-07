@@ -51,7 +51,7 @@ export class EC2InstanceDiskUsageAlarmsAnalyzer extends BaseAnalyzer {
 
     private mapAlarmsByInstance(alarms: any[]): Dictionary<any[]> {
         return alarms.reduce((alarmsMap, alarm) => {
-            if(alarm.Namespace === 'AWS/EC2' && alarm.Dimensions) {
+            if(alarm.Dimensions) {
                 const instanceDimension = alarm.Dimensions.find((dimension) => {
                     return dimension.Name === 'InstanceId';
                 });
