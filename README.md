@@ -46,17 +46,13 @@ This package is based on NodeJS framework so you can it install from [here](http
 
     git clone https://github.com/tensult/cloud-reports.git
 
-#### Install npm dependencies
-    cd cloud-reports
-    npm install
-
 #### To get updates
 If you cloned this repository before then for getting new updates
 ```
 git pull
 ```
 
-#### Building
+#### Installing and Building
 To convert typescript to javascript
 
     npm run build 
