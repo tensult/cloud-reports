@@ -65,4 +65,4 @@ dist
 *report.pdf
 scan_report*
 .DS_Store
-assets/data.json
+data.json
