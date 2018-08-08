@@ -4,7 +4,7 @@ import { CloudReportService } from '../report.service';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-cloudreportcheckdetailcomponent',
+  selector: 'app-cloud-report-check-category',
   templateUrl: 'component.html',
   styleUrls: ['component.scss']
 })
@@ -33,7 +33,7 @@ export class CloudReportCheckCategoryComponent implements OnInit {
     this.cloudReportService.getScanReportData()
       .subscribe((data) => {
         this.scanReportData = data;
-        const regionsHaveData = this.cloudReportService.getRegionsHaveData('aws.' + this.service, data);
+        const regionsHaveData = this.cloudReportService.getRegionsHaveData(data, 'aws.' + this.service);
         if (regionsHaveData.length === 1) {
           this.selectedRegion = regionsHaveData[0];
           this.regionSelectValidate = true;

@@ -4,20 +4,26 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class CloudReportService {
 
-    scanReportData: Object;
+    scanReportData;
 
     constructor(private http: HttpClient) { }
 
-    getScanReportData() {
+    private fetchScanReportData() {
         return this.http.get('assets/data.json');
+    }
+
+    getScanReportData() {
+        if (!this.scanReportData) {
+            this.scanReportData = this.fetchScanReportData();
+        }
+        return this.scanReportData;
     }
     /**
      * Get report dashboard data
     */
-    getDashboardData(scanReportData) {
-        console.log(scanReportData);
-        
-        const data = scanReportData;
+    getDashboardData(data) {
+        // console.log(data);
+
         let dashboardData: object[] = [];
         for (let serviceObjectKey in data) {  // each service
             let serviceData: object = {};
@@ -83,29 +89,6 @@ export class CloudReportService {
         }
         return false;
     }
-
-    // getRegions() {
-    //     return [
-    //         'us-east-2',
-    //         'us-east-1',
-    //         'us-west-1',
-    //         'us-west-2',
-    //         'ap-northeast-1',
-    //         'ap-northeast-2',
-    //         'ap-northeast-3',
-    //         'ap-south-1',
-    //         'ap-southeast-1',
-    //         'ap-southeast-2',
-    //         'ca-central-1',
-    //         'cn-north-1',
-    //         'cn-northwest-1',
-    //         'eu-central-1',
-    //         'eu-west-1',
-    //         'eu-west-2',
-    //         'eu-west-3',
-    //         'sa-east-1'
-    //     ]
-    // }
 
     replaceUnderscoreWithSpace(string) {
         return string.split('_').join(' ');
@@ -225,20 +208,21 @@ export class CloudReportService {
         return checkCategoryData;
     }
 
-    getRegionsHaveData(service, data) {
-        // console.log(service)
+    getRegionsHaveData(data, service) {
         let regionsHaveData = [];
         for (let serviceObjectKey in data) {
-            if (serviceObjectKey === service) {
-                for (let checkCategoryKey in data[serviceObjectKey]) {
-                    for (let regionObjectKey in data[serviceObjectKey][checkCategoryKey].regions) {
-                        if (data[serviceObjectKey][checkCategoryKey].regions[regionObjectKey].length >= 1) {
-                            if (!this.checkHasData(regionObjectKey, regionsHaveData))
-                                regionsHaveData.push(regionObjectKey);
-                        }
+            if (service && serviceObjectKey !== service) {
+                continue;
+            }
+            for (let checkCategoryKey in data[serviceObjectKey]) {
+                for (let regionObjectKey in data[serviceObjectKey][checkCategoryKey].regions) {
+                    if (data[serviceObjectKey][checkCategoryKey].regions[regionObjectKey].length >= 1) {
+                        if (!this.checkHasData(regionObjectKey, regionsHaveData))
+                            regionsHaveData.push(regionObjectKey);
                     }
                 }
             }
+
         }
         return regionsHaveData;
     }
@@ -264,45 +248,43 @@ export class CloudReportService {
         return localStorage.getItem('awsRegion');
     }
 
+    /************************************ check detail page start ***********************************************/
+
     getCheckDetailData(data, service?: string, checkCategory?: string, region?: string) {
-        console.log(service, checkCategory, region)
-        checkCategory = this.replaceSpaceWithUnderscore(checkCategory.toLowerCase());
-        let checkDetailData: object[] = [];
-        for (let serviceObjectKey in data) {
-            if (serviceObjectKey === service) {
-                for (let checkCategoryObjectKey in data[serviceObjectKey]) {
-                    if (checkCategoryObjectKey === checkCategory) {
-                        const regionsObject = data[serviceObjectKey][checkCategoryObjectKey]['regions'];
-                        if (regionsObject.hasOwnProperty('global') && region === 'global') {
-                            for (let i = 0; i < regionsObject['global'].length; i++) {
-                                regionsObject['global'][i].region = 'global';
-                                checkDetailData.push(regionsObject['global'][i]);
-                            }
+        if (checkCategory && checkCategory !== 'all' && checkCategory !== 'null' && checkCategory !== 'undefined')
+            checkCategory = this.replaceSpaceWithUnderscore(checkCategory.toLowerCase());
+        console.log(service, typeof checkCategory, typeof region)
+        let filterredData = data;
+        if (service && service !== 'null' && service !== 'undefined') {
+            filterredData = {
+                [service]: data[service]
+            }
+            if (checkCategory && checkCategory !== 'all' && checkCategory !== 'null' && checkCategory !== 'undefined') {
+                filterredData[service] = {
+                    [checkCategory]: filterredData[service][checkCategory]
+                }
+            }
+            if (region && region !== 'all' && region !== 'null' && region !== 'undefined') {
+                for (let checkCategoryIndex in filterredData[service]) {
+                    if (filterredData[service][checkCategoryIndex].regions[region]) {
+                        filterredData[service][checkCategoryIndex].regions = {
+                            [region]: filterredData[service][checkCategoryIndex].regions[region]
                         }
-                        else if (region == 'all') {
-                            for (let regionKey in regionsObject) {
-                                for (let i = 0; i < regionsObject[regionKey].length; i++) {
-                                    regionsObject[regionKey][i].region = regionKey;
-                                    checkDetailData.push(regionsObject[regionKey][i]);
-                                }
-                            }
-                        }
-                        else {
-                            for (let regionKey in regionsObject) {
-                                if (regionKey === region) {
-                                    for (let i = 0; i < regionsObject[regionKey].length; i++) {
-                                        regionsObject[regionKey][i].region = regionKey;
-                                        checkDetailData.push(regionsObject[regionKey][i]);
-                                    }
-                                }
-                            }
+                    }
+                }
+            }
+        } else if (region && region !== 'all' && region !== 'null' && region !== 'undefined') {
+            for (let serviceIndex in filterredData) {
+                for (let checkCategoryIndex in filterredData[serviceIndex]) {
+                    if (filterredData[serviceIndex][checkCategoryIndex].regions[region]) {
+                        filterredData[serviceIndex][checkCategoryIndex].regions = {
+                            [region]: filterredData[serviceIndex][checkCategoryIndex].regions[region]
                         }
                     }
                 }
             }
         }
-        // console.log(checkDetailData)
-        return checkDetailData;
+        return filterredData;
     }
 
     /** 
@@ -323,17 +305,16 @@ export class CloudReportService {
      * Return check categories
      * based on service
     */
-    getServiceCheckCategories(service, data) {
+    getServiceCheckCategories(data) {
         let checkCategories = [];
         for (let serviceObjectKey in data) {
-            if (service === serviceObjectKey) {
-                for (let checkCategoryObjectKey in data[serviceObjectKey]) {
-                    const checkCategoryObject = data[serviceObjectKey][checkCategoryObjectKey];
-                    if (this.checkServiceCheckCategoryHasData(checkCategoryObject)) {
-                        checkCategories.push(this.replaceUnderscoreWithSpace(checkCategoryObjectKey));
-                    }
+            for (let checkCategoryObjectKey in data[serviceObjectKey]) {
+                const checkCategoryObject = data[serviceObjectKey][checkCategoryObjectKey];
+                if (this.checkServiceCheckCategoryHasData(checkCategoryObject)) {
+                    checkCategories.push(this.replaceUnderscoreWithSpace(checkCategoryObjectKey));
                 }
             }
+
         }
         return checkCategories;
     }
@@ -341,19 +322,14 @@ export class CloudReportService {
     /** 
      * Return regions based on service and check category
     */
-    getServiceCheckCategoryRegions(service, serviceCheckCategory, data) {
+    getServiceRegions(data) {
         let regionsHaveData = [];
-        serviceCheckCategory = this.replaceSpaceWithUnderscore(serviceCheckCategory);
         for (let serviceObjectKey in data) {
-            if (serviceObjectKey === service) {
-                for (let checkCategoryKey in data[serviceObjectKey]) {
-                    if (checkCategoryKey === serviceCheckCategory) {
-                        for (let regionObjectKey in data[serviceObjectKey][checkCategoryKey].regions) {
-                            if (data[serviceObjectKey][checkCategoryKey].regions[regionObjectKey].length >= 1) {
-                                if (!this.checkHasData(regionObjectKey, regionsHaveData))
-                                    regionsHaveData.push(regionObjectKey);
-                            }
-                        }
+            for (let checkCategoryKey in data[serviceObjectKey]) {
+                for (let regionObjectKey in data[serviceObjectKey][checkCategoryKey].regions) {
+                    if (data[serviceObjectKey][checkCategoryKey].regions[regionObjectKey].length >= 1) {
+                        if (!this.checkHasData(regionObjectKey, regionsHaveData))
+                            regionsHaveData.push(regionObjectKey);
                     }
                 }
             }
@@ -361,7 +337,7 @@ export class CloudReportService {
         // console.log(regionsHaveData)
         return regionsHaveData;
     }
-
+/************************************ check detail page end ***********************************************/
 
 
 }

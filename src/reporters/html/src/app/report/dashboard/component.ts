@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
 
 @Component({
-  selector: 'app-cloudreportdashboardcomponent',
+  selector: 'app-cloud-report-dashboard',
   templateUrl: 'component.html',
   styleUrls: ['component.scss']
 })
