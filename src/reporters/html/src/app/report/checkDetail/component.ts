@@ -1,3 +1,4 @@
+import { ArrayUtil } from './../../../utils/array';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CloudReportService } from '../report.service'
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,7 +11,6 @@ import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 })
 export class CloudReportCheckDetailComponent implements OnInit {
 
-    checksDetailData: object[];
     displayedColumns = ['service', 'checkCategory', 'region', 'resourceName', 'resourceValue', 'message', 'severity'];
     dataSource;
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -23,7 +23,8 @@ export class CloudReportCheckDetailComponent implements OnInit {
     regions: string[];
     selectedRegion: string;
     hasNoRegions = true;
-
+    selectedSeverity: string[];
+    tableData: any[];
     scanReportData: Object;
 
     constructor(
@@ -36,31 +37,38 @@ export class CloudReportCheckDetailComponent implements OnInit {
         this.loadCheckDetailPageData();
     }
 
+    private getServiceKey(provider = "aws") {
+        return this.selectedService ? provider + '.' + this.selectedService : undefined;
+    }
+
     loadCheckDetailPageData() {
         this.route.queryParams.subscribe((urlData) => {
             this.cloudReportService.getScanReportData()
                 .subscribe((data) => {
+                    console.log(urlData)
                     this.scanReportData = data;
                     this.services = this.cloudReportService.getServices(data);
+                    this.selectedSeverity = ArrayUtil.toArray(urlData['severity']);
                     this.selectedService = urlData['service'];
-                    const serviceKey = 'aws.' + this.selectedService;
+                    const serviceKey = this.getServiceKey();
                     if (this.selectedService) {
                         this.serviceCheckCategories = this.cloudReportService.getServiceCheckCategories(this.cloudReportService.getCheckDetailData(data, serviceKey));
                     }
                     this.selectedServiceCheckCategory = urlData['checkCategory'] == 'null' || urlData['checkCategory'] == 'undefined' ? 'all' : urlData['checkCategory'];
                     if (this.selectedServiceCheckCategory) {
-                        this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(data, serviceKey, this.selectedServiceCheckCategory));
+                        this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(data, serviceKey, this.selectedServiceCheckCategory, undefined, this.selectedSeverity));
                     } else {
-                        this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(data, serviceKey, undefined));
+                        this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(data, serviceKey, undefined, undefined, this.selectedSeverity));
                     }
                     this.selectedRegion = urlData['region'] == 'null' || urlData['region'] == 'undefined' ? 'all' : urlData['region'];
                     if (this.regions.length === 1) {
                         this.selectedRegion = this.regions[0];
                     }
-                    const filterredData = this.cloudReportService.getCheckDetailData(data, serviceKey, this.selectedServiceCheckCategory, this.selectedRegion);
-                    const tableData = this.makeTableData(filterredData);
-                    this.dataSource = new MatTableDataSource(tableData)
-                    this.resultLength = tableData.length;
+                    const filterredData = this.cloudReportService.getCheckDetailData(data, serviceKey, this.selectedServiceCheckCategory, this.selectedRegion, this.selectedSeverity);
+
+                    this.tableData = this.makeTableData(filterredData);
+                    this.dataSource = new MatTableDataSource(this.tableData)
+                    this.resultLength = this.tableData.length;
                     this.dataSource.paginator = this.paginator;
                     this.dataSource.sort = this.sort;
 
@@ -76,8 +84,7 @@ export class CloudReportCheckDetailComponent implements OnInit {
 
     fetchServiceCheckCategories() {
         this.selectedServiceCheckCategory = undefined;
-        // console.log(this.scanReportData, 'aws.'+this.selectedService))
-        this.serviceCheckCategories = this.cloudReportService.getServiceCheckCategories(this.cloudReportService.getCheckDetailData(this.scanReportData, 'aws.' + this.selectedService))
+        this.serviceCheckCategories = this.cloudReportService.getServiceCheckCategories(this.cloudReportService.getCheckDetailData(this.scanReportData, this.getServiceKey()))
         this.selectedRegion = undefined;
         this.regions = [];
         this.reload();
@@ -86,21 +93,23 @@ export class CloudReportCheckDetailComponent implements OnInit {
     fetchServiceCheckCategoryRegions() {
         console.log(this.selectedServiceCheckCategory);
         this.selectedRegion = undefined;
-        this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(this.scanReportData, 'aws.' + this.selectedService, this.selectedServiceCheckCategory));
+        this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(this.scanReportData, this.getServiceKey(), this.selectedServiceCheckCategory, undefined, this.selectedSeverity));
         this.reload();
     }
 
     reload() {
-        // if (!this.selectedService || !this.selectedServiceCheckCategory || !this.selectedServiceCheckCategoryRegion) {
-        //     console.log('something is missing in selectedService = ' + this.selectedService + ' or selectedServiceCheckCategory = ' + this.selectedServiceCheckCategory + ' or selectedServiceCheckCategoryRegion =' + this.selectedServiceCheckCategoryRegion);
-        //     return;
-        // }
-        console.log('all data is present, selectedService = ' + this.selectedService + ' or selectedServiceCheckCategory = ' + this.selectedServiceCheckCategory + ' or selectedServiceCheckCategoryRegion =' + this.selectedRegion + ' and reloading page');
-        this.router.navigate(['/report/checkDetail', {
-            checkCategory: this.selectedServiceCheckCategory,
-            region: this.selectedRegion,
-            service: this.selectedService
-        }]);
+        console.log('all data is present, selectedService = ' + this.selectedService + ' or selectedServiceCheckCategory = ' + this.selectedServiceCheckCategory + ' or selectedServiceCheckCategoryRegion =' + this.selectedRegion + ' or selectedSeverity =' + this.selectedSeverity + ' and reloading page');
+        if(!ArrayUtil.isNotBlank(this.selectedSeverity)) {
+            this.selectedSeverity = undefined;
+        }
+        this.router.navigate(['/report/checkDetail'], {
+            queryParams: {
+                checkCategory: this.selectedServiceCheckCategory,
+                region: this.selectedRegion,
+                service: this.selectedService,
+                severity: this.selectedSeverity
+            }
+        });
     }
 
     goToServiceDashboard() {

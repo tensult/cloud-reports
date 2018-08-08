@@ -1,3 +1,4 @@
+import { ArrayUtil } from './../../utils/array';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -247,37 +248,46 @@ export class CloudReportService {
         return localStorage.getItem('awsRegion');
     }
 
+
     /************************************ check detail page start ***********************************************/
 
-    getCheckDetailData(data, service?: string, checkCategory?: string, region?: string) {
-        if (checkCategory && checkCategory !== 'all' && checkCategory !== 'null' && checkCategory !== 'undefined')
-            checkCategory = this.replaceSpaceWithUnderscore(checkCategory.toLowerCase());
+    getCheckDetailData(data, service?: string, checkCategory?: string, region?: string, severities?: string[]) {
+
         let filterredData = data;
-        if (service && service !== 'null' && service !== 'undefined') {
+        if (ArrayUtil.isNotBlank(service)) {
             filterredData = {
                 [service]: data[service]
             }
-            if (checkCategory && checkCategory !== 'all' && checkCategory !== 'null' && checkCategory !== 'undefined') {
+            if (ArrayUtil.isNotBlank(checkCategory)) {
+                checkCategory = this.replaceSpaceWithUnderscore(checkCategory.toLowerCase());
                 filterredData[service] = {
                     [checkCategory]: filterredData[service][checkCategory]
                 }
             }
-            if (region && region !== 'all' && region !== 'null' && region !== 'undefined') {
-                for (let checkCategoryIndex in filterredData[service]) {
-                    if (filterredData[service][checkCategoryIndex].regions[region]) {
-                        filterredData[service][checkCategoryIndex].regions = {
-                            [region]: filterredData[service][checkCategoryIndex].regions[region]
-                        }
-                    }
-                }
-            }
-        } else if (region && region !== 'all' && region !== 'null' && region !== 'undefined') {
+        }
+        
+        if (ArrayUtil.isNotBlank(region)) {
             for (let serviceIndex in filterredData) {
                 for (let checkCategoryIndex in filterredData[serviceIndex]) {
                     if (filterredData[serviceIndex][checkCategoryIndex].regions[region]) {
                         filterredData[serviceIndex][checkCategoryIndex].regions = {
                             [region]: filterredData[serviceIndex][checkCategoryIndex].regions[region]
                         }
+                    }
+                }
+            }
+        }
+
+        if (ArrayUtil.isNotBlank(severities)) {
+            for (let serviceIndex in filterredData) {
+                for (let checkCategoryIndex in filterredData[serviceIndex]) {
+                    for (let regionIndex in filterredData[serviceIndex][checkCategoryIndex].regions) {
+                        if(!filterredData[serviceIndex][checkCategoryIndex].regions[regionIndex]) {
+                            continue;
+                        }
+                        filterredData[serviceIndex][checkCategoryIndex].regions[regionIndex] = filterredData[serviceIndex][checkCategoryIndex].regions[regionIndex].filter((checkData) => {
+                            return severities.indexOf(checkData.severity) !== -1;
+                        });
                     }
                 }
             }

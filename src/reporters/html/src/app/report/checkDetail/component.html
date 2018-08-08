@@ -9,6 +9,7 @@
   <div style="margin-right: 10px">
     <mat-form-field>
       <mat-select placeholder="Services" [(value)]="selectedService" (selectionChange)="fetchServiceCheckCategories()">
+          <mat-option>All</mat-option>
         <mat-option *ngFor="let service of services" [value]="service">{{service}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -17,7 +18,7 @@
   <div style="margin-right: 10px">
     <mat-form-field>
       <mat-select placeholder="Checks" [(value)]="selectedServiceCheckCategory" (selectionChange)="fetchServiceCheckCategoryRegions()">
-          <mat-option *ngIf="serviceCheckCategories && (serviceCheckCategories.length > 1)" [value]="'all'">all</mat-option>
+        <mat-option>All</mat-option>
         <mat-option *ngFor="let serviceCheckCategory of serviceCheckCategories" [value]="serviceCheckCategory">{{serviceCheckCategory}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -25,8 +26,19 @@
   <div style="margin-right: 10px">
     <mat-form-field>
       <mat-select placeholder="Regions" [(value)]="selectedRegion" (selectionChange)=reload()>
-        <mat-option *ngIf="regions && (regions.length > 1)" [value]="'all'">all</mat-option>
+        <mat-option>All</mat-option>
         <mat-option *ngFor="let region of regions" [value]="region">{{region}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div style="margin-right: 10px">
+    <mat-form-field>
+      <mat-select placeholder="Severity" [(value)]="selectedSeverity" multiple (selectionChange)=reload()>
+        <mat-option>All</mat-option>
+        <mat-option [value]="'Failure'">Failure</mat-option>
+        <mat-option [value]="'Warning'">Warning</mat-option>
+        <mat-option [value]="'Good'">Good</mat-option>
+        <mat-option [value]="'Info'">Info</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -41,57 +53,61 @@
     <button mat-button routerLink="/">Main dashboard</button>
   </div>
 </div>
+<div class="no-data" *ngIf="!tableData || tableData.length==0">
+  <span>No data for the selected filters. Try removing few filters.</span>
+</div>
+<div *ngIf="tableData && tableData.length>0">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+  <div class="check-detail-container mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
 
-<mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-</mat-form-field>
-<div class="check-detail-container mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="service">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Service </th>
+        <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
+          {{element.service}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="service">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Service </th>
-      <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
-        {{element.service}} </td>
-    </ng-container>
+      <ng-container matColumnDef="checkCategory">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Category </th>
+        <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
+          {{element.checkCategory}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="checkCategory">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Category </th>
-      <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
-        {{element.checkCategory}} </td>
-    </ng-container>
+      <ng-container matColumnDef="region">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Region </th>
+        <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
+          {{element.region}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="region">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Region </th>
-      <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
-        {{element.region}} </td>
-    </ng-container>
+      <ng-container matColumnDef="resourceName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Resource Name </th>
+        <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
+          {{element.resourceSummary.name}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="resourceName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Resource Name </th>
-      <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
-        {{element.resourceSummary.name}} </td>
-    </ng-container>
+      <ng-container matColumnDef="resourceValue">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Resource Value </th>
+        <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
+          {{element.resourceSummary.value}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="resourceValue">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Resource Value </th>
-      <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
-        {{element.resourceSummary.value}} </td>
-    </ng-container>
+      <ng-container matColumnDef="message">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Message </th>
+        <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ?  'warning' : 'failure')">
+          {{element.message}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="message">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Message </th>
-      <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ?  'warning' : 'failure')">
-        {{element.message}} </td>
-    </ng-container>
+      <ng-container matColumnDef="severity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Severity </th>
+        <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
+          {{element.severity}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="severity">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Severity </th>
-      <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
-        {{element.severity}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  <mat-paginator [length]="resultLength" [pageSize]="10" showFirstLastButtons></mat-paginator>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [length]="resultLength" [pageSize]="10" showFirstLastButtons></mat-paginator>
+  </div>
 </div>
