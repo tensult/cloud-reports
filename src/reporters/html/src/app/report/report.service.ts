@@ -234,10 +234,9 @@ export class CloudReportService {
         else if (region) {
             localStorage.setItem('awsRegion', region);
         }
-        else if (service) {
+        else if (service && !region && data) {
             const selectedRegion = localStorage.getItem('awsRegion');
-            const regionsHaveData = this.getRegionsHaveData(service, data);
-            // console.log(selectedRegion, regionsHaveData)
+            const regionsHaveData = this.getRegionsHaveData(data, service);
             for (let i = 0; i < regionsHaveData.length; i++) {
                 if (selectedRegion == regionsHaveData[i]) {
                     return localStorage.getItem('awsRegion');
@@ -253,7 +252,6 @@ export class CloudReportService {
     getCheckDetailData(data, service?: string, checkCategory?: string, region?: string) {
         if (checkCategory && checkCategory !== 'all' && checkCategory !== 'null' && checkCategory !== 'undefined')
             checkCategory = this.replaceSpaceWithUnderscore(checkCategory.toLowerCase());
-        console.log(service, typeof checkCategory, typeof region)
         let filterredData = data;
         if (service && service !== 'null' && service !== 'undefined') {
             filterredData = {

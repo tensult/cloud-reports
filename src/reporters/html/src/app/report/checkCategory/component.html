@@ -1,25 +1,14 @@
 <mat-toolbar>
   <mat-toolbar-row>
     <span class="example-spacer"></span>
-    <button mat-button [matMenuTriggerFor]="menu" [disabled]="regionSelectValidate" >{{selectedRegion}}</button>
+    <button mat-button [matMenuTriggerFor]="menu" [disabled]="regionSelectValidate" matTooltip="Select a region">{{selectedRegion}}</button>
     <mat-menu #menu="matMenu">
       <div style="height: 300px;">
           <button mat-menu-item *ngIf="regions && regions.length>1" (click)="onRegionChange('all')">all</button>
           <button mat-menu-item *ngFor="let region of regions" (click)="onRegionChange(region)"> {{region}}</button>
       </div>
     </mat-menu>
-    <!-- <mat-menu #menu="matMenu">
-        <button mat-menu-item>Item 1</button>
-        <button mat-menu-item>Item 2</button>
-      </mat-menu> -->
-    <!-- <div class="toolbar-region-container">
-      <button mat-button class="toolbar-region-button" (click)="isOpen=!isOpen" [class.open]="isOpen">{{selectedRegion}}</button>
-      <div class="dropdown mat-elevation-z1" [class.open]="isOpen">
-        <p>dropdown content</p>
-      </div>
-    </div> -->
-    <!-- <app-regionmenu [selectedRegion]="selectedRegion" [regions]="regions"></app-regionmenu> -->
-
+    <a mat-button routerLink="/report/checkDetail" [queryParams]="{service: service}">Detail Dashboard</a>
     <a mat-button routerLink="/">Main Dashboard</a>
   </mat-toolbar-row>
 </mat-toolbar>
@@ -42,7 +31,7 @@
           <p>Number of check of resources in bad conditon : {{checkCategory.badConditionCount}}</p>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-button (click)="goToCheckDetail(checkCategory)">Details</button>
+            <a mat-button routerLink="/report/checkDetail" [queryParams]="{service: service, region: selectedRegion, checkCategory: checkCategory.checkCategoryName}">Details</a>
           </mat-card-actions>
       </mat-card>
     </div>

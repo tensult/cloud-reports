@@ -52,14 +52,4 @@ export class CloudReportCheckCategoryComponent implements OnInit {
     this.ngOnInit();
   }
 
-  goToCheckDetail(checkCategory) {
-    this.router.navigate(['/report/checkDetail',
-      {
-        checkCategory: checkCategory['checkCategoryName'],
-        region: this.selectedRegion,
-        service: this.service
-      }
-    ]);
-  }
-
 }

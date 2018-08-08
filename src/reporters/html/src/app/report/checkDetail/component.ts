@@ -37,7 +37,7 @@ export class CloudReportCheckDetailComponent implements OnInit {
     }
 
     loadCheckDetailPageData() {
-        this.route.params.subscribe((urlData) => {
+        this.route.queryParams.subscribe((urlData) => {
             this.cloudReportService.getScanReportData()
                 .subscribe((data) => {
                     this.scanReportData = data;
