@@ -1,5 +1,8 @@
 table {
     width: 100%;
+    .service-name {
+      font-weight: bold;
+    }
   }
 
 .column-header {
@@ -8,12 +11,12 @@ table {
 
 .column-desc-good {
   text-align: center;
-  background-color: rgb(9, 155, 9);
+  background-color: rgb(6, 165, 32)
 }
 
 .column-desc-alert {
   text-align: center;
-  background-color: rgb(218, 104, 104);
+  background-color: rgb(221, 31, 6)
 }
 
 .column-desc-normal {

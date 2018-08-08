@@ -12,7 +12,8 @@ export class CloudReportCheckDetailComponent implements OnInit {
 
     checksDetailData: object[];
     displayedColumns = ['resourceName', 'resourceValue', 'region', 'message', 'severity'];
-    dataSource;
+
+    dataSource = new MatTableDataSource(this.checksDetailData);
     urlData: object = {};
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -23,7 +24,7 @@ export class CloudReportCheckDetailComponent implements OnInit {
     selectedServiceCheckCategory: string;
     serviceCheckCategoryRegions: string[];
     selectedServiceCheckCategoryRegion: string;
-    hasNoRegions: boolean = true;
+    hasNoRegions = true;
 
     scanReportData: Object;
 
@@ -34,6 +35,8 @@ export class CloudReportCheckDetailComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
         this.loadCheckDetailPageData();
     }
 
@@ -47,12 +50,15 @@ export class CloudReportCheckDetailComponent implements OnInit {
                     this.scanReportData = data;
                     this.services = this.cloudReportService.getServices(data);
                     this.selectedService = this.urlData['service'];
-                    this.serviceCheckCategories = this.cloudReportService.getServiceCheckCategories('aws.' + this.selectedService, data);
+                    this.serviceCheckCategories = this.cloudReportService.getServiceCheckCategories('aws.' 
+                    + this.selectedService, data);
                     this.selectedServiceCheckCategory = this.urlData['checkCategory'];
-                    this.serviceCheckCategoryRegions = this.cloudReportService.getServiceCheckCategoryRegions('aws.' + this.selectedService, this.selectedServiceCheckCategory, data);
+                    this.serviceCheckCategoryRegions = this.cloudReportService.getServiceCheckCategoryRegions('aws.' 
+                    + this.selectedService, this.selectedServiceCheckCategory, data);
                     this.selectedServiceCheckCategoryRegion = this.urlData['region'];
 
-                    let checkDetailData = this.cloudReportService.getCheckDetailData(data, 'aws.' + this.urlData['service'], this.urlData['checkCategory'], this.urlData['region']);
+                    let checkDetailData = this.cloudReportService.getCheckDetailData(data, 'aws.'
+                     + this.urlData['service'], this.urlData['checkCategory'], this.urlData['region']);
                     // console.log(checkDetailData);
                     checkDetailData = checkDetailData.map((eachData) => {
                         eachData['resourceSummaryName'] = eachData['resourceSummary']['name'];
@@ -60,32 +66,30 @@ export class CloudReportCheckDetailComponent implements OnInit {
                         eachData['message'] = eachData['message'];
                         eachData['severity'] = eachData['severity'];
                         return eachData;
-                    })
+                    });
                     this.resultLength = checkDetailData.length;
-                    this.dataSource = new MatTableDataSource(checkDetailData);
-                    this.dataSource.paginator = this.paginator;
-                    this.dataSource.sort = this.sort;
-
+                    this.checksDetailData = checkDetailData;
                 }, (error) => {
                     console.log(error);
-                })
-        })
+                });
+        });
     }
 
     applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
-    fetchServiceCheckCateroies() {
+    fetchServiceCheckCategories() {
         this.serviceCheckCategories = this.cloudReportService.getServiceCheckCategories('aws.' + this.selectedService, this.scanReportData)
         this.serviceCheckCategoryRegions = [];
         this.selectedServiceCheckCategory = '';
         this.reload();
     }
 
-    fetchServiceCheckCateroyRegions() {
+    fetchServiceCheckCategoryRegions() {
         this.selectedServiceCheckCategoryRegion = undefined;
-        this.serviceCheckCategoryRegions = this.cloudReportService.getServiceCheckCategoryRegions('aws.' + this.selectedService, this.selectedServiceCheckCategory, this.scanReportData);
+        this.serviceCheckCategoryRegions = this.cloudReportService.getServiceCheckCategoryRegions('aws.' 
+        + this.selectedService, this.selectedServiceCheckCategory, this.scanReportData);
         this.reload();
     }
 
@@ -99,7 +103,7 @@ export class CloudReportCheckDetailComponent implements OnInit {
             checkCategory: this.selectedServiceCheckCategory,
             region: this.selectedServiceCheckCategoryRegion,
             service: this.selectedService
-        }])
+        }]);
     }
 
     goToServiceDashboard() {
