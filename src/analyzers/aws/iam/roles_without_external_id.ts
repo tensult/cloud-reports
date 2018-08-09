@@ -40,6 +40,9 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
     };
 
     private getAssumeRolePolicyDocument(roles: any[]) {
+        if(!roles) {
+            return [];
+        }
         return roles.map((role) => {
             let rolePolicies: any = {};
             rolePolicies.Role = role.RoleName;
@@ -49,6 +52,9 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
     };
 
     private getPermittedAccounts(allPolicies: any[]) {
+        if(!allPolicies) {
+            return [];
+        }
         return allPolicies.map((eachPolicy) => {
             return this.getRoleAccountsObject(eachPolicy.Role, eachPolicy.AssumeRolePolicyDocument.Statement);
         });

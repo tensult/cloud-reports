@@ -12,7 +12,7 @@ import { LogUtil } from './utils/log';
 
 const cliArgs = Cli.parse({
     profile: ['p', 'AWS profile name', 'string'],
-    format: ["f", "output format: html, json or pdf", 'string', 'pdf'],
+    format: ["f", "output format: html, json or pdf", 'string', 'html'],
     output: ['o', 'Report file name', 'string', 'scan_report'],
     outputDir: ['D', 'Output directory', 'string', '.'],
     module: ['m', 'name of the module', 'string'],
