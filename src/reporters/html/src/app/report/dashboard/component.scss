@@ -1,5 +1,10 @@
+.dashboard-content {
+  margin-top: 20px;
+}
 table {
     width: 100%;
+    overflow: auto;
+    max-height: 500px;
     .service-name {
       font-weight: bold;
     }

@@ -1,27 +1,26 @@
-<mat-toolbar>
-  <mat-toolbar-row>
+<div>
+  <mat-toolbar>
+    <a href="/">
+      <img src="assets/tensult-text-logo.svg" alt="Tensult" height="40px">
+    </a>
     <span class="example-spacer"></span>
     <button mat-button [matMenuTriggerFor]="menu" [disabled]="regionSelectValidate" matTooltip="Select a region">{{selectedRegion}}</button>
     <mat-menu #menu="matMenu">
       <div style="height: 300px;">
-          <button mat-menu-item *ngIf="regions && regions.length>1" (click)="onRegionChange('all')">all</button>
-          <button mat-menu-item *ngFor="let region of regions" (click)="onRegionChange(region)"> {{region}}</button>
+        <button mat-menu-item *ngIf="regions && regions.length>1" (click)="onRegionChange('all')">all</button>
+        <button mat-menu-item *ngFor="let region of regions" (click)="onRegionChange(region)"> {{region}}</button>
       </div>
     </mat-menu>
     <a mat-button routerLink="/report/checkDetail" [queryParams]="{service: service}">Detail Dashboard</a>
     <a mat-button routerLink="/">Main Dashboard</a>
-  </mat-toolbar-row>
-</mat-toolbar>
+  </mat-toolbar>
+</div>
+
 <div class="container-one">
-  <!-- <mat-form-field *ngIf="!globalService">
-    <mat-select placeholder="Regions" (selectionChange)="onRegionChange(regionName)" [(ngModel)]="regionName">
-      <mat-option *ngFor="let region of regions" [value]="region">{{region}}</mat-option>
-    </mat-select>
-  </mat-form-field> -->
   <div class="detail-container">
     <div *ngFor="let checkCategory of checkCategories">
       <mat-card class="example-card">
-        <mat-card-header mat-card-image [ngClass]="checkCategory.goodConditionCount>checkCategory.badConditionCount ? 'condition-good' : 'condition-bad'" >
+        <mat-card-header mat-card-image [ngClass]="checkCategory.goodConditionCount>checkCategory.badConditionCount ? 'condition-good' : 'condition-bad'">
           <mat-card-title>
             <h3>{{checkCategory.checkCategoryName}}</h3>
           </mat-card-title>
@@ -31,8 +30,8 @@
           <p>Number of check of resources in bad conditon : {{checkCategory.badConditionCount}}</p>
         </mat-card-content>
         <mat-card-actions>
-            <a mat-button routerLink="/report/checkDetail" [queryParams]="{service: service, region: selectedRegion, checkCategory: checkCategory.checkCategoryName}">Details</a>
-          </mat-card-actions>
+          <a mat-button routerLink="/report/checkDetail" [queryParams]="{service: service, region: selectedRegion, checkCategory: checkCategory.checkCategoryName}">Details</a>
+        </mat-card-actions>
       </mat-card>
     </div>
   </div>
