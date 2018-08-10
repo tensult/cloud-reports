@@ -15,7 +15,9 @@ import {
     MatPaginatorModule,
     MatInputModule,
     MatMenuModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatChipsModule,
+    MatIconModule
 } from '@angular/material';
 
 @NgModule({
@@ -36,6 +38,8 @@ import {
         MatInputModule,
         MatMenuModule,
         MatTooltipModule,
+        MatIconModule,
+        MatChipsModule,
         RouterModule.forChild([
             { path: 'report/dashboard', component: CloudReportDashboardComponent },
             { path: 'report/checkCategory/:service', component: CloudReportCheckCategoryComponent },

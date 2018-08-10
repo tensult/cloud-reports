@@ -52,12 +52,22 @@
   </div> -->
   <div class="example-spacer"></div>
   <div>
-    <button mat-button (click)="goToServiceDashboard()">Service dashboard</button>
+    <button mat-button >Service dashboard</button>
   </div>
   <div>
     <button mat-button routerLink="/">Main dashboard</button>
   </div>
 </div>
+
+<div class="filter-selection">
+        <mat-chip-list>
+            <mat-chip *ngFor="let filterSelection of filterSelections" [selectable]="selectable" [removable]="removable" (removed)="remove(filterSelection)">
+              {{filterSelection.key}}:{{filterSelection.value}}
+              <span matChipRemove> <b>X</b> </span>
+            </mat-chip>
+        </mat-chip-list>
+</div>
+
 <div class="no-data" *ngIf="!tableData || tableData.length==0">
   <span>No data for the selected filters. Try removing few filters.</span>
 </div>

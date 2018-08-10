@@ -26,6 +26,8 @@ export class CloudReportCheckDetailComponent implements OnInit {
     selectedSeverity: string[];
     tableData: any[];
     scanReportData: Object;
+    filterSelections: Object[];
+    removable: boolean = true;
 
     constructor(
         private cloudReportService: CloudReportService,
@@ -46,6 +48,7 @@ export class CloudReportCheckDetailComponent implements OnInit {
             this.cloudReportService.getScanReportData()
                 .subscribe((data) => {
                     console.log(urlData)
+                    this.loadSelections(urlData);
                     this.scanReportData = data;
                     this.services = this.cloudReportService.getServices(data);
                     this.selectedSeverity = ArrayUtil.toArray(urlData['severity']);
@@ -134,5 +137,31 @@ export class CloudReportCheckDetailComponent implements OnInit {
             }
         }
         return tableData;
+    }
+
+    private loadSelections(urlData) {
+        let urlParameters = [];
+        for(let urlDataKey in urlData) {
+            urlParameters.push({ key: urlDataKey, value: urlData[urlDataKey]})
+        }
+        console.log(urlParameters)
+        this.filterSelections = urlParameters;
+    }
+
+    remove(filterSelection) {
+        console.log(filterSelection)
+        if(filterSelection.key === 'service') {
+            this.selectedService = undefined;
+        }
+        if(filterSelection.key === 'checkCategory') {
+            this.selectedServiceCheckCategory = undefined;
+        }
+        if(filterSelection.key === 'severity') {
+            this.selectedSeverity = [];
+        }
+        if(filterSelection.key === 'region') {
+            this.selectedRegion = undefined;
+        }
+        this.reload();
     }
 }
