@@ -6,12 +6,39 @@ import { HttpClient } from '@angular/common/http';
 export class CloudReportService {
 
     scanReportData;
+    private awsRegions = [
+        'us-east-1',
+        'us-east-2',
+        'us-west-1',
+        'us-west-2',
+        'ca-central-1',
+        'eu-west-1',
+        'eu-west-2',
+        'eu-west-3',
+        'eu-central-1',
+        'ap-northeast-1',
+        'ap-northeast-2',
+        'ap-southeast-1',
+        'ap-southeast-2',
+        'ap-south-1',
+        'sa-east-1',
+        'cn-north-1',
+        'cn-northwest-1',
+        'ap-northeast-3',
+    ]
+    
 
     constructor(private http: HttpClient) { }
 
     private fetchScanReportData() {
         return this.http.get('assets/data.json');
     }
+
+    getAllRegions(provider) {
+        if(provider === 'aws') {
+            return this.awsRegions;
+        }
+    }   
 
     getScanReportData() {
         if (!this.scanReportData) {
@@ -345,6 +372,30 @@ export class CloudReportService {
         // console.log(regionsHaveData)
         return regionsHaveData;
     }
+
+    storeFilterSelectionData(data) {
+        let storedFilterSelection = [];
+        storedFilterSelection = JSON.parse(localStorage.getItem('filterSelection'));
+        if(!storedFilterSelection || storedFilterSelection.length < 1) {
+            storedFilterSelection = [];
+        }
+        storedFilterSelection.push(data);
+        localStorage.setItem('filterSelection', JSON.stringify(storedFilterSelection));
+    }
+
+    getFilterSelectionData() {
+        let storedFilterSelection = JSON.parse(localStorage.getItem('filterSelection'));
+        if(storedFilterSelection && storedFilterSelection.length > 0) {
+            return storedFilterSelection;
+        }
+    }
+
+    checkSameFilterSelectionData(storedFilterSelectionData: Object[], newFilterSelectionData: Object) {
+        for(let i=0; i<storedFilterSelectionData.length; i++) {
+            
+        }
+    }
+
 /************************************ check detail page end ***********************************************/
 
 
