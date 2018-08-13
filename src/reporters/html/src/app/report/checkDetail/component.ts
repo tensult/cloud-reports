@@ -11,7 +11,7 @@ import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 })
 export class CloudReportCheckDetailComponent implements OnInit {
 
-    displayedColumns = ['service', 'checkCategory', 'region', 'resourceName', 'resourceValue', 'message', 'severity'];
+    displayedColumns = ['service', 'checkCategory', 'region', 'resourceName', 'resourceValue', 'message', 'severity', 'action'];
     dataSource;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -26,8 +26,9 @@ export class CloudReportCheckDetailComponent implements OnInit {
     selectedSeverity: string[];
     tableData: any[];
     scanReportData: Object;
-    filterSelections: Object[];
     removable: boolean = true;
+
+    filterSelections: Object[];
 
     constructor(
         private cloudReportService: CloudReportService,
@@ -47,8 +48,7 @@ export class CloudReportCheckDetailComponent implements OnInit {
         this.route.queryParams.subscribe((urlData) => {
             this.cloudReportService.getScanReportData()
                 .subscribe((data) => {
-                    console.log(urlData)
-                    this.loadSelections(urlData);
+                    // this.loadFilterSelection();
                     this.scanReportData = data;
                     this.services = this.cloudReportService.getServices(data);
                     this.selectedSeverity = ArrayUtil.toArray(urlData['severity']);
@@ -58,23 +58,24 @@ export class CloudReportCheckDetailComponent implements OnInit {
                         this.serviceCheckCategories = this.cloudReportService.getServiceCheckCategories(this.cloudReportService.getCheckDetailData(data, serviceKey));
                     }
                     this.selectedServiceCheckCategory = urlData['checkCategory'] == 'null' || urlData['checkCategory'] == 'undefined' ? 'all' : urlData['checkCategory'];
-                    if (this.selectedServiceCheckCategory) {
-                        this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(data, serviceKey, this.selectedServiceCheckCategory, undefined, this.selectedSeverity));
-                    } else {
-                        this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(data, serviceKey, undefined, undefined, this.selectedSeverity));
-                    }
+                    // if (this.selectedServiceCheckCategory) {
+                    //     this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(data, serviceKey, this.selectedServiceCheckCategory, undefined, this.selectedSeverity));
+                    // } else {
+                    //     this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(data, serviceKey, undefined, undefined, this.selectedSeverity));
+                    // }
+                    this.regions = this.cloudReportService.getAllRegions('aws');
                     this.selectedRegion = urlData['region'] == 'null' || urlData['region'] == 'undefined' ? 'all' : urlData['region'];
                     if (this.regions.length === 1) {
                         this.selectedRegion = this.regions[0];
                     }
                     const filterredData = this.cloudReportService.getCheckDetailData(data, serviceKey, this.selectedServiceCheckCategory, this.selectedRegion, this.selectedSeverity);
-
+                    // console.log('filtered data', filterredData);
                     this.tableData = this.makeTableData(filterredData);
+                    // console.log('table data', this.tableData)
                     this.dataSource = new MatTableDataSource(this.tableData)
                     this.resultLength = this.tableData.length;
                     this.dataSource.paginator = this.paginator;
                     this.dataSource.sort = this.sort;
-
                 }, (error) => {
                     console.log(error);
                 });
@@ -88,23 +89,28 @@ export class CloudReportCheckDetailComponent implements OnInit {
     fetchServiceCheckCategories() {
         this.selectedServiceCheckCategory = undefined;
         this.serviceCheckCategories = this.cloudReportService.getServiceCheckCategories(this.cloudReportService.getCheckDetailData(this.scanReportData, this.getServiceKey()))
-        this.selectedRegion = undefined;
-        this.regions = [];
+        // this.selectedRegion = undefined;
+        // this.regions = [];
         this.reload();
     }
 
     fetchServiceCheckCategoryRegions() {
-        console.log(this.selectedServiceCheckCategory);
-        this.selectedRegion = undefined;
-        this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(this.scanReportData, this.getServiceKey(), this.selectedServiceCheckCategory, undefined, this.selectedSeverity));
+        // this.selectedRegion = undefined;
+        // this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(this.scanReportData, this.getServiceKey(), this.selectedServiceCheckCategory, undefined, this.selectedSeverity));
         this.reload();
     }
 
     reload() {
-        console.log('all data is present, selectedService = ' + this.selectedService + ' or selectedServiceCheckCategory = ' + this.selectedServiceCheckCategory + ' or selectedServiceCheckCategoryRegion =' + this.selectedRegion + ' or selectedSeverity =' + this.selectedSeverity + ' and reloading page');
-        if(!ArrayUtil.isNotBlank(this.selectedSeverity)) {
+        // console.log('all data is present, selectedService = ' + this.selectedService + ' or selectedServiceCheckCategory = ' + this.selectedServiceCheckCategory + ' or selectedServiceCheckCategoryRegion =' + this.selectedRegion + ' or selectedSeverity =' + this.selectedSeverity + ' and reloading page');
+        if (!ArrayUtil.isNotBlank(this.selectedSeverity)) {
             this.selectedSeverity = undefined;
         }
+        // this.storeFliterSelectionData({
+        //     checkCategory: this.selectedServiceCheckCategory,
+        //     region: this.selectedRegion,
+        //     service: this.selectedService,
+        //     severity: this.selectedSeverity
+        // });
         this.router.navigate(['/report/checkDetail'], {
             queryParams: {
                 checkCategory: this.selectedServiceCheckCategory,
@@ -130,6 +136,7 @@ export class CloudReportCheckDetailComponent implements OnInit {
                             regionsObject[regionsObjectKey][i]['service'] = serviceObjectKey.split('.')[1];
                             regionsObject[regionsObjectKey][i]['checkCategory'] = checkCategoryObjectKey;
                             regionsObject[regionsObjectKey][i]['region'] = regionsObjectKey;
+                            regionsObject[regionsObjectKey][i]['recommendation'] = filteredDataObject[serviceObjectKey][checkCategoryObjectKey].recommendation;
                             tableData.push(regionsObject[regionsObjectKey][i]);
                         }
                     }
@@ -139,29 +146,32 @@ export class CloudReportCheckDetailComponent implements OnInit {
         return tableData;
     }
 
-    private loadSelections(urlData) {
-        let urlParameters = [];
-        for(let urlDataKey in urlData) {
-            urlParameters.push({ key: urlDataKey, value: urlData[urlDataKey]})
-        }
-        console.log(urlParameters)
-        this.filterSelections = urlParameters;
-    }
+    // loadFilterSelection() {
+    //     const filterSelectionData = this.cloudReportService.getFilterSelectionData();
+    //     console.log('Loading filter selection data: ', filterSelectionData);
+        
+    //     // this.filterSelections = filterSelectionData;
+    // }
 
-    remove(filterSelection) {
-        console.log(filterSelection)
-        if(filterSelection.key === 'service') {
-            this.selectedService = undefined;
-        }
-        if(filterSelection.key === 'checkCategory') {
-            this.selectedServiceCheckCategory = undefined;
-        }
-        if(filterSelection.key === 'severity') {
-            this.selectedSeverity = [];
-        }
-        if(filterSelection.key === 'region') {
-            this.selectedRegion = undefined;
-        }
-        this.reload();
-    }
+    // storeFliterSelectionData(data) {
+    //     console.log('Filter data is storing..');
+    //     this.cloudReportService.storeFilterSelectionData(data);
+    // }
+
+    // remove(filterSelection) {
+    //     console.log(filterSelection)
+    //     if (filterSelection.key === 'service') {
+    //         this.selectedService = undefined;
+    //     }
+    //     if (filterSelection.key === 'checkCategory') {
+    //         this.selectedServiceCheckCategory = undefined;
+    //     }
+    //     if (filterSelection.key === 'severity') {
+    //         this.selectedSeverity = [];
+    //     }
+    //     if (filterSelection.key === 'region') {
+    //         this.selectedRegion = undefined;
+    //     }
+    //     this.reload();
+    // }
 }
