@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "npm install; tsc; cd src/reporters/html; npm install; npm run-script ng build --  --prod; cd -",
+    "build": "npm install && tsc && cd src/reporters/html && npm install && npm run ng build --  --prod && cd ../../..",
     "publish": "npm run build",
     "scan": "node dist/scan.js"
   },
