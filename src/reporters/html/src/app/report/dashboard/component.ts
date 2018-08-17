@@ -10,7 +10,7 @@ import { MatTableDataSource } from '@angular/material';
 })
 export class CloudReportDashboardComponent implements OnInit {
 
-  displayedColumns: string[] = ['services', 'noOfChecks', 'noOfFailures', 'action'];
+  displayedColumns: string[] = ['services', 'noOfChecks', 'noOfFailures'];
   dataSource;
   scanReportData: Object;
 

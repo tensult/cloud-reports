@@ -13,6 +13,7 @@
 }
 
 .example-card {
+    cursor: pointer;
     margin-right: 20px;
     margin-left: 20px;
     margin-top: 20px;
@@ -27,7 +28,7 @@
 }
 
 .condition-bad {
-    background-color: rgb(221, 31, 6);
+    background-color: rgb(240, 67, 44);
 }
 
 .container-one {

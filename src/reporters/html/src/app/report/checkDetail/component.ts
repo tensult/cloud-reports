@@ -48,30 +48,30 @@ export class CloudReportCheckDetailComponent implements OnInit {
         this.route.queryParams.subscribe((urlData) => {
             this.cloudReportService.getScanReportData()
                 .subscribe((data) => {
-                    // this.loadFilterSelection();
                     this.scanReportData = data;
-                    this.services = this.cloudReportService.getServices(data);
-                    this.selectedSeverity = ArrayUtil.toArray(urlData['severity']);
+
+                    // Auto select
                     this.selectedService = urlData['service'];
+                    this.selectedServiceCheckCategory = urlData['checkCategory'];
+                    this.selectedRegion = urlData['region'];
+                    this.selectedSeverity = ArrayUtil.toArray(urlData['severity']);
+
+                    console.log('selected service: '+this.selectedSeverity+', selected check category: '+this.selectedServiceCheckCategory+', selected region: '+this.selectedRegion+', selected severity: '+this.selectedSeverity);
+
                     const serviceKey = this.getServiceKey();
-                    if (this.selectedService) {
-                        this.serviceCheckCategories = this.cloudReportService.getServiceCheckCategories(this.cloudReportService.getCheckDetailData(data, serviceKey));
-                    }
-                    this.selectedServiceCheckCategory = urlData['checkCategory'] == 'null' || urlData['checkCategory'] == 'undefined' ? 'all' : urlData['checkCategory'];
-                    // if (this.selectedServiceCheckCategory) {
-                    //     this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(data, serviceKey, this.selectedServiceCheckCategory, undefined, this.selectedSeverity));
-                    // } else {
-                    //     this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(data, serviceKey, undefined, undefined, this.selectedSeverity));
-                    // }
-                    this.regions = this.cloudReportService.getAllRegions('aws');
-                    this.selectedRegion = urlData['region'] == 'null' || urlData['region'] == 'undefined' ? 'all' : urlData['region'];
-                    if (this.regions.length === 1) {
-                        this.selectedRegion = this.regions[0];
-                    }
-                    const filterredData = this.cloudReportService.getCheckDetailData(data, serviceKey, this.selectedServiceCheckCategory, this.selectedRegion, this.selectedSeverity);
-                    // console.log('filtered data', filterredData);
-                    this.tableData = this.makeTableData(filterredData);
-                    // console.log('table data', this.tableData)
+                    const filteredReportData = this.cloudReportService.getCheckDetailData(data, serviceKey, this.selectedServiceCheckCategory, this.selectedRegion, this.selectedSeverity);
+                    console.log('filtered data', filteredReportData);
+
+                    // Handle services
+                    this.handleServices(data, urlData);
+
+                    // Handle service check categories
+                    this.handleServiceCheckCategories(filteredReportData, urlData);
+
+                    // Handle regions
+                    this.handleRegions(data, urlData);
+
+                    this.tableData = this.makeTableData(filteredReportData);
                     this.dataSource = new MatTableDataSource(this.tableData)
                     this.resultLength = this.tableData.length;
                     this.dataSource.paginator = this.paginator;
@@ -82,21 +82,72 @@ export class CloudReportCheckDetailComponent implements OnInit {
         });
     }
 
+    // Handle dropdown services
+    handleServices(reportData, urlData) {
+        this.services = this.cloudReportService.getServices(reportData, this.selectedRegion, this.selectedSeverity);
+        console.log('Services: ', this.services);
+    }
+
+    checkDropdownServiceStatus(serviceObject) {
+        if(!serviceObject.hasOwnProperty('regionStatus') && !serviceObject.hasOwnProperty('severityStatus')) {
+            return true;
+        }
+        if (serviceObject.hasOwnProperty('regionStatus') && serviceObject.regionStatus) {
+            if (serviceObject.hasOwnProperty('severityStatus') && serviceObject.severityStatus) {
+                return true;
+            }
+            else if (serviceObject.hasOwnProperty('severityStatus') && !serviceObject.severityStatus) {
+                return false;
+            }
+            else if(!serviceObject.hasOwnProperty('severityStatus')) {
+                return true;
+            }
+        }
+        else if (serviceObject.hasOwnProperty('severityStatus') && serviceObject.severityStatus) {
+            if(serviceObject.hasOwnProperty('regionStatus') && serviceObject.regionStatus) {
+                return true;
+            }
+            if(serviceObject.hasOwnProperty('regionStatus') && !serviceObject.regionStatus) {
+                return false;
+            }
+            if(!serviceObject.hasOwnProperty('regionStatus')) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    handleServiceCheckCategories(filteredReportData, urlData) {
+        if (this.selectedService)
+            this.serviceCheckCategories = this.cloudReportService.getServiceCheckCategoriesByFilteredReportData(filteredReportData);
+        else {
+            this.serviceCheckCategories = [];
+        }
+    }
+
+    handleRegions(reportData, urlData) {
+        if(!this.selectedService && !this.selectedServiceCheckCategory && !this.selectedRegion && !this.selectedSeverity) {
+            this.regions = this.cloudReportService.getAllRegions();
+        }
+        else {
+            console.log('Regions: '+ JSON.stringify(this.cloudReportService.getRegions(reportData, this.selectedService, this.selectedServiceCheckCategory, this.selectedSeverity)))
+        }
+    }
+
     applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
-    fetchServiceCheckCategories() {
+    changeService() {
         this.selectedServiceCheckCategory = undefined;
-        this.serviceCheckCategories = this.cloudReportService.getServiceCheckCategories(this.cloudReportService.getCheckDetailData(this.scanReportData, this.getServiceKey()))
-        // this.selectedRegion = undefined;
-        // this.regions = [];
         this.reload();
     }
 
-    fetchServiceCheckCategoryRegions() {
-        // this.selectedRegion = undefined;
-        // this.regions = this.cloudReportService.getServiceRegions(this.cloudReportService.getCheckDetailData(this.scanReportData, this.getServiceKey(), this.selectedServiceCheckCategory, undefined, this.selectedSeverity));
+    changeServiceCheckCategories() {
+        this.reload();
+    }
+
+    changeRegion() {
         this.reload();
     }
 
@@ -136,42 +187,25 @@ export class CloudReportCheckDetailComponent implements OnInit {
                             regionsObject[regionsObjectKey][i]['service'] = serviceObjectKey.split('.')[1];
                             regionsObject[regionsObjectKey][i]['checkCategory'] = checkCategoryObjectKey;
                             regionsObject[regionsObjectKey][i]['region'] = regionsObjectKey;
-                            regionsObject[regionsObjectKey][i]['recommendation'] = filteredDataObject[serviceObjectKey][checkCategoryObjectKey].recommendation;
+                            if (regionsObject[regionsObjectKey][i].hasOwnProperty('action')) {
+                                regionsObject[regionsObjectKey][i]['action'] = regionsObject[regionsObjectKey][i].action;
+                            }
+                            else {
+                                regionsObject[regionsObjectKey][i]['action'] = '----';
+                            }
                             tableData.push(regionsObject[regionsObjectKey][i]);
                         }
                     }
                 }
             }
         }
+        // console.log('table data: ', tableData);
+
         return tableData;
     }
 
-    // loadFilterSelection() {
-    //     const filterSelectionData = this.cloudReportService.getFilterSelectionData();
-    //     console.log('Loading filter selection data: ', filterSelectionData);
-        
-    //     // this.filterSelections = filterSelectionData;
-    // }
+    showService(service) {
+        return service.split('.')[1];
+    }
 
-    // storeFliterSelectionData(data) {
-    //     console.log('Filter data is storing..');
-    //     this.cloudReportService.storeFilterSelectionData(data);
-    // }
-
-    // remove(filterSelection) {
-    //     console.log(filterSelection)
-    //     if (filterSelection.key === 'service') {
-    //         this.selectedService = undefined;
-    //     }
-    //     if (filterSelection.key === 'checkCategory') {
-    //         this.selectedServiceCheckCategory = undefined;
-    //     }
-    //     if (filterSelection.key === 'severity') {
-    //         this.selectedSeverity = [];
-    //     }
-    //     if (filterSelection.key === 'region') {
-    //         this.selectedRegion = undefined;
-    //     }
-    //     this.reload();
-    // }
 }

@@ -26,19 +26,53 @@ export class CloudReportService {
         'cn-northwest-1',
         'ap-northeast-3',
     ]
-    
+
 
     constructor(private http: HttpClient) { }
+
+    /****************** General  *******************/
+
+    checkHasData(data: string, dataArray: string[]) {
+        for (let i = 0; i < dataArray.length; i++) {
+            if (data === dataArray[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    replaceUnderscoreWithSpace(string) {
+        return string.split('_').join(' ');
+    }
+
+    replaceSpaceWithUnderscore(string) {
+        return string.split(' ').join('_');
+    }
+
+    /**************************************************/
 
     private fetchScanReportData() {
         return this.http.get('assets/data.json');
     }
 
-    getAllRegions(provider) {
-        if(provider === 'aws') {
-            return this.awsRegions;
+    getAllRegions() {
+        return this.awsRegions;
+    }
+
+    getRegionsByFilteredReportData(filteredReportData) {
+        let regions = [];
+        for (let serviceObjectKey in filteredReportData) {
+            for (let serviceCheckCategoryObjectKey in filteredReportData[serviceObjectKey]) {
+                const regionsObject = filteredReportData[serviceObjectKey][serviceCheckCategoryObjectKey].regions;
+                for (let regionsObjectKey in regionsObject) {
+                    if (regionsObject[regionsObjectKey].length > 0 && !this.checkHasData(regionsObjectKey, regions)) {
+                        regions.push(regionsObjectKey);
+                    }
+                }
+            }
         }
-    }   
+        return regions;
+    }
 
     getScanReportData() {
         if (!this.scanReportData) {
@@ -100,35 +134,6 @@ export class CloudReportService {
         const regionsObject = checkCategoryObject['regions'];
         for (let regionsObjectKey in regionsObject) {
             if (regionsObject[regionsObjectKey].length >= 1) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    checkServiceHasData(serviceObject) {
-        for (let checkCategoryObjectKey in serviceObject) {
-            const regionsObject = serviceObject[checkCategoryObjectKey]['regions'];
-            for (let regionsObjectKey in regionsObject) {
-                if (regionsObject[regionsObjectKey].length >= 1) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    replaceUnderscoreWithSpace(string) {
-        return string.split('_').join(' ');
-    }
-
-    replaceSpaceWithUnderscore(string) {
-        return string.split(' ').join('_');
-    }
-
-    checkHasData(data, dataArray) {
-        for (let i = 0; i < dataArray.length; i++) {
-            if (data === dataArray[i]) {
                 return true;
             }
         }
@@ -292,7 +297,7 @@ export class CloudReportService {
                 }
             }
         }
-        
+
         if (ArrayUtil.isNotBlank(region)) {
             for (let serviceIndex in filterredData) {
                 for (let checkCategoryIndex in filterredData[serviceIndex]) {
@@ -309,7 +314,7 @@ export class CloudReportService {
             for (let serviceIndex in filterredData) {
                 for (let checkCategoryIndex in filterredData[serviceIndex]) {
                     for (let regionIndex in filterredData[serviceIndex][checkCategoryIndex].regions) {
-                        if(!filterredData[serviceIndex][checkCategoryIndex].regions[regionIndex]) {
+                        if (!filterredData[serviceIndex][checkCategoryIndex].regions[regionIndex]) {
                             continue;
                         }
                         filterredData[serviceIndex][checkCategoryIndex].regions[regionIndex] = filterredData[serviceIndex][checkCategoryIndex].regions[regionIndex].filter((checkData) => {
@@ -322,15 +327,334 @@ export class CloudReportService {
         return filterredData;
     }
 
-    /** 
-     * Return services which are 
-     * present in report data and have data
-     */
-    getServices(data) {
+
+    checkForSameData(objectArray, objectKey, objectKeyValue) {
+        for (let i = 0; i < objectArray.length; i++) {
+            if (objectArray[i][objectKey] === objectKeyValue) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    checkSeverityHasServiceData(reportData, service, severity) {
+        if (reportData.hasOwnProperty(service)) {
+            for (let checkCategoryObjectKey in reportData[service]) {
+                const regionsObject = reportData[service][checkCategoryObjectKey].regions;
+                for (let regionsObjectKey in regionsObject) {
+                    for (let j = 0; j < regionsObject[regionsObjectKey].length; j++) {
+                        for (let i = 0; i < severity.length; i++) {
+                            if (severity[i] === regionsObject[regionsObjectKey][j]['severity']) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+    }
+
+    checkRegionHasServiceData(reportData, service, region) {
+        if (reportData.hasOwnProperty(service)) {
+            for (let checkCategoryObjectKey in reportData[service]) {
+                const regionsObject = reportData[service][checkCategoryObjectKey].regions;
+                if (regionsObject.hasOwnProperty(region) && regionsObject[region].length > 0) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    getServices(reportData, region, severity) {
+        // console.log(region, severity);
         let services = [];
-        for (let serviceObjectKey in data) {
-            if (this.checkServiceHasData(data[serviceObjectKey])) {
-                services.push(serviceObjectKey.split('.')[1]);
+        for (let serviceObjectKey in reportData) {
+            for (let checkCategoryObjectKey in reportData[serviceObjectKey]) {
+                const regionsObject = reportData[serviceObjectKey][checkCategoryObjectKey].regions;
+                if (!this.checkForSameData(services, 'service', serviceObjectKey)) {
+                    if (region) {
+                        // Region
+                        if (this.checkRegionHasServiceData(reportData, serviceObjectKey, region)) {
+                            // Region has service data
+                            if (severity && severity[0]) {
+                                if (this.checkSeverityHasServiceData(reportData, serviceObjectKey, severity)) {
+                                    // Severity has service data
+                                    services.push({
+                                        service: serviceObjectKey,
+                                        regionStatus: true,
+                                        severityStatus: true
+                                    })
+                                }
+                                else {
+                                    // Severity does not have service data
+                                    services.push({
+                                        service: serviceObjectKey,
+                                        regionStatus: true,
+                                        severityStatus: false
+                                    })
+                                }
+                            }
+                            else {
+                                // Region, No Severity
+                                services.push({
+                                    service: serviceObjectKey,
+                                    regionStatus: true
+                                })
+                            }
+                        }
+                        else {
+                            // Region does not have data
+                            if (severity && severity[0]) {
+                                if (this.checkSeverityHasServiceData(reportData, serviceObjectKey, severity)) {
+                                    // Severity has service data
+                                    services.push({
+                                        service: serviceObjectKey,
+                                        regionStatus: false,
+                                        severityStatus: true
+                                    })
+                                }
+                                else {
+                                    // Severity does not have service data
+                                    services.push({
+                                        service: serviceObjectKey,
+                                        regionStatus: false,
+                                        severityStatus: false
+                                    })
+                                }
+
+                            }
+                            else {
+                                // No Severity
+                                services.push({
+                                    service: serviceObjectKey,
+                                    regionStatus: false
+                                })
+                            }
+                        }
+                    }
+                    else {
+                        // No region
+                        if (severity && severity[0]) {
+                            if (this.checkSeverityHasServiceData(reportData, serviceObjectKey, severity)) {
+                                // Severity has service data
+                                services.push({
+                                    service: serviceObjectKey,
+                                    severityStatus: true
+                                })
+                            }
+                            else {
+                                // Severity does not have service data
+                                services.push({
+                                    service: serviceObjectKey,
+                                    severityStatus: false
+                                })
+                            }
+
+                        }
+                        else {
+                            // No severity
+                            services.push({
+                                service: serviceObjectKey
+                            })
+                        }
+                    }
+                }
+            }
+        }
+        return services;
+    }
+
+    checkRegionHasSeverityData(reportData, region, severity) {
+        for (let i = 0; i < severity.length; i++) {
+            for (let serviceObjectKey in reportData) {
+                for (let checkCategoryObjectKey in reportData[serviceObjectKey]) {
+                    const regionsObject = reportData[serviceObjectKey][checkCategoryObjectKey].regions;
+                    for (let j = 0; j < regionsObject[region].length; j++) {
+                        if (regionsObject[region][j].severity === severity[i]) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    checkRegionHasServiceCheckCategoryData(reportData, region, service, checkCategory) {
+        if (reportData[service][checkCategory].regions[region].length > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    checkRegionHasServiceSeverityData(reportData, region, service, severity) {
+        for (let i = 0; i < severity.length; i++) {
+            for (let checkCategoryObjectKey in reportData[service]) {
+                const regionsObject = reportData[service][checkCategoryObjectKey].regions;
+                for (let j = 0; j < regionsObject[region].length; j++) {
+                    if (regionsObject[region][j].severity === severity[i]) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    checkRegionHasServiceCheckCategorySeverityData(reportData, region, service, checkCategory, severity) {
+        for (let i = 0; i < severity.length; i++) {
+            for (let j = 0; j < reportData[service][checkCategory].regions[region].length; j++) {
+                if (reportData[service][checkCategory].regions[region][j].severity === severity[i]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    getRegions(reportData, service, checkCategory, severity) {
+        console.log(service, checkCategory, severity)
+        let regions = [];
+        for (let i = 0; i < this.awsRegions.length; i++) {
+            if (service) {
+                if (this.checkRegionHasServiceData(reportData, service, this.awsRegions[i])) {
+                    if (checkCategory) {
+                        // Service, CheckCategory
+                        if (this.checkRegionHasServiceCheckCategoryData(reportData, this.awsRegions[i], service, checkCategory)) {
+                            if (severity && severity[0]) {
+                                // Service, CheckCategory, Severity
+                                if (this.checkRegionHasServiceCheckCategorySeverityData(reportData, this.awsRegions[i], service, checkCategory, severity)) {
+                                    regions.push({
+                                        region: this.awsRegions[i],
+                                        serviceStatus: true,
+                                        checkCategoryStatus: true,
+                                        severityStatus: true
+                                    })
+                                }
+                                else {
+                                    regions.push({
+                                        region: this.awsRegions[i],
+                                        serviceStatus: true,
+                                        checkCategoryStatus: true,
+                                        severityStatus: false
+                                    })
+                                }
+                            }
+                            else {
+                                // Service, CheckCategory, No Severity
+                                if (reportData[service][checkCategory].regions[this.awsRegions[i]].length > 0) {
+                                    regions.push({
+                                        region: this.awsRegions[i],
+                                        serviceStatus: true,
+                                        checkCategoryStatus: true
+                                    })
+                                }
+                            }
+                        }
+                        else {
+                            regions.push({
+                                region: this.awsRegions,
+                                serviceStatus: true,
+                                checkCategoryStatus: false
+                            })
+                        }
+                    }
+                    else {
+                        // Service, No CheckCategory
+                        if (severity && severity[0]) {
+                            // Service, No CheckCategory, Severity
+                            if (this.checkRegionHasServiceSeverityData(reportData, this.awsRegions[i], service, severity)) {
+                                regions.push({
+                                    region: this.awsRegions[i],
+                                    serviceStatus: true,
+                                    severityStatus: true
+                                })
+                            }
+                            else {
+                                regions.push({
+                                    region: this.awsRegions[i],
+                                    serviceStatus: true,
+                                    severityStatus: false
+                                })
+                            }
+                        }
+                        else {
+                            // Service, No CheckCategory, No Severity
+                            regions.push({
+                                region: this.awsRegions[i],
+                                serviceStatus: true
+                            })
+                        }
+                    }
+                }
+                else {
+                    if (severity && severity[0]) {
+                        if (this.checkRegionHasSeverityData(reportData, this.awsRegions[i], severity)) {
+                            regions.push({
+                                region: this.awsRegions[i],
+                                serviceStatus: false,
+                                severityStatus: true
+                            })
+                        }
+                        else {
+                            regions.push({
+                                region: this.awsRegions[i],
+                                serviceStatus: false,
+                                severityStatus: false
+                            })
+                        }
+                    }
+                    else {
+                        regions.push({
+                            region: this.awsRegions[i],
+                            serviceStatus: false
+                        })
+                    }
+                }
+            }
+            else {
+                if (severity && severity[0]) {
+                    // Severity
+                    if (this.checkRegionHasSeverityData(reportData, this.awsRegions[i], severity)) {
+                        regions.push({
+                            region: this.awsRegions[i],
+                            severityStatus: true
+                        })
+                    }
+                    else {
+                        regions.push({
+                            region: this.awsRegions[i],
+                            severityStatus: false
+                        })
+                    }
+                }
+                else {
+                    regions.push({
+                        region: this.awsRegions[i]
+                    })
+                }
+            }
+        }
+        return regions;
+    }
+
+    // Remove aws. from service name
+    getServiceName(serviceName) {
+        return serviceName.split('.')[1];
+    }
+
+    getServicesByFilteredReportData(filteredReportData) {
+        let services = [];
+        for (let serviceObjectKey in filteredReportData) {
+            for (let checkCategoryObjectKey in filteredReportData[serviceObjectKey]) {
+                const regionsObject = filteredReportData[serviceObjectKey][checkCategoryObjectKey].regions;
+                for (let regionsObjectKey in regionsObject) {
+                    if (regionsObject[regionsObjectKey].length > 0 && !this.checkHasData(this.getServiceName(serviceObjectKey), services)) {
+                        services.push(this.getServiceName(serviceObjectKey));
+                    }
+                }
             }
         }
         return services;
@@ -340,18 +664,28 @@ export class CloudReportService {
      * Return check categories
      * based on service
     */
-    getServiceCheckCategories(data) {
-        let checkCategories = [];
-        for (let serviceObjectKey in data) {
-            for (let checkCategoryObjectKey in data[serviceObjectKey]) {
-                const checkCategoryObject = data[serviceObjectKey][checkCategoryObjectKey];
-                if (this.checkServiceCheckCategoryHasData(checkCategoryObject)) {
-                    checkCategories.push(this.replaceUnderscoreWithSpace(checkCategoryObjectKey));
-                }
-            }
+    // getServiceCheckCategories(data) {
+    //     let checkCategories = [];
+    //     for (let serviceObjectKey in data) {
+    //         for (let checkCategoryObjectKey in data[serviceObjectKey]) {
+    //             const checkCategoryObject = data[serviceObjectKey][checkCategoryObjectKey];
+    //             if (this.checkServiceCheckCategoryHasData(checkCategoryObject)) {
+    //                 checkCategories.push(this.replaceUnderscoreWithSpace(checkCategoryObjectKey));
+    //             }
+    //         }
 
+    //     }
+    //     return checkCategories;
+    // }
+
+    getServiceCheckCategoriesByFilteredReportData(filteredReportData) {
+        let serviceCheckCategories = [];
+        for (let serviceObjectKey in filteredReportData) {
+            for (let checkCategoryObjectKey in filteredReportData[serviceObjectKey]) {
+                serviceCheckCategories.push(this.replaceUnderscoreWithSpace(checkCategoryObjectKey));
+            }
         }
-        return checkCategories;
+        return serviceCheckCategories;
     }
 
     /** 
@@ -373,30 +707,7 @@ export class CloudReportService {
         return regionsHaveData;
     }
 
-    storeFilterSelectionData(data) {
-        let storedFilterSelection = [];
-        storedFilterSelection = JSON.parse(localStorage.getItem('filterSelection'));
-        if(!storedFilterSelection || storedFilterSelection.length < 1) {
-            storedFilterSelection = [];
-        }
-        storedFilterSelection.push(data);
-        localStorage.setItem('filterSelection', JSON.stringify(storedFilterSelection));
-    }
-
-    getFilterSelectionData() {
-        let storedFilterSelection = JSON.parse(localStorage.getItem('filterSelection'));
-        if(storedFilterSelection && storedFilterSelection.length > 0) {
-            return storedFilterSelection;
-        }
-    }
-
-    checkSameFilterSelectionData(storedFilterSelectionData: Object[], newFilterSelectionData: Object) {
-        for(let i=0; i<storedFilterSelectionData.length; i++) {
-            
-        }
-    }
-
-/************************************ check detail page end ***********************************************/
+    /************************************ check detail page end ***********************************************/
 
 
 }

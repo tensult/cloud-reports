@@ -19,7 +19,7 @@
 <div class="container-one">
   <div class="detail-container">
     <div *ngFor="let checkCategory of checkCategories">
-      <mat-card class="example-card">
+      <mat-card class="example-card" routerLink="/report/checkDetail" [queryParams]="{service: service, region: selectedRegion, checkCategory: checkCategory.checkCategoryName}">
         <mat-card-header mat-card-image [ngClass]="checkCategory.goodConditionCount>checkCategory.badConditionCount ? 'condition-good' : 'condition-bad'">
           <mat-card-title>
             <h3>{{checkCategory.checkCategoryName}}</h3>
@@ -29,9 +29,6 @@
           <p>Number of check of resources in good conditon : {{checkCategory.goodConditionCount}}</p>
           <p>Number of check of resources in bad conditon : {{checkCategory.badConditionCount}}</p>
         </mat-card-content>
-        <mat-card-actions>
-          <a mat-button routerLink="/report/checkDetail" [queryParams]="{service: service, region: selectedRegion, checkCategory: checkCategory.checkCategoryName}">Details</a>
-        </mat-card-actions>
       </mat-card>
     </div>
   </div>
