@@ -19,9 +19,11 @@ export class AlbUnHealthyHostAlarmsAnalyzer extends BaseAnalyzer {
             let regionELBs = allELBs[region];
             let regionAlarms = allAlarms[region];
             let alarmsMapByELB = this.mapAlarmsByELB(regionAlarms);
+            console.log(alarmsMapByELB);
             allRegionsAnalysis[region] = [];
             for (let elb of regionELBs) {
                 let alarmAnalysis: ResourceAnalysisResult = {};
+                console.log(elb.LoadBalancerArn);
                 let elbAlarms =  alarmsMapByELB[this.getLoadBalancerDimensionId(elb.LoadBalancerArn)];
                 alarmAnalysis.resource = {elb, alarms: elbAlarms};
                 alarmAnalysis.resourceSummary = {
@@ -70,6 +72,6 @@ export class AlbUnHealthyHostAlarmsAnalyzer extends BaseAnalyzer {
     }
 
     private getLoadBalancerDimensionId(loadBalancerArn: string) {
-        return loadBalancerArn.split("/").slice(-3).join("/");
+        return loadBalancerArn.split("/").splice(-3).join("/");
     }
 }
