@@ -7,53 +7,10 @@
   background-color: #8080801f;
   ">
   <div style="margin-right: 30px">
-      <a href="/">
-        <img src="assets/tensult-text-logo.svg" alt="Tensult" height="40px">
+    <a href="/">
+      <img src="assets/tensult-text-logo.svg" alt="Tensult" height="40px">
     </a>
   </div>
-  <div style="margin-right: 10px">
-    <mat-form-field>
-      <mat-select placeholder="Services" [(value)]="selectedService" (selectionChange)="changeService()">
-          <mat-option>All</mat-option>
-        <mat-option *ngFor="let service of services" [value]="service.service" [matTooltip]="!checkDropdownServiceStatus(service) ? 'No data': null" matTooltipPosition="right"> 
-          <div > 
-            {{showService(service.service)}}
-          </div> 
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div style="margin-right: 10px">
-    <mat-form-field>
-      <mat-select placeholder="Checks" [(value)]="selectedServiceCheckCategory" (selectionChange)="changeServiceCheckCategories()">
-        <mat-option>All</mat-option>
-        <mat-option *ngFor="let serviceCheckCategory of serviceCheckCategories" [value]="serviceCheckCategory">{{serviceCheckCategory}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div style="margin-right: 10px">
-    <mat-form-field>
-      <mat-select placeholder="Regions" [(value)]="selectedRegion" (selectionChange)=changeRegion()>
-        <mat-option>All</mat-option>
-        <mat-option *ngFor="let region of regions" [value]="region">{{region}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div style="margin-right: 10px">
-    <mat-form-field>
-      <mat-select placeholder="Severity" [(value)]="selectedSeverity" multiple (selectionChange)=reload()>
-        <mat-option>All</mat-option>
-        <mat-option [value]="'Failure'">Failure</mat-option>
-        <mat-option [value]="'Warning'">Warning</mat-option>
-        <mat-option [value]="'Good'">Good</mat-option>
-        <mat-option [value]="'Info'">Info</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <!-- <div style="margin-right: 10px">
-    <button mat-flat-button (click)="reload()">Go</button>
-  </div> -->
   <div class="example-spacer"></div>
   <div>
     <button mat-button routerLink="/report/checkCategory/{{selectedService}}">Service dashboard</button>
@@ -69,6 +26,49 @@
     <span *ngIf="selectedRegion">Region: {{selectedRegion}} ></span>
     <span *ngIf="selectedSeverity">Severity: {{selectedSeverity}} ></span>
 </div> -->
+<div style="display:flex">
+  <div class="example-spacer"></div>
+  <div style="margin-right: 10px">
+    <mat-form-field>
+      <mat-select placeholder="Services" [(value)]="selectedService" (selectionChange)="changeService()">
+        <mat-option>All</mat-option>
+        <mat-option *ngFor="let service of services" [value]="showService(service.service)" [matTooltip]="" matTooltipPosition="right">
+          <div>
+            {{showService(service.service)}}
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+  <!-- <div style="margin-right: 10px">
+  <mat-form-field>
+    <mat-select placeholder="Checks" [(value)]="selectedServiceCheckCategory" (selectionChange)="changeServiceCheckCategories()">
+      <mat-option>All</mat-option>
+      <mat-option *ngFor="let serviceCheckCategory of serviceCheckCategories" [value]="serviceCheckCategory">{{serviceCheckCategory}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  </div> -->
+  <!-- <div style="margin-right: 10px">
+  <mat-form-field>
+    <mat-select placeholder="Regions" [(value)]="selectedRegion" (selectionChange)=changeRegion()>
+      <mat-option>All</mat-option>
+      <mat-option *ngFor="let region of regions" [value]="region">{{region}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  </div> -->
+  <!-- <div style="margin-right: 10px">
+  <mat-form-field>
+    <mat-select placeholder="Severity" [(value)]="selectedSeverity" multiple (selectionChange)=reload()>
+      <mat-option>All</mat-option>
+      <mat-option [value]="'Failure'">Failure</mat-option>
+      <mat-option [value]="'Warning'">Warning</mat-option>
+      <mat-option [value]="'Good'">Good</mat-option>
+      <mat-option [value]="'Info'">Info</mat-option>
+    </mat-select>
+  </mat-form-field>
+  </div> -->
+</div>
 
 <div class="no-data" *ngIf="!tableData || tableData.length==0">
   <span>No data for the selected filters. Try removing few filters.</span>
@@ -122,10 +122,10 @@
       </ng-container>
 
       <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
-          <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
-            {{element.action}} </td>
-        </ng-container>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+        <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
+          {{element.action}} </td>
+      </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

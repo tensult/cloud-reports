@@ -327,384 +327,53 @@ export class CloudReportService {
         return filterredData;
     }
 
-
-    checkForSameData(objectArray, objectKey, objectKeyValue) {
-        for (let i = 0; i < objectArray.length; i++) {
-            if (objectArray[i][objectKey] === objectKeyValue) {
+    hasServiceRegionData(reportData, service, region) {
+        for(let checkCategoryObjectKey in reportData[service]) {
+            const regionsObject = reportData[service][checkCategoryObjectKey].regions;
+            if(regionsObject.hasOwnProperty(region) && regionsObject[region].length>0) {
                 return true;
             }
         }
         return false;
     }
 
-    checkSeverityHasServiceData(reportData, service, severity) {
-        if (reportData.hasOwnProperty(service)) {
-            for (let checkCategoryObjectKey in reportData[service]) {
-                const regionsObject = reportData[service][checkCategoryObjectKey].regions;
-                for (let regionsObjectKey in regionsObject) {
-                    for (let j = 0; j < regionsObject[regionsObjectKey].length; j++) {
-                        for (let i = 0; i < severity.length; i++) {
-                            if (severity[i] === regionsObject[regionsObjectKey][j]['severity']) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-    }
-
-    checkRegionHasServiceData(reportData, service, region) {
-        if (reportData.hasOwnProperty(service)) {
-            for (let checkCategoryObjectKey in reportData[service]) {
-                const regionsObject = reportData[service][checkCategoryObjectKey].regions;
-                if (regionsObject.hasOwnProperty(region) && regionsObject[region].length > 0) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-
-    getServices(reportData, region, severity) {
-        // console.log(region, severity);
+    // Get services which are present in report data
+    getServices(reportData) {
         let services = [];
-        for (let serviceObjectKey in reportData) {
-            for (let checkCategoryObjectKey in reportData[serviceObjectKey]) {
-                const regionsObject = reportData[serviceObjectKey][checkCategoryObjectKey].regions;
-                if (!this.checkForSameData(services, 'service', serviceObjectKey)) {
-                    if (region) {
-                        // Region
-                        if (this.checkRegionHasServiceData(reportData, serviceObjectKey, region)) {
-                            // Region has service data
-                            if (severity && severity[0]) {
-                                if (this.checkSeverityHasServiceData(reportData, serviceObjectKey, severity)) {
-                                    // Severity has service data
-                                    services.push({
-                                        service: serviceObjectKey,
-                                        regionStatus: true,
-                                        severityStatus: true
-                                    })
-                                }
-                                else {
-                                    // Severity does not have service data
-                                    services.push({
-                                        service: serviceObjectKey,
-                                        regionStatus: true,
-                                        severityStatus: false
-                                    })
-                                }
-                            }
-                            else {
-                                // Region, No Severity
-                                services.push({
-                                    service: serviceObjectKey,
-                                    regionStatus: true
-                                })
-                            }
-                        }
-                        else {
-                            // Region does not have data
-                            if (severity && severity[0]) {
-                                if (this.checkSeverityHasServiceData(reportData, serviceObjectKey, severity)) {
-                                    // Severity has service data
-                                    services.push({
-                                        service: serviceObjectKey,
-                                        regionStatus: false,
-                                        severityStatus: true
-                                    })
-                                }
-                                else {
-                                    // Severity does not have service data
-                                    services.push({
-                                        service: serviceObjectKey,
-                                        regionStatus: false,
-                                        severityStatus: false
-                                    })
-                                }
-
-                            }
-                            else {
-                                // No Severity
-                                services.push({
-                                    service: serviceObjectKey,
-                                    regionStatus: false
-                                })
-                            }
-                        }
-                    }
-                    else {
-                        // No region
-                        if (severity && severity[0]) {
-                            if (this.checkSeverityHasServiceData(reportData, serviceObjectKey, severity)) {
-                                // Severity has service data
-                                services.push({
-                                    service: serviceObjectKey,
-                                    severityStatus: true
-                                })
-                            }
-                            else {
-                                // Severity does not have service data
-                                services.push({
-                                    service: serviceObjectKey,
-                                    severityStatus: false
-                                })
-                            }
-
-                        }
-                        else {
-                            // No severity
-                            services.push({
-                                service: serviceObjectKey
-                            })
-                        }
-                    }
-                }
-            }
+        for(let serviceObjectKey in reportData) {
+            services.push({service: serviceObjectKey, status: true});
         }
         return services;
     }
 
-    checkRegionHasSeverityData(reportData, region, severity) {
-        for (let i = 0; i < severity.length; i++) {
-            for (let serviceObjectKey in reportData) {
-                for (let checkCategoryObjectKey in reportData[serviceObjectKey]) {
-                    const regionsObject = reportData[serviceObjectKey][checkCategoryObjectKey].regions;
-                    for (let j = 0; j < regionsObject[region].length; j++) {
-                        if (regionsObject[region][j].severity === severity[i]) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    checkRegionHasServiceCheckCategoryData(reportData, region, service, checkCategory) {
-        if (reportData[service][checkCategory].regions[region].length > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    checkRegionHasServiceSeverityData(reportData, region, service, severity) {
-        for (let i = 0; i < severity.length; i++) {
-            for (let checkCategoryObjectKey in reportData[service]) {
-                const regionsObject = reportData[service][checkCategoryObjectKey].regions;
-                for (let j = 0; j < regionsObject[region].length; j++) {
-                    if (regionsObject[region][j].severity === severity[i]) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    checkRegionHasServiceCheckCategorySeverityData(reportData, region, service, checkCategory, severity) {
-        for (let i = 0; i < severity.length; i++) {
-            for (let j = 0; j < reportData[service][checkCategory].regions[region].length; j++) {
-                if (reportData[service][checkCategory].regions[region][j].severity === severity[i]) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    getRegions(reportData, service, checkCategory, severity) {
-        console.log(service, checkCategory, severity)
-        let regions = [];
-        for (let i = 0; i < this.awsRegions.length; i++) {
-            if (service) {
-                if (this.checkRegionHasServiceData(reportData, service, this.awsRegions[i])) {
-                    if (checkCategory) {
-                        // Service, CheckCategory
-                        if (this.checkRegionHasServiceCheckCategoryData(reportData, this.awsRegions[i], service, checkCategory)) {
-                            if (severity && severity[0]) {
-                                // Service, CheckCategory, Severity
-                                if (this.checkRegionHasServiceCheckCategorySeverityData(reportData, this.awsRegions[i], service, checkCategory, severity)) {
-                                    regions.push({
-                                        region: this.awsRegions[i],
-                                        serviceStatus: true,
-                                        checkCategoryStatus: true,
-                                        severityStatus: true
-                                    })
-                                }
-                                else {
-                                    regions.push({
-                                        region: this.awsRegions[i],
-                                        serviceStatus: true,
-                                        checkCategoryStatus: true,
-                                        severityStatus: false
-                                    })
-                                }
-                            }
-                            else {
-                                // Service, CheckCategory, No Severity
-                                if (reportData[service][checkCategory].regions[this.awsRegions[i]].length > 0) {
-                                    regions.push({
-                                        region: this.awsRegions[i],
-                                        serviceStatus: true,
-                                        checkCategoryStatus: true
-                                    })
-                                }
-                            }
-                        }
-                        else {
-                            regions.push({
-                                region: this.awsRegions,
-                                serviceStatus: true,
-                                checkCategoryStatus: false
-                            })
-                        }
-                    }
-                    else {
-                        // Service, No CheckCategory
-                        if (severity && severity[0]) {
-                            // Service, No CheckCategory, Severity
-                            if (this.checkRegionHasServiceSeverityData(reportData, this.awsRegions[i], service, severity)) {
-                                regions.push({
-                                    region: this.awsRegions[i],
-                                    serviceStatus: true,
-                                    severityStatus: true
-                                })
-                            }
-                            else {
-                                regions.push({
-                                    region: this.awsRegions[i],
-                                    serviceStatus: true,
-                                    severityStatus: false
-                                })
-                            }
-                        }
-                        else {
-                            // Service, No CheckCategory, No Severity
-                            regions.push({
-                                region: this.awsRegions[i],
-                                serviceStatus: true
-                            })
-                        }
-                    }
-                }
-                else {
-                    if (severity && severity[0]) {
-                        if (this.checkRegionHasSeverityData(reportData, this.awsRegions[i], severity)) {
-                            regions.push({
-                                region: this.awsRegions[i],
-                                serviceStatus: false,
-                                severityStatus: true
-                            })
-                        }
-                        else {
-                            regions.push({
-                                region: this.awsRegions[i],
-                                serviceStatus: false,
-                                severityStatus: false
-                            })
-                        }
-                    }
-                    else {
-                        regions.push({
-                            region: this.awsRegions[i],
-                            serviceStatus: false
-                        })
-                    }
-                }
+    // Get Services by Region
+    getServicesByRegion(reportData, region) {
+        let services = [];
+        for(let serviceObjectKey in reportData) {
+            if(this.hasServiceRegionData(reportData, serviceObjectKey, region)) {
+                services.push({service: serviceObjectKey, status: true})
             }
             else {
-                if (severity && severity[0]) {
-                    // Severity
-                    if (this.checkRegionHasSeverityData(reportData, this.awsRegions[i], severity)) {
-                        regions.push({
-                            region: this.awsRegions[i],
-                            severityStatus: true
-                        })
-                    }
-                    else {
-                        regions.push({
-                            region: this.awsRegions[i],
-                            severityStatus: false
-                        })
-                    }
-                }
-                else {
-                    regions.push({
-                        region: this.awsRegions[i]
-                    })
-                }
-            }
-        }
-        return regions;
-    }
-
-    // Remove aws. from service name
-    getServiceName(serviceName) {
-        return serviceName.split('.')[1];
-    }
-
-    getServicesByFilteredReportData(filteredReportData) {
-        let services = [];
-        for (let serviceObjectKey in filteredReportData) {
-            for (let checkCategoryObjectKey in filteredReportData[serviceObjectKey]) {
-                const regionsObject = filteredReportData[serviceObjectKey][checkCategoryObjectKey].regions;
-                for (let regionsObjectKey in regionsObject) {
-                    if (regionsObject[regionsObjectKey].length > 0 && !this.checkHasData(this.getServiceName(serviceObjectKey), services)) {
-                        services.push(this.getServiceName(serviceObjectKey));
-                    }
-                }
+                services.push({service: serviceObjectKey, status: false})
             }
         }
         return services;
     }
 
-    /** 
-     * Return check categories
-     * based on service
-    */
-    // getServiceCheckCategories(data) {
-    //     let checkCategories = [];
-    //     for (let serviceObjectKey in data) {
-    //         for (let checkCategoryObjectKey in data[serviceObjectKey]) {
-    //             const checkCategoryObject = data[serviceObjectKey][checkCategoryObjectKey];
-    //             if (this.checkServiceCheckCategoryHasData(checkCategoryObject)) {
-    //                 checkCategories.push(this.replaceUnderscoreWithSpace(checkCategoryObjectKey));
-    //             }
-    //         }
-
-    //     }
-    //     return checkCategories;
-    // }
-
-    getServiceCheckCategoriesByFilteredReportData(filteredReportData) {
-        let serviceCheckCategories = [];
-        for (let serviceObjectKey in filteredReportData) {
-            for (let checkCategoryObjectKey in filteredReportData[serviceObjectKey]) {
-                serviceCheckCategories.push(this.replaceUnderscoreWithSpace(checkCategoryObjectKey));
-            }
-        }
-        return serviceCheckCategories;
+    // Get all aws regions
+    getRegions() {
+        return this.awsRegions;
     }
 
-    /** 
-     * Return regions based on service and check category
-    */
-    getServiceRegions(data) {
-        let regionsHaveData = [];
-        for (let serviceObjectKey in data) {
-            for (let checkCategoryKey in data[serviceObjectKey]) {
-                for (let regionObjectKey in data[serviceObjectKey][checkCategoryKey].regions) {
-                    if (data[serviceObjectKey][checkCategoryKey].regions[regionObjectKey].length >= 1) {
-                        if (!this.checkHasData(regionObjectKey, regionsHaveData))
-                            regionsHaveData.push(regionObjectKey);
-                    }
-                }
+    // Get check category by service 
+    getCheckCategoriesByService(reportData, service) {
+        let checkCategories = [];
+        if(reportData.hasOwnProperty(service)) {
+            for(let checkCategoryObjectKey in reportData[service]) {
+                checkCategories.push(checkCategoryObjectKey);
             }
         }
-        // console.log(regionsHaveData)
-        return regionsHaveData;
+        return checkCategories;
     }
 
     /************************************ check detail page end ***********************************************/

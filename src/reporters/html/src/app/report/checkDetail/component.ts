@@ -11,7 +11,16 @@ import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 })
 export class CloudReportCheckDetailComponent implements OnInit {
 
-    displayedColumns = ['service', 'checkCategory', 'region', 'resourceName', 'resourceValue', 'message', 'severity', 'action'];
+    displayedColumns = [
+        'service',
+        'checkCategory',
+        'region',
+        'resourceName',
+        'resourceValue',
+        'message',
+        'severity',
+        'action'
+    ];
     dataSource;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -56,23 +65,23 @@ export class CloudReportCheckDetailComponent implements OnInit {
                     this.selectedRegion = urlData['region'];
                     this.selectedSeverity = ArrayUtil.toArray(urlData['severity']);
 
-                    console.log('selected service: '+this.selectedSeverity+', selected check category: '+this.selectedServiceCheckCategory+', selected region: '+this.selectedRegion+', selected severity: '+this.selectedSeverity);
+                    console.log('selected service: ' + this.selectedService + ', selected check category: ' + this.selectedServiceCheckCategory + ', selected region: ' + this.selectedRegion + ', selected severity: ' + this.selectedSeverity);
 
                     const serviceKey = this.getServiceKey();
                     const filteredReportData = this.cloudReportService.getCheckDetailData(data, serviceKey, this.selectedServiceCheckCategory, this.selectedRegion, this.selectedSeverity);
                     console.log('filtered data', filteredReportData);
 
                     // Handle services
-                    this.handleServices(data, urlData);
+                    this.handleServices(data);
 
                     // Handle service check categories
-                    this.handleServiceCheckCategories(filteredReportData, urlData);
+                    this.handleServiceCheckCategories(filteredReportData);
 
                     // Handle regions
-                    this.handleRegions(data, urlData);
+                    this.handleRegions(data);
 
                     this.tableData = this.makeTableData(filteredReportData);
-                    this.dataSource = new MatTableDataSource(this.tableData)
+                    this.dataSource = new MatTableDataSource(this.tableData);
                     this.resultLength = this.tableData.length;
                     this.dataSource.paginator = this.paginator;
                     this.dataSource.sort = this.sort;
@@ -83,55 +92,23 @@ export class CloudReportCheckDetailComponent implements OnInit {
     }
 
     // Handle dropdown services
-    handleServices(reportData, urlData) {
-        this.services = this.cloudReportService.getServices(reportData, this.selectedRegion, this.selectedSeverity);
-        console.log('Services: ', this.services);
+    handleServices(reportData) {
+        if (this.selectedRegion) {
+            console.log('calling getServicesByRegion')
+            this.services = this.cloudReportService.getServicesByRegion(reportData, this.selectedRegion);
+        }
+        else if (!this.selectedRegion) {
+            console.log('calling getServices')
+            this.services = this.cloudReportService.getServices(reportData);
+        }
+        console.log('Dropdown services: ', this.services);
     }
 
-    checkDropdownServiceStatus(serviceObject) {
-        if(!serviceObject.hasOwnProperty('regionStatus') && !serviceObject.hasOwnProperty('severityStatus')) {
-            return true;
-        }
-        if (serviceObject.hasOwnProperty('regionStatus') && serviceObject.regionStatus) {
-            if (serviceObject.hasOwnProperty('severityStatus') && serviceObject.severityStatus) {
-                return true;
-            }
-            else if (serviceObject.hasOwnProperty('severityStatus') && !serviceObject.severityStatus) {
-                return false;
-            }
-            else if(!serviceObject.hasOwnProperty('severityStatus')) {
-                return true;
-            }
-        }
-        else if (serviceObject.hasOwnProperty('severityStatus') && serviceObject.severityStatus) {
-            if(serviceObject.hasOwnProperty('regionStatus') && serviceObject.regionStatus) {
-                return true;
-            }
-            if(serviceObject.hasOwnProperty('regionStatus') && !serviceObject.regionStatus) {
-                return false;
-            }
-            if(!serviceObject.hasOwnProperty('regionStatus')) {
-                return true;
-            }
-        }
-        return false;
-    }
+    handleServiceCheckCategories(data) { }
 
-    handleServiceCheckCategories(filteredReportData, urlData) {
-        if (this.selectedService)
-            this.serviceCheckCategories = this.cloudReportService.getServiceCheckCategoriesByFilteredReportData(filteredReportData);
-        else {
-            this.serviceCheckCategories = [];
-        }
-    }
-
-    handleRegions(reportData, urlData) {
-        if(!this.selectedService && !this.selectedServiceCheckCategory && !this.selectedRegion && !this.selectedSeverity) {
-            this.regions = this.cloudReportService.getAllRegions();
-        }
-        else {
-            console.log('Regions: '+ JSON.stringify(this.cloudReportService.getRegions(reportData, this.selectedService, this.selectedServiceCheckCategory, this.selectedSeverity)))
-        }
+    handleRegions(data) {
+        this.regions = this.cloudReportService.getRegions();
+        console.log('Dropdown regions: ', this.regions);
     }
 
     applyFilter(filterValue: string) {
