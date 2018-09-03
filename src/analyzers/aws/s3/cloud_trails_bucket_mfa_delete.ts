@@ -4,15 +4,16 @@ import { CheckAnalysisResult, ResourceAnalysisResult, SeverityStatus, CheckAnaly
 export class CloudTrailsBucketMFADeleteAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport: any): any {
-        const allBucketVersionings = fullReport['aws.s3'].bucket_versioning;
-        const allCloudTrails = params.cloud_trails;
-        if (!allBucketVersionings || !allCloudTrails) {
+        const allBucketVersionings = params.bucket_versioning;
+        if (!fullReport['aws.trails'] || !fullReport['aws.trails'].cloud_trails || !allBucketVersionings) {
             return undefined;
         }
-        const bucket_deletes_mfa_enabled: CheckAnalysisResult = { type: CheckAnalysisType.Security };
-        bucket_deletes_mfa_enabled.what = "Is deleting cloud trails protected by MFA?";
-        bucket_deletes_mfa_enabled.why = "Cloud trails deletes should be MFA enabled so that attacker won't able to delete them"
-        bucket_deletes_mfa_enabled.recommendation = "Recommended to enable MFA for deleting Cloud Trails";
+        const allCloudTrails = fullReport['aws.trails'].cloud_trails;
+
+        const cloud_trails_bucket_mfa_delete: CheckAnalysisResult = { type: CheckAnalysisType.Security };
+        cloud_trails_bucket_mfa_delete.what = "Is deleting cloud trails protected by MFA?";
+        cloud_trails_bucket_mfa_delete.why = "Cloud trails deletes should be MFA enabled so that attacker won't able to delete them"
+        cloud_trails_bucket_mfa_delete.recommendation = "Recommended to enable MFA for deleting Cloud Trails";
         const allBucketsAnalysis: ResourceAnalysisResult[] = [];
         const cloudTrailBuckets = this.getCloudTrailBuckets(allCloudTrails);
         for (let bucketName of cloudTrailBuckets) {
@@ -31,8 +32,8 @@ export class CloudTrailsBucketMFADeleteAnalyzer extends BaseAnalyzer {
 
             allBucketsAnalysis.push(bucketAnalysis);
         }
-        bucket_deletes_mfa_enabled.regions = { global: allBucketsAnalysis };
-        return { bucket_deletes_mfa_enabled };
+        cloud_trails_bucket_mfa_delete.regions = { global: allBucketsAnalysis };
+        return { cloud_trails_bucket_mfa_delete };
     }
 
     getCloudTrailBuckets(cloudTrails) {
