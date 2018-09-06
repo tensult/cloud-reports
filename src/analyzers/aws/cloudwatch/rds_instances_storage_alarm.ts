@@ -13,7 +13,7 @@ export class RDSInstanceStorageAlarmAnalyzer extends BaseAnalyzer {
         const rds_instances_storage_alarm: CheckAnalysisResult = { type: [CheckAnalysisType.PerformanceEfficiency] };
         rds_instances_storage_alarm.what = "Are alarms are enabled for RDS instance Storage?";
         rds_instances_storage_alarm.why = "It is important to set alarms for RDS Storage as when there is no storage then the application will stop working."
-        rds_instances_storage_alarm.recommendation = "Recommended to set alarm for RDS Storage to take appropriative action.";
+        rds_instances_storage_alarm.recommendation = "Recommended to set alarms for RDS Storage to take appropriative action.";
         const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allInstances) {
             let regionInstances = allInstances[region];

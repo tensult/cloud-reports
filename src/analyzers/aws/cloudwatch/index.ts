@@ -12,3 +12,4 @@ export * from './lambda_invocations_count_alarm';
 export * from './log_groups_retention';
 export * from './rds_instances_cpu_utilization_alarm';
 export * from './rds_instances_storage_alarm';
+export * from './sqs_queue_size_alarm';

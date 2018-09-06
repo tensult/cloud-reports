@@ -14,7 +14,7 @@ export class RDSInstanceCPUUtilizationAlarmAnalyzer extends BaseAnalyzer {
         const rds_instance_cpu_utilization_alarm: CheckAnalysisResult = { type: [CheckAnalysisType.PerformanceEfficiency] };
         rds_instance_cpu_utilization_alarm.what = "Are alarms are enabled for RDS instance CPU utilization?";
         rds_instance_cpu_utilization_alarm.why = "It is important to set alarms for RDS CPU utilization as when utilization is high then the application performance will be degraded."
-        rds_instance_cpu_utilization_alarm.recommendation = "Recommended to set alarm for RDS CPU utilization to take appropriative action.";
+        rds_instance_cpu_utilization_alarm.recommendation = "Recommended to set alarms for RDS CPU utilization to take appropriative action.";
         const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allInstances) {
             let regionInstances = allInstances[region];
