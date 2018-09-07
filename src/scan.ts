@@ -9,6 +9,7 @@ import * as Reporters from './reporters';
 
 import {writeFileSync, existsSync, readFileSync} from 'fs';
 import { LogUtil } from './utils/log';
+import { ClientsProvider } from './utils';
 
 const cliArgs = Cli.parse({
     profile: ['p', 'AWS profile name', 'string'],
@@ -34,9 +35,11 @@ if(["json", "pdf", "html"].indexOf(cliArgs.format) === -1) {
 
 AWS.config.signatureVersion = 'v4';
 AWS.config.maxRetries = 3;
-AWS.config.credentials = new AWS.SharedIniFileCredentials({
+const credentials = new AWS.SharedIniFileCredentials({
     profile: cliArgs.profile
 });
+
+ClientsProvider.setCredentials(credentials);
 
 const collectorReportFileName = cliArgs.outputDir  + "/collector_report.json";
 
