@@ -20,6 +20,7 @@ function extractServiceRegions(html) {
     let shortName = serviceName.split(/\s/).reduce(function (prev, curr) {
       return prev + curr.charAt(0);
     }, '');
+
     let fullShortName = fullServiceName.split(/\s/).reduce(function (prev, curr) {
       return prev + curr.charAt(0);
     }, '');
@@ -31,7 +32,7 @@ function extractServiceRegions(html) {
       let region = $(elm);
       regions.push(region.text().trim());
     });
-    service_regions[serviceName] = {
+    service_regions[serviceName.replace(/\s/g, '')] = {
       fullShortName,
       shortName,
       regions

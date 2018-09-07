@@ -11,6 +11,7 @@ export import elb = require('./elb');
 export import iam = require('./iam');
 export import lambda = require('./lambda');
 export import rds = require('./rds');
+export import resourcegroups = require('./resourcegroups');
 export import route53 = require('./route53');
 export import s3 = require('./s3');
 export import sns = require('./sns');

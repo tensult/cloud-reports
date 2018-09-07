@@ -18,6 +18,46 @@ export let regions = {
     "sa-east-1",
     "us-gov-west-1"
   ],
+  "APIGateway": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-south-1",
+    "ap-northeast-2",
+    "ap-northeast-3",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ap-northeast-1",
+    "ca-central-1",
+    "cn-north-1",
+    "cn-northwest-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "sa-east-1"
+  ],
+  "ApplicationAutoScaling": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-northeast-3",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ca-central-1",
+    "cn-north-1",
+    "cn-northwest-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "sa-east-1"
+  ],
   "AppStream": [
     "us-east-1",
     "us-west-2",
@@ -26,6 +66,27 @@ export let regions = {
     "ap-southeast-2",
     "eu-central-1",
     "eu-west-1"
+  ],
+  "AutoScaling": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-northeast-3",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ca-central-1",
+    "cn-north-1",
+    "cn-northwest-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "sa-east-1",
+    "us-gov-west-1"
   ],
   "Batch": [
     "us-west-2",
@@ -40,7 +101,19 @@ export let regions = {
     "ap-northeast-2",
     "ap-south-1",
     "ap-southeast-2",
-    "ap-southeast-1"
+    "ap-southeast-1",
+    "sa-east-1"
+  ],
+  "CloudDirectory": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-2",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ca-central-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2"
   ],
   "CloudFormation": [
     "us-east-1",
@@ -110,6 +183,48 @@ export let regions = {
     "us-gov-west-1"
   ],
   "CloudWatch": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-northeast-3",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ca-central-1",
+    "cn-north-1",
+    "cn-northwest-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "sa-east-1",
+    "us-gov-west-1"
+  ],
+  "CloudWatchEvents": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-northeast-3",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ca-central-1",
+    "cn-north-1",
+    "cn-northwest-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "sa-east-1",
+    "us-gov-west-1"
+  ],
+  "CloudWatchLogs": [
     "us-east-2",
     "us-east-1",
     "us-west-1",
@@ -202,6 +317,49 @@ export let regions = {
     "eu-west-3",
     "sa-east-1"
   ],
+  "CognitoSync": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-2",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2"
+  ],
+  "DataPipeline": [
+    "us-east-1",
+    "us-west-2",
+    "ap-northeast-1",
+    "ap-southeast-2",
+    "eu-west-1"
+  ],
+  "DeviceFarm": [
+    "us-west-2"
+  ],
+  "DirectConnect": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ca-central-1",
+    "cn-north-1",
+    "cn-northwest-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "sa-east-1",
+    "us-gov-west-1"
+  ],
   "DMS": [
     "us-east-2",
     "us-east-1",
@@ -221,6 +379,27 @@ export let regions = {
     "us-gov-west-1"
   ],
   "DynamoDB": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-northeast-3",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ca-central-1",
+    "cn-north-1",
+    "cn-northwest-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "sa-east-1",
+    "us-gov-west-1"
+  ],
+  "DynamoDBStreams": [
     "us-east-2",
     "us-east-1",
     "us-west-1",
@@ -308,6 +487,8 @@ export let regions = {
     "us-west-1",
     "us-west-2",
     "ap-northeast-2",
+    "ap-southeast-1",
+    "ap-northeast-1",
     "eu-central-1",
     "eu-west-1",
     "ap-southeast-2"
@@ -332,6 +513,25 @@ export let regions = {
     "eu-west-3",
     "sa-east-1",
     "us-gov-west-1"
+  ],
+  "ElasticBeanstalk": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ca-central-1",
+    "ap-south-1",
+    "ap-northeast-2",
+    "ap-northeast-3",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ap-northeast-1",
+    "cn-northwest-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "sa-east-1"
   ],
   "ELB": [
     "us-east-2",
@@ -392,6 +592,16 @@ export let regions = {
     "eu-west-3",
     "sa-east-1",
     "us-gov-west-1"
+  ],
+  "ElasticTranscoder": [
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ap-northeast-1",
+    "eu-west-1"
   ],
   "Firehose": [
     "us-west-2",
@@ -519,6 +729,13 @@ export let regions = {
     "ap-southeast-2",
     "ap-northeast-1"
   ],
+  "MachineLearning": [
+    "us-east-1",
+    "eu-west-1"
+  ],
+  "MobileAnalytics": [
+    "us-east-1"
+  ],
   "Organizations": [
     "us-east-2",
     "us-east-1",
@@ -603,7 +820,26 @@ export let regions = {
     "us-west-2",
     "ap-southeast-2",
     "ap-northeast-1",
-    "eu-west-1"
+    "eu-west-1",
+    "ap-northeast-2",
+    "ap-south-1"
+  ],
+  "ServiceCatalog": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-south-1",
+    "ap-northeast-2",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ap-northeast-1",
+    "ca-central-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "sa-east-1"
   ],
   "SES": [
     "us-east-1",
@@ -704,6 +940,41 @@ export let regions = {
     "sa-east-1",
     "us-gov-west-1"
   ],
+  "StorageGateway": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ca-central-1",
+    "cn-north-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "sa-east-1",
+    "us-gov-west-1"
+  ],
+  "StepFunctions": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ca-central-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "us-gov-west-1"
+  ],
   "WorkDocs": [
     "us-east-1",
     "us-west-2",
@@ -742,9 +1013,13 @@ export let regions = {
   "Greengrass": [
     "us-east-1",
     "us-west-2",
-    "eu-central-1",
     "ap-southeast-2",
-    "ap-northeast-1"
+    "ap-northeast-1",
+    "eu-central-1",
+    "eu-west-1"
+  ],
+  "MigrationHub": [
+    "us-west-2"
   ],
   "Glue": [
     "us-east-2",
@@ -755,6 +1030,7 @@ export let regions = {
     "ap-south-1",
     "ap-southeast-1",
     "ap-southeast-2",
+    "ca-central-1",
     "eu-central-1",
     "eu-west-1",
     "eu-west-2"
@@ -783,6 +1059,7 @@ export let regions = {
     "us-west-2",
     "ap-northeast-1",
     "ap-northeast-2",
+    "ap-south-1",
     "ap-southeast-1",
     "ap-southeast-2",
     "eu-central-1",
@@ -811,6 +1088,15 @@ export let regions = {
     "eu-west-1"
   ],
   "AppSync": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-2",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ap-northeast-1",
+    "eu-central-1",
+    "eu-west-1",
     "us-east-2",
     "us-east-1",
     "us-west-2",
@@ -850,6 +1136,14 @@ export let regions = {
     "us-east-2",
     "us-east-1",
     "us-west-2",
+    "ap-southeast-2",
+    "eu-west-1"
+  ],
+  "KinesisVideo": [
+    "us-east-1",
+    "us-west-2",
+    "ap-northeast-1",
+    "eu-central-1",
     "eu-west-1"
   ],
   "SageMaker": [
@@ -869,12 +1163,45 @@ export let regions = {
     "eu-west-1",
     "us-gov-west-1"
   ],
+  "ResourceGroups": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-south-1",
+    "ap-northeast-2",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ap-northeast-1",
+    "ca-central-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "sa-east-1"
+  ],
   "Cloud9": [
     "us-east-2",
     "us-east-1",
     "us-west-2",
     "ap-southeast-1",
     "eu-west-1"
+  ],
+  "ServerlessApplicationRepository": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ca-central-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "sa-east-1"
   ],
   "WorkMail": [
     "us-east-1",
@@ -928,7 +1255,31 @@ export let regions = {
     "ap-southeast-2",
     "ca-central-1",
     "eu-west-1",
+    "eu-west-2",
     "eu-central-1"
+  ],
+  "SecretsManager": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ca-central-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "sa-east-1"
+  ],
+  "IoTAnalytics": [
+    "us-east-1",
+    "us-east-2",
+    "us-west-2",
+    "eu-west-1"
   ],
   "PI": [
     "us-east-2",
@@ -952,6 +1303,7 @@ export let regions = {
   ],
   "MediaTailor": [
     "us-east-1",
+    "us-west-2",
     "ap-southeast-1",
     "ap-southeast-2",
     "ap-northeast-1",
@@ -960,26 +1312,6 @@ export let regions = {
   "Macie": [
     "us-east-1",
     "us-west-2"
-  ],
-  "APIGateway": [
-    "us-east-2",
-    "us-east-1",
-    "us-west-1",
-    "us-west-2",
-    "ap-south-1",
-    "ap-northeast-2",
-    "ap-northeast-3",
-    "ap-southeast-1",
-    "ap-southeast-2",
-    "ap-northeast-1",
-    "ca-central-1",
-    "cn-north-1",
-    "cn-northwest-1",
-    "eu-central-1",
-    "eu-west-1",
-    "eu-west-2",
-    "eu-west-3",
-    "sa-east-1"
   ],
   "CloudSearchDomain": [
     "us-east-1",
@@ -992,89 +1324,6 @@ export let regions = {
     "eu-central-1",
     "eu-west-1",
     "sa-east-1"
-  ],
-  "CloudWatchEvents": [
-    "us-east-2",
-    "us-east-1",
-    "us-west-1",
-    "us-west-2",
-    "ap-northeast-1",
-    "ap-northeast-2",
-    "ap-northeast-3",
-    "ap-south-1",
-    "ap-southeast-1",
-    "ap-southeast-2",
-    "ca-central-1",
-    "cn-north-1",
-    "cn-northwest-1",
-    "eu-central-1",
-    "eu-west-1",
-    "eu-west-2",
-    "eu-west-3",
-    "sa-east-1",
-    "us-gov-west-1"
-  ],
-  "CloudWatchLogs": [
-    "us-east-2",
-    "us-east-1",
-    "us-west-1",
-    "us-west-2",
-    "ap-northeast-1",
-    "ap-northeast-2",
-    "ap-northeast-3",
-    "ap-south-1",
-    "ap-southeast-1",
-    "ap-southeast-2",
-    "ca-central-1",
-    "cn-north-1",
-    "cn-northwest-1",
-    "eu-central-1",
-    "eu-west-1",
-    "eu-west-2",
-    "eu-west-3",
-    "sa-east-1",
-    "us-gov-west-1"
-  ],
-  "DirectConnect": [
-    "us-east-2",
-    "us-east-1",
-    "us-west-1",
-    "us-west-2",
-    "ap-northeast-1",
-    "ap-northeast-2",
-    "ap-south-1",
-    "ap-southeast-1",
-    "ap-southeast-2",
-    "ca-central-1",
-    "cn-north-1",
-    "cn-northwest-1",
-    "eu-central-1",
-    "eu-west-1",
-    "eu-west-2",
-    "eu-west-3",
-    "sa-east-1",
-    "us-gov-west-1"
-  ],
-  "DynamoDBStreams": [
-    "us-east-2",
-    "us-east-1",
-    "us-west-1",
-    "us-west-2",
-    "ap-northeast-1",
-    "ap-northeast-2",
-    "ap-northeast-3",
-    "ap-south-1",
-    "ap-southeast-1",
-    "ap-southeast-2",
-    "ca-central-1",
-    "cn-north-1",
-    "cn-northwest-1",
-    "eu-central-1",
-    "eu-west-1",
-    "eu-west-2",
-    "eu-west-3",
-    "sa-east-1",
-    "us-gov-west-1"
   ],
   "ELBv2": [
     "us-east-2",
@@ -1102,9 +1351,6 @@ export let regions = {
     "ap-northeast-1",
     "eu-central-1",
     "eu-west-1"
-  ],
-  "MobileAnalytics": [
-    "us-east-1"
   ],
   "ResourceGroupsTaggingAPI": [
     "us-east-2",
@@ -1162,13 +1408,6 @@ export let regions = {
     "eu-central-1",
     "eu-west-1"
   ],
-  "KinesisVideo": [
-    "us-east-1",
-    "us-west-2",
-    "ap-northeast-1",
-    "eu-central-1",
-    "eu-west-1"
-  ],
   "SageMakerRuntime": [
     "us-east-1",
     "us-east-2",
@@ -1178,5 +1417,26 @@ export let regions = {
     "ap-southeast-2",
     "eu-central-1",
     "eu-west-1"
+  ],
+  "AutoScalingPlans": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-northeast-3",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ca-central-1",
+    "cn-north-1",
+    "cn-northwest-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "sa-east-1",
+    "us-gov-west-1"
   ]
 }
