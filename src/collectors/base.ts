@@ -10,7 +10,7 @@ export abstract class BaseCollector {
         return RegionsProvider.getServiceRegions(serviceName);
     }
 
-    setSession(session: string) {
+    setSession(session: string = "default") {
         this.session = session;
     }
     
