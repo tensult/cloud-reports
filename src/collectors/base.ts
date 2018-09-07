@@ -1,7 +1,7 @@
 import {ClientsProvider, RegionsProvider} from '../utils';
 
 export abstract class BaseCollector {
-    private session?: string;
+    private session: string = "default";
     abstract collect(params?: any);
     getClient(serviceName: string, region: string) {
         return ClientsProvider.getClient(serviceName, region, this.session);

@@ -3,6 +3,7 @@ import * as Collectors from './collectors';
 import * as flat from 'flat';
 import { LogUtil } from './utils/log';
 import { BaseCollector } from './collectors/base';
+import { CacheUtil } from './utils/cache';
 
 function getModules(moduleNames?: string | Array<string>) {
     if (!moduleNames) {
@@ -18,6 +19,7 @@ function getModules(moduleNames?: string | Array<string>) {
 }
 
 export async function collect(moduleNames?: string | Array<string>, session: string = "default") {
+    CacheUtil.put(session, {});
     const promises: Promise<any>[] = [];
     const flatListOfCollectors = flat(Collectors);
 
@@ -62,6 +64,8 @@ export async function collect(moduleNames?: string | Array<string>, session: str
         }, {});
     } catch (err) {
         throw err;
+    } finally {
+        CacheUtil.delete(session);
     }
 }
 
