@@ -10,7 +10,6 @@ export class CollectorUtil{
         if(!sessionCache.collectors[collectorName]) {
             sessionCache.collectors[collectorName] = collector.collect();
         }
-        CacheUtil.put(session, sessionCache);
         return sessionCache.collectors[collectorName];
     }
 } 

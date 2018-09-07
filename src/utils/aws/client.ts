@@ -9,13 +9,11 @@ export class ClientsProvider {
             sessionCache.clients[serviceName] = sessionCache.clients[serviceName] || {};
             sessionCache.clients[serviceName][region] = new AWS[serviceName]({region, credentials: sessionCache.credentials});
         }
-        CacheUtil.put(session, sessionCache);
         return sessionCache.clients[serviceName][region];
     }
 
     static setCredentials(credentials, session: string = "default") {
         const sessionCache = CacheUtil.get(session, {});
         sessionCache.credentials = credentials;
-        CacheUtil.put(session, sessionCache);
     }
 }
