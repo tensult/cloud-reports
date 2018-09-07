@@ -15,5 +15,6 @@ export class ClientsProvider {
     static setCredentials(credentials, session: string = "default") {
         const sessionCache = CacheUtil.get(session, {});
         sessionCache.credentials = credentials;
+        CacheUtil.put(session, sessionCache);
     }
 }
