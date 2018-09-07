@@ -1,17 +1,16 @@
 import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisType } from '../../../types';
 
-export class SecurityGroupsOpenToWorldAnalyzer extends BaseAnalyzer {
-    // TODO: HTTP, HTTPS should be ok if it is a website
+export class MSSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
     analyze(params: any, fullReport?: any): any {
         const allSecurityGroups = params.security_groups;
         if (!allSecurityGroups) {
             return undefined;
         }
-        const security_groups_open_to_world: CheckAnalysisResult = { type: CheckAnalysisType.Security };
-        security_groups_open_to_world.what = "Are there any security groups open to world?";
-        security_groups_open_to_world.why = "Security group open to world posses serious security threat so we need to allow only intended parties to access";
-        security_groups_open_to_world.recommendation = "Recommended to restrict security groups as tight as needed";
+        const mssql_db_port_open_to_world: CheckAnalysisResult = { type: CheckAnalysisType.Security };
+        mssql_db_port_open_to_world.what = "Is MSSQL port open to world?";
+        mssql_db_port_open_to_world.why = "We should always restrict MSSQL port only intended parties to access";
+        mssql_db_port_open_to_world.recommendation = "Recommended to restrict MSSQL port in security groups to specific IPs";
         const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allSecurityGroups) {
             let regionSecurityGroups = allSecurityGroups[region];
@@ -26,27 +25,27 @@ export class SecurityGroupsOpenToWorldAnalyzer extends BaseAnalyzer {
                     name: 'SecurityGroup',
                     value: `${securityGroup.GroupName} | ${securityGroup.GroupId}`
                 }
-                if (this.isOpenToWorld(securityGroup)) {
+                if (this.isMSSQLOpenToWorld(securityGroup)) {
                     securityGroupAnalysis.severity = SeverityStatus.Failure;
-                    securityGroupAnalysis.message = 'Security group is open to entire world';
-                    securityGroupAnalysis.action = 'Remove rule containing IP range: 0.0.0.0/0.'
+                    securityGroupAnalysis.message = 'MSSQL Port is open to entire world';
+                    securityGroupAnalysis.action = 'Restrict MSSQL port'
                 } else {
                     securityGroupAnalysis.severity = SeverityStatus.Good;
-                    securityGroupAnalysis.message = 'Security group is restricted to few IP ranges';
+                    securityGroupAnalysis.message = 'MSSQL port is not open to entire world';
                 }
                 allRegionsAnalysis[region].push(securityGroupAnalysis);
             }
         }
-        security_groups_open_to_world.regions = allRegionsAnalysis;
-        return { security_groups_open_to_world };
+        mssql_db_port_open_to_world.regions = allRegionsAnalysis;
+        return { mssql_db_port_open_to_world };
     }
 
-    private isOpenToWorld(securityGroup: any) {
+    private isMSSQLOpenToWorld(securityGroup: any) {
         if(securityGroup) {
             return false;
         }
         const openIpRanges = securityGroup.IpPermissions.filter((rule) => {
-            return rule.IpRanges.findIndex((ipRange) => {
+            return rule.FromPort === 1433 && rule.IpRanges.findIndex((ipRange) => {
                 return ipRange.CidrIp === '0.0.0.0/0';
             }) !== -1;
         });
