@@ -13,7 +13,9 @@ export class UserPoliciesCollector extends BaseCollector {
     private async listPolicies() {
         try {
             const iam = this.getClient('IAM', 'us-east-1') as AWS.IAM;
-            const usersData = await CollectorUtil.cachedCollect(new UsersCollector());
+            const usersCollector = new UsersCollector();
+            usersCollector.setSession(this.getSession());
+            const usersData = await CollectorUtil.cachedCollect(usersCollector);
             const users: AWS.IAM.User[] = usersData.users;
             const user_policies: Dictionary<AWS.IAM.AttachedPolicy[]> = {};
             for (let i = 0; i < users.length; i++) {

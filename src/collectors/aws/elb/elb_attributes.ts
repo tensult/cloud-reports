@@ -12,7 +12,9 @@ export class ElbV2AttributesCollector extends BaseCollector {
     private async getAllElbAttributes() {
         const serviceName = 'ELBv2';
         const elbRegions = this.getRegions(serviceName);
-        const elbsData = await CollectorUtil.cachedCollect(new ElbV2sCollector());
+        const elbV2sCollector = new ElbV2sCollector();
+        elbV2sCollector.setSession(this.getSession());
+        const elbsData = await CollectorUtil.cachedCollect(elbV2sCollector);
         const elbs = elbsData.elbs;
         const elb_attributes = {};
         for (let region of elbRegions) {

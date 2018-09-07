@@ -14,7 +14,9 @@ export class ApiStagesCollector extends BaseCollector {
         const self = this;
         const serviceName = 'APIGateway';
         const apiGatewayRegions = self.getRegions(serviceName);
-        const apisData = await CollectorUtil.cachedCollect(new ApisCollector());
+        const apisCollector = new ApisCollector();
+        apisCollector.setSession(this.getSession());
+        const apisData = await CollectorUtil.cachedCollect(apisCollector);
         const apis = apisData.apis;
         const api_stages = {};
 

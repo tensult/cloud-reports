@@ -13,7 +13,9 @@ export class QueueAttributesCollector extends BaseCollector {
 
         const serviceName = 'SQS';
         const sqsRegions = this.getRegions(serviceName);
-        const queueUrlsData = await CollectorUtil.cachedCollect(new QueueUrlsCollector());
+        const queueUrlsCollector = new QueueUrlsCollector();
+        queueUrlsCollector.setSession(this.getSession());
+        const queueUrlsData = await CollectorUtil.cachedCollect(queueUrlsCollector);
         const queue_urls: Dictionary<string[]> = queueUrlsData.queue_urls;
         const queue_attributes = {};
 

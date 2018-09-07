@@ -11,7 +11,9 @@ export class BucketLifecycleRulesCollector extends BaseCollector {
 
     private async listAllBucketLifecylceRules() {
         const s3 = this.getClient('S3', 'us-east-1') as AWS.S3;
-        const bucketsData = await CollectorUtil.cachedCollect(new BucketsCollector());
+        const bucketsCollector =  new BucketsCollector();
+        bucketsCollector.setSession(this.getSession());
+        const bucketsData = await CollectorUtil.cachedCollect(bucketsCollector);
         let bucket_life_cycle_rules = {};
         for (let bucket of bucketsData.buckets) {
             try {

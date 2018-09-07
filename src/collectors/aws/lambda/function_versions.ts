@@ -14,7 +14,9 @@ export class LambdaFunctionVersionsCollector extends BaseCollector {
         const self = this;
         const serviceName = 'Lambda';
         const lambdaRegions = self.getRegions(serviceName);
-        const functionsData = await CollectorUtil.cachedCollect(new LambdaFunctionsCollector());
+        const lambdaFunctionsCollector = new LambdaFunctionsCollector();
+        lambdaFunctionsCollector.setSession(this.getSession());
+        const functionsData = await CollectorUtil.cachedCollect(lambdaFunctionsCollector);
         const functions = functionsData.functions;
         const function_versions = {};
         for (let region of lambdaRegions) {

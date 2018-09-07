@@ -10,7 +10,9 @@ export class AccountIdCollector extends BaseCollector {
 
     private async getAccountId() {
         try {
-            const credsReportData = await CollectorUtil.cachedCollect(new CredentialsReportCollector());
+            const credentialsReportCollector = new CredentialsReportCollector()
+            credentialsReportCollector.setSession(this.getSession())
+            const credsReportData = await CollectorUtil.cachedCollect(credentialsReportCollector);
             if (credsReportData.credentials) {
                 const rootAccountDetails = credsReportData.credentials.find((credential) => {
                     return credential.user === "<root_account>";

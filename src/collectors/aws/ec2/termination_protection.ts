@@ -14,7 +14,9 @@ export class TerminationProtectionCollector extends BaseCollector {
         const serviceName = 'EC2';
         const ec2Regions = this.getRegions(serviceName);
         const termination_protection = {};
-        const instancesData = await CollectorUtil.cachedCollect(new EC2InstancesCollector());
+        const ec2InstancesCollector = new EC2InstancesCollector();
+        ec2InstancesCollector.setSession(this.getSession());
+        const instancesData = await CollectorUtil.cachedCollect(ec2InstancesCollector);
         const instances = instancesData.instances;
         for (let region of ec2Regions) {
             try {

@@ -13,7 +13,9 @@ export class ESDomainsCollector extends BaseCollector {
 
         const serviceName = 'ES';
         const esRegions = this.getRegions(serviceName);
-        const domainNamesData = await CollectorUtil.cachedCollect(new ESDomainNamesCollector());
+        const esDomainNamesCollector = new ESDomainNamesCollector();
+        esDomainNamesCollector.setSession(this.getSession());
+        const domainNamesData = await CollectorUtil.cachedCollect(esDomainNamesCollector);
         const domainNames = domainNamesData.domain_names;
         const domains = {};
 

@@ -14,7 +14,9 @@ export class DynamoDBTablesDetailsCollector extends BaseCollector {
         const serviceName = 'DynamoDB';
         const dynamoDBRegions = this.getRegions(serviceName);
         const tables_details = {};
-        const tablesData = await CollectorUtil.cachedCollect(new DynamoDBTableNamesCollector());
+        const dynamoDBTableNamesCollector = new DynamoDBTableNamesCollector();
+        dynamoDBTableNamesCollector.setSession(this.getSession());
+        const tablesData = await CollectorUtil.cachedCollect(dynamoDBTableNamesCollector);
         const tableNames = tablesData.tableNames;
         for (let region of dynamoDBRegions) {
             try {

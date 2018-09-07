@@ -15,7 +15,9 @@ export class TopicsDetailsCollector extends BaseCollector {
         const self = this;
         const serviceName = 'SNS';
         const snsRegions = self.getRegions(serviceName);
-        const topicsData = await CollectorUtil.cachedCollect(new TopicsCollector());
+        const topicsCollector = new TopicsCollector();
+        topicsCollector.setSession(this.getSession());
+        const topicsData = await CollectorUtil.cachedCollect(topicsCollector);
         const topics: Dictionary<AWS.SNS.Topic[]> = topicsData.topics;
         const topics_details = {};
         for (let region of snsRegions) {

@@ -12,7 +12,9 @@ export class GroupUsersCollector extends BaseCollector {
 
     private async listUsers() {
         const iam = this.getClient('IAM', 'us-east-1') as AWS.IAM;
-        const groupsData = await CollectorUtil.cachedCollect(new GroupsCollector());
+        const groupsCollector = new GroupsCollector();
+        groupsCollector.setSession(this.getSession());
+        const groupsData = await CollectorUtil.cachedCollect(groupsCollector);
         const groups: AWS.IAM.Group[] = groupsData.groups;
         const group_users: Dictionary<AWS.IAM.User[]> = {};
         for (let i = 0; i < groups.length; i++) {

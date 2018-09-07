@@ -13,7 +13,9 @@ export class CertificateDetailsCollector extends BaseCollector {
         const self = this;
         const serviceName = 'ACM';
         const acmRegions = self.getRegions(serviceName);
-        const certificatesData = await CollectorUtil.cachedCollect(new CertificateCollector());
+        const certificateCollector = new CertificateCollector();
+        certificateCollector.setSession(this.getSession());
+        const certificatesData = await CollectorUtil.cachedCollect(certificateCollector);
         const certificates = certificatesData.certificates;
         const certificate_details = {};
         for (let region of acmRegions) {

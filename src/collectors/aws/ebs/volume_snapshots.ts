@@ -14,7 +14,9 @@ export class VolumeSnapshotsCollector extends BaseCollector {
 
         const serviceName = 'EC2';
         const ec2Regions = this.getRegions(serviceName);
-        const volumesData = await CollectorUtil.cachedCollect(new VolumesCollector());
+        const volumesCollector = new VolumesCollector();
+        volumesCollector.setSession(this.getSession());
+        const volumesData = await CollectorUtil.cachedCollect(volumesCollector);
         const snapshots = {};
         const dataStringsToSearch = CommonUtil.removeDuplicates([this.getDateStringForSearch(30), this.getDateStringForSearch(0)]);
 

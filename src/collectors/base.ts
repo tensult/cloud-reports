@@ -13,5 +13,9 @@ export abstract class BaseCollector {
     setSession(session: string = "default") {
         this.session = session;
     }
+
+    getSession() {
+        return this.session;
+    }
     
 }

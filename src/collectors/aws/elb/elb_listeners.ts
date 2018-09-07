@@ -13,7 +13,9 @@ export class ElbV2ListenersCollector extends BaseCollector {
         const self = this;
         const serviceName = 'ELBv2';
         const elbRegions = self.getRegions(serviceName);
-        const elbsData = await CollectorUtil.cachedCollect(new ElbV2sCollector());
+        const elbV2sCollector = new ElbV2sCollector();
+        elbV2sCollector.setSession(this.getSession());
+        const elbsData = await CollectorUtil.cachedCollect(elbV2sCollector);
         const elbs = elbsData.elbs;
         const elb_listeners = {};
         for (let region of elbRegions) {

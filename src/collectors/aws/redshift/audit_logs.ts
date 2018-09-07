@@ -15,7 +15,9 @@ export class RedshiftAuditLogsCollector extends BaseCollector {
 
         const serviceName = 'Redshift';
         const redshiftRegions = self.getRegions(serviceName);
-        const clustersData = await CollectorUtil.cachedCollect(new RedshiftClustersCollector());
+        const redshiftClustersCollector = new RedshiftClustersCollector();
+        redshiftClustersCollector.setSession(self.getSession());
+        const clustersData = await CollectorUtil.cachedCollect(redshiftClustersCollector);
         const audit_logs = {};
 
         for (let region of redshiftRegions) {

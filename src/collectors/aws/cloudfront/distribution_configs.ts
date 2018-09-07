@@ -12,7 +12,9 @@ export class DistributionConfigsCollector extends BaseCollector {
     private async listAllDistributionConfigs() {
         try {
             const cloudfront = this.getClient('CloudFront', 'us-east-1') as AWS.CloudFront;
-            const distributionData = await CollectorUtil.cachedCollect(new DistributionsCollector());
+            const distributionsCollector = new DistributionsCollector();
+            distributionsCollector.setSession(this.getSession());
+            const distributionData = await CollectorUtil.cachedCollect(distributionsCollector);
             let distribution_configs = {};
             for (let distribution of distributionData.distributions) {
                 let cloudfrontDistributionsData: AWS.CloudFront.GetDistributionConfigResult = await cloudfront.getDistributionConfig({Id: distribution.Id}).promise();
