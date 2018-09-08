@@ -6,7 +6,7 @@ import { BaseCollector } from './collectors/base';
 import { CacheUtil } from './utils/cache';
 
 function getModules(moduleNames?: string | Array<string>) {
-    if (!moduleNames) {
+    if (!moduleNames || moduleNames === 'all') {
         return [];
     }
     if (Array.isArray(moduleNames)) {
