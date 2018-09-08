@@ -38,7 +38,7 @@ We are implementing checks based on [AWS Well Architected](https://aws.amazon.co
 * * sqs: [AWS Simple Queue Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/sqs)
 * * route53: [AWS Elastic Load Balancer](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/elb)
 * * trails: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/trails)
-* * vpc: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/vpc)
+* * vpc: [AWS Virtual Private Cloud](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/vpc)
 
 ### Install NodeJS
 This package is based on NodeJS framework so you can it install from [here](https://nodejs.org/en/).
