@@ -113,6 +113,22 @@ Make sure you have initialized [AWS.config](https://docs.aws.amazon.com/sdk-for-
     const analysisPromise = collectionPromise.then((collectedJson) => cloudReporter.analyze(collectedJson));
     analysisPromise.then((analysisJson) => console.log(JSON.stringify(analysisJson, null, 2)));
 ```
+#### Sessions support
+You may want to run the report for multiple accounts at once with different credentials, in that case you can use sessions.
+```js
+    const cloudReporter = require('cloud-reports');
+    // Remember to use unique session strings for each account/credentials
+    const account1CollectionPromise = cloudReporter.collect(all, credentials1, session1);
+    const account2CollectionPromise = cloudReporter.collect(all, credentials2, session2);
+
+    const analysisPromise = Promise.all([account1CollectionPromise, account2CollectionPromise])
+                                   .then((collectedJsons) => {
+                                       return collectedJsons.map((collectedJson) => {
+                                           return cloudReporter.analyze(collectedJson);
+                                       })
+                                    });
+    analysisPromise.then((analysisJsons) => console.log(JSON.stringify(analysisJsons, null, 2)));
+```
 ### Update service regions
 We have written a [script](https://github.com/tensult/cloud-reports/blob/master/src/scripts/updateAwsServiceRegionsData.js) which updates the [AWS regions data](https://github.com/tensult/cloud-reports/blob/master/src/utils/aws/regions_data.ts)
 ```
