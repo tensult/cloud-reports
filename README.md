@@ -125,7 +125,7 @@ You may want to run the report for multiple accounts with different set of crede
                                    .then((collectedJsons) => {
                                        return collectedJsons.map((collectedJson) => {
                                            return cloudReporter.analyze(collectedJson);
-                                       })
+                                       });
                                     });
     analysisPromise.then((analysisJsons) => console.log(JSON.stringify(analysisJsons, null, 2)));
 ```
