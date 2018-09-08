@@ -17,4 +17,8 @@ export class CommonUtil {
     static daysFrom(date: string | Date | number) {
         return Math.floor(Moment.duration(Moment().diff(Moment(date))).asDays());
     }
+
+    static uniqId() {
+        return `${Date.now()}_${Math.floor(Math.random()*10000000)}` 
+    }
 }
