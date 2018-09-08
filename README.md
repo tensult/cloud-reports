@@ -114,7 +114,7 @@ Make sure you have initialized [AWS.config](https://docs.aws.amazon.com/sdk-for-
     analysisPromise.then((analysisJson) => console.log(JSON.stringify(analysisJson, null, 2)));
 ```
 #### Sessions support
-You may want to run the report for multiple accounts at once with different credentials, in that case you can use sessions.
+You may want to run the report for multiple accounts with different set of credentials at once, then in that case you can use sessions.
 ```js
     const cloudReporter = require('cloud-reports');
     // Remember to use unique session strings for each account/credentials
