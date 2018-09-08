@@ -18,7 +18,8 @@ function getModules(moduleNames?: string | Array<string>) {
     return [];
 }
 
-export async function collect(moduleNames?: string | Array<string>, credentials?: any, session: string = CommonUtil.uniqId()) {
+export async function collect(moduleNames?: string | Array<string>, credentials?: any, session?: string) {
+    session = session || CommonUtil.uniqId();
     try {
         const currentSession = CacheUtil.get(session, { session });
         currentSession.session = currentSession.session || session;
