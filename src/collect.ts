@@ -20,7 +20,9 @@ function getModules(moduleNames?: string | Array<string>) {
 
 export async function collect(moduleNames?: string | Array<string>, credentials?: any, session: string = "default") {
     try {
-        CacheUtil.put(session, CacheUtil.get(session, { session, credentials }));
+        const currentSession = CacheUtil.get(session, { session });
+        currentSession.credentials = currentSession.credentials || credentials;
+        CacheUtil.put(session, currentSession);
         const promises: Promise<any>[] = [];
         const flatListOfCollectors = flat(Collectors);
 
