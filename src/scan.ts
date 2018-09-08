@@ -39,8 +39,6 @@ const credentials = new AWS.SharedIniFileCredentials({
     profile: cliArgs.profile
 });
 
-ClientsProvider.setCredentials(credentials);
-
 const collectorReportFileName = cliArgs.outputDir  + "/collector_report.json";
 
 function makeFileName() {
@@ -79,7 +77,7 @@ async function getCollectorResults() {
         LogUtil.log("Reusing collection report");
         return JSON.parse(readFileSync(collectorReportFileName, {encoding: "utf-8"}));
     }
-    return await CollectorMain.collect(cliArgs.module);
+    return await CollectorMain.collect(cliArgs.module, credentials);
 }
 
 async function scan() {
