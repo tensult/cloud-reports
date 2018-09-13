@@ -31,7 +31,7 @@ We are implementing checks based on [AWS Well Architected](https://aws.amazon.co
 * * lambda: [Amazon Lambda](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/lambda)
 * * rds: [AWS Relational Databases](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/rds)
 * * redshift: [AWS Redshift](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/redshift)
-* * * resourcegroups: [AWS Resource Groups](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/resourcegroups)
+* * resourcegroups: [AWS Resource Groups](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/resourcegroups)
 * * route53: [AWS Route 53](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/route53)
 * * s3: [AWS Simple Storage Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/s3)
 * * sns: [AWS Simple Notification Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/sns)
