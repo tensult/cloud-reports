@@ -55,6 +55,7 @@ git pull
 
 #### Installing and Building
 **Make sure you are in the cloud-reports directory.**
+
 To convert typescript to javascript
 
     npm run build 
