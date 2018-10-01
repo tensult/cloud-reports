@@ -41,9 +41,9 @@ import {
         MatIconModule,
         MatChipsModule,
         RouterModule.forChild([
-            { path: 'report/dashboard', component: CloudReportDashboardComponent },
-            { path: 'report/checkCategory/:service', component: CloudReportCheckCategoryComponent },
-            { path: 'report/checkDetail', component: CloudReportCheckDetailComponent }
+            { path: 'dashboard', component: CloudReportDashboardComponent },
+            { path: 'checkCategory/:service', component: CloudReportCheckCategoryComponent },
+            { path: 'checkDetail', component: CloudReportCheckDetailComponent }
         ]),
         HttpClientModule
     ],

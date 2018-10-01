@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.272.1",
+    "crypto-js": "^3.1.9-1",
     "flat": "^4.0.0",
     "moment": "^2.22.2"
   }

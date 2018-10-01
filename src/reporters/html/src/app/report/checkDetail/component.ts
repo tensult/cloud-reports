@@ -77,6 +77,7 @@ export class CloudReportCheckDetailComponent implements OnInit {
                     this.dataSource.paginator = this.paginator;
                     this.dataSource.sort = this.sort;
                 }, (error) => {
+                    
                     console.log(error);
                 });
         });
@@ -111,7 +112,7 @@ export class CloudReportCheckDetailComponent implements OnInit {
         //     service: this.selectedService,
         //     severity: this.selectedSeverity
         // });
-        this.router.navigate(['/report/checkDetail'], {
+        this.router.navigate(['/checkDetail'], {
             queryParams: {
                 checkCategory: this.selectedServiceCheckCategory,
                 region: this.selectedRegion,
@@ -122,7 +123,7 @@ export class CloudReportCheckDetailComponent implements OnInit {
     }
 
     goToServiceDashboard() {
-        this.router.navigate(['/report/checkCategory', this.selectedService]);
+        this.router.navigate(['/checkCategory', this.selectedService]);
     }
 
     private makeTableData(filteredDataObject: any) {

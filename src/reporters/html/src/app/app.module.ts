@@ -18,7 +18,7 @@ import { ReportModule } from './report/report.module';
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: '/report/dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
       { path: '**', component: PageNotFound }
     ], { useHash: true }),
     ReportModule

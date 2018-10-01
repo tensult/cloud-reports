@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CloudReportService } from '../report.service'
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
 
 @Component({
@@ -14,25 +14,32 @@ export class CloudReportDashboardComponent implements OnInit {
   dataSource;
   scanReportData: Object;
 
-  constructor(private cloudReportService: CloudReportService, private router: Router) { }
+  constructor(private cloudReportService: CloudReportService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.loadDashboardData();
   }
 
   loadDashboardData() {
-    this.cloudReportService.getScanReportData()
-      .subscribe((data) => {
-        const dashboardData = this.cloudReportService.getDashboardData(data);
-        this.dataSource = new MatTableDataSource(dashboardData);
-      }, (error) => {
-        console.log(error);
-      }
-      )
+    this.route.queryParams.subscribe((urldata) => {
+      const _urldata = urldata['urldata'];
+      localStorage.setItem('urldata', _urldata);
+      this.cloudReportService.getScanReportData()
+        .subscribe((data) => {
+          const dashboardData = this.cloudReportService.getDashboardData(data);
+          this.dataSource = new MatTableDataSource(dashboardData);
+        }, (error) => {
+          alert('Some error has occured. We are closing tab. Please try again..')
+          window.close();
+        }
+        )
+    })
   }
 
   goToService(element) {
-    this.router.navigate(['report/checkCategory', element.service]);
+    this.router.navigate(['checkCategory', element.service]);
   }
 
 

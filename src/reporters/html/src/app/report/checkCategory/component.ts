@@ -44,6 +44,9 @@ export class CloudReportCheckCategoryComponent implements OnInit {
           this.selectedRegion = this.cloudReportService.manageRegion(undefined, 'aws.' + this.service, data);
         }
         this.checkCategories = this.cloudReportService.getCheckCategoryData('aws.' + this.service, this.selectedRegion, data);
+      }, (error) => {
+        alert('Some error has occured. We are closing tab. Please try again..')
+        window.close();
       })
   }
 

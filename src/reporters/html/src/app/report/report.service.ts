@@ -1,6 +1,9 @@
 import { ArrayUtil } from './../../utils/array';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { of } from "rxjs";
+import { map } from 'rxjs/operators';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable()
 export class CloudReportService {
@@ -26,22 +29,26 @@ export class CloudReportService {
         'cn-northwest-1',
         'ap-northeast-3',
     ]
-    
 
     constructor(private http: HttpClient) { }
 
     private fetchScanReportData() {
-        return this.http.get('assets/data.json');
+        // const decodedData = CryptoJS.AES.decrypt(localStorage.getItem('urldata'), 'tensult').toString();
+        // const decodedData = decodeURIComponent(localStorage.getItem('urldata'));
+        // console.log('Decoded data: ', decodedData)
+        // console.log(JSON.parse(localStorage.getItem('urldata'))['presignedUrl'])
+        return this.http.get(localStorage.getItem('urldata'));
     }
 
     getAllRegions(provider) {
-        if(provider === 'aws') {
+        if (provider === 'aws') {
             return this.awsRegions;
         }
-    }   
+    }
 
     getScanReportData() {
         if (!this.scanReportData) {
+            console.log('Report data is fetching from server..')
             this.scanReportData = this.fetchScanReportData();
         }
         return this.scanReportData;
@@ -292,7 +299,7 @@ export class CloudReportService {
                 }
             }
         }
-        
+
         if (ArrayUtil.isNotBlank(region)) {
             for (let serviceIndex in filterredData) {
                 for (let checkCategoryIndex in filterredData[serviceIndex]) {
@@ -309,7 +316,7 @@ export class CloudReportService {
             for (let serviceIndex in filterredData) {
                 for (let checkCategoryIndex in filterredData[serviceIndex]) {
                     for (let regionIndex in filterredData[serviceIndex][checkCategoryIndex].regions) {
-                        if(!filterredData[serviceIndex][checkCategoryIndex].regions[regionIndex]) {
+                        if (!filterredData[serviceIndex][checkCategoryIndex].regions[regionIndex]) {
                             continue;
                         }
                         filterredData[serviceIndex][checkCategoryIndex].regions[regionIndex] = filterredData[serviceIndex][checkCategoryIndex].regions[regionIndex].filter((checkData) => {
@@ -376,7 +383,7 @@ export class CloudReportService {
     storeFilterSelectionData(data) {
         let storedFilterSelection = [];
         storedFilterSelection = JSON.parse(localStorage.getItem('filterSelection'));
-        if(!storedFilterSelection || storedFilterSelection.length < 1) {
+        if (!storedFilterSelection || storedFilterSelection.length < 1) {
             storedFilterSelection = [];
         }
         storedFilterSelection.push(data);
@@ -385,18 +392,18 @@ export class CloudReportService {
 
     getFilterSelectionData() {
         let storedFilterSelection = JSON.parse(localStorage.getItem('filterSelection'));
-        if(storedFilterSelection && storedFilterSelection.length > 0) {
+        if (storedFilterSelection && storedFilterSelection.length > 0) {
             return storedFilterSelection;
         }
     }
 
     checkSameFilterSelectionData(storedFilterSelectionData: Object[], newFilterSelectionData: Object) {
-        for(let i=0; i<storedFilterSelectionData.length; i++) {
-            
+        for (let i = 0; i < storedFilterSelectionData.length; i++) {
+
         }
     }
 
-/************************************ check detail page end ***********************************************/
+    /************************************ check detail page end ***********************************************/
 
 
 }

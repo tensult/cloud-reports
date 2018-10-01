@@ -11,7 +11,7 @@
         <button mat-menu-item *ngFor="let region of regions" (click)="onRegionChange(region)"> {{region}}</button>
       </div>
     </mat-menu>
-    <a mat-button routerLink="/report/checkDetail" [queryParams]="{service: service}">Detail Dashboard</a>
+    <a mat-button routerLink="checkDetail" [queryParams]="{service: service}">Detail Dashboard</a>
     <a mat-button routerLink="/">Main Dashboard</a>
   </mat-toolbar>
 </div>
@@ -30,7 +30,7 @@
           <p>Number of check of resources in bad conditon : {{checkCategory.badConditionCount}}</p>
         </mat-card-content>
         <mat-card-actions>
-          <a mat-button routerLink="/report/checkDetail" [queryParams]="{service: service, region: selectedRegion, checkCategory: checkCategory.checkCategoryName}">Details</a>
+          <a mat-button routerLink="/checkDetail" [queryParams]="{service: service, region: selectedRegion, checkCategory: checkCategory.checkCategoryName}">Details</a>
         </mat-card-actions>
       </mat-card>
     </div>
