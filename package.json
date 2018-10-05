@@ -33,7 +33,7 @@
     "finalhandler": "^1.1.1"
   },
   "dependencies": {
-    "aws-sdk": "^2.272.1",
+    "aws-sdk": "^2.328.0",
     "flat": "^4.0.0",
     "moment": "^2.22.2"
   }
