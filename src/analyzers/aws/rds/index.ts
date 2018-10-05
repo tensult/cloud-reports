@@ -5,6 +5,3 @@ export * from './delete_protection_enabled';
 export * from './encryption_enabled';
 export * from './instances_reserved';
 export * from './publicly_accessible';
-
-
-
