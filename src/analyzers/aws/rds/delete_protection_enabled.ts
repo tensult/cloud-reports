@@ -1,17 +1,17 @@
-import { BaseAnalyzer } from '../../base'
+import { BaseAnalyzer } from '../../base';
 import { ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisResult, CheckAnalysisType } from '../../../types';
 
-export class RdsEncryptionEnabledAnalyzer extends BaseAnalyzer {
+export class RdsDeleteProtectionEnabledAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         if (!allInstances) {
             return undefined;
         }
-        const encryption_enabled: CheckAnalysisResult = { type: CheckAnalysisType.Security };
-        encryption_enabled.what = "Is encryption enabled for RDS instances?";
-        encryption_enabled.why = "It is important to encrypt data at rest"
-        encryption_enabled.recommendation = "Recommended to enable encryption for RDS instance as it provides additional layer of security";
+        const delete_protection_enabled: CheckAnalysisResult = { type: CheckAnalysisType.Reliability };
+        delete_protection_enabled.what = "Is delete protection enabled for RDS instances?";
+        delete_protection_enabled.why = "Enabling delete protection for all production RDS instances, protects them from accidental deletion."
+        delete_protection_enabled.recommendation = "Recommended to enable delete protection for all production RDS instances.";
         const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
         for (let region in allInstances) {
             let regionInstances = allInstances[region];
@@ -23,18 +23,18 @@ export class RdsEncryptionEnabledAnalyzer extends BaseAnalyzer {
                     name: 'DBInstance',
                     value: instance.DBInstanceIdentifier
                 }
-                if (instance.StorageEncrypted) {
+                if (instance.DeletionProtection) {
                     instance_analysis.severity = SeverityStatus.Good;
-                    instance_analysis.message = 'RDS instance is encrypted at rest';
+                    instance_analysis.message = 'Deletion Protection enabled';
                 } else {
                     instance_analysis.severity = SeverityStatus.Failure;
-                    instance_analysis.message = 'RDS instance is not encrypted at rest';
-                    instance_analysis.action = 'Enable storage encryption at rest for the instance'
+                    instance_analysis.message = 'Deletion Protection not enabled';
+                    instance_analysis.action = 'Enable deletion protection for all production instances'
                 }
                 allRegionsAnalysis[region].push(instance_analysis);
             }
         }
-        encryption_enabled.regions = allRegionsAnalysis;
-        return { encryption_enabled };
+        delete_protection_enabled.regions = allRegionsAnalysis;
+        return { delete_protection_enabled };
     }
 }
