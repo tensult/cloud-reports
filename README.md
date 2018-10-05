@@ -31,14 +31,14 @@ We are implementing checks based on [AWS Well Architected](https://aws.amazon.co
 * * lambda: [Amazon Lambda](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/lambda)
 * * rds: [AWS Relational Databases](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/rds)
 * * redshift: [AWS Redshift](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/redshift)
-* * * resourcegroups: [AWS Resource Groups](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/resourcegroups)
+* * resourcegroups: [AWS Resource Groups](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/resourcegroups)
 * * route53: [AWS Route 53](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/route53)
 * * s3: [AWS Simple Storage Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/s3)
 * * sns: [AWS Simple Notification Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/sns)
 * * sqs: [AWS Simple Queue Service](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/sqs)
 * * route53: [AWS Elastic Load Balancer](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/elb)
 * * trails: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/trails)
-* * vpc: [AWS CloudTrails](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/vpc)
+* * vpc: [AWS Virtual Private Cloud](https://github.com/tensult/cloud-reports/tree/master/src/analyzers/aws/vpc)
 
 ### Install NodeJS
 This package is based on NodeJS framework so you can it install from [here](https://nodejs.org/en/).
@@ -48,12 +48,14 @@ This package is based on NodeJS framework so you can it install from [here](http
     git clone https://github.com/tensult/cloud-reports.git
 
 #### To get updates
-If you have already cloned this repository before then for getting new updates
+If you have already cloned this repository before then for getting new updates, change directory to the cloud-reports directory and then do git pull.
 ```
 git pull
 ```
 
 #### Installing and Building
+*Make sure you are in the cloud-reports directory.*
+
 To convert typescript to javascript
 
     npm run build 
