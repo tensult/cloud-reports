@@ -41,12 +41,12 @@ export class SecurityGroupsWidePortRangeAnalyzer extends BaseAnalyzer {
     }
 
     private containsWidePortRange(securityGroup: any) {
-        if(securityGroup) {
+        if(!securityGroup) {
             return false;
         }
-        const widePortRanges = securityGroup.IpPermissions.filter((rule) => {
+        
+        return securityGroup.IpPermissions.some((rule) => {
             return rule.IpProtocol === "-1";
         });
-        return widePortRanges.length > 0;
     }
 }

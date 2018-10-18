@@ -41,14 +41,14 @@ export class PostgreSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
     }
 
     private isPostgreSQLOpenToWorld(securityGroup: any) {
-        if(securityGroup) {
+        if(!securityGroup) {
             return false;
         }
-        const openIpRanges = securityGroup.IpPermissions.filter((rule) => {
-            return rule.FromPort === 5432 && rule.IpRanges.findIndex((ipRange) => {
+
+        return securityGroup.IpPermissions.some((rule) => {
+            return rule.FromPort === 5432 && rule.IpRanges.some((ipRange) => {
                 return ipRange.CidrIp === '0.0.0.0/0';
-            }) !== -1;
+            });
         });
-        return openIpRanges.length > 0;
     }
 }

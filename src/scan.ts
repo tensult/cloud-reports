@@ -9,7 +9,6 @@ import * as Reporters from './reporters';
 
 import {writeFileSync, existsSync, readFileSync} from 'fs';
 import { LogUtil } from './utils/log';
-import { ClientsProvider } from './utils';
 
 const cliArgs = Cli.parse({
     profile: ['p', 'AWS profile name', 'string'],
@@ -22,7 +21,7 @@ const cliArgs = Cli.parse({
     logLevel: ['l', "Log level: off=100, info=1, warning=2, error=3", "int", "3"]
 });
 
-if (!cliArgs.profile) {
+if (!cliArgs.profile && !cliArgs.reuseCollectorReport) {
     Cli.getUsage();
 }
 
