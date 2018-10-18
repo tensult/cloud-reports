@@ -1,3 +1,5 @@
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=73QY55FZWSPRJ)
+
 # Cloud Reports
 Collects info about various cloud resources and analyzes them against best practices and give a JSON, HTML or PDF reports.
 
