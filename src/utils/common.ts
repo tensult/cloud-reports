@@ -7,7 +7,7 @@ export class CommonUtil {
         });
     }
     static removeDuplicates(array: any[]) {
-        if(!array) {
+        if (!array) {
             return [];
         }
         return array.filter((current, index) => {
@@ -19,6 +19,14 @@ export class CommonUtil {
     }
 
     static uniqId() {
-        return `${Date.now()}_${Math.floor(Math.random()*10000000)}` 
+        return `${Date.now()}_${Math.floor(Math.random() * 10000000)}`
+    }
+    
+    static toArray(obj) {
+        if (Array.isArray(obj)) {
+            return obj;
+        } else {
+            return [obj];
+        }
     }
 }

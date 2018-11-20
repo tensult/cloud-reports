@@ -1,11 +1,12 @@
 import { BaseAnalyzer } from '../../base'
 import { CheckAnalysisResult, ResourceAnalysisResult, SeverityStatus, CheckAnalysisType } from '../../../types';
+import { CommonUtil } from '../../../utils';
 
 export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const allRolesPolicies = this.getAssumeRolePolicyDocument(params.roles);
-        const mainAccountID = this.getAccountID(params.roles[0].Arn);
+        const mainAccountID = this.getAccountIDs(params.roles[0].Arn)[0];
         const permittedAccounts = this.getPermittedAccounts(allRolesPolicies);
         const cross_accounts_without_external_id: CheckAnalysisResult = { type: CheckAnalysisType.Security };
         cross_accounts_without_external_id.what = 'Are there cross account roles without ExternalId?';
@@ -15,24 +16,27 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
 
         permittedAccounts.forEach((roleAccountsObject) => {
             roleAccountsObject.Accounts.forEach((account) => {
+                account.accountIDs = this.removeAccountIDFromList(account.accountIDs, mainAccountID);
+                if (!account.accountIDs || !account.accountIDs.length) {
+                    return;
+                }
                 const crossAccountAnalysis: ResourceAnalysisResult = {
                     resourceSummary: {
                         name: "Roles",
                         value: roleAccountsObject['Role']
                     }
                 }
-                if (account.AccountID !== mainAccountID) {
-                    if (account.AccountID && account.ExternalID) {
-                        crossAccountAnalysis.severity = SeverityStatus.Good;
-                        crossAccountAnalysis.message = `Account ${account.AccountID} has ExternalId`;
-                    }
-                    else {
-                        crossAccountAnalysis.severity = SeverityStatus.Failure;
-                        crossAccountAnalysis.action = 'Add an ExternalId'
-                        crossAccountAnalysis.message = `Account ${account.AccountID} does not have ExternalId`;
-                    }
-                    analysis.push(crossAccountAnalysis);
+                if (account.ExternalID) {
+                    crossAccountAnalysis.severity = SeverityStatus.Good;
+                    crossAccountAnalysis.message = `Accounts ${account.accountIDs} has ExternalId`;
                 }
+                else {
+                    crossAccountAnalysis.severity = SeverityStatus.Failure;
+                    crossAccountAnalysis.action = 'Add an ExternalId'
+                    crossAccountAnalysis.message = `Accounts ${account.accountIDs} does not have ExternalId`;
+                }
+                analysis.push(crossAccountAnalysis);
+
             });
         });
         cross_accounts_without_external_id.regions = { global: analysis };
@@ -40,7 +44,7 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
     };
 
     private getAssumeRolePolicyDocument(roles: any[]) {
-        if(!roles) {
+        if (!roles) {
             return [];
         }
         return roles.map((role) => {
@@ -52,7 +56,7 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
     };
 
     private getPermittedAccounts(allPolicies: any[]) {
-        if(!allPolicies) {
+        if (!allPolicies) {
             return [];
         }
         return allPolicies.map((eachPolicy) => {
@@ -67,7 +71,7 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
             return statement.Principal.AWS;
         }).map((statement) => {
             let accountDetails: any = {};
-            accountDetails.AccountID = this.getAccountID(statement.Principal.AWS);
+            accountDetails.accountIDs = this.getAccountIDs(statement.Principal.AWS);
             if (statement.Condition && statement.Condition.StringEquals) {
                 accountDetails.ExternalID = statement.Condition.StringEquals['sts:ExternalId'];
             }
@@ -76,9 +80,20 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
         return roleAccountsObject;
     };
 
-    private getAccountID(arn: string) {
-        if (arn) {
-            return arn.split(':')[4];
+    private getAccountIDs(arns: string | string[]) {
+        const arnsArray = CommonUtil.toArray(arns);
+        return arnsArray.map((arn) => {
+            return arn.split(":")[4];
+        });
+    }
+
+    private removeAccountIDFromList(accountIds, accountIdToBeRemoved) {
+        if (!accountIds || !accountIds.length) {
+            return [];
+        } else {
+            return accountIds.filter((accountId) => {
+                return accountId !== accountIdToBeRemoved;
+            });
         }
     }
 }

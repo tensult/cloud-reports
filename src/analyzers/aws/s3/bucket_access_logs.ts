@@ -20,7 +20,7 @@ export class CloudTrailsBucketAccessLogsAnalyzer extends BaseAnalyzer {
             let bucketAnalysis: ResourceAnalysisResult = {};
             bucketAnalysis.resource = { bucketName, bucketAccessLogs};
             bucketAnalysis.resourceSummary = { name: 'Bucket', value: bucketName};
-            if (bucketAccessLogs.LoggingEnabled) {
+            if (bucketAccessLogs && bucketAccessLogs.LoggingEnabled) {
                 bucketAnalysis.severity = SeverityStatus.Good;
                 bucketAnalysis.message = 'Access logs are enabled';
             } else {
