@@ -2,7 +2,7 @@ import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
 import { CollectorUtil } from '../../../utils';
 import { ESDomainNamesCollector } from './domain_names';
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class ESDomainsCollector extends BaseCollector {
     collect() {
@@ -30,7 +30,7 @@ export class ESDomainsCollector extends BaseCollector {
                     domains[region] = domainsResponse.DomainStatusList;
                 }
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

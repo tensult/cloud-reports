@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class DynamoDBTableNamesCollector extends BaseCollector {
     collect() {
@@ -27,7 +27,7 @@ export class DynamoDBTableNamesCollector extends BaseCollector {
                     fetchPending = marker !== undefined;
                 }
             } catch (err) {
-                LogUtil.error(err);
+                AWSErrorHandler.handle(err);
                 continue;
             }
         }

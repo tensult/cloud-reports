@@ -2,7 +2,7 @@ import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
 import { BucketsCollector } from './buckets';
 import { CollectorUtil } from "../../../utils";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class BucketAccessLogsCollector extends BaseCollector {
     collect() {
@@ -20,7 +20,7 @@ export class BucketAccessLogsCollector extends BaseCollector {
                 let s3BucketAccessLogs: AWS.S3.GetBucketLoggingOutput = await s3.getBucketLogging({ Bucket: bucket.Name }).promise();
                 bucket_access_logs[bucket.Name] = s3BucketAccessLogs;
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

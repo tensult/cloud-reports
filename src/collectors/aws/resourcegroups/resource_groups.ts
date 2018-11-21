@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class ResourceGroupsCollector extends BaseCollector {
     collect(callback: (err?: Error, data?: any) => void) {
@@ -30,7 +30,7 @@ export class ResourceGroupsCollector extends BaseCollector {
                     fetchPending = marker !== undefined && marker !== null;
                 }
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
             }
         }
         return { resource_groups };

@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class DistributionsCollector extends BaseCollector {
     collect() {
@@ -25,7 +25,7 @@ export class DistributionsCollector extends BaseCollector {
             }
             return { distributions };
         } catch (error) {
-            LogUtil.error(error);
+            AWSErrorHandler.handle(error);
         }
     }
 }

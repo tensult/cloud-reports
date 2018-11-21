@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class EC2ReservedInstancesCollector extends BaseCollector {
     collect() {
@@ -21,7 +21,7 @@ export class EC2ReservedInstancesCollector extends BaseCollector {
                     reserved_instances[region] = instancesResponse.ReservedInstances
                 }
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

@@ -5,6 +5,9 @@ export class UserAccountsMfaEnabledAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const credentials: any[] = params.credentials;
+        if(!credentials) {
+            return;
+        }
         const userCredentials = credentials.filter((credential) => {
             return credential.user !== '<root_account>';
         });

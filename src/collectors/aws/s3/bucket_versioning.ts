@@ -2,7 +2,7 @@ import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
 import { BucketsCollector } from './buckets';
 import { CollectorUtil } from "../../../utils";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class BucketVersioningCollector extends BaseCollector {
     collect() {
@@ -20,7 +20,7 @@ export class BucketVersioningCollector extends BaseCollector {
                 let s3BucketVersioning: AWS.S3.GetBucketVersioningOutput = await s3.getBucketVersioning({ Bucket: bucket.Name }).promise();
                 bucket_versioning[bucket.Name] = s3BucketVersioning;
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

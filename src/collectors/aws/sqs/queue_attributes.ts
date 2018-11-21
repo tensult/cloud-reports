@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 import { QueueUrlsCollector } from './queue_urls';
 import { CollectorUtil } from '../../../utils';
 import { Dictionary } from '../../../types';
@@ -32,7 +32,7 @@ export class QueueAttributesCollector extends BaseCollector {
                     }
                 }
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

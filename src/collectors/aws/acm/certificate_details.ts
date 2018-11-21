@@ -2,7 +2,7 @@ import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
 import { CertificateCollector } from "./certificates"
 import { CollectorUtil } from "../../../utils";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class CertificateDetailsCollector extends BaseCollector {
     collect() {
@@ -31,7 +31,7 @@ export class CertificateDetailsCollector extends BaseCollector {
                 }
                 certificate_details[region] = allRegionCertificateDetails;
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

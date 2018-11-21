@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class KeyPairsCollector extends BaseCollector {
     async collect() {
@@ -13,7 +13,7 @@ export class KeyPairsCollector extends BaseCollector {
                 const keyPairsResponse: AWS.EC2.DescribeKeyPairsResult = await ec2.describeKeyPairs().promise();
                 key_pairs[region] = keyPairsResponse.KeyPairs;
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class TopicsCollector extends BaseCollector {
     collect() {
@@ -27,7 +27,7 @@ export class TopicsCollector extends BaseCollector {
                     fetchPending = marker !== undefined && marker !== null;
                 }
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

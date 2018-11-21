@@ -1,7 +1,7 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
 import { CommonUtil, CsvUtil } from '../../../utils'
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class CredentialsReportCollector extends BaseCollector {
     collect() {
@@ -25,7 +25,7 @@ export class CredentialsReportCollector extends BaseCollector {
             }
             return { credentials }
         } catch (error) {
-            LogUtil.error(error);
+            AWSErrorHandler.handle(error);
         }
     }
 }

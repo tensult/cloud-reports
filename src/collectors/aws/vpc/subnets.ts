@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class SubnetsCollector extends BaseCollector {
 
@@ -15,7 +15,7 @@ export class SubnetsCollector extends BaseCollector {
                 const subnetsResponse: AWS.EC2.DescribeSubnetsResult = await ec2.describeSubnets().promise();
                 subnets[region] = subnetsResponse.Subnets;
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class RolesCollector extends BaseCollector {
     collect() {
@@ -27,7 +27,7 @@ export class RolesCollector extends BaseCollector {
             });
             return { roles };
         } catch (error) {
-            LogUtil.error(error);
+            AWSErrorHandler.handle(error);
         }
     }
 }

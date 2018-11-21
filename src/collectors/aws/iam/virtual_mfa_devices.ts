@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class VirtualMFADevicesCollector extends BaseCollector {
     private iam = new AWS.IAM({ region: 'us-east-1' });
@@ -22,7 +22,7 @@ export class VirtualMFADevicesCollector extends BaseCollector {
             }
             return { mfaVirtualDevices };
         } catch (error) {
-            LogUtil.error(error);
+            AWSErrorHandler.handle(error);
         }
     }
 }

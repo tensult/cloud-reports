@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class GroupsCollector extends BaseCollector {
     collect() {
@@ -21,7 +21,7 @@ export class GroupsCollector extends BaseCollector {
             }
             return { groups };
         } catch (error) {
-            LogUtil.error(error);
+            AWSErrorHandler.handle(error);
         }
     }
 }

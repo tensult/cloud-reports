@@ -3,7 +3,7 @@ import { BaseCollector } from "../../base";
 import { Dictionary } from "../../../types";
 import { CollectorUtil } from "../../../utils";
 import { UsersCollector } from './users';
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class UserPoliciesCollector extends BaseCollector {
     collect() {
@@ -39,7 +39,7 @@ export class UserPoliciesCollector extends BaseCollector {
             }
             return { user_policies };
         } catch (error) {
-            LogUtil.error(error);
+            AWSErrorHandler.handle(error);
         }
     }
 }

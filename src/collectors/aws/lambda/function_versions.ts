@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 import { CollectorUtil } from '../../../utils';
 import { LambdaFunctionsCollector } from './functions';
 
@@ -28,7 +28,7 @@ export class LambdaFunctionVersionsCollector extends BaseCollector {
                     function_versions[region][fn.FunctionName] = functionVersionsResponse.Versions;
                 }
             } catch(error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

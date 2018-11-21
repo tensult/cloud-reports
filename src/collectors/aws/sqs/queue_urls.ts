@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class QueueUrlsCollector extends BaseCollector {
     collect() {
@@ -21,7 +21,7 @@ export class QueueUrlsCollector extends BaseCollector {
                     queue_urls[region] = queueUrlsResponse.QueueUrls;
                 }
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

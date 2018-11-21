@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class RDSInstancesCollector extends BaseCollector {
     collect() {
@@ -28,7 +28,7 @@ export class RDSInstancesCollector extends BaseCollector {
                     fetchPending = marker !== undefined;
                 }
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

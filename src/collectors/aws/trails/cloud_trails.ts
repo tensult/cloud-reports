@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class CloudTrailsCollector extends BaseCollector {
     async collect() {
@@ -14,7 +14,7 @@ export class CloudTrailsCollector extends BaseCollector {
                 const cloudTrailsResponse: AWS.CloudTrail.DescribeTrailsResponse = await cloudTrail.describeTrails().promise();
                 cloud_trails[region] = cloudTrailsResponse.trailList;
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

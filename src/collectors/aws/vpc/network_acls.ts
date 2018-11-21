@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class NetworkAclsCollector extends BaseCollector {
 
@@ -15,7 +15,7 @@ export class NetworkAclsCollector extends BaseCollector {
                 const networkAclsResponse: AWS.EC2.DescribeNetworkAclsResult = await ec2.describeNetworkAcls().promise();
                 network_acls[region] = networkAclsResponse.NetworkAcls;
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

@@ -1,6 +1,6 @@
 import { BaseCollector } from "../../base";
 import { CollectorUtil } from '../../../utils'
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 import { CredentialsReportCollector } from '../iam';
 
 export class AccountIdCollector extends BaseCollector {
@@ -21,9 +21,8 @@ export class AccountIdCollector extends BaseCollector {
                     return { id: this.getAccountIdFromArn(rootAccountDetails.arn)};
                 }
             }
-
         } catch (error) {
-            LogUtil.error(error);
+            AWSErrorHandler.handle(error);
         }
     }
 

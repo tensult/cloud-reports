@@ -2,7 +2,7 @@ import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
 import { BucketsCollector } from './buckets';
 import { CollectorUtil } from "../../../utils";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class BucketAnalyticsCollector extends BaseCollector {
     collect() {
@@ -27,7 +27,7 @@ export class BucketAnalyticsCollector extends BaseCollector {
                     fetchPending = marker !== undefined;
                 }
             } catch (err) {
-                LogUtil.error(err);
+                AWSErrorHandler.handle(err);
             }
         }
         return { bucket_analytics };

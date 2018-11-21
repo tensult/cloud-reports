@@ -3,7 +3,7 @@ import { BaseCollector } from "../../base";
 import { ApisCollector } from "./apis"
 import { CollectorUtil } from "../../../utils";
 import { Dictionary } from '../../../types';
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class ApiStagesCollector extends BaseCollector {
     collect() {
@@ -33,7 +33,7 @@ export class ApiStagesCollector extends BaseCollector {
                 }
                 api_stages[region] = regionApiStages;
             } catch(error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

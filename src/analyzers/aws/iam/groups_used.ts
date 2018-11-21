@@ -6,7 +6,6 @@ export class GroupsAnalyzerAnalyzer extends BaseAnalyzer {
     analyze(params: any, fullReport?: any): any {
         const allGroupUsers: Dictionary<any[]> = params.group_users;
         const allUsers: any[] = params.users;
-
         if (!allGroupUsers || !allGroupUsers) {
             return undefined;
         }

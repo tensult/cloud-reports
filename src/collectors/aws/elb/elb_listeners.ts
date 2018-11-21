@@ -2,7 +2,7 @@ import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
 import { ElbV2sCollector } from "./elbs"
 import { CollectorUtil } from "../../../utils";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class ElbV2ListenersCollector extends BaseCollector {
     collect() {
@@ -29,7 +29,7 @@ export class ElbV2ListenersCollector extends BaseCollector {
                 }
                 elb_listeners[region] = allRegionElbListeners;
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

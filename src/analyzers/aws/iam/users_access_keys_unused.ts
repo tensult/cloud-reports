@@ -6,6 +6,9 @@ export class UsersAccessKeysUnusedAnalyzer extends BaseAnalyzer {
 
     analyze(params: any, fullReport?: any): any {
         const credentials: any[] = params.credentials;
+        if(!credentials) {
+            return;
+        }
         const userCredentials = credentials.filter((credential) => {
             return credential.user !== '<root_account>' &&
                 (credential.access_key_1_active === 'true' || credential.access_key_2_active === 'true');

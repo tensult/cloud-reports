@@ -3,7 +3,7 @@ import { BaseCollector } from "../../base";
 import { TopicsCollector } from "./topics"
 import { CollectorUtil } from "../../../utils";
 import { Dictionary } from '../../../types';
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class TopicsDetailsCollector extends BaseCollector {
     collect() {
@@ -37,7 +37,7 @@ export class TopicsDetailsCollector extends BaseCollector {
                 }
                 topics_details[region] = allRegionTopicDetails;
             } catch (error) {
-                LogUtil.error(error);
+                AWSErrorHandler.handle(error);
                 continue;
             }
         }

@@ -2,7 +2,7 @@ import * as AWS from 'aws-sdk';
 import { BaseCollector } from "../../base";
 import { BucketsCollector } from './buckets';
 import { CollectorUtil } from "../../../utils";
-import { LogUtil } from '../../../utils/log';
+import { AWSErrorHandler } from '../../../utils/aws';
 
 export class BucketLifecycleRulesCollector extends BaseCollector {
     collect() {
@@ -23,7 +23,7 @@ export class BucketLifecycleRulesCollector extends BaseCollector {
                 if(err.code === 'NoSuchLifecycleConfiguration') {
                     bucket_life_cycle_rules[bucket.Name] = undefined;
                 } else {
-                    LogUtil.error(err);
+                    AWSErrorHandler.handle(err);
                 }
                 continue;
             }
