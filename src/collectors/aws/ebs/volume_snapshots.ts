@@ -16,40 +16,45 @@ export class VolumeSnapshotsCollector extends BaseCollector {
         const ec2Regions = this.getRegions(serviceName);
         const volumesCollector = new VolumesCollector();
         volumesCollector.setSession(this.getSession());
-        const volumesData = await CollectorUtil.cachedCollect(volumesCollector);
         const snapshots = {};
-        const dataStringsToSearch = CommonUtil.removeDuplicates([this.getDateStringForSearch(30), this.getDateStringForSearch(0)]);
+        try {
+            const volumesData = await CollectorUtil.cachedCollect(volumesCollector);
+            const dataStringsToSearch = CommonUtil.removeDuplicates([this.getDateStringForSearch(30), this.getDateStringForSearch(0)]);
 
-        for (let region of ec2Regions) {
-            try {
-                let ec2 = this.getClient(serviceName, region) as AWS.EC2;
-                snapshots[region] = {};
-                for (let volume of volumesData.volumes[region]) {
-                    snapshots[region][volume.VolumeId] = [];
-                    let fetchPending = true;
-                    let marker: string | undefined = undefined;
-                    while (fetchPending) {
-                        const snapshotsResponse: AWS.EC2.DescribeSnapshotsResult = await ec2.describeSnapshots({
-                            Filters:
-                                [
-                                    { Name: "start-time", Values: dataStringsToSearch },
-                                    { Name: "volume-id", Values: [volume.VolumeId] },
-                                    { Name: "status", Values: ["completed"] }
-                                ],
-                            NextToken: marker
-                        }).promise();
-                        if (snapshotsResponse.Snapshots) {
-                            snapshots[region][volume.VolumeId] = snapshots[region][volume.VolumeId].concat(snapshotsResponse.Snapshots);
+            for (let region of ec2Regions) {
+                try {
+                    let ec2 = this.getClient(serviceName, region) as AWS.EC2;
+                    snapshots[region] = {};
+                    for (let volume of volumesData.volumes[region]) {
+                        snapshots[region][volume.VolumeId] = [];
+                        let fetchPending = true;
+                        let marker: string | undefined = undefined;
+                        while (fetchPending) {
+                            const snapshotsResponse: AWS.EC2.DescribeSnapshotsResult = await ec2.describeSnapshots({
+                                Filters:
+                                    [
+                                        { Name: "start-time", Values: dataStringsToSearch },
+                                        { Name: "volume-id", Values: [volume.VolumeId] },
+                                        { Name: "status", Values: ["completed"] }
+                                    ],
+                                NextToken: marker
+                            }).promise();
+                            if (snapshotsResponse.Snapshots) {
+                                snapshots[region][volume.VolumeId] = snapshots[region][volume.VolumeId].concat(snapshotsResponse.Snapshots);
+                            }
+                            marker = snapshotsResponse.NextToken;
+                            fetchPending = marker !== undefined;
+
                         }
-                        marker = snapshotsResponse.NextToken;
-                        fetchPending = marker !== undefined;
-
                     }
+                } catch (error) {
+                    AWSErrorHandler.handle(error);
+                    continue;
                 }
-            } catch (error) {
-                AWSErrorHandler.handle(error);
-                continue;
+
             }
+        } catch (error) {
+            AWSErrorHandler.handle(error);
         }
         return { snapshots };
     }

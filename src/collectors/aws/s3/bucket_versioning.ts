@@ -13,16 +13,20 @@ export class BucketVersioningCollector extends BaseCollector {
         const s3 = this.getClient('S3', 'us-east-1') as AWS.S3;
         const bucketsCollector = new BucketsCollector();
         bucketsCollector.setSession(this.getSession());
-        const bucketsData = await CollectorUtil.cachedCollect(bucketsCollector);
         let bucket_versioning = {};
-        for (let bucket of bucketsData.buckets) {
-            try {
-                let s3BucketVersioning: AWS.S3.GetBucketVersioningOutput = await s3.getBucketVersioning({ Bucket: bucket.Name }).promise();
-                bucket_versioning[bucket.Name] = s3BucketVersioning;
-            } catch (error) {
-                AWSErrorHandler.handle(error);
-                continue;
+        try {
+            const bucketsData = await CollectorUtil.cachedCollect(bucketsCollector);
+            for (let bucket of bucketsData.buckets) {
+                try {
+                    let s3BucketVersioning: AWS.S3.GetBucketVersioningOutput = await s3.getBucketVersioning({ Bucket: bucket.Name }).promise();
+                    bucket_versioning[bucket.Name] = s3BucketVersioning;
+                } catch (error) {
+                    AWSErrorHandler.handle(error);
+                    continue;
+                }
             }
+        } catch (error) {
+            AWSErrorHandler.handle(error);
         }
         return { bucket_versioning };
     }

@@ -15,9 +15,10 @@ export class UserPoliciesCollector extends BaseCollector {
             const iam = this.getClient('IAM', 'us-east-1') as AWS.IAM;
             const usersCollector = new UsersCollector();
             usersCollector.setSession(this.getSession());
+            const user_policies: Dictionary<AWS.IAM.AttachedPolicy[]> = {};
+
             const usersData = await CollectorUtil.cachedCollect(usersCollector);
             const users: AWS.IAM.User[] = usersData.users;
-            const user_policies: Dictionary<AWS.IAM.AttachedPolicy[]> = {};
             for (let i = 0; i < users.length; i++) {
                 const userName = users[i].UserName
                 let fetchPending = true;

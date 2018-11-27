@@ -16,21 +16,25 @@ export class LambdaFunctionVersionsCollector extends BaseCollector {
         const lambdaRegions = self.getRegions(serviceName);
         const lambdaFunctionsCollector = new LambdaFunctionsCollector();
         lambdaFunctionsCollector.setSession(this.getSession());
-        const functionsData = await CollectorUtil.cachedCollect(lambdaFunctionsCollector);
-        const functions = functionsData.functions;
         const function_versions = {};
-        for (let region of lambdaRegions) {
-            function_versions[region] = {};
-            try{
-                let lambda = self.getClient(serviceName, region) as AWS.Lambda;
-                for(let fn of functions[region]) {
-                    const functionVersionsResponse: AWS.Lambda.ListVersionsByFunctionResponse = await lambda.listVersionsByFunction({ FunctionName: fn.FunctionName, MaxItems: 7 }).promise();
-                    function_versions[region][fn.FunctionName] = functionVersionsResponse.Versions;
+        try {
+            const functionsData = await CollectorUtil.cachedCollect(lambdaFunctionsCollector);
+            const functions = functionsData.functions;
+            for (let region of lambdaRegions) {
+                function_versions[region] = {};
+                try {
+                    let lambda = self.getClient(serviceName, region) as AWS.Lambda;
+                    for (let fn of functions[region]) {
+                        const functionVersionsResponse: AWS.Lambda.ListVersionsByFunctionResponse = await lambda.listVersionsByFunction({ FunctionName: fn.FunctionName, MaxItems: 7 }).promise();
+                        function_versions[region][fn.FunctionName] = functionVersionsResponse.Versions;
+                    }
+                } catch (error) {
+                    AWSErrorHandler.handle(error);
+                    continue;
                 }
-            } catch(error) {
-                AWSErrorHandler.handle(error);
-                continue;
             }
+        } catch (error) {
+            AWSErrorHandler.handle(error);
         }
         return { function_versions };
     }
