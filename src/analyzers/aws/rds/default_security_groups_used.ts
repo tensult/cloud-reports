@@ -1,40 +1,40 @@
-import { BaseAnalyzer } from '../../base'
-import { ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisResult, CheckAnalysisType } from '../../../types';
+import { CheckAnalysisType, IDictionary, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import { BaseAnalyzer } from "../../base";
 
 export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
 
-    analyze(params: any, fullReport?: any): any {
+    public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
-        if (!fullReport['aws.ec2'] || !fullReport['aws.ec2'].security_groups || !allInstances) {
+        if (!fullReport["aws.ec2"] || !fullReport["aws.ec2"].security_groups || !allInstances) {
             return undefined;
         }
 
-        const allVpcSecurityGroups = fullReport['aws.ec2'].security_groups;
+        const allVpcSecurityGroups = fullReport["aws.ec2"].security_groups;
 
-        const default_security_groups_used: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
+        const default_security_groups_used: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         default_security_groups_used.what = "Are there any default security groups used for RDS instances?";
-        default_security_groups_used.why = "Default security groups are open to world by default and requires extra setup make them secure"
+        default_security_groups_used.why = "Default security groups are open to world by default and requires extra setup make them secure";
         default_security_groups_used.recommendation = "Recommended not to use default security groups instead create a custom one as they make you better understand the security posture";
-        const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
-        for (let region in allInstances) {
-            let regionInstances = allInstances[region];
-            let regionSecurityGroups = allVpcSecurityGroups[region];
-            let defaultSecurityGroups = this.getDefaultSecurityGroups(regionSecurityGroups);
+        const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
+        for (const region in allInstances) {
+            const regionInstances = allInstances[region];
+            const regionSecurityGroups = allVpcSecurityGroups[region];
+            const defaultSecurityGroups = this.getDefaultSecurityGroups(regionSecurityGroups);
             allRegionsAnalysis[region] = [];
-            for (let instance of regionInstances) {
-                let instanceAnalysis: ResourceAnalysisResult = {};
+            for (const instance of regionInstances) {
+                const instanceAnalysis: IResourceAnalysisResult = {};
                 instanceAnalysis.resource = { instanceName: instance.DBInstanceIdentifier, security_groups: instance.VpcSecurityGroups } ;
                 instanceAnalysis.resourceSummary = {
-                    name: 'DBInstance',
-                    value: instance.DBInstanceIdentifier
-                }
+                    name: "DBInstance",
+                    value: instance.DBInstanceIdentifier,
+                };
                 if (this.isCommonSecurityGroupExist(defaultSecurityGroups, instance.VpcSecurityGroups)) {
                     instanceAnalysis.severity = SeverityStatus.Failure;
-                    instanceAnalysis.message = 'Default security groups are used';
-                    instanceAnalysis.action = 'Use custom security group instead default security group';
+                    instanceAnalysis.message = "Default security groups are used";
+                    instanceAnalysis.action = "Use custom security group instead default security group";
                 } else {
                     instanceAnalysis.severity = SeverityStatus.Good;
-                    instanceAnalysis.message = 'Default security groups are not used';
+                    instanceAnalysis.message = "Default security groups are not used";
                 }
                 allRegionsAnalysis[region].push(instanceAnalysis);
             }
@@ -44,16 +44,16 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
     }
 
     private getDefaultSecurityGroups(securityGroups: any[]) {
-        if(!securityGroups) {
+        if (!securityGroups) {
             return [];
         }
         return securityGroups.filter((securityGroup) => {
-            return securityGroup.GroupName === 'default';
+            return securityGroup.GroupName === "default";
         });
     }
 
     private isCommonSecurityGroupExist(securityGroups1, vpcSecurityGroups2) {
-        if(!securityGroups1 || !vpcSecurityGroups2) {
+        if (!securityGroups1 || !vpcSecurityGroups2) {
             return false;
         }
         const commonSecurityGroups = securityGroups1.filter((securityGroup1) => {

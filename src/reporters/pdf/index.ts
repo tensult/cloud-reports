@@ -1,21 +1,21 @@
-const pdf = require('html-pdf');
-const htmlGenerator = require('./html');
+const pdf = require("html-pdf");
+const htmlGenerator = require("./html");
 
-let pdfOptions = {
-    format: 'A4',
-    "border": {
-        "top": "0.2in", // default is 0, units: mm, cm, in, px 
-        "right": "0.2in",
-        "bottom": "0.2in",
-        "left": "0.2in"
+const pdfOptions = {
+    format: "A4",
+    border: {
+        top: "0.2in", // default is 0, units: mm, cm, in, px
+        right: "0.2in",
+        bottom: "0.2in",
+        left: "0.2in",
     },
-    "header": {
-        "height": "15mm"
+    header: {
+        height: "15mm",
     },
-    "base": `file://${__dirname}/../html`,
-    "footer": {
-        "height": "15mm",
-        "contents": {
+    base: `file://${__dirname}/../html`,
+    footer: {
+        height: "15mm",
+        contents: {
             default: `
         <div class="footer">
           <hr>
@@ -25,26 +25,26 @@ let pdfOptions = {
           <span class="pageNumber" style="float: right;">
             {{page}} of {{pages}}
           </span>
-        </div>`
-        }
+        </div>`,
+        },
     },
 };
 
 function createPDF(html) {
     return new Promise((resolve, reject) => {
-        pdf.create(html, pdfOptions).toBuffer(function (err, buffer) {
+        pdf.create(html, pdfOptions).toBuffer(function(err, buffer) {
             if (err) {
                 reject(err);
             } else {
                 resolve(buffer);
             }
         });
-    })
+    });
 
 }
 
 export function generatePDF(reportData: any, options?: {
-    showIssuesOnly: boolean
+    showIssuesOnly: boolean,
 }) {
     return htmlGenerator.generateHTML(reportData, options).then((html) => {
         return createPDF(html);

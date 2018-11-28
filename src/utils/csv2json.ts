@@ -1,10 +1,23 @@
 export class CsvUtil {
+
+    public static toObject(csv) {
+        const array = CsvUtil.CSVToArray(csv);
+        const objArray: any[] = [];
+        for (let i = 1; i < array.length; i++) {
+            objArray[i - 1] = {};
+            for (let k = 0; k < array[0].length && k < array[i].length; k++) {
+                const key = array[0][k];
+                objArray[i - 1][key] = array[i][k];
+            }
+        }
+        return objArray;
+    }
     private static CSVToArray(strData: string, strDelimiter?: string) {
         // Check to see if the delimiter is defined. If not,
         // then default to comma.
         strDelimiter = (strDelimiter || ",");
         // Create a regular expression to parse the CSV values.
-        let objPattern = new RegExp((
+        const objPattern = new RegExp((
             // Delimiters.
             "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
             // Quoted fields.
@@ -13,20 +26,21 @@ export class CsvUtil {
             "([^\"\\" + strDelimiter + "\\r\\n]*))"), "gi");
         // Create an array to hold our data. Give the array
         // a default empty first row.
-        let arrData: string[][] = [[]];
+        const arrData: string[][] = [[]];
         // Create an array to hold our individual pattern
         // matching groups.
         let arrMatches: RegExpExecArray | null = null;
         // Keep looping over the regular expression matches
         // until we can no longer find a match.
+        // tslint:disable-next-line:no-conditional-assignment
         while (arrMatches = objPattern.exec(strData)) {
             // Get the delimiter that was found.
-            let strMatchedDelimiter = arrMatches[1];
+            const strMatchedDelimiter = arrMatches[1];
             // Check to see if the given delimiter has a length
             // (is not the start of string) and if it matches
             // field delimiter. If id does not, then we know
             // that this delimiter is a row delimiter.
-            if (strMatchedDelimiter.length && (strMatchedDelimiter != strDelimiter)) {
+            if (strMatchedDelimiter.length && (strMatchedDelimiter !== strDelimiter)) {
                 // Since we have reached a new row of data,
                 // add an empty row to our data array.
                 arrData.push([]);
@@ -50,18 +64,5 @@ export class CsvUtil {
         }
         // Return the parsed data.
         return (arrData);
-    }
-
-    static toObject(csv) {
-        let array = CsvUtil.CSVToArray(csv);
-        let objArray: any[] = [];
-        for (let i = 1; i < array.length; i++) {
-            objArray[i - 1] = {};
-            for (let k = 0; k < array[0].length && k < array[i].length; k++) {
-                let key = array[0][k];
-                objArray[i - 1][key] = array[i][k]
-            }
-        }
-        return objArray
     }
 }

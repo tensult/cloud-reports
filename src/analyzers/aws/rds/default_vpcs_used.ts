@@ -1,38 +1,38 @@
-import { BaseAnalyzer } from '../../base'
-import { ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisResult, CheckAnalysisType } from '../../../types';
+import { CheckAnalysisType, IDictionary, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import { BaseAnalyzer } from "../../base";
 
 export class DefaultVpcUsedRDSInstancesAnalyzer extends BaseAnalyzer {
 
-    analyze(params: any, fullReport?: any): any {
+    public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
-        if (!fullReport['aws.vpc'] || !fullReport['aws.vpc'].vpcs || !allInstances) {
+        if (!fullReport["aws.vpc"] || !fullReport["aws.vpc"].vpcs || !allInstances) {
             return undefined;
         }
-        const allVpcs = fullReport['aws.vpc'].vpcs;
-        const default_vpcs_used: CheckAnalysisResult = { type: CheckAnalysisType.Security };
+        const allVpcs = fullReport["aws.vpc"].vpcs;
+        const default_vpcs_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         default_vpcs_used.what = "Are there any default vpc used for RDS instances?";
-        default_vpcs_used.why = "Default vpcs are open to world by default and requires extra setup make them secure"
+        default_vpcs_used.why = "Default vpcs are open to world by default and requires extra setup make them secure";
         default_vpcs_used.recommendation = "Recommended not to use default vpc instead create a custom one as they make you better understand the security posture";
-        const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
-        for (let region in allInstances) {
-            let regionInstances = allInstances[region];
-            let regionVpcs = allVpcs[region];
-            let defaultVpcs = this.getDefaultVpcs(regionVpcs);
+        const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
+        for (const region in allInstances) {
+            const regionInstances = allInstances[region];
+            const regionVpcs = allVpcs[region];
+            const defaultVpcs = this.getDefaultVpcs(regionVpcs);
             allRegionsAnalysis[region] = [];
-            for (let instance of regionInstances) {
-                let instanceAnalysis: ResourceAnalysisResult = {};
+            for (const instance of regionInstances) {
+                const instanceAnalysis: IResourceAnalysisResult = {};
                 instanceAnalysis.resource = { instanceName: instance.DBInstanceIdentifier, vpcId: instance.DBSubnetGroup.VpcId } ;
                 instanceAnalysis.resourceSummary = {
-                    name: 'DBInstance',
-                    value: instance.DBInstanceIdentifier
-                }
+                    name: "DBInstance",
+                    value: instance.DBInstanceIdentifier,
+                };
                 if (this.isVpcExist(defaultVpcs, instance.DBSubnetGroup.VpcId)) {
                     instanceAnalysis.severity = SeverityStatus.Failure;
-                    instanceAnalysis.message = 'Default VPC is used';
-                    instanceAnalysis.action = 'Use custom VPC instead of default VPC';
+                    instanceAnalysis.message = "Default VPC is used";
+                    instanceAnalysis.action = "Use custom VPC instead of default VPC";
                 } else {
                     instanceAnalysis.severity = SeverityStatus.Good;
-                    instanceAnalysis.message = 'Default VPC is not used';
+                    instanceAnalysis.message = "Default VPC is not used";
                 }
                 allRegionsAnalysis[region].push(instanceAnalysis);
             }
@@ -42,7 +42,7 @@ export class DefaultVpcUsedRDSInstancesAnalyzer extends BaseAnalyzer {
     }
 
     private getDefaultVpcs(vpcs: any[]) {
-        if(!vpcs) {
+        if (!vpcs) {
             return [];
         }
         return vpcs.filter((vpc) => {
@@ -51,7 +51,7 @@ export class DefaultVpcUsedRDSInstancesAnalyzer extends BaseAnalyzer {
     }
 
     private isVpcExist(vpcs, vpcId) {
-        if(!vpcs || !vpcId) {
+        if (!vpcs || !vpcId) {
             return false;
         }
         return vpcs.filter((vpc) => {

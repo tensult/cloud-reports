@@ -1,23 +1,23 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class TopicsCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllTopics();
     }
     private async getAllTopics() {
 
-        const serviceName = 'SNS';
+        const serviceName = "SNS";
         const snsRegions = this.getRegions(serviceName);
         const topics = {};
 
-        for (let region of snsRegions) {
+        for (const region of snsRegions) {
             try {
-                let sns = this.getClient(serviceName, region) as AWS.SNS;
+                const sns = this.getClient(serviceName, region) as AWS.SNS;
                 topics[region] = [];
                 let fetchPending = true;
-                let marker: string | undefined = undefined;
+                let marker: string | undefined;
                 while (fetchPending) {
                     const topicsResponse: AWS.SNS.ListTopicsResponse = await sns.listTopics({ NextToken: marker }).promise();
                     if (topicsResponse.Topics) {
@@ -35,4 +35,3 @@ export class TopicsCollector extends BaseCollector {
     }
 
 }
-

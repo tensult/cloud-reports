@@ -1,18 +1,18 @@
-import * as AWS from 'aws-sdk';
-import { BaseCollector } from "../../base";
-import { ApisCollector } from "./apis"
+import * as AWS from "aws-sdk";
+import { IDictionary } from "../../../types";
 import { CollectorUtil } from "../../../utils";
-import { Dictionary } from '../../../types';
-import { AWSErrorHandler } from '../../../utils/aws';
+import { AWSErrorHandler } from "../../../utils/aws";
+import { BaseCollector } from "../../base";
+import { ApisCollector } from "./apis";
 
 export class ApiStagesCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllApiStages();
     }
 
     private async getAllApiStages() {
         const self = this;
-        const serviceName = 'APIGateway';
+        const serviceName = "APIGateway";
         const apiGatewayRegions = self.getRegions(serviceName);
         const apisCollector = new ApisCollector();
         apisCollector.setSession(this.getSession());
@@ -21,13 +21,13 @@ export class ApiStagesCollector extends BaseCollector {
             const apisData = await CollectorUtil.cachedCollect(apisCollector);
             const apis = apisData.apis;
 
-            for (let region of apiGatewayRegions) {
+            for (const region of apiGatewayRegions) {
                 try {
-                    let apiGatewayService = self.getClient(serviceName, region) as AWS.APIGateway;
-                    let regionApis = apis[region];
-                    let regionApiStages: Dictionary<AWS.APIGateway.Stage[]> = {};
-                    for (let api of regionApis) {
-                        let apiStages: AWS.APIGateway.Types.Stages = await apiGatewayService.getStages({ restApiId: api.id }).promise();
+                    const apiGatewayService = self.getClient(serviceName, region) as AWS.APIGateway;
+                    const regionApis = apis[region];
+                    const regionApiStages: IDictionary<AWS.APIGateway.Stage[]> = {};
+                    for (const api of regionApis) {
+                        const apiStages: AWS.APIGateway.Types.Stages = await apiGatewayService.getStages({ restApiId: api.id }).promise();
                         if (apiStages.item) {
                             regionApiStages[api.id] = apiStages.item;
                         }

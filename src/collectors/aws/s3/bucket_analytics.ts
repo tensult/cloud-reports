@@ -1,29 +1,29 @@
-import * as AWS from 'aws-sdk';
-import { BaseCollector } from "../../base";
-import { BucketsCollector } from './buckets';
+import * as AWS from "aws-sdk";
 import { CollectorUtil } from "../../../utils";
-import { AWSErrorHandler } from '../../../utils/aws';
+import { AWSErrorHandler } from "../../../utils/aws";
+import { BaseCollector } from "../../base";
+import { BucketsCollector } from "./buckets";
 
 export class BucketAnalyticsCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.listAllBucketAnalytics();
     }
 
     private async listAllBucketAnalytics() {
-        const s3 = this.getClient('S3', 'us-east-1') as AWS.S3;
+        const s3 = this.getClient("S3", "us-east-1") as AWS.S3;
         const bucketsCollector = new BucketsCollector();
         bucketsCollector.setSession(this.getSession());
-        let bucket_analytics = {};
+        const bucket_analytics = {};
 
         try {
             const bucketsData = await CollectorUtil.cachedCollect(bucketsCollector);
-            for (let bucket of bucketsData.buckets) {
+            for (const bucket of bucketsData.buckets) {
                 bucket_analytics[bucket.Name] = [];
                 let fetchPending = true;
-                let marker: string | undefined = undefined;
+                let marker: string | undefined;
                 try {
                     while (fetchPending) {
-                        let s3BucketAnalyticsConfigOutput: AWS.S3.ListBucketAnalyticsConfigurationsOutput = await s3.listBucketAnalyticsConfigurations({ Bucket: bucket.Name, ContinuationToken: marker }).promise();
+                        const s3BucketAnalyticsConfigOutput: AWS.S3.ListBucketAnalyticsConfigurationsOutput = await s3.listBucketAnalyticsConfigurations({ Bucket: bucket.Name, ContinuationToken: marker }).promise();
                         bucket_analytics[bucket.Name] = bucket_analytics[bucket.Name].concat(s3BucketAnalyticsConfigOutput.AnalyticsConfigurationList);
                         marker = s3BucketAnalyticsConfigOutput.NextContinuationToken;
                         fetchPending = marker !== undefined;

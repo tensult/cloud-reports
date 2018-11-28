@@ -1,36 +1,40 @@
 
-import { BaseAnalyzer } from '../../base'
-import { ResourceAnalysisResult, Dictionary, SeverityStatus, CheckAnalysisResult, CheckAnalysisType } from '../../../types';
+import {
+    CheckAnalysisType, ICheckAnalysisResult,
+    IDictionary, IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
+import { BaseAnalyzer } from "../../base";
 
 export class RdsPubliclyAccessibleAnalyzer extends BaseAnalyzer {
 
-    analyze(params: any, fullReport?: any): any {
+    public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         if (!allInstances) {
             return undefined;
         }
-        const publicly_accessible: CheckAnalysisResult = { type: CheckAnalysisType.Security };
+        const publicly_accessible: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         publicly_accessible.what = "Are there any publicly accessible RDS instances?";
-        publicly_accessible.why = "It is important to restrict RDS instances for private access only for most of the usecases"
+        publicly_accessible.why = `It is important to restrict 
+        RDS instances for private access only for most of the usecases`;
         publicly_accessible.recommendation = "Recommended to disable public access for RDS instances";
-        const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
-        for (let region in allInstances) {
-            let regionInstances = allInstances[region];
+        const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
+        for (const region in allInstances) {
+            const regionInstances = allInstances[region];
             allRegionsAnalysis[region] = [];
-            for (let instance of regionInstances) {
-                let instance_analysis: ResourceAnalysisResult = {};
+            for (const instance of regionInstances) {
+                const instance_analysis: IResourceAnalysisResult = {};
                 instance_analysis.resource = instance;
                 instance_analysis.resourceSummary = {
-                    name: 'DBInstance',
-                    value: instance.DBInstanceIdentifier
-                }
+                    name: "DBInstance",
+                    value: instance.DBInstanceIdentifier,
+                };
                 if (instance.PubliclyAccessible) {
                     instance_analysis.severity = SeverityStatus.Warning;
-                    instance_analysis.message = 'RDS instance is publicly accessible';
-                    instance_analysis.action = 'Recommended to access Database instance privately'
+                    instance_analysis.message = "RDS instance is publicly accessible";
+                    instance_analysis.action = "Recommended to access Database instance privately";
                 } else {
                     instance_analysis.severity = SeverityStatus.Good;
-                    instance_analysis.message = 'RDS instance is not publicly accessible';
+                    instance_analysis.message = "RDS instance is not publicly accessible";
                 }
                 allRegionsAnalysis[region].push(instance_analysis);
             }

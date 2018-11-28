@@ -1,9 +1,9 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class ResourceGroupsCollector extends BaseCollector {
-    collect(callback: (err?: Error, data?: any) => void) {
+    public collect(callback: (err?: Error, data?: any) => void) {
         return this.getAllResourceGroups();
     }
 
@@ -11,19 +11,19 @@ export class ResourceGroupsCollector extends BaseCollector {
 
         const self = this;
 
-        const serviceName = 'ResourceGroups';
+        const serviceName = "ResourceGroups";
         const resourceGroupsRegions = self.getRegions(serviceName);
         const resource_groups = {};
 
-        for (let region of resourceGroupsRegions) {
+        for (const region of resourceGroupsRegions) {
             try {
-                let resourceGroups = self.getClient(serviceName, region) as AWS.ResourceGroups;
+                const resourceGroups = self.getClient(serviceName, region) as AWS.ResourceGroups;
                 resource_groups[region] = [];
                 let fetchPending = true;
-                let marker: string | undefined = undefined;
+                let marker: string | undefined;
                 while (fetchPending) {
                     const resourceGroupsResponse: AWS.ResourceGroups.Types.ListGroupsOutput = await resourceGroups.listGroups({ NextToken: marker }).promise();
-                    if(resourceGroupsResponse.Groups) {
+                    if (resourceGroupsResponse.Groups) {
                         resource_groups[region] = resource_groups[region].concat(resourceGroupsResponse.Groups);
                     }
                     marker = resourceGroupsResponse.NextToken;

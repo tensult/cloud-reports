@@ -1,24 +1,24 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class ApisCollector extends BaseCollector {
-    collect(callback: (err?: Error, data?: any) => void) {
+    public collect(callback: (err?: Error, data?: any) => void) {
         return this.getAllApis();
     }
 
     private async getAllApis() {
 
-        const serviceName = 'APIGateway';
+        const serviceName = "APIGateway";
         const apiGatewayRegions = this.getRegions(serviceName);
         const apis = {};
 
-        for (let region of apiGatewayRegions) {
+        for (const region of apiGatewayRegions) {
             try {
-                let apiGateway = this.getClient(serviceName, region) as AWS.APIGateway;
+                const apiGateway = this.getClient(serviceName, region) as AWS.APIGateway;
                 apis[region] = [];
                 let fetchPending = true;
-                let marker: string | undefined = undefined;
+                let marker: string | undefined;
                 while (fetchPending) {
                     const apisResponse: AWS.APIGateway.RestApis = await apiGateway.getRestApis({ position: marker }).promise();
                     if (apisResponse.items) {
@@ -27,7 +27,7 @@ export class ApisCollector extends BaseCollector {
                     marker = apisResponse.position;
                     fetchPending = marker !== undefined && marker !== null;
                 }
-            } catch(error) {
+            } catch (error) {
                 AWSErrorHandler.handle(error);
                 continue;
             }

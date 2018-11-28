@@ -1,37 +1,37 @@
-import * as AWS from 'aws-sdk';
-import { BaseCollector } from "../../base";
-import { TopicsCollector } from "./topics"
+import * as AWS from "aws-sdk";
+import { IDictionary } from "../../../types";
 import { CollectorUtil } from "../../../utils";
-import { Dictionary } from '../../../types';
-import { AWSErrorHandler } from '../../../utils/aws';
+import { AWSErrorHandler } from "../../../utils/aws";
+import { BaseCollector } from "../../base";
+import { TopicsCollector } from "./topics";
 
 export class TopicsDetailsCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllTopicDetails();
     }
 
     private async getAllTopicDetails() {
 
         const self = this;
-        const serviceName = 'SNS';
+        const serviceName = "SNS";
         const snsRegions = self.getRegions(serviceName);
         const topicsCollector = new TopicsCollector();
         topicsCollector.setSession(this.getSession());
         const topics_details = {};
         try {
             const topicsData = await CollectorUtil.cachedCollect(topicsCollector);
-            const topics: Dictionary<AWS.SNS.Topic[]> = topicsData.topics;
-            for (let region of snsRegions) {
+            const topics: IDictionary<AWS.SNS.Topic[]> = topicsData.topics;
+            for (const region of snsRegions) {
                 try {
-                    let snsService = self.getClient(serviceName, region) as AWS.SNS;
-                    let regionTopics = topics[region];
-                    let allRegionTopicDetails: AWS.SNS.TopicAttributesMap[] = [];
-                    for (let topic of regionTopics) {
+                    const snsService = self.getClient(serviceName, region) as AWS.SNS;
+                    const regionTopics = topics[region];
+                    const allRegionTopicDetails: AWS.SNS.TopicAttributesMap[] = [];
+                    for (const topic of regionTopics) {
                         if (topic.TopicArn) {
-                            let topicAttributeDetails: AWS.SNS.GetTopicAttributesResponse = await snsService.getTopicAttributes({ TopicArn: topic.TopicArn }).promise();
+                            const topicAttributeDetails: AWS.SNS.GetTopicAttributesResponse = await snsService.getTopicAttributes({ TopicArn: topic.TopicArn }).promise();
                             if (topicAttributeDetails.Attributes) {
-                                topicAttributeDetails.Attributes['Policy'] = JSON.parse(topicAttributeDetails.Attributes['Policy']);
-                                topicAttributeDetails.Attributes['EffectiveDeliveryPolicy'] = JSON.parse(topicAttributeDetails.Attributes['EffectiveDeliveryPolicy']);
+                                topicAttributeDetails.Attributes.Policy = JSON.parse(topicAttributeDetails.Attributes.Policy);
+                                topicAttributeDetails.Attributes.EffectiveDeliveryPolicy = JSON.parse(topicAttributeDetails.Attributes.EffectiveDeliveryPolicy);
                                 allRegionTopicDetails.push(topicAttributeDetails.Attributes);
                             }
                         }

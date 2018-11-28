@@ -1,9 +1,9 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class RDSSecurityGroupsCollector extends BaseCollector {
-    collect(callback: (err?: Error, data?: any) => void) {
+    public collect(callback: (err?: Error, data?: any) => void) {
         return this.getAllSecurityGroups();
     }
 
@@ -11,16 +11,16 @@ export class RDSSecurityGroupsCollector extends BaseCollector {
 
         const self = this;
 
-        const serviceName = 'RDS';
+        const serviceName = "RDS";
         const rdsRegions = self.getRegions(serviceName);
         const security_groups = {};
 
-        for (let region of rdsRegions) {
+        for (const region of rdsRegions) {
             try {
-                let rds = self.getClient(serviceName, region) as AWS.RDS;
+                const rds = self.getClient(serviceName, region) as AWS.RDS;
                 security_groups[region] = [];
                 let fetchPending = true;
-                let marker: string | undefined = undefined;
+                let marker: string | undefined;
                 while (fetchPending) {
                     const securityGroupsResponse: AWS.RDS.DBSecurityGroupMessage = await rds.describeDBSecurityGroups({ Marker: marker }).promise();
                     security_groups[region] = security_groups[region].concat(securityGroupsResponse.DBSecurityGroups);

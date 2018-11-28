@@ -1,22 +1,22 @@
 import * as AWS from "aws-sdk";
-import { BaseCollector } from "../../base";
 import { AWSErrorHandler } from "../../../utils/aws";
+import { BaseCollector } from "../../base";
 
 export class DashboardsCollector extends BaseCollector {
-  collect(callback: (err?: Error, data?: any) => void) {
+  public collect(callback: (err?: Error, data?: any) => void) {
     return this.getAllDashboards();
   }
   private async getAllDashboards() {
     const self = this;
-    const serviceName = 'CloudWatch';
+    const serviceName = "CloudWatch";
     const CloudWatchRegions = self.getRegions(serviceName);
     const dashboards = {};
-    for (let region of CloudWatchRegions) {
+    for (const region of CloudWatchRegions) {
       try {
-        let cloudWatchService = self.getClient(serviceName, region) as AWS.CloudWatch;
+        const cloudWatchService = self.getClient(serviceName, region) as AWS.CloudWatch;
         dashboards[region] = [];
         let fetchPending = true;
-        let marker: string | undefined = undefined;
+        let marker: string | undefined;
         while (fetchPending) {
           const dashboardsResponse: AWS.CloudWatch.ListDashboardsOutput = await cloudWatchService.listDashboards({ NextToken: marker }).promise();
           if (dashboardsResponse.DashboardEntries) {

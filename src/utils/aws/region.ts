@@ -1,7 +1,7 @@
-import {regions} from './regions_data';
+import { awsRegions } from "./regions_data";
 
-export class RegionsProvider {
-    static getServiceRegions(serviceName: string): string[] {
-        return regions[serviceName];
+export class AWSRegionsProvider {
+    public static getServiceRegions(serviceName: string): string[] {
+        return awsRegions[serviceName];
     }
 }

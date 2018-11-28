@@ -1,24 +1,24 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { CollectorUtil } from "../../../utils";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
-import { CollectorUtil } from '../../../utils';
-import { DistributionsCollector } from './distributions';
+import { DistributionsCollector } from "./distributions";
 
 export class DistributionConfigsCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.listAllDistributionConfigs();
     }
 
     private async listAllDistributionConfigs() {
         try {
-            const cloudfront = this.getClient('CloudFront', 'us-east-1') as AWS.CloudFront;
+            const cloudfront = this.getClient("CloudFront", "us-east-1") as AWS.CloudFront;
             const distributionsCollector = new DistributionsCollector();
             distributionsCollector.setSession(this.getSession());
             const distributionData = await CollectorUtil.cachedCollect(distributionsCollector);
-            let distribution_configs = {};
-            for (let distribution of distributionData.distributions) {
-                let cloudfrontDistributionsData: AWS.CloudFront.GetDistributionConfigResult = await cloudfront.getDistributionConfig({Id: distribution.Id}).promise();
-                distribution_configs[distribution.Id] = cloudfrontDistributionsData.DistributionConfig
+            const distribution_configs = {};
+            for (const distribution of distributionData.distributions) {
+                const cloudfrontDistributionsData: AWS.CloudFront.GetDistributionConfigResult = await cloudfront.getDistributionConfig({Id: distribution.Id}).promise();
+                distribution_configs[distribution.Id] = cloudfrontDistributionsData.DistributionConfig;
             }
             return { distribution_configs };
         } catch (error) {

@@ -1,1 +1,1 @@
-export import aws = require('./aws');
+export import aws = require("./aws");

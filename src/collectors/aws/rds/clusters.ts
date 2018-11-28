@@ -1,9 +1,9 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class RDSClustersCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllClusters();
     }
 
@@ -11,16 +11,16 @@ export class RDSClustersCollector extends BaseCollector {
 
         const self = this;
 
-        const serviceName = 'RDS';
+        const serviceName = "RDS";
         const rdsRegions = self.getRegions(serviceName);
         const clusters = {};
 
-        for (let region of rdsRegions) {
+        for (const region of rdsRegions) {
             try {
-                let rds = self.getClient(serviceName, region) as AWS.RDS;
+                const rds = self.getClient(serviceName, region) as AWS.RDS;
                 clusters[region] = [];
                 let fetchPending = true;
-                let marker: string | undefined = undefined;
+                let marker: string | undefined;
                 while (fetchPending) {
                     const clustersResponse: AWS.RDS.DBClusterMessage = await rds.describeDBClusters({ Marker: marker }).promise();
                     clusters[region] = clusters[region].concat(clustersResponse.DBClusters);

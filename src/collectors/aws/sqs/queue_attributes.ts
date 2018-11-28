@@ -1,30 +1,30 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { IDictionary } from "../../../types";
+import { CollectorUtil } from "../../../utils";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
-import { QueueUrlsCollector } from './queue_urls';
-import { CollectorUtil } from '../../../utils';
-import { Dictionary } from '../../../types';
+import { QueueUrlsCollector } from "./queue_urls";
 
 export class QueueAttributesCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllQueues();
     }
     private async getAllQueues() {
 
-        const serviceName = 'SQS';
+        const serviceName = "SQS";
         const sqsRegions = this.getRegions(serviceName);
         const queueUrlsCollector = new QueueUrlsCollector();
         queueUrlsCollector.setSession(this.getSession());
         const queue_attributes = {};
         try {
             const queueUrlsData = await CollectorUtil.cachedCollect(queueUrlsCollector);
-            const queue_urls: Dictionary<string[]> = queueUrlsData.queue_urls;
+            const queue_urls: IDictionary<string[]> = queueUrlsData.queue_urls;
 
-            for (let region of sqsRegions) {
+            for (const region of sqsRegions) {
                 try {
-                    let sqs = this.getClient(serviceName, region) as AWS.SQS;
+                    const sqs = this.getClient(serviceName, region) as AWS.SQS;
                     queue_attributes[region] = {};
-                    for (let queueUrl of queue_urls[region]) {
+                    for (const queueUrl of queue_urls[region]) {
                         console.log("queueUrl", queueUrl);
                         const getQueueAttributesResult: AWS.SQS.GetQueueAttributesResult = await sqs.getQueueAttributes({ QueueUrl: queueUrl, AttributeNames: ["All"] }).promise();
                         console.log("getQueueAttributesResult", getQueueAttributesResult);
@@ -44,4 +44,3 @@ export class QueueAttributesCollector extends BaseCollector {
     }
 
 }
-

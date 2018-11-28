@@ -1,20 +1,20 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class HostedZonesCollector extends BaseCollector {
-    collect(callback: (err?: Error, data?: any) => void) {
+    public collect(callback: (err?: Error, data?: any) => void) {
         return this.listAllHostedZones();
     }
 
     private async listAllHostedZones() {
         try {
-            const route53 = this.getClient('Route53', 'us-east-1') as AWS.Route53;
+            const route53 = this.getClient("Route53", "us-east-1") as AWS.Route53;
             let fetchPending = true;
-            let marker: string | undefined = undefined;
+            let marker: string | undefined;
             let hosted_zones: AWS.Route53.HostedZone[] = [];
             while (fetchPending) {
-                let route53HostedZonesData: AWS.Route53.ListHostedZonesResponse = await route53.listHostedZones({ Marker: marker }).promise();
+                const route53HostedZonesData: AWS.Route53.ListHostedZonesResponse = await route53.listHostedZones({ Marker: marker }).promise();
                 hosted_zones = hosted_zones.concat(route53HostedZonesData.HostedZones);
                 marker = route53HostedZonesData.NextMarker;
                 fetchPending = marker !== undefined;

@@ -1,37 +1,37 @@
-import { BaseAnalyzer } from '../../base'
-import { CheckAnalysisResult, ResourceAnalysisResult, SeverityStatus, CheckAnalysisType } from '../../../types';
+import { ICheckAnalysisResult, CheckAnalysisType, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import { BaseAnalyzer } from "../../base";
 
 export class PasswordPolicyAnalyzer extends BaseAnalyzer {
 
-    analyze(params: any, fullReport?: any): any {
+    public analyze(params: any, fullReport?: any): any {
         const password_policy_report = params.password_policy;
 
-        const password_policy: CheckAnalysisResult = { type: CheckAnalysisType.Security };
+        const password_policy: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         password_policy.what = "Is account password policy following best practices?";
-        password_policy.why = "It is important to have secure password policy as leaked or weak passwords can give direct access to attackers"
+        password_policy.why = "It is important to have secure password policy as leaked or weak passwords can give direct access to attackers";
         password_policy.recommendation = "Recommended to have secure password policy";
-        const analysis: ResourceAnalysisResult[] = [];
+        const analysis: IResourceAnalysisResult[] = [];
 
         if (!password_policy_report) {
             analysis.push({
                 severity: SeverityStatus.Failure,
-                message: 'Account does not have password policy',
+                message: "Account does not have password policy",
                 action: "Add strong password policy for the account",
                 resourceSummary: {
-                    name: 'Resource',
-                    value: 'Password Policy'
-                }
+                    name: "Resource",
+                    value: "Password Policy",
+                },
             });
             password_policy.regions = { global: analysis };
             return { password_policy };
         }
 
-        const minimumPasswordLengthAnalysis: ResourceAnalysisResult = {
+        const minimumPasswordLengthAnalysis: IResourceAnalysisResult = {
             resourceSummary: {
                 value: "Minimum Password Length",
-                name: "Option"
-            }
-        }
+                name: "Option",
+            },
+        };
         if (password_policy_report.MinimumPasswordLength < 8) {
             minimumPasswordLengthAnalysis.severity = SeverityStatus.Failure;
             minimumPasswordLengthAnalysis.message = "Password length should at least 8";
@@ -42,13 +42,12 @@ export class PasswordPolicyAnalyzer extends BaseAnalyzer {
         }
         analysis.push(minimumPasswordLengthAnalysis);
 
-
-        const passwordRequireSymbolsAnalysis: ResourceAnalysisResult = {
+        const passwordRequireSymbolsAnalysis: IResourceAnalysisResult = {
             resourceSummary: {
                 value: "Require Symbols",
-                name: "Option"
-            }
-        }
+                name: "Option",
+            },
+        };
         if (!password_policy_report.RequireSymbols) {
             passwordRequireSymbolsAnalysis.severity = SeverityStatus.Failure;
             passwordRequireSymbolsAnalysis.message = "Strong password requires symbols";
@@ -59,12 +58,12 @@ export class PasswordPolicyAnalyzer extends BaseAnalyzer {
         }
         analysis.push(passwordRequireSymbolsAnalysis);
 
-        const passwordRequireNumbersAnalysis: ResourceAnalysisResult = {
+        const passwordRequireNumbersAnalysis: IResourceAnalysisResult = {
             resourceSummary: {
                 name: "Option",
-                value:  `Require Numbers`
-            }
-        }
+                value:  `Require Numbers`,
+            },
+        };
         if (!password_policy_report.RequireNumbers) {
             passwordRequireNumbersAnalysis.severity = SeverityStatus.Failure;
             passwordRequireNumbersAnalysis.message = "Strong password requires numbers";
@@ -75,12 +74,12 @@ export class PasswordPolicyAnalyzer extends BaseAnalyzer {
         }
         analysis.push(passwordRequireNumbersAnalysis);
 
-        const passwordRequireUppercaseCharactersAnalysis: ResourceAnalysisResult = {
+        const passwordRequireUppercaseCharactersAnalysis: IResourceAnalysisResult = {
             resourceSummary: {
                 value: "Require Uppercase Characters",
-                name: "Option"
-            }
-        }
+                name: "Option",
+            },
+        };
         if (!password_policy_report.RequireUppercaseCharacters) {
             passwordRequireUppercaseCharactersAnalysis.severity = SeverityStatus.Failure;
             passwordRequireUppercaseCharactersAnalysis.message = "Strong password requires upper case letters";
@@ -91,12 +90,12 @@ export class PasswordPolicyAnalyzer extends BaseAnalyzer {
         }
         analysis.push(passwordRequireUppercaseCharactersAnalysis);
 
-        const passwordRequireLowercaseCharactersAnalysis: ResourceAnalysisResult = {
+        const passwordRequireLowercaseCharactersAnalysis: IResourceAnalysisResult = {
             resourceSummary: {
                 value: "Require Lowercase Characters",
-                name: "Option"
-            }
-        }
+                name: "Option",
+            },
+        };
         if (!password_policy_report.RequireLowercaseCharacters) {
             passwordRequireLowercaseCharactersAnalysis.severity = SeverityStatus.Failure;
             passwordRequireLowercaseCharactersAnalysis.message = "Strong password requires lower case letters";
@@ -107,13 +106,12 @@ export class PasswordPolicyAnalyzer extends BaseAnalyzer {
         }
         analysis.push(passwordRequireLowercaseCharactersAnalysis);
 
-
-        const expirePasswordsAnalysis: ResourceAnalysisResult = {
+        const expirePasswordsAnalysis: IResourceAnalysisResult = {
             resourceSummary: {
                 value: "Expire Passwords",
-                name: "Option"
-            }
-        }
+                name: "Option",
+            },
+        };
         if (!password_policy_report.ExpirePasswords) {
             expirePasswordsAnalysis.severity = SeverityStatus.Failure;
             expirePasswordsAnalysis.message = "To enforce regular change of passwords, it should be expired after certian time";
@@ -124,12 +122,12 @@ export class PasswordPolicyAnalyzer extends BaseAnalyzer {
         }
         analysis.push(expirePasswordsAnalysis);
 
-        const maxPasswordAgeAnalysis: ResourceAnalysisResult = {
+        const maxPasswordAgeAnalysis: IResourceAnalysisResult = {
             resourceSummary: {
                 value: "Max Password Age",
-                name: "Option"
-            }
-        }
+                name: "Option",
+            },
+        };
         if (!password_policy_report.MaxPasswordAge) {
             maxPasswordAgeAnalysis.severity = SeverityStatus.Failure;
             maxPasswordAgeAnalysis.message = "Password should be change at lease once in 90 days";
@@ -140,12 +138,12 @@ export class PasswordPolicyAnalyzer extends BaseAnalyzer {
         }
         analysis.push(maxPasswordAgeAnalysis);
 
-        const passwordReusePreventionAnalysis: ResourceAnalysisResult = {
+        const passwordReusePreventionAnalysis: IResourceAnalysisResult = {
             resourceSummary: {
                 value: "Password Reuse Prevention",
-                name: "Option"
-            }
-        }
+                name: "Option",
+            },
+        };
         if (!password_policy_report.PasswordReusePrevention) {
             passwordReusePreventionAnalysis.severity = SeverityStatus.Failure;
             passwordReusePreventionAnalysis.message = "New password shouldn't be same as at least last 3 used passwords";
@@ -156,13 +154,12 @@ export class PasswordPolicyAnalyzer extends BaseAnalyzer {
         }
         analysis.push(passwordReusePreventionAnalysis);
 
-
-        const passwordHardExpiryAnalysis: ResourceAnalysisResult = {
+        const passwordHardExpiryAnalysis: IResourceAnalysisResult = {
             resourceSummary: {
                 value: "Hard Expiry",
-                name: "Option"
-            }
-        }
+                name: "Option",
+            },
+        };
         if (!password_policy_report.HardExpiry) {
             passwordHardExpiryAnalysis.severity = SeverityStatus.Warning;
             passwordHardExpiryAnalysis.message = "User should contact the admin to reset the expired password";

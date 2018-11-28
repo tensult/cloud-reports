@@ -1,43 +1,43 @@
-import { BaseAnalyzer } from '../../base'
-import { CheckAnalysisResult, ResourceAnalysisResult, SeverityStatus, CheckAnalysisType } from '../../../types';
+import { CheckAnalysisType, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import { BaseAnalyzer } from "../../base";
 
-const allAuthenticatedUsersUri = 'http://acs.amazonaws.com/groups/global/AuthenticatedUsers';
-const allUsersUri = 'http://acs.amazonaws.com/groups/global/AllUsers';
+const allAuthenticatedUsersUri = "http://acs.amazonaws.com/groups/global/AuthenticatedUsers";
+const allUsersUri = "http://acs.amazonaws.com/groups/global/AllUsers";
 
 export class BucketAccessAnalyzer extends BaseAnalyzer {
 
-    analyze(params: any): any {
+    public analyze(params: any): any {
         const allBucketAcls = params.bucket_acls;
         if (!allBucketAcls || allBucketAcls.length === 0) {
             return undefined;
         }
-        const bucket_access: CheckAnalysisResult = {type: CheckAnalysisType.Security};
+        const bucket_access: ICheckAnalysisResult = {type: CheckAnalysisType.Security};
         bucket_access.what = "Are there any buckets with open access to everyone?";
-        bucket_access.why = "Generally buckets shouldn't allow open access unless there is good usecase"
+        bucket_access.why = "Generally buckets shouldn't allow open access unless there is good usecase";
         bucket_access.recommendation = "Recommended to keep bucket acl as restrictive as possible for the business";
-        const allBucketsAnalysis: ResourceAnalysisResult[] = [];
+        const allBucketsAnalysis: IResourceAnalysisResult[] = [];
 
-        for (let bucketName in allBucketAcls) {
-            let bucketAcl = allBucketAcls[bucketName];
-            let bucketAnalysis: ResourceAnalysisResult = {};
+        for (const bucketName in allBucketAcls) {
+            const bucketAcl = allBucketAcls[bucketName];
+            const bucketAnalysis: IResourceAnalysisResult = {};
             bucketAnalysis.resource = { bucketName, bucketAcl };
-            bucketAnalysis.resourceSummary = { name: 'Bucket', value: bucketName };
-            let grants = bucketAcl.Grants;
-            let authenticateUsersGrant = this.getAnalysisForGroupGrants(grants, allAuthenticatedUsersUri);
+            bucketAnalysis.resourceSummary = { name: "Bucket", value: bucketName };
+            const grants = bucketAcl.Grants;
+            const authenticateUsersGrant = this.getAnalysisForGroupGrants(grants, allAuthenticatedUsersUri);
             if (authenticateUsersGrant) {
-                const bucket_acl_analysis: ResourceAnalysisResult = Object.assign({}, bucketAnalysis);
+                const bucket_acl_analysis: IResourceAnalysisResult = Object.assign({}, bucketAnalysis);
                 bucket_acl_analysis.severity = SeverityStatus.Warning;
                 bucket_acl_analysis.message = `All authenticated users of any AWS account have ${this.getPermissionMessage(authenticateUsersGrant.Permission)} access on the bucket`;
-                bucket_acl_analysis.action = 'Disable open access to any authenticated user';
+                bucket_acl_analysis.action = "Disable open access to any authenticated user";
                 allBucketsAnalysis.push(bucket_acl_analysis);
             }
 
-            let allUsersGrant = this.getAnalysisForGroupGrants(grants, allUsersUri);
+            const allUsersGrant = this.getAnalysisForGroupGrants(grants, allUsersUri);
             if (allUsersGrant) {
-                const bucket_acl_analysis: ResourceAnalysisResult = Object.assign({}, bucketAnalysis);
+                const bucket_acl_analysis: IResourceAnalysisResult = Object.assign({}, bucketAnalysis);
                 bucket_acl_analysis.severity = SeverityStatus.Warning;
                 bucket_acl_analysis.message = `All users have ${this.getPermissionMessage(allUsersGrant.Permission)} access on the bucket`;
-                bucket_acl_analysis.action = 'Disable open access to any user';
+                bucket_acl_analysis.action = "Disable open access to any user";
                 allBucketsAnalysis.push(bucket_acl_analysis);
             }
         }
@@ -57,11 +57,11 @@ export class BucketAccessAnalyzer extends BaseAnalyzer {
 
     private getPermissionMessage(permission: string) {
         switch (permission) {
-            case 'READ': return 'read';
-            case 'READ_ACP': return 'read permissions';
-            case 'WRITE': return 'write';
-            case 'WRITE_ACP': return 'write permissions';
-            case 'FULL_CONTROL': return 'full';
+            case "READ": return "read";
+            case "READ_ACP": return "read permissions";
+            case "WRITE": return "write";
+            case "WRITE_ACP": return "write permissions";
+            case "FULL_CONTROL": return "full";
         }
     }
 }

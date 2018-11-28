@@ -1,20 +1,20 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class UsersCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.listAllUsers();
     }
 
     private async listAllUsers() {
         try {
-            const iam = this.getClient('IAM', 'us-east-1') as AWS.IAM;
+            const iam = this.getClient("IAM", "us-east-1") as AWS.IAM;
             let fetchPending = true;
-            let marker: string | undefined = undefined;
+            let marker: string | undefined;
             let users: AWS.IAM.User[] = [];
             while (fetchPending) {
-                let iamUsersData: AWS.IAM.ListUsersResponse = await iam.listUsers({ Marker: marker }).promise();
+                const iamUsersData: AWS.IAM.ListUsersResponse = await iam.listUsers({ Marker: marker }).promise();
                 users = users.concat(iamUsersData.Users);
                 marker = iamUsersData.Marker;
                 fetchPending = iamUsersData.IsTruncated === true;

@@ -1,9 +1,9 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class RedshiftClustersCollector extends BaseCollector {
-    collect(callback: (err?: Error, data?: any) => void) {
+    public collect(callback: (err?: Error, data?: any) => void) {
         return this.getAllClusters();
     }
 
@@ -11,16 +11,16 @@ export class RedshiftClustersCollector extends BaseCollector {
 
         const self = this;
 
-        const serviceName = 'Redshift';
+        const serviceName = "Redshift";
         const redshiftRegions = self.getRegions(serviceName);
         const clusters = {};
 
-        for (let region of redshiftRegions) {
+        for (const region of redshiftRegions) {
             try {
-                let redshift = self.getClient(serviceName, region) as AWS.Redshift;
+                const redshift = self.getClient(serviceName, region) as AWS.Redshift;
                 clusters[region] = [];
                 let fetchPending = true;
-                let marker: string | undefined = undefined;
+                let marker: string | undefined;
                 while (fetchPending) {
                     const clustersResponse: AWS.Redshift.Types.ClustersMessage = await redshift.describeClusters({ Marker: marker }).promise();
                     clusters[region] = clusters[region].concat(clustersResponse.Clusters);

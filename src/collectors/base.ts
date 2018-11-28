@@ -1,21 +1,21 @@
-import {ClientsProvider, RegionsProvider} from '../utils';
+import {AWSClientsProvider, AWSRegionsProvider} from "../utils";
 
 export abstract class BaseCollector {
     private session: string = "default";
-    abstract collect(params?: any);
-    getClient(serviceName: string, region: string) {
-        return ClientsProvider.getClient(serviceName, region, this.session);
+    public abstract collect(params?: any);
+    public getClient(serviceName: string, region: string) {
+        return AWSClientsProvider.getClient(serviceName, region, this.session);
     }
-    getRegions(serviceName: string) {
-        return RegionsProvider.getServiceRegions(serviceName);
+    public getRegions(serviceName: string) {
+        return AWSRegionsProvider.getServiceRegions(serviceName);
     }
 
-    setSession(session: string = "default") {
+    public setSession(session: string = "default") {
         this.session = session;
     }
 
-    getSession() {
+    public getSession() {
         return this.session;
     }
-    
+
 }

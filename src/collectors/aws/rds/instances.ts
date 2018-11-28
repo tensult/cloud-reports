@@ -1,9 +1,9 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class RDSInstancesCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllInstances();
     }
 
@@ -11,16 +11,16 @@ export class RDSInstancesCollector extends BaseCollector {
 
         const self = this;
 
-        const serviceName = 'RDS';
+        const serviceName = "RDS";
         const rdsRegions = self.getRegions(serviceName);
         const instances = {};
 
-        for (let region of rdsRegions) {
+        for (const region of rdsRegions) {
             try {
-                let rds = self.getClient(serviceName, region) as AWS.RDS;
+                const rds = self.getClient(serviceName, region) as AWS.RDS;
                 instances[region] = [];
                 let fetchPending = true;
-                let marker: string | undefined = undefined;
+                let marker: string | undefined;
                 while (fetchPending) {
                     const instancesResponse: AWS.RDS.DBInstanceMessage = await rds.describeDBInstances({ Marker: marker }).promise();
                     instances[region] = instances[region].concat(instancesResponse.DBInstances);

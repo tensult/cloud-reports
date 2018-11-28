@@ -1,11 +1,11 @@
-import * as AWS from 'aws-sdk';
-import { BaseCollector } from "../../base";
-import { RedshiftClustersCollector } from "."
+import * as AWS from "aws-sdk";
+import { RedshiftClustersCollector } from ".";
 import { CollectorUtil } from "../../../utils";
-import { AWSErrorHandler } from '../../../utils/aws';
+import { AWSErrorHandler } from "../../../utils/aws";
+import { BaseCollector } from "../../base";
 
 export class RedshiftAuditLogsCollector extends BaseCollector {
-    collect(callback: (err?: Error, data?: any) => void) {
+    public collect(callback: (err?: Error, data?: any) => void) {
         return this.getAuditLogs();
     }
 
@@ -13,7 +13,7 @@ export class RedshiftAuditLogsCollector extends BaseCollector {
 
         const self = this;
 
-        const serviceName = 'Redshift';
+        const serviceName = "Redshift";
         const redshiftRegions = self.getRegions(serviceName);
         const redshiftClustersCollector = new RedshiftClustersCollector();
         redshiftClustersCollector.setSession(self.getSession());
@@ -22,12 +22,12 @@ export class RedshiftAuditLogsCollector extends BaseCollector {
         try {
             const clustersData = await CollectorUtil.cachedCollect(redshiftClustersCollector);
 
-            for (let region of redshiftRegions) {
+            for (const region of redshiftRegions) {
                 try {
-                    let redshift = self.getClient(serviceName, region) as AWS.Redshift;
+                    const redshift = self.getClient(serviceName, region) as AWS.Redshift;
                     audit_logs[region] = {};
-                    let regionClusters = clustersData.clusters[region];
-                    for (let cluster of regionClusters) {
+                    const regionClusters = clustersData.clusters[region];
+                    for (const cluster of regionClusters) {
                         const loggingStatus: AWS.Redshift.LoggingStatus = await redshift.describeLoggingStatus({ ClusterIdentifier: cluster.ClusterIdentifier }).promise();
                         audit_logs[region][cluster.ClusterIdentifier] = loggingStatus;
                     }

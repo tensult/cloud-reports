@@ -1,2 +1,2 @@
-export * from './certificates';
-export * from './certificate_details';
+export * from "./certificates";
+export * from "./certificate_details";

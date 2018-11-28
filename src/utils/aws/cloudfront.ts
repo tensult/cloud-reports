@@ -1,5 +1,5 @@
 export class CloudFrontUtil {
-    static getAliasName(distribution) {
+    public static getAliasName(distribution) {
         if (!distribution || !distribution.Aliases) {
             return undefined;
         }

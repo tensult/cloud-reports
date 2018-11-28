@@ -1,16 +1,16 @@
-const ejs = require('ejs');
-const cpy = require('cpy');
+import * as cpy from "cpy";
+import * as ejs from "ejs";
 
 function processReportData(reportData: any, includeOnlyIssues: boolean) {
-    for (let serviceName in reportData) {
-        for (let checkName in reportData[serviceName]) {
-            for (let regionName in reportData[serviceName][checkName].regions) {
-                if (regionName === 'global') {
+    for (const serviceName in reportData) {
+        for (const checkName in reportData[serviceName]) {
+            for (const regionName in reportData[serviceName][checkName].regions) {
+                if (regionName === "global") {
                     reportData[serviceName][checkName].isGlobal = true;
                 }
                 let regionDetails = reportData[serviceName][checkName].regions[regionName];
                 if (includeOnlyIssues) {
-                    regionDetails = regionDetails.filter(resourceDetails => {
+                    regionDetails = regionDetails.filter((resourceDetails) => {
                         return resourceDetails.severity < 2;
                     });
                     reportData[serviceName][checkName].regions[regionName] = regionDetails;
@@ -28,13 +28,13 @@ function processReportData(reportData: any, includeOnlyIssues: boolean) {
 }
 
 function copyEJSFiles() {
-    return cpy(["reporters/**/*.ejs"], '../dist', {
-        cwd: "src", parents: true
+    return cpy(["reporters/**/*.ejs"], "../dist", {
+        cwd: "src", parents: true,
     });
 }
 
 export async function generateHTML(reportData: any, options?: {
-    showIssuesOnly: boolean
+    showIssuesOnly: boolean,
 }) {
     options = options || { showIssuesOnly: false };
     await copyEJSFiles();
@@ -50,6 +50,3 @@ export async function generateHTML(reportData: any, options?: {
             });
     });
 }
-
-
-

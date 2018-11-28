@@ -1,18 +1,18 @@
-import * as AWS from 'aws-sdk';
-import * as Moment from 'moment';
+import * as AWS from "aws-sdk";
+import * as Moment from "moment";
+import { CollectorUtil, CommonUtil } from "../../../utils";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { CollectorUtil, CommonUtil } from '../../../utils';
-import { VolumesCollector } from './volumes';
-import { AWSErrorHandler } from '../../../utils/aws';
+import { VolumesCollector } from "./volumes";
 
 export class VolumeSnapshotsCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllVolumeSnapshots();
     }
 
     private async getAllVolumeSnapshots() {
 
-        const serviceName = 'EC2';
+        const serviceName = "EC2";
         const ec2Regions = this.getRegions(serviceName);
         const volumesCollector = new VolumesCollector();
         volumesCollector.setSession(this.getSession());
@@ -21,23 +21,23 @@ export class VolumeSnapshotsCollector extends BaseCollector {
             const volumesData = await CollectorUtil.cachedCollect(volumesCollector);
             const dataStringsToSearch = CommonUtil.removeDuplicates([this.getDateStringForSearch(30), this.getDateStringForSearch(0)]);
 
-            for (let region of ec2Regions) {
+            for (const region of ec2Regions) {
                 try {
-                    let ec2 = this.getClient(serviceName, region) as AWS.EC2;
+                    const ec2 = this.getClient(serviceName, region) as AWS.EC2;
                     snapshots[region] = {};
-                    for (let volume of volumesData.volumes[region]) {
+                    for (const volume of volumesData.volumes[region]) {
                         snapshots[region][volume.VolumeId] = [];
                         let fetchPending = true;
-                        let marker: string | undefined = undefined;
+                        let marker: string | undefined;
                         while (fetchPending) {
                             const snapshotsResponse: AWS.EC2.DescribeSnapshotsResult = await ec2.describeSnapshots({
                                 Filters:
                                     [
                                         { Name: "start-time", Values: dataStringsToSearch },
                                         { Name: "volume-id", Values: [volume.VolumeId] },
-                                        { Name: "status", Values: ["completed"] }
+                                        { Name: "status", Values: ["completed"] },
                                     ],
-                                NextToken: marker
+                                NextToken: marker,
                             }).promise();
                             if (snapshotsResponse.Snapshots) {
                                 snapshots[region][volume.VolumeId] = snapshots[region][volume.VolumeId].concat(snapshotsResponse.Snapshots);
@@ -60,6 +60,6 @@ export class VolumeSnapshotsCollector extends BaseCollector {
     }
 
     private getDateStringForSearch(beforeDays: number) {
-        return Moment().subtract(beforeDays, "days").format("YYYY-MM-*")
+        return Moment().subtract(beforeDays, "days").format("YYYY-MM-*");
     }
 }

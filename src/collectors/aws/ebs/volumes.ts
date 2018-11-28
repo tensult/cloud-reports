@@ -1,24 +1,24 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class VolumesCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllVolumes();
     }
 
     private async getAllVolumes() {
 
-        const serviceName = 'EC2';
+        const serviceName = "EC2";
         const ec2Regions = this.getRegions(serviceName);
         const volumes = {};
 
-        for (let region of ec2Regions) {
+        for (const region of ec2Regions) {
             try {
-                let ec2 = this.getClient(serviceName, region) as AWS.EC2;
+                const ec2 = this.getClient(serviceName, region) as AWS.EC2;
                 volumes[region] = [];
                 let fetchPending = true;
-                let marker: string | undefined = undefined;
+                let marker: string | undefined;
                 while (fetchPending) {
                     const volumesResponse: AWS.EC2.DescribeVolumesResult = await ec2.describeVolumes({ NextToken: marker }).promise();
                     if (volumesResponse.Volumes) {

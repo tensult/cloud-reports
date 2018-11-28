@@ -1,9 +1,9 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class LambdaFunctionsCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllFunctions();
     }
 
@@ -11,23 +11,23 @@ export class LambdaFunctionsCollector extends BaseCollector {
 
         const self = this;
 
-        const serviceName = 'Lambda';
+        const serviceName = "Lambda";
         const lambdaRegions = self.getRegions(serviceName);
         const functions = {};
 
-        for (let region of lambdaRegions) {
-            try{
-                let lambda = self.getClient(serviceName, region) as AWS.Lambda;
+        for (const region of lambdaRegions) {
+            try {
+                const lambda = self.getClient(serviceName, region) as AWS.Lambda;
                 functions[region] = [];
                 let fetchPending = true;
-                let marker: string | undefined = undefined;
+                let marker: string | undefined;
                 while (fetchPending) {
                     const functionsResponse: AWS.Lambda.ListFunctionsResponse = await lambda.listFunctions({ Marker: marker }).promise();
                     functions[region] = functions[region].concat(functionsResponse.Functions);
                     marker = functionsResponse.NextMarker;
                     fetchPending = marker !== undefined && marker !== null;
                 }
-            } catch(error) {
+            } catch (error) {
                 AWSErrorHandler.handle(error);
                 continue;
             }

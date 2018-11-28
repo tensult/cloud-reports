@@ -1,3 +1,3 @@
-export interface Dictionary<T> {
+export interface IDictionary<T> {
     [key: string]: T;
 }

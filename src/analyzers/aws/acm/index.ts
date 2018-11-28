@@ -1,1 +1,1 @@
-export * from './certificates_expiry';
+export * from "./certificates_expiry";

@@ -1,33 +1,33 @@
-import { BaseAnalyzer } from '../../base'
-import { CheckAnalysisResult, ResourceAnalysisResult, SeverityStatus, CheckAnalysisType } from '../../../types';
+import { CheckAnalysisType, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import { BaseAnalyzer } from "../../base";
 
 export class CloudTrailsBucketMFADeleteAnalyzer extends BaseAnalyzer {
 
-    analyze(params: any, fullReport: any): any {
+    public analyze(params: any, fullReport: any): any {
         const allBucketVersionings = params.bucket_versioning;
-        if (!fullReport['aws.trails'] || !fullReport['aws.trails'].cloud_trails || !allBucketVersionings) {
+        if (!fullReport["aws.trails"] || !fullReport["aws.trails"].cloud_trails || !allBucketVersionings) {
             return undefined;
         }
-        const allCloudTrails = fullReport['aws.trails'].cloud_trails;
+        const allCloudTrails = fullReport["aws.trails"].cloud_trails;
 
-        const cloud_trails_bucket_mfa_delete: CheckAnalysisResult = { type: CheckAnalysisType.Security };
+        const cloud_trails_bucket_mfa_delete: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         cloud_trails_bucket_mfa_delete.what = "Is deleting cloud trails protected by MFA?";
-        cloud_trails_bucket_mfa_delete.why = "Cloud trails deletes should be MFA enabled so that attacker won't able to delete them"
+        cloud_trails_bucket_mfa_delete.why = "Cloud trails deletes should be MFA enabled so that attacker won't able to delete them";
         cloud_trails_bucket_mfa_delete.recommendation = "Recommended to enable MFA for deleting Cloud Trails";
-        const allBucketsAnalysis: ResourceAnalysisResult[] = [];
+        const allBucketsAnalysis: IResourceAnalysisResult[] = [];
         const cloudTrailBuckets = this.getCloudTrailBuckets(allCloudTrails);
-        for (let bucketName of cloudTrailBuckets) {
-            let bucketVersioning = allBucketVersionings[bucketName];
-            let bucketAnalysis: ResourceAnalysisResult = {};
+        for (const bucketName of cloudTrailBuckets) {
+            const bucketVersioning = allBucketVersionings[bucketName];
+            const bucketAnalysis: IResourceAnalysisResult = {};
             bucketAnalysis.resource = { bucketName, bucketVersioning };
-            bucketAnalysis.resourceSummary = { name: 'Bucket', value: bucketName };
-            if (bucketVersioning && bucketVersioning.MFADelete === 'Enabled') {
+            bucketAnalysis.resourceSummary = { name: "Bucket", value: bucketName };
+            if (bucketVersioning && bucketVersioning.MFADelete === "Enabled") {
                 bucketAnalysis.severity = SeverityStatus.Good;
-                bucketAnalysis.message = 'Deletes are MFA enabled';
+                bucketAnalysis.message = "Deletes are MFA enabled";
             } else {
                 bucketAnalysis.severity = SeverityStatus.Failure;
-                bucketAnalysis.message = 'Deletes are not MFA enabled';
-                bucketAnalysis.action = 'Enable MFADelete'
+                bucketAnalysis.message = "Deletes are not MFA enabled";
+                bucketAnalysis.action = "Enable MFADelete";
             }
 
             allBucketsAnalysis.push(bucketAnalysis);
@@ -36,10 +36,10 @@ export class CloudTrailsBucketMFADeleteAnalyzer extends BaseAnalyzer {
         return { cloud_trails_bucket_mfa_delete };
     }
 
-    getCloudTrailBuckets(cloudTrails) {
+    public getCloudTrailBuckets(cloudTrails) {
         const s3Buckets: any = {};
-        for (let region in cloudTrails) {
-            cloudTrails[region].forEach(trail => {
+        for (const region in cloudTrails) {
+            cloudTrails[region].forEach((trail) => {
                 s3Buckets[trail.S3BucketName] = 1;
             });
         }

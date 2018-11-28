@@ -1,2 +1,2 @@
-export * from './distribution_configs';
-export * from './distributions';
+export * from "./distribution_configs";
+export * from "./distributions";

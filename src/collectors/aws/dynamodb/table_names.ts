@@ -1,23 +1,23 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class DynamoDBTableNamesCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllTableNames();
     }
 
     private async getAllTableNames() {
-        const serviceName = 'DynamoDB';
+        const serviceName = "DynamoDB";
         const dynamoDBRegions = this.getRegions(serviceName);
         const tableNames = {};
 
-        for (let region of dynamoDBRegions) {
+        for (const region of dynamoDBRegions) {
             try {
-                let dynamoDB = this.getClient(serviceName, region) as AWS.DynamoDB;
+                const dynamoDB = this.getClient(serviceName, region) as AWS.DynamoDB;
                 tableNames[region] = [];
                 let fetchPending = true;
-                let marker: string | undefined = undefined;
+                let marker: string | undefined;
                 while (fetchPending) {
                     const tableNamesResponse: AWS.DynamoDB.ListTablesOutput = await dynamoDB.listTables({ ExclusiveStartTableName: marker }).promise();
                     if (tableNamesResponse.TableNames) {

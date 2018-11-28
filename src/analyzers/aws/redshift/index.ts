@@ -1,1 +1,1 @@
-export * from './audit_logs_enabled';
+export * from "./audit_logs_enabled";

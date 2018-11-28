@@ -1,1 +1,1 @@
-export * from './cloud_trails';
+export * from "./cloud_trails";

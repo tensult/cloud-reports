@@ -1,9 +1,9 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class FlowLogsCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllFlowLogs();
     }
 
@@ -11,16 +11,16 @@ export class FlowLogsCollector extends BaseCollector {
 
         const self = this;
 
-        const serviceName = 'EC2';
+        const serviceName = "EC2";
         const ec2Regions = self.getRegions(serviceName);
         const flow_logs = {};
 
-        for (let region of ec2Regions) {
+        for (const region of ec2Regions) {
             try {
-                let ec2 = self.getClient(serviceName, region) as AWS.EC2;
+                const ec2 = self.getClient(serviceName, region) as AWS.EC2;
                 flow_logs[region] = [];
                 let fetchPending = true;
-                let marker: string | undefined = undefined;
+                let marker: string | undefined;
                 while (fetchPending) {
                     const flowLogsResponse: AWS.EC2.DescribeFlowLogsResult = await ec2.describeFlowLogs({ NextToken: marker }).promise();
                     if (flowLogsResponse && flowLogsResponse.FlowLogs) {

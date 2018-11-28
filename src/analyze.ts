@@ -1,17 +1,17 @@
-import * as Analyzers from './analyzers';
-import { Dictionary } from './types';
-import * as flat from 'flat';
-import { BaseAnalyzer } from './analyzers/base';
+import * as flat from "flat";
+import * as Analyzers from "./analyzers";
+import { BaseAnalyzer } from "./analyzers/base";
+import { IDictionary } from "./types";
 
 export function analyze(collectorData: any) {
     const flatListOfAnalyzers = flat(Analyzers);
-    const result: Dictionary<any> = {}
-    for (let analyzerName in flatListOfAnalyzers) {
-        if (!analyzerName.endsWith('Analyzer')) {
+    const result: IDictionary<any> = {};
+    for (const analyzerName in flatListOfAnalyzers) {
+        if (!analyzerName.endsWith("Analyzer")) {
             continue;
         }
-        const analyzerNameSpace = analyzerName.replace(/.[A-Za-z0-9]+$/, '');
-        if(!collectorData[analyzerNameSpace]) {
+        const analyzerNameSpace = analyzerName.replace(/.[A-Za-z0-9]+$/, "");
+        if (!collectorData[analyzerNameSpace]) {
             continue;
         }
         const analyzer: BaseAnalyzer = new flatListOfAnalyzers[analyzerName]();

@@ -1,24 +1,24 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class ElasticIPsCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllElasticIPs();
     }
 
     private async getAllElasticIPs() {
 
-        const serviceName = 'EC2';
+        const serviceName = "EC2";
         const ec2Regions = this.getRegions(serviceName);
         const elastic_ips = {};
 
-        for (let region of ec2Regions) {
+        for (const region of ec2Regions) {
             try {
-                let ec2 = this.getClient(serviceName, region) as AWS.EC2;
+                const ec2 = this.getClient(serviceName, region) as AWS.EC2;
                 const elasticIPsResponse: AWS.EC2.DescribeAddressesResult = await ec2.describeAddresses().promise();
                 if (elasticIPsResponse && elasticIPsResponse.Addresses) {
-                    elastic_ips[region] = elasticIPsResponse.Addresses
+                    elastic_ips[region] = elasticIPsResponse.Addresses;
                 }
             } catch (error) {
                 AWSErrorHandler.handle(error);

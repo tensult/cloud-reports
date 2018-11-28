@@ -1,11 +1,11 @@
-import { SeverityStatus } from './severity'
+import { SeverityStatus } from "./severity";
 
-export interface ResourceAnalysisResult {
+export interface IResourceAnalysisResult {
     action?: string;
     message?: string;
     resourceSummary?: {
         name: string,
-        value: string
+        value: string,
     };
     resource?: any;
     severity?: SeverityStatus;

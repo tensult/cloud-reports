@@ -1,21 +1,21 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class ESDomainNamesCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllDomains();
     }
 
     private async getAllDomains() {
 
-        const serviceName = 'ES';
+        const serviceName = "ES";
         const esRegions = this.getRegions(serviceName);
         const domain_names = {};
 
-        for (let region of esRegions) {
+        for (const region of esRegions) {
             try {
-                let es = this.getClient(serviceName, region) as AWS.ES;
+                const es = this.getClient(serviceName, region) as AWS.ES;
                 const domainsResponse: AWS.ES.ListDomainNamesResponse = await es.listDomainNames().promise();
                 if (domainsResponse && domainsResponse.DomainNames) {
                     domain_names[region] = domainsResponse.DomainNames.map((domain) => {

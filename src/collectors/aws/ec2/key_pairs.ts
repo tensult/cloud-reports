@@ -1,15 +1,15 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class KeyPairsCollector extends BaseCollector {
-    async collect() {
-        const serviceName = 'EC2';
+    public async collect() {
+        const serviceName = "EC2";
         const ec2Regions = this.getRegions(serviceName);
         const key_pairs = {};
-        for (let region of ec2Regions) {
+        for (const region of ec2Regions) {
             try {
-                let ec2 = this.getClient(serviceName, region) as AWS.EC2;
+                const ec2 = this.getClient(serviceName, region) as AWS.EC2;
                 const keyPairsResponse: AWS.EC2.DescribeKeyPairsResult = await ec2.describeKeyPairs().promise();
                 key_pairs[region] = keyPairsResponse.KeyPairs;
             } catch (error) {

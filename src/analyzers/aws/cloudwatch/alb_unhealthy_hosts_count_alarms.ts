@@ -1,43 +1,43 @@
-import { BaseAnalyzer } from '../../base'
-import { CheckAnalysisResult, ResourceAnalysisResult, SeverityStatus, CheckAnalysisType, Dictionary } from '../../../types';
+import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import { BaseAnalyzer } from "../../base";
 
 export class AlbUnHealthyHostAlarmsAnalyzer extends BaseAnalyzer {
 
-    analyze(params: any, fullReport?: any): any {
+    public analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
-        if (!allAlarms || !fullReport['aws.elb'] || !fullReport['aws.elb'].elbs) {
+        if (!allAlarms || !fullReport["aws.elb"] || !fullReport["aws.elb"].elbs) {
             return undefined;
         }
-        const allELBs: any[] = fullReport['aws.elb'].elbs;
+        const allELBs: any[] = fullReport["aws.elb"].elbs;
 
-        const alb_unhealthy_hosts_alarms: CheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
+        const alb_unhealthy_hosts_alarms: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         alb_unhealthy_hosts_alarms.what = "Are alarms are enabled for ALB Unhealthy hosts?";
-        alb_unhealthy_hosts_alarms.why = "It is important to set alarms for Unhealthy hosts as otherwise the performance of the application will be degraded"
+        alb_unhealthy_hosts_alarms.why = "It is important to set alarms for Unhealthy hosts as otherwise the performance of the application will be degraded";
         alb_unhealthy_hosts_alarms.recommendation = "Recommended to set alarm for Unhealthy hosts to take appropriative action.";
-        const allRegionsAnalysis : Dictionary<ResourceAnalysisResult[]> = {};
-        for (let region in allELBs) {
-            let regionELBs = allELBs[region];
-            let regionAlarms = allAlarms[region];
-            let alarmsMapByELB = this.mapAlarmsByELB(regionAlarms);
+        const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
+        for (const region in allELBs) {
+            const regionELBs = allELBs[region];
+            const regionAlarms = allAlarms[region];
+            const alarmsMapByELB = this.mapAlarmsByELB(regionAlarms);
             console.log(alarmsMapByELB);
             allRegionsAnalysis[region] = [];
-            for (let elb of regionELBs) {
-                let alarmAnalysis: ResourceAnalysisResult = {};
+            for (const elb of regionELBs) {
+                const alarmAnalysis: IResourceAnalysisResult = {};
                 console.log(elb.LoadBalancerArn);
-                let elbAlarms =  alarmsMapByELB[this.getLoadBalancerDimensionId(elb.LoadBalancerArn)];
+                const elbAlarms =  alarmsMapByELB[this.getLoadBalancerDimensionId(elb.LoadBalancerArn)];
                 alarmAnalysis.resource = {elb, alarms: elbAlarms};
                 alarmAnalysis.resourceSummary = {
-                    name: 'LoadBalancer',
-                    value: elb.LoadBalancerName
-                }
-            
+                    name: "LoadBalancer",
+                    value: elb.LoadBalancerName,
+                };
+
                 if (this.isUnHealthyHostCountAlarmsPresent(elbAlarms)) {
                     alarmAnalysis.severity = SeverityStatus.Good;
                     alarmAnalysis.message = "Unhealthy hosts alarms are enabled";
                 } else {
                     alarmAnalysis.severity = SeverityStatus.Failure;
                     alarmAnalysis.message = "Unhealthy hosts alarms are not enabled";
-                    alarmAnalysis.action = 'Set Unhealthy hosts alarms';               
+                    alarmAnalysis.action = "Set Unhealthy hosts alarms";
                 }
                 allRegionsAnalysis[region].push(alarmAnalysis);
             }
@@ -46,13 +46,13 @@ export class AlbUnHealthyHostAlarmsAnalyzer extends BaseAnalyzer {
         return { alb_unhealthy_hosts_alarms };
     }
 
-    private mapAlarmsByELB(alarms: any[]): Dictionary<any[]> {
+    private mapAlarmsByELB(alarms: any[]): IDictionary<any[]> {
         return alarms.reduce((alarmsMap, alarm) => {
-            if(alarm.Namespace === 'AWS/ApplicationELB' && alarm.Dimensions) {
+            if (alarm.Namespace === "AWS/ApplicationELB" && alarm.Dimensions) {
                 const elbDimension = alarm.Dimensions.find((dimension) => {
-                    return dimension.Name === 'LoadBalancer';
+                    return dimension.Name === "LoadBalancer";
                 });
-                if(elbDimension && elbDimension.Value) {
+                if (elbDimension && elbDimension.Value) {
                     alarmsMap[elbDimension.Value] = alarmsMap[elbDimension.Value] || [];
                     alarmsMap[elbDimension.Value].push(alarm);
 
@@ -64,10 +64,10 @@ export class AlbUnHealthyHostAlarmsAnalyzer extends BaseAnalyzer {
 
     private isUnHealthyHostCountAlarmsPresent(alarms) {
         return alarms && alarms.some((alarm) => {
-            return alarm.ActionsEnabled && 
+            return alarm.ActionsEnabled &&
             alarm.AlarmActions &&
             alarm.AlarmActions.length &&
-            alarm.MetricName === 'UnHealthyHostCount';
+            alarm.MetricName === "UnHealthyHostCount";
         });
     }
 

@@ -1,14 +1,14 @@
-import { Dictionary } from './dictionary'
-import { ResourceAnalysisResult } from './resource'
+import { IDictionary } from "./dictionary";
+import { IResourceAnalysisResult } from "./resource";
 
-export interface CheckAnalysisResult {
+export interface ICheckAnalysisResult {
     why?: string;
     what?: string;
     recommendation?: string;
     reference?: string;
     resourceKeys?: string[];
     type: CheckAnalysisType | CheckAnalysisType[];
-    regions?: Dictionary<ResourceAnalysisResult[]>;
+    regions?: IDictionary<IResourceAnalysisResult[]>;
 }
 
 export enum CheckAnalysisType {
@@ -17,5 +17,5 @@ export enum CheckAnalysisType {
     Reliability = "Reliability",
     PerformanceEfficiency = "PerformanceEfficiency",
     CostOptimization = "CostOptimization",
-    OperationalExcellence = "OperationalExcellence"
+    OperationalExcellence = "OperationalExcellence",
 }

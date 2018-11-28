@@ -1,22 +1,22 @@
 import * as AWS from "aws-sdk";
-import { BaseCollector } from "../../base";
 import { AWSErrorHandler } from "../../../utils/aws";
+import { BaseCollector } from "../../base";
 
 export class AlarmsCollector extends BaseCollector {
-  collect(callback: (err?: Error, data?: any) => void) {
+  public collect(callback: (err?: Error, data?: any) => void) {
     return this.getAllAlarms();
   }
   private async getAllAlarms() {
     const self = this;
-    const serviceName = 'CloudWatch';
+    const serviceName = "CloudWatch";
     const CloudWatchRegions = self.getRegions(serviceName);
     const alarms = {};
-    for (let region of CloudWatchRegions) {
+    for (const region of CloudWatchRegions) {
       try {
-        let CloudWatchService = self.getClient(serviceName, region) as AWS.CloudWatch;
+        const CloudWatchService = self.getClient(serviceName, region) as AWS.CloudWatch;
         alarms[region] = [];
         let fetchPending = true;
-        let marker: string | undefined = undefined;
+        let marker: string | undefined;
         while (fetchPending) {
           const alarmsResponse: AWS.CloudWatch.Types.DescribeAlarmsOutput = await CloudWatchService.describeAlarms({ NextToken: marker }).promise();
           if (alarmsResponse.MetricAlarms) {

@@ -1,1 +1,1 @@
-export * from './resource_groups_used';
+export * from "./resource_groups_used";

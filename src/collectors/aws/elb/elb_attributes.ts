@@ -1,16 +1,16 @@
-import * as AWS from 'aws-sdk';
-import { BaseCollector } from "../../base";
-import { ElbV2sCollector } from "./elbs"
+import * as AWS from "aws-sdk";
 import { CollectorUtil } from "../../../utils";
-import { AWSErrorHandler } from '../../../utils/aws';
+import { AWSErrorHandler } from "../../../utils/aws";
+import { BaseCollector } from "../../base";
+import { ElbV2sCollector } from "./elbs";
 
 export class ElbV2AttributesCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllElbAttributes();
     }
 
     private async getAllElbAttributes() {
-        const serviceName = 'ELBv2';
+        const serviceName = "ELBv2";
         const elbRegions = this.getRegions(serviceName);
         const elbV2sCollector = new ElbV2sCollector();
         elbV2sCollector.setSession(this.getSession());
@@ -18,13 +18,13 @@ export class ElbV2AttributesCollector extends BaseCollector {
         try {
             const elbsData = await CollectorUtil.cachedCollect(elbV2sCollector);
             const elbs = elbsData.elbs;
-            for (let region of elbRegions) {
+            for (const region of elbRegions) {
                 try {
-                    let elbService = this.getClient(serviceName, region) as AWS.ELBv2;
-                    let regionElbs = elbs[region];
-                    let allRegionElbAttributes = {};
-                    for (let elb of regionElbs) {
-                        let regionElbAttributes: AWS.ELBv2.DescribeLoadBalancerAttributesOutput = await elbService.describeLoadBalancerAttributes({ LoadBalancerArn: elb.LoadBalancerArn }).promise();
+                    const elbService = this.getClient(serviceName, region) as AWS.ELBv2;
+                    const regionElbs = elbs[region];
+                    const allRegionElbAttributes = {};
+                    for (const elb of regionElbs) {
+                        const regionElbAttributes: AWS.ELBv2.DescribeLoadBalancerAttributesOutput = await elbService.describeLoadBalancerAttributes({ LoadBalancerArn: elb.LoadBalancerArn }).promise();
                         allRegionElbAttributes[elb.LoadBalancerName] = regionElbAttributes.Attributes;
                     }
                     elb_attributes[region] = allRegionElbAttributes;

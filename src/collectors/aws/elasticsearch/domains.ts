@@ -1,17 +1,17 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { CollectorUtil } from "../../../utils";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { CollectorUtil } from '../../../utils';
-import { ESDomainNamesCollector } from './domain_names';
-import { AWSErrorHandler } from '../../../utils/aws';
+import { ESDomainNamesCollector } from "./domain_names";
 
 export class ESDomainsCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getAllDomains();
     }
 
     private async getAllDomains() {
 
-        const serviceName = 'ES';
+        const serviceName = "ES";
         const esRegions = this.getRegions(serviceName);
         const esDomainNamesCollector = new ESDomainNamesCollector();
         esDomainNamesCollector.setSession(this.getSession());
@@ -21,12 +21,12 @@ export class ESDomainsCollector extends BaseCollector {
             const domainNamesData = await CollectorUtil.cachedCollect(esDomainNamesCollector);
             const domainNames = domainNamesData.domain_names;
 
-            for (let region of esRegions) {
+            for (const region of esRegions) {
                 if (!domainNames[region]) {
                     continue;
                 }
                 try {
-                    let es = this.getClient(serviceName, region) as AWS.ES;
+                    const es = this.getClient(serviceName, region) as AWS.ES;
                     const domainsResponse: AWS.ES.DescribeElasticsearchDomainsResponse = await es.describeElasticsearchDomains({ DomainNames: domainNames[region] }).promise();
                     if (domainsResponse && domainsResponse.DomainStatusList) {
                         domains[region] = domainsResponse.DomainStatusList;

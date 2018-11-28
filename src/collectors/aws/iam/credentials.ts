@@ -1,16 +1,16 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { CommonUtil, CsvUtil } from "../../../utils";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { CommonUtil, CsvUtil } from '../../../utils'
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class CredentialsReportCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.getCredentialsReport();
     }
 
     private async getCredentialsReport() {
         try {
-            const iam = this.getClient('IAM', 'us-east-1') as AWS.IAM;
+            const iam = this.getClient("IAM", "us-east-1") as AWS.IAM;
             let fetchPending = true;
             let credsReport: AWS.IAM.GetCredentialReportResponse = {};
             await iam.generateCredentialReport().promise();
@@ -21,9 +21,9 @@ export class CredentialsReportCollector extends BaseCollector {
             }
             let credentials = {};
             if (credsReport.Content) {
-                credentials = CsvUtil.toObject(credsReport.Content.toString())
+                credentials = CsvUtil.toObject(credsReport.Content.toString());
             }
-            return { credentials }
+            return { credentials };
         } catch (error) {
             AWSErrorHandler.handle(error);
         }

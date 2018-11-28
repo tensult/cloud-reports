@@ -1,20 +1,20 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class MFADevicesCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.listMfaDevices();
     }
 
     private async listMfaDevices() {
         try {
-            const iam = this.getClient('IAM', 'us-east-1') as AWS.IAM;
+            const iam = this.getClient("IAM", "us-east-1") as AWS.IAM;
             let fetchPending = true;
-            let marker: string | undefined = undefined;
+            let marker: string | undefined;
             let mfaDevices: AWS.IAM.MFADevice[] = [];
             while (fetchPending) {
-                let iamMfaDevicesData: AWS.IAM.ListMFADevicesResponse = await iam.listMFADevices({ Marker: marker }).promise();
+                const iamMfaDevicesData: AWS.IAM.ListMFADevicesResponse = await iam.listMFADevices({ Marker: marker }).promise();
                 mfaDevices = mfaDevices.concat(iamMfaDevicesData.MFADevices);
                 marker = iamMfaDevicesData.Marker;
                 fetchPending = iamMfaDevicesData.IsTruncated === true;

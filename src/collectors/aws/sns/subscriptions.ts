@@ -1,23 +1,23 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
+import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { AWSErrorHandler } from '../../../utils/aws';
 
 export class SubscriptionsCollector extends BaseCollector {
-    collect(callback: (err?: Error, data?: any) => void) {
+    public collect(callback: (err?: Error, data?: any) => void) {
         return this.getAllSubscriptions();
     }
     private async getAllSubscriptions() {
 
-        const serviceName = 'SNS';
+        const serviceName = "SNS";
         const snsRegions = this.getRegions(serviceName);
         const subscriptions = {};
 
-        for (let region of snsRegions) {
+        for (const region of snsRegions) {
             try {
-                let sns = this.getClient(serviceName, region) as AWS.SNS;
+                const sns = this.getClient(serviceName, region) as AWS.SNS;
                 subscriptions[region] = [];
                 let fetchPending = true;
-                let marker: string | undefined = undefined;
+                let marker: string | undefined;
                 while (fetchPending) {
                     const subscriptionsResponse: AWS.SNS.ListSubscriptionsResponse = await sns.listSubscriptions({ NextToken: marker }).promise();
                     if (subscriptionsResponse.Subscriptions) {
@@ -35,4 +35,3 @@ export class SubscriptionsCollector extends BaseCollector {
     }
 
 }
-

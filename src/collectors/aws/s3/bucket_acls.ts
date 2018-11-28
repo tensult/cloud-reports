@@ -1,25 +1,25 @@
-import * as AWS from 'aws-sdk';
-import { BaseCollector } from "../../base";
-import { BucketsCollector } from './buckets';
+import * as AWS from "aws-sdk";
 import { CollectorUtil } from "../../../utils";
-import { AWSErrorHandler } from '../../../utils/aws';
+import { AWSErrorHandler } from "../../../utils/aws";
+import { BaseCollector } from "../../base";
+import { BucketsCollector } from "./buckets";
 
 export class BucketAclsCollector extends BaseCollector {
-    collect() {
+    public collect() {
         return this.listAllBucketAcls();
     }
 
     private async listAllBucketAcls() {
-        const s3 = this.getClient('S3', 'us-east-1') as AWS.S3;
+        const s3 = this.getClient("S3", "us-east-1") as AWS.S3;
         const bucketsCollector = new BucketsCollector();
         bucketsCollector.setSession(this.getSession());
-        let bucket_acls = {};
+        const bucket_acls = {};
 
         try {
             const bucketsData = await CollectorUtil.cachedCollect(bucketsCollector);
-            for (let bucket of bucketsData.buckets) {
+            for (const bucket of bucketsData.buckets) {
                 try {
-                    let s3BucketAcl: AWS.S3.GetBucketAclOutput = await s3.getBucketAcl({ Bucket: bucket.Name }).promise();
+                    const s3BucketAcl: AWS.S3.GetBucketAclOutput = await s3.getBucketAcl({ Bucket: bucket.Name }).promise();
                     bucket_acls[bucket.Name] = s3BucketAcl;
                 } catch (error) {
                     AWSErrorHandler.handle(error);

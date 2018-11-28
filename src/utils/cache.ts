@@ -1,17 +1,17 @@
-import { Dictionary } from '../types'
+import { IDictionary } from "../types";
 
 export class CacheUtil {
-    private static cache: Dictionary<any> = {};
 
-    static delete(key) {
+    public static delete(key) {
         delete CacheUtil.cache[key];
     }
 
-    static get(key, defaultVal?: any) {
+    public static get(key, defaultVal?: any) {
         return CacheUtil.cache[key] || defaultVal;
     }
 
-    static put(key: string, value: any) {
+    public static put(key: string, value: any) {
         CacheUtil.cache[key] = value;
     }
-} 
+    private static cache: IDictionary<any> = {};
+}
