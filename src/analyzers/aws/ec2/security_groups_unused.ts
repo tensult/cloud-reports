@@ -1,4 +1,7 @@
-import { CheckAnalysisType, ICheckAnalysisResult, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
@@ -26,7 +29,8 @@ export class SecurityGroupsUnusedAnalyzer extends BaseAnalyzer {
             for (const instance of regionInstances) {
                 const instanceData = { name: ResourceUtil.getNameByTags(instance), instanceId: instance.InstanceId };
                 for (const securityGroup of instance.SecurityGroups) {
-                    securityGroupInstancesMap[securityGroup.GroupId] = securityGroupInstancesMap[securityGroup.GroupId] || [];
+                    securityGroupInstancesMap[securityGroup.GroupId] =
+                        securityGroupInstancesMap[securityGroup.GroupId] || [];
                     securityGroupInstancesMap[securityGroup.GroupId].push(instanceData);
                 }
             }
@@ -38,7 +42,12 @@ export class SecurityGroupsUnusedAnalyzer extends BaseAnalyzer {
                     continue;
                 }
                 const securityGroupAnalysis: IResourceAnalysisResult = {};
-                securityGroupAnalysis.resource = {name: securityGroup.GroupName, id: securityGroup.GroupId, instances: securityGroupInstancesMap[securityGroup.GroupId]};
+                securityGroupAnalysis.resource = {
+                    id: securityGroup.GroupId,
+                    instances: securityGroupInstancesMap[securityGroup.GroupId],
+                    name: securityGroup.GroupName,
+
+                };
                 securityGroupAnalysis.resourceSummary = {
                     name: "SecurityGroup",
                     value: `${securityGroup.GroupName} | ${securityGroup.GroupId}`,

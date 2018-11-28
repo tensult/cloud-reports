@@ -22,7 +22,8 @@ export class FlowLogsCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const flowLogsResponse: AWS.EC2.DescribeFlowLogsResult = await ec2.describeFlowLogs({ NextToken: marker }).promise();
+                    const flowLogsResponse:
+                        AWS.EC2.DescribeFlowLogsResult = await ec2.describeFlowLogs({ NextToken: marker }).promise();
                     if (flowLogsResponse && flowLogsResponse.FlowLogs) {
                         flow_logs[region] = flow_logs[region].concat(flowLogsResponse.FlowLogs);
                         marker = flowLogsResponse.NextToken;

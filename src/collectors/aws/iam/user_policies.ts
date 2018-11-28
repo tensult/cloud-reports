@@ -19,7 +19,7 @@ export class UserPoliciesCollector extends BaseCollector {
 
             const usersData = await CollectorUtil.cachedCollect(usersCollector);
             const users: AWS.IAM.User[] = usersData.users;
-            for (let i = 0; i < users.length; i++) {
+            for (const i of groups) {
                 const userName = users[i].UserName;
                 let fetchPending = true;
                 let marker: string | undefined;
@@ -29,7 +29,8 @@ export class UserPoliciesCollector extends BaseCollector {
                     if (marker) {
                         params.Marker = marker;
                     }
-                    const policiesData: AWS.IAM.ListAttachedUserPoliciesResponse = await iam.listAttachedUserPolicies(params).promise();
+                    const policiesData:
+                        AWS.IAM.ListAttachedUserPoliciesResponse = await iam.listAttachedUserPolicies(params).promise();
                     if (policiesData.AttachedPolicies) {
                         userPolicies = userPolicies.concat(policiesData.AttachedPolicies);
                     }

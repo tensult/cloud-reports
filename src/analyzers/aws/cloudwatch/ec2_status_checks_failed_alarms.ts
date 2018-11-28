@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
@@ -12,13 +15,14 @@ export class EC2InstanceSystemChecksAlarmsAnalyzer extends BaseAnalyzer {
         const allInstances: any[] = fullReport["aws.ec2"].instances;
 
         const ec2_instance_system_checks_alarms: ICheckAnalysisResult = {
-            type: CheckAnalysisType.OperationalExcellence
+            type: CheckAnalysisType.OperationalExcellence,
         };
         ec2_instance_system_checks_alarms.what = `Are alarms are enabled for
          EC2 instance System checks?`;
-        ec2_instance_system_checks_alarms.why = `It is important to set alarms for EC2 systems checks as 
+        ec2_instance_system_checks_alarms.why = `It is important to set alarms for EC2 systems checks as
         otherwise suddenly your applications might be down.`;
-        ec2_instance_system_checks_alarms.recommendation = "Recommended to set alarm for EC2  system checks to take appropriative action.";
+        ec2_instance_system_checks_alarms.recommendation = `Recommended to set alarm for EC2
+        system checks to take appropriative action.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];

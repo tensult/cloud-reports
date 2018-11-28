@@ -11,7 +11,7 @@ export class BucketAccessAnalyzer extends BaseAnalyzer {
         if (!allBucketAcls || allBucketAcls.length === 0) {
             return undefined;
         }
-        const bucket_access: ICheckAnalysisResult = {type: CheckAnalysisType.Security};
+        const bucket_access: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         bucket_access.what = "Are there any buckets with open access to everyone?";
         bucket_access.why = "Generally buckets shouldn't allow open access unless there is good usecase";
         bucket_access.recommendation = "Recommended to keep bucket acl as restrictive as possible for the business";
@@ -27,7 +27,8 @@ export class BucketAccessAnalyzer extends BaseAnalyzer {
             if (authenticateUsersGrant) {
                 const bucket_acl_analysis: IResourceAnalysisResult = Object.assign({}, bucketAnalysis);
                 bucket_acl_analysis.severity = SeverityStatus.Warning;
-                bucket_acl_analysis.message = `All authenticated users of any AWS account have ${this.getPermissionMessage(authenticateUsersGrant.Permission)} access on the bucket`;
+                bucket_acl_analysis.message = `All authenticated users of any AWS account have
+                ${this.getPermissionMessage(authenticateUsersGrant.Permission)} access on the bucket`;
                 bucket_acl_analysis.action = "Disable open access to any authenticated user";
                 allBucketsAnalysis.push(bucket_acl_analysis);
             }
@@ -36,7 +37,8 @@ export class BucketAccessAnalyzer extends BaseAnalyzer {
             if (allUsersGrant) {
                 const bucket_acl_analysis: IResourceAnalysisResult = Object.assign({}, bucketAnalysis);
                 bucket_acl_analysis.severity = SeverityStatus.Warning;
-                bucket_acl_analysis.message = `All users have ${this.getPermissionMessage(allUsersGrant.Permission)} access on the bucket`;
+                bucket_acl_analysis.message = `All users have
+                ${this.getPermissionMessage(allUsersGrant.Permission)} access on the bucket`;
                 bucket_acl_analysis.action = "Disable open access to any user";
                 allBucketsAnalysis.push(bucket_acl_analysis);
             }

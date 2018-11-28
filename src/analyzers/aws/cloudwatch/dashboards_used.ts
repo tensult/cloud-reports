@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult,
+    IDictionary, IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class DashboardsUsageAnalyzer extends BaseAnalyzer {
@@ -10,8 +13,10 @@ export class DashboardsUsageAnalyzer extends BaseAnalyzer {
         }
         const dashboards_used: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         dashboards_used.what = "Are CloudWatch Dashboards being used?";
-        dashboards_used.why = "We need to monitor our applications and infrastructure with various metrics and dashboards help us to quickly glance at these graphs";
-        dashboards_used.recommendation = "Recommended to use dashboards for various important metrics such as Errors, Latency and CPU Utilization etc";
+        dashboards_used.why = `We need to monitor our applications and infrastructure with various metrics and
+        dashboards help us to quickly glance at these graphs`;
+        dashboards_used.recommendation = `Recommended to use dashboards for various important
+        metrics such as Errors, Latency and CPU Utilization etc`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allDashboards) {
             const regionDashboards = allDashboards[region];

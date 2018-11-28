@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class GroupsAnalyzerAnalyzer extends BaseAnalyzer {
@@ -11,7 +14,8 @@ export class GroupsAnalyzerAnalyzer extends BaseAnalyzer {
         }
         const iam_groups_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         iam_groups_used.what = "Are IAM groups used for granting permissions?";
-        iam_groups_used.why = "When we use IAM groups to grant access to IAM users then it will be easy to manage access control";
+        iam_groups_used.why = `When we use IAM groups to grant access to
+        IAM users then it will be easy to manage access control`;
         iam_groups_used.recommendation = "Recommended to user IAM groups for granting access to the users";
         const groupsByUser = this.mapGroupsByUser(allGroupUsers);
         const allUserAnalysis: IResourceAnalysisResult[] = [];

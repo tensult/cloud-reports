@@ -1,4 +1,7 @@
-import { CheckAnalysisType, ICheckAnalysisResult, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { CommonUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
@@ -12,13 +15,15 @@ export class RDSInstancesReservationAnalyzer extends BaseAnalyzer {
         }
         const instances_reserved: ICheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
         instances_reserved.what = "Are there any long running instances which should be reserved?";
-        instances_reserved.why = "You can reserve the RDS instance which are you going to run for long time to save the cost.";
+        instances_reserved.why = `You can reserve the RDS instance which
+         are you going to run for long time to save the cost.`;
         instances_reserved.recommendation = "Recommended to reserve all long running instances";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
             allRegionsAnalysis[region] = [];
-            const instanceCountMap = this.getCountOfInstancesReservedByInstanceClassAndEngine(allReservedInstances[region]);
+            const instanceCountMap =
+                this.getCountOfInstancesReservedByInstanceClassAndEngine(allReservedInstances[region]);
             for (const instance of regionInstances) {
                 const instanceAnalysis: IResourceAnalysisResult = {};
                 instanceAnalysis.resource = instance;
@@ -56,9 +61,13 @@ export class RDSInstancesReservationAnalyzer extends BaseAnalyzer {
         return reservedInstances.filter((reservedInstance) => {
             return reservedInstance.State === "active";
         }).reduce((instanceCountMap, reservedInstance) => {
-            instanceCountMap[reservedInstance.DBInstanceClass] = instanceCountMap[reservedInstance.DBInstanceClass] || {};
-            instanceCountMap[reservedInstance.DBInstanceClass][reservedInstance.ProductDescription] = instanceCountMap[reservedInstance.DBInstanceClass][reservedInstance.ProductDescription] || { actual: 0, used: 0 };
-            instanceCountMap[reservedInstance.DBInstanceClass][reservedInstance.ProductDescription].actual += reservedInstance.DBInstanceCount;
+            instanceCountMap[reservedInstance.DBInstanceClass] =
+                instanceCountMap[reservedInstance.DBInstanceClass] || {};
+            instanceCountMap[reservedInstance.DBInstanceClass][reservedInstance.ProductDescription] =
+                instanceCountMap[reservedInstance.DBInstanceClass][reservedInstance.ProductDescription]
+                || { actual: 0, used: 0 };
+            instanceCountMap[reservedInstance.DBInstanceClass][reservedInstance.ProductDescription].actual
+                += reservedInstance.DBInstanceCount;
             return instanceCountMap;
         }, {});
     }

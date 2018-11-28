@@ -28,7 +28,10 @@ export class RedshiftAuditLogsCollector extends BaseCollector {
                     audit_logs[region] = {};
                     const regionClusters = clustersData.clusters[region];
                     for (const cluster of regionClusters) {
-                        const loggingStatus: AWS.Redshift.LoggingStatus = await redshift.describeLoggingStatus({ ClusterIdentifier: cluster.ClusterIdentifier }).promise();
+                        const loggingStatus:
+                            AWS.Redshift.LoggingStatus =
+                            await redshift.describeLoggingStatus
+                                ({ ClusterIdentifier: cluster.ClusterIdentifier }).promise();
                         audit_logs[region][cluster.ClusterIdentifier] = loggingStatus;
                     }
                 } catch (error) {

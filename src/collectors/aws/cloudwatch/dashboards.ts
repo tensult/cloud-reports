@@ -18,7 +18,8 @@ export class DashboardsCollector extends BaseCollector {
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {
-          const dashboardsResponse: AWS.CloudWatch.ListDashboardsOutput = await cloudWatchService.listDashboards({ NextToken: marker }).promise();
+          const dashboardsResponse: AWS.CloudWatch.ListDashboardsOutput =
+            await cloudWatchService.listDashboards({ NextToken: marker }).promise();
           if (dashboardsResponse.DashboardEntries) {
             dashboards[region] = dashboards[region].concat(dashboardsResponse.DashboardEntries);
           }

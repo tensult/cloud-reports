@@ -20,9 +20,11 @@ export class ESReservedInstancesCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const instancesResponse: AWS.ES.DescribeReservedElasticsearchInstancesResponse = await es.describeReservedElasticsearchInstances({ NextToken: marker }).promise();
+                    const instancesResponse: AWS.ES.DescribeReservedElasticsearchInstancesResponse =
+                        await es.describeReservedElasticsearchInstances({ NextToken: marker }).promise();
                     if (instancesResponse && instancesResponse.ReservedElasticsearchInstances) {
-                        reserved_instances[region] = reserved_instances[region].concat(instancesResponse.ReservedElasticsearchInstances);
+                        reserved_instances[region] =
+                            reserved_instances[region].concat(instancesResponse.ReservedElasticsearchInstances);
                         marker = instancesResponse.NextToken;
                         fetchPending = marker !== undefined && marker !== null;
                     } else {

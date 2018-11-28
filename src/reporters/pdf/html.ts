@@ -41,7 +41,7 @@ export async function generateHTML(reportData: any, options?: {
     reportData = processReportData(reportData, options.showIssuesOnly);
     return await new Promise((resolve, reject) => {
         ejs.renderFile(__dirname + "/template.ejs",
-            { reportData }, {}, function (err, html) {
+            { reportData }, {}, function(err, html) {
                 if (err) {
                     reject(err);
                 } else {

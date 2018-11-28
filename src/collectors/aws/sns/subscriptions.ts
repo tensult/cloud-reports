@@ -19,7 +19,9 @@ export class SubscriptionsCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const subscriptionsResponse: AWS.SNS.ListSubscriptionsResponse = await sns.listSubscriptions({ NextToken: marker }).promise();
+                    const subscriptionsResponse:
+                        AWS.SNS.ListSubscriptionsResponse =
+                        await sns.listSubscriptions({ NextToken: marker }).promise();
                     if (subscriptionsResponse.Subscriptions) {
                         subscriptions[region] = subscriptions[region].concat(subscriptionsResponse.Subscriptions);
                     }

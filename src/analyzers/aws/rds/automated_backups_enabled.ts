@@ -1,4 +1,7 @@
-import { CheckAnalysisType, IDictionary, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class RdsAutomatedBackupsEnabledAnalyzer extends BaseAnalyzer {
@@ -10,7 +13,8 @@ export class RdsAutomatedBackupsEnabledAnalyzer extends BaseAnalyzer {
         }
         const automated_backups_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
         automated_backups_enabled.what = "Is Automated backup enabled for RDS instances?";
-        automated_backups_enabled.why = "It is important to enabled automated backups so that incase of hardware failures and accidental data loss, we can recover data.";
+        automated_backups_enabled.why = `It is important to enabled automated backups so that incase of
+        hardware failures and accidental data loss, we can recover data.`;
         automated_backups_enabled.recommendation = "Recommended to enable automated backups for all RDS instances.";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {

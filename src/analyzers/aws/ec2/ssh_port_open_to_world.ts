@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class SSHPortOpenToWorldAnalyzer extends BaseAnalyzer {
@@ -16,7 +19,7 @@ export class SSHPortOpenToWorldAnalyzer extends BaseAnalyzer {
             const regionSecurityGroups = allSecurityGroups[region];
             allRegionsAnalysis[region] = [];
             for (const securityGroup of regionSecurityGroups) {
-                if (securityGroup.GroupName == "default") {
+                if (securityGroup.GroupName === "default") {
                     continue;
                 }
                 const securityGroupAnalysis: IResourceAnalysisResult = {};

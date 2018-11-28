@@ -10,12 +10,13 @@ export class BucketAnalyticsAnalyzer extends BaseAnalyzer {
         }
         const bucket_analytics_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
         bucket_analytics_enabled.what = "Is S3 Bucket Analytics enabled?";
-        bucket_analytics_enabled.why = "Bucket Analytics gives insights into how object are being accessed and using this information we can get life cycle rule to reduce cost.";
+        bucket_analytics_enabled.why = `Bucket Analytics gives insights into how
+        object are being accessed and using this information we can get life cycle rule to reduce cost.`;
         bucket_analytics_enabled.recommendation = "Recommended to enable Analytics for all buckets";
         const allBucketsAnalysis: IResourceAnalysisResult[] = [];
         for (const bucketName in allBucketAnalyticsConfig) {
             const bucket_analysis: IResourceAnalysisResult = {};
-            bucket_analysis.resource = { bucketName, bucketAnalyticsConfig: allBucketAnalyticsConfig[bucketName]  };
+            bucket_analysis.resource = { bucketName, bucketAnalyticsConfig: allBucketAnalyticsConfig[bucketName] };
             bucket_analysis.resourceSummary = {
                 name: "Bucket", value: bucketName,
             };

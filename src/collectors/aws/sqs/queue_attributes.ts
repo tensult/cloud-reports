@@ -26,7 +26,9 @@ export class QueueAttributesCollector extends BaseCollector {
                     queue_attributes[region] = {};
                     for (const queueUrl of queue_urls[region]) {
                         console.log("queueUrl", queueUrl);
-                        const getQueueAttributesResult: AWS.SQS.GetQueueAttributesResult = await sqs.getQueueAttributes({ QueueUrl: queueUrl, AttributeNames: ["All"] }).promise();
+                        const getQueueAttributesResult:
+                            AWS.SQS.GetQueueAttributesResult =
+                            await sqs.getQueueAttributes({ QueueUrl: queueUrl, AttributeNames: ["All"] }).promise();
                         console.log("getQueueAttributesResult", getQueueAttributesResult);
                         if (getQueueAttributesResult.Attributes) {
                             queue_attributes[region][queueUrl] = getQueueAttributesResult.Attributes;

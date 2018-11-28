@@ -14,7 +14,7 @@ export class RdsPubliclyAccessibleAnalyzer extends BaseAnalyzer {
         }
         const publicly_accessible: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         publicly_accessible.what = "Are there any publicly accessible RDS instances?";
-        publicly_accessible.why = `It is important to restrict 
+        publicly_accessible.why = `It is important to restrict
         RDS instances for private access only for most of the usecases`;
         publicly_accessible.recommendation = "Recommended to disable public access for RDS instances";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

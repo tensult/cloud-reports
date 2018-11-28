@@ -1,5 +1,5 @@
 import {
-    CheckAnalysisType, IDictionary, ICheckAnalysisResult,
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
     IResourceAnalysisResult, SeverityStatus,
 } from "../../../types";
 import { BaseAnalyzer } from "../../base";
@@ -15,7 +15,8 @@ export class Alb5xxAlarmsAnalyzer extends BaseAnalyzer {
 
         const alb_5xx_errors_alarms: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         alb_5xx_errors_alarms.what = "Are alarms are enabled for ALB 5XX errors?";
-        alb_5xx_errors_alarms.why = "It is important to set alarms for 5XX Errors as otherwise you won't be aware when the application is failing";
+        alb_5xx_errors_alarms.why = `It is important to set alarms for 5XX Errors
+        as otherwise you won't be aware when the application is failing`;
         alb_5xx_errors_alarms.recommendation = "Recommended to set alarm for 5XX Errors to take appropriative action.";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allELBs) {

@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class PostgreSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
@@ -9,14 +12,16 @@ export class PostgreSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
         }
         const postgre_sql_db_port_open_to_world: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         postgre_sql_db_port_open_to_world.what = "Is PostgreSQL port open to world?";
-        postgre_sql_db_port_open_to_world.why = "We should always restrict PostgreSQL port only intended parties to access";
-        postgre_sql_db_port_open_to_world.recommendation = "Recommended to restrict PostgreSQL port in security groups to specific IPs";
+        postgre_sql_db_port_open_to_world.why = `We should always restrict PostgreSQL
+        port only intended parties to access`;
+        postgre_sql_db_port_open_to_world.recommendation = `Recommended to restrict PostgreSQL
+        port in security groups to specific IPs`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allSecurityGroups) {
             const regionSecurityGroups = allSecurityGroups[region];
             allRegionsAnalysis[region] = [];
             for (const securityGroup of regionSecurityGroups) {
-                if (securityGroup.GroupName == "default") {
+                if (securityGroup.GroupName === "default") {
                     continue;
                 }
                 const securityGroupAnalysis: IResourceAnalysisResult = {};

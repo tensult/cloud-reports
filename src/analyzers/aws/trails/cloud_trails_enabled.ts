@@ -1,4 +1,7 @@
-import { CheckAnalysisType, ICheckAnalysisResult, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class CloudTrailsEnabledAnalyzer extends BaseAnalyzer {
@@ -10,7 +13,8 @@ export class CloudTrailsEnabledAnalyzer extends BaseAnalyzer {
         }
         const cloud_trails_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         cloud_trails_enabled.what = "Is cloud trails enabled for account?";
-        cloud_trails_enabled.why = "Cloud trails helps understand who did what and this is utmost important when a security breach happens";
+        cloud_trails_enabled.why = `Cloud trails helps understand who did what
+        and this is utmost important when a security breach happens`;
         cloud_trails_enabled.recommendation = "Recommended to enable cloud trails for all regions";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allTrails) {

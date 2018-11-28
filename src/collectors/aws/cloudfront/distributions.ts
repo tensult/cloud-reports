@@ -14,8 +14,11 @@ export class DistributionsCollector extends BaseCollector {
             let marker: string | undefined;
             let distributions: AWS.CloudFront.DistributionSummary[] = [];
             while (fetchPending) {
-                const cloudfrontDistributionsData: AWS.CloudFront.ListDistributionsResult = await cloudfront.listDistributions({ Marker: marker }).promise();
-                if (cloudfrontDistributionsData.DistributionList && cloudfrontDistributionsData.DistributionList.Items) {
+                const cloudfrontDistributionsData:
+                    AWS.CloudFront.ListDistributionsResult =
+                    await cloudfront.listDistributions({ Marker: marker }).promise();
+                if (cloudfrontDistributionsData.DistributionList &&
+                    cloudfrontDistributionsData.DistributionList.Items) {
                     distributions = distributions.concat(cloudfrontDistributionsData.DistributionList.Items);
                     marker = cloudfrontDistributionsData.DistributionList.NextMarker;
                     fetchPending = marker !== undefined && marker !== null;

@@ -1,5 +1,8 @@
 import * as Moment from "moment";
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
@@ -15,7 +18,8 @@ export class VolumeSnapshotsRegularityAnalyzer extends BaseAnalyzer {
         const currentMoment = Moment();
         const volume_snapshots_regularity: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
         volume_snapshots_regularity.what = "Are Snapshots being taken for EBS volumes?";
-        volume_snapshots_regularity.why = "If we take regular snapshots of EBS volumes then it prevents data loss incase of volume failure or accidental deletes";
+        volume_snapshots_regularity.why = `If we take regular snapshots of EBS volumes
+        then it prevents data loss incase of volume failure or accidental deletes`;
         volume_snapshots_regularity.recommendation = "Recommended to take regular snapshots for all in-use volumes";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allVolumes) {
@@ -34,7 +38,8 @@ export class VolumeSnapshotsRegularityAnalyzer extends BaseAnalyzer {
                 const latestSnapshot = this.getLatestSnapshot(allSnapshots[region][volume.VolumeId]);
                 if (latestSnapshot) {
                     const lastSnapshotDate = Moment(latestSnapshot.StartTime);
-                    const lastSnapshotInDays = Math.floor(Moment.duration(Moment().diff(Moment(lastSnapshotDate))).asDays());
+                    const lastSnapshotInDays = Math.floor(Moment.duration(Moment().
+                        diff(Moment(lastSnapshotDate))).asDays());
                     if (lastSnapshotInDays <= 7) {
                         volumeAnalysis.severity = SeverityStatus.Good;
                         volumeAnalysis.message = `Last snapshot was taken ${lastSnapshotInDays} days ago`;

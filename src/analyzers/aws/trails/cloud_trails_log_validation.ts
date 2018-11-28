@@ -1,4 +1,7 @@
-import { CheckAnalysisType, ICheckAnalysisResult, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class CloudTrailsLogValidationAnalyzer extends BaseAnalyzer {
@@ -10,7 +13,8 @@ export class CloudTrailsLogValidationAnalyzer extends BaseAnalyzer {
         }
         const cloud_trails_log_validation: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
         cloud_trails_log_validation.what = "Is log file validation enabled for cloud trails?";
-        cloud_trails_log_validation.why = "Cloud trails helps understand who did what so enabling log file validation keep their integrity intact";
+        cloud_trails_log_validation.why = `Cloud trails helps understand who did what so
+        enabling log file validation keep their integrity intact`;
         cloud_trails_log_validation.recommendation = "Recommended to enable log file validation for all cloud trails";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allTrails) {

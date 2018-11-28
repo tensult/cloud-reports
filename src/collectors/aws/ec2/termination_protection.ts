@@ -24,8 +24,13 @@ export class TerminationProtectionCollector extends BaseCollector {
                     const ec2 = this.getClient(serviceName, region) as AWS.EC2;
                     termination_protection[region] = {};
                     for (const instance of instances[region]) {
-                        const instanceAttributeResponse: AWS.EC2.InstanceAttribute = await ec2.describeInstanceAttribute({ Attribute: "disableApiTermination", InstanceId: instance.InstanceId }).promise();
-                        termination_protection[region][instance.InstanceId] = instanceAttributeResponse.DisableApiTermination;
+                        const instanceAttributeResponse: AWS.EC2.InstanceAttribute =
+                            await ec2.describeInstanceAttribute({
+                                Attribute: "disableApiTermination",
+                                InstanceId: instance.InstanceId,
+                            }).promise();
+                        termination_protection[region][instance.InstanceId] =
+                            instanceAttributeResponse.DisableApiTermination;
                     }
                 } catch (error) {
                     AWSErrorHandler.handle(error);

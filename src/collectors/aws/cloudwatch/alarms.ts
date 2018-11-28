@@ -18,7 +18,8 @@ export class AlarmsCollector extends BaseCollector {
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {
-          const alarmsResponse: AWS.CloudWatch.Types.DescribeAlarmsOutput = await CloudWatchService.describeAlarms({ NextToken: marker }).promise();
+          const alarmsResponse: AWS.CloudWatch.Types.DescribeAlarmsOutput =
+            await CloudWatchService.describeAlarms({ NextToken: marker }).promise();
           if (alarmsResponse.MetricAlarms) {
             alarms[region] = alarms[region].concat(alarmsResponse.MetricAlarms);
           }

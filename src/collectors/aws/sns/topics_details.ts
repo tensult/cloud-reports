@@ -28,10 +28,14 @@ export class TopicsDetailsCollector extends BaseCollector {
                     const allRegionTopicDetails: AWS.SNS.TopicAttributesMap[] = [];
                     for (const topic of regionTopics) {
                         if (topic.TopicArn) {
-                            const topicAttributeDetails: AWS.SNS.GetTopicAttributesResponse = await snsService.getTopicAttributes({ TopicArn: topic.TopicArn }).promise();
+                            const topicAttributeDetails:
+                                AWS.SNS.GetTopicAttributesResponse =
+                                await snsService.getTopicAttributes({ TopicArn: topic.TopicArn }).promise();
                             if (topicAttributeDetails.Attributes) {
-                                topicAttributeDetails.Attributes.Policy = JSON.parse(topicAttributeDetails.Attributes.Policy);
-                                topicAttributeDetails.Attributes.EffectiveDeliveryPolicy = JSON.parse(topicAttributeDetails.Attributes.EffectiveDeliveryPolicy);
+                                topicAttributeDetails.Attributes.Policy =
+                                    JSON.parse(topicAttributeDetails.Attributes.Policy);
+                                topicAttributeDetails.Attributes.EffectiveDeliveryPolicy =
+                                    JSON.parse(topicAttributeDetails.Attributes.EffectiveDeliveryPolicy);
                                 allRegionTopicDetails.push(topicAttributeDetails.Attributes);
                             }
                         }

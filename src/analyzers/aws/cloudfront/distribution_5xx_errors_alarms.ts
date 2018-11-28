@@ -1,5 +1,5 @@
 import {
-    CheckAnalysisType, IDictionary, ICheckAnalysisResult,
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
     IResourceAnalysisResult, SeverityStatus,
 } from "../../../types";
 import { CloudFrontUtil } from "../../../utils/aws/cloudfront";

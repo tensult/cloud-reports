@@ -8,9 +8,10 @@ export class DomainsTransferLockAnalyzer extends BaseAnalyzer {
         if (!allDomains || allDomains.length === 0) {
             return undefined;
         }
-        const domains_transfer_lock: ICheckAnalysisResult = {type: CheckAnalysisType.Reliability};
+        const domains_transfer_lock: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
         domains_transfer_lock.what = "Is transfer lock enabled for the domains?";
-        domains_transfer_lock.why = "It is important to enable transfer lock for domains as it protects someone from claiming them";
+        domains_transfer_lock.why = `It is important to enable transfer lock
+        for domains as it protects someone from claiming them`;
         domains_transfer_lock.recommendation = "Recommended to enable transfer lock for all your domains";
         const allDomainAnalysis: IResourceAnalysisResult[] = [];
 
@@ -30,7 +31,7 @@ export class DomainsTransferLockAnalyzer extends BaseAnalyzer {
             };
             allDomainAnalysis.push(domain_analysis);
         }
-        domains_transfer_lock.regions = { global : allDomainAnalysis};
+        domains_transfer_lock.regions = { global: allDomainAnalysis };
         return { domains_transfer_lock };
     }
 }

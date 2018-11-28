@@ -41,7 +41,7 @@ export class ApiRequestLogsAnalyzer extends BaseAnalyzer {
                     } else {
                         apiStageAnalysis.severity = SeverityStatus.Info;
                         apiStageAnalysis.message = "Request Logging is not enabled";
-                        apiStageAnalysis.action = `Enable Request Logging for API if 
+                        apiStageAnalysis.action = `Enable Request Logging for API if
                         it doesn't deal with any sensitive data`;
                     }
                     allRegionsAnalysis[region].push(apiStageAnalysis);

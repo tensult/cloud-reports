@@ -20,10 +20,12 @@ export class EC2InstancesCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const instancesResponse: AWS.EC2.DescribeInstancesResult = await ec2.describeInstances({ NextToken: marker }).promise();
+                    const instancesResponse: AWS.EC2.DescribeInstancesResult =
+                        await ec2.describeInstances({ NextToken: marker }).promise();
                     if (instancesResponse && instancesResponse.Reservations) {
                         instances[region] = instances[region].concat(
-                            instancesResponse.Reservations.reduce((instancesFromReservations: AWS.EC2.Instance[], reservation) => {
+                            instancesResponse.Reservations.reduce((instancesFromReservations:
+                                AWS.EC2.Instance[],                reservation) => {
                                 if (!reservation.Instances) {
                                     return instancesFromReservations;
                                 } else {

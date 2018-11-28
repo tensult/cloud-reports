@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
@@ -11,10 +14,13 @@ export class RDSInstanceCPUUtilizationAlarmAnalyzer extends BaseAnalyzer {
         }
         const allInstances: any[] = fullReport["aws.rds"].instances;
 
-        const rds_instance_cpu_utilization_alarm: ICheckAnalysisResult = { type: [CheckAnalysisType.PerformanceEfficiency] };
+        const rds_instance_cpu_utilization_alarm:
+            ICheckAnalysisResult = { type: [CheckAnalysisType.PerformanceEfficiency] };
         rds_instance_cpu_utilization_alarm.what = "Are alarms are enabled for RDS instance CPU utilization?";
-        rds_instance_cpu_utilization_alarm.why = "It is important to set alarms for RDS CPU utilization as when utilization is high then the application performance will be degraded.";
-        rds_instance_cpu_utilization_alarm.recommendation = "Recommended to set alarms for RDS CPU utilization to take appropriative action.";
+        rds_instance_cpu_utilization_alarm.why = `It is important to set alarms for RDS CPU utilization
+        as when utilization is high then the application performance will be degraded.`;
+        rds_instance_cpu_utilization_alarm.recommendation = `Recommended to set alarms for RDS CPU
+        utilization to take appropriative action.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -26,8 +32,8 @@ export class RDSInstanceCPUUtilizationAlarmAnalyzer extends BaseAnalyzer {
                     continue;
                 }
                 const alarmAnalysis: IResourceAnalysisResult = {};
-                const instanceAlarms =  alarmsMapByInstance[instance.DBInstanceIdentifier];
-                alarmAnalysis.resource = {instance, alarms: instanceAlarms};
+                const instanceAlarms = alarmsMapByInstance[instance.DBInstanceIdentifier];
+                alarmAnalysis.resource = { instance, alarms: instanceAlarms };
                 alarmAnalysis.resourceSummary = {
                     name: "DBInstance",
                     value: instance.DBInstanceIdentifier,
@@ -67,9 +73,9 @@ export class RDSInstanceCPUUtilizationAlarmAnalyzer extends BaseAnalyzer {
     private isCPUUtilizationAlarmPresent(alarms) {
         return alarms && alarms.some((alarm) => {
             return alarm.ActionsEnabled &&
-            alarm.AlarmActions &&
-            alarm.AlarmActions.length &&
-            alarm.MetricName === "CPUUtilization";
+                alarm.AlarmActions &&
+                alarm.AlarmActions.length &&
+                alarm.MetricName === "CPUUtilization";
         });
     }
 }

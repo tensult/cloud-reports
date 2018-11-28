@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class SecureListenerAnalyzer extends BaseAnalyzer {
@@ -21,7 +24,7 @@ export class SecureListenerAnalyzer extends BaseAnalyzer {
             for (const elb of regionElbs) {
                 const elbListeners = allElbListeners[region][elb.LoadBalancerName];
                 const elb_analysis: IResourceAnalysisResult = {};
-                elb_analysis.resource = { name: elb.LoadBalancerName, listeners: elbListeners};
+                elb_analysis.resource = { name: elb.LoadBalancerName, listeners: elbListeners };
                 elb_analysis.resourceSummary = {
                     name: "LoadBalancer",
                     value: elb.LoadBalancerName,

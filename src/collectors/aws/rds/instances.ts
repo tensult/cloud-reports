@@ -22,7 +22,8 @@ export class RDSInstancesCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const instancesResponse: AWS.RDS.DBInstanceMessage = await rds.describeDBInstances({ Marker: marker }).promise();
+                    const instancesResponse: AWS.RDS.DBInstanceMessage =
+                        await rds.describeDBInstances({ Marker: marker }).promise();
                     instances[region] = instances[region].concat(instancesResponse.DBInstances);
                     marker = instancesResponse.Marker;
                     fetchPending = marker !== undefined;

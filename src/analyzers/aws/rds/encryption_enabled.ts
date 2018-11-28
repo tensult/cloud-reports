@@ -1,4 +1,7 @@
-import { CheckAnalysisType, ICheckAnalysisResult, IDictionary, ResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class RdsEncryptionEnabledAnalyzer extends BaseAnalyzer {
@@ -11,13 +14,14 @@ export class RdsEncryptionEnabledAnalyzer extends BaseAnalyzer {
         const encryption_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         encryption_enabled.what = "Is encryption enabled for RDS instances?";
         encryption_enabled.why = "It is important to encrypt data at rest";
-        encryption_enabled.recommendation = "Recommended to enable encryption for RDS instance as it provides additional layer of security";
-        const allRegionsAnalysis: IDictionary<ResourceAnalysisResult[]> = {};
+        encryption_enabled.recommendation = `Recommended to enable encryption for
+        RDS instance as it provides additional layer of security`;
+        const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
             allRegionsAnalysis[region] = [];
             for (const instance of regionInstances) {
-                const instance_analysis: ResourceAnalysisResult = {};
+                const instance_analysis: IResourceAnalysisResult = {};
                 instance_analysis.resource = instance;
                 instance_analysis.resourceSummary = {
                     name: "DBInstance",

@@ -18,7 +18,8 @@ export class BucketAccessLogsCollector extends BaseCollector {
             const bucketsData = await CollectorUtil.cachedCollect(bucketsCollector);
             for (const bucket of bucketsData.buckets) {
                 try {
-                    const s3BucketAccessLogs: AWS.S3.GetBucketLoggingOutput = await s3.getBucketLogging({ Bucket: bucket.Name }).promise();
+                    const s3BucketAccessLogs:
+                        AWS.S3.GetBucketLoggingOutput = await s3.getBucketLogging({ Bucket: bucket.Name }).promise();
                     bucket_access_logs[bucket.Name] = s3BucketAccessLogs;
                 } catch (error) {
                     AWSErrorHandler.handle(error);

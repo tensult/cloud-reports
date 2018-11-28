@@ -19,7 +19,8 @@ export class VolumeSnapshotsCollector extends BaseCollector {
         const snapshots = {};
         try {
             const volumesData = await CollectorUtil.cachedCollect(volumesCollector);
-            const dataStringsToSearch = CommonUtil.removeDuplicates([this.getDateStringForSearch(30), this.getDateStringForSearch(0)]);
+            const dataStringsToSearch = CommonUtil.removeDuplicates([this.getDateStringForSearch(30),
+            this.getDateStringForSearch(0)]);
 
             for (const region of ec2Regions) {
                 try {
@@ -40,7 +41,8 @@ export class VolumeSnapshotsCollector extends BaseCollector {
                                 NextToken: marker,
                             }).promise();
                             if (snapshotsResponse.Snapshots) {
-                                snapshots[region][volume.VolumeId] = snapshots[region][volume.VolumeId].concat(snapshotsResponse.Snapshots);
+                                snapshots[region][volume.VolumeId] =
+                                    snapshots[region][volume.VolumeId].concat(snapshotsResponse.Snapshots);
                             }
                             marker = snapshotsResponse.NextToken;
                             fetchPending = marker !== undefined;

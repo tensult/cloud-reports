@@ -20,7 +20,8 @@ export class VolumesCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const volumesResponse: AWS.EC2.DescribeVolumesResult = await ec2.describeVolumes({ NextToken: marker }).promise();
+                    const volumesResponse: AWS.EC2.DescribeVolumesResult =
+                        await ec2.describeVolumes({ NextToken: marker }).promise();
                     if (volumesResponse.Volumes) {
                         volumes[region] = volumes[region].concat(volumesResponse.Volumes);
                     }

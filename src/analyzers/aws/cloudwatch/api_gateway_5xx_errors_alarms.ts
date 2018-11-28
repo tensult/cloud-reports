@@ -1,6 +1,6 @@
 import {
-    ICheckAnalysisResult, CheckAnalysisType,
-    IDictionary, IResourceAnalysisResult, SeverityStatus
+    CheckAnalysisType, ICheckAnalysisResult,
+    IDictionary, IResourceAnalysisResult, SeverityStatus,
 } from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
@@ -15,7 +15,8 @@ export class ApiGateway5xxAlarmsAnalyzer extends BaseAnalyzer {
 
         const api_5xx_errors_alarms: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         api_5xx_errors_alarms.what = "Are alarms are enabled for Api 5XX errors?";
-        api_5xx_errors_alarms.why = "It is important to set alarms for 5XX Errors as otherwise you won't be aware when the application is failing";
+        api_5xx_errors_alarms.why = `It is important to set alarms for 5XX Errors as otherwise
+        you won't be aware when the application is failing`;
         api_5xx_errors_alarms.recommendation = "Recommended to set alarm for 5XX Errors to take appropriative action.";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allApis) {

@@ -27,7 +27,8 @@ export class ApiStagesCollector extends BaseCollector {
                     const regionApis = apis[region];
                     const regionApiStages: IDictionary<AWS.APIGateway.Stage[]> = {};
                     for (const api of regionApis) {
-                        const apiStages: AWS.APIGateway.Types.Stages = await apiGatewayService.getStages({ restApiId: api.id }).promise();
+                        const apiStages: AWS.APIGateway.Types.Stages =
+                            await apiGatewayService.getStages({ restApiId: api.id }).promise();
                         if (apiStages.item) {
                             regionApiStages[api.id] = apiStages.item;
                         }

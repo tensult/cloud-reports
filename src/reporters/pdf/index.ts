@@ -1,20 +1,15 @@
-const pdf = require("html-pdf");
-const htmlGenerator = require("./html");
+import pdf = require("html-pdf");
+import htmlGenerator = require("./html");
 
 const pdfOptions = {
-    format: "A4",
+    base: `file://${__dirname}/../html`,
     border: {
-        top: "0.2in", // default is 0, units: mm, cm, in, px
-        right: "0.2in",
         bottom: "0.2in",
         left: "0.2in",
+        right: "0.2in",
+        top: "0.2in", // default is 0, units: mm, cm, in, px
     },
-    header: {
-        height: "15mm",
-    },
-    base: `file://${__dirname}/../html`,
     footer: {
-        height: "15mm",
         contents: {
             default: `
         <div class="footer">
@@ -27,6 +22,11 @@ const pdfOptions = {
           </span>
         </div>`,
         },
+        height: "15mm",
+    },
+    format: "A4",
+    header: {
+        height: "15mm",
     },
 };
 

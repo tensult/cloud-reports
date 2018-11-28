@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class SecurityGroupsWidePortRangeAnalyzer extends BaseAnalyzer {
@@ -9,14 +12,15 @@ export class SecurityGroupsWidePortRangeAnalyzer extends BaseAnalyzer {
         }
         const security_groups_wide_port_range: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         security_groups_wide_port_range.what = "Are there any security groups with wide range of ports?";
-        security_groups_wide_port_range.why = "Security group should not expose wide range of port as it will be valnerable for port scan attacks";
+        security_groups_wide_port_range.why = `Security group should not expose wide range of
+        port as it will be valnerable for port scan attacks`;
         security_groups_wide_port_range.recommendation = "Recommended to expose only port used by application";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allSecurityGroups) {
             const regionSecurityGroups = allSecurityGroups[region];
             allRegionsAnalysis[region] = [];
             for (const securityGroup of regionSecurityGroups) {
-                if (securityGroup.GroupName == "default") {
+                if (securityGroup.GroupName === "default") {
                     continue;
                 }
                 const securityGroupAnalysis: IResourceAnalysisResult = {};

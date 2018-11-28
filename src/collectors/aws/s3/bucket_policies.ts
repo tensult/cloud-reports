@@ -19,7 +19,8 @@ export class BucketPoliciesCollector extends BaseCollector {
             const bucketsData = await CollectorUtil.cachedCollect(bucketsCollector);
             for (const bucket of bucketsData.buckets) {
                 try {
-                    const s3BucketPolicy: AWS.S3.GetBucketPolicyOutput = await s3.getBucketPolicy({ Bucket: bucket.Name }).promise();
+                    const s3BucketPolicy:
+                        AWS.S3.GetBucketPolicyOutput = await s3.getBucketPolicy({ Bucket: bucket.Name }).promise();
                     bucket_policies[bucket.Name] = s3BucketPolicy.Policy;
                 } catch (err) {
                     AWSErrorHandler.handle(err);

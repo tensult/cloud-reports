@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class MSSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
@@ -10,13 +13,14 @@ export class MSSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
         const mssql_db_port_open_to_world: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         mssql_db_port_open_to_world.what = "Is MSSQL port open to world?";
         mssql_db_port_open_to_world.why = "We should always restrict MSSQL port only intended parties to access";
-        mssql_db_port_open_to_world.recommendation = "Recommended to restrict MSSQL port in security groups to specific IPs";
+        mssql_db_port_open_to_world.recommendation = `Recommended to restrict MSSQL
+        port in security groups to specific IPs`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allSecurityGroups) {
             const regionSecurityGroups = allSecurityGroups[region];
             allRegionsAnalysis[region] = [];
             for (const securityGroup of regionSecurityGroups) {
-                if (securityGroup.GroupName == "default") {
+                if (securityGroup.GroupName === "default") {
                     continue;
                 }
                 const securityGroupAnalysis: IResourceAnalysisResult = {};

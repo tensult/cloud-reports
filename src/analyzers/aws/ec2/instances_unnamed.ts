@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
@@ -6,7 +9,7 @@ export class InstancesUnnamedAnalyzer extends BaseAnalyzer {
 
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
-        if ( !allInstances) {
+        if (!allInstances) {
             return undefined;
         }
         const unnamed_instances: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
@@ -19,7 +22,11 @@ export class InstancesUnnamedAnalyzer extends BaseAnalyzer {
             allRegionsAnalysis[region] = [];
             for (const instance of regionInstances) {
                 const instanceAnalysis: IResourceAnalysisResult = {};
-                instanceAnalysis.resource = { instanceName: ResourceUtil.getNameByTags(instance), instanceId: instance.InstanceId, security_groups: instance.SecurityGroups } ;
+                instanceAnalysis.resource = {
+                    instanceId: instance.InstanceId,
+                    instanceName: ResourceUtil.getNameByTags(instance),
+                    security_groups: instance.SecurityGroups,
+                };
                 instanceAnalysis.resourceSummary = {
                     name: "Instance",
                     value: `${instanceAnalysis.resource.instanceName} | ${instance.InstanceId}`,

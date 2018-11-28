@@ -14,8 +14,10 @@ export class SubnetsWithIgwRouteAnalyzer extends BaseAnalyzer {
         }
         const subnets_with_igw_route: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         subnets_with_igw_route.what = "Which subnets have route to public?";
-        subnets_with_igw_route.why = "It is important to know which subnets have routes to public and can become valnerable to attacks. Also sometimes we misconfigure private subnets with public routes";
-        subnets_with_igw_route.recommendation = "Recommended to keep only private routes for private subnets and protect public subnets with network acls";
+        subnets_with_igw_route.why = `It is important to know which subnets have routes to
+        public and can become valnerable to attacks. Also sometimes we misconfigure private subnets with public routes`;
+        subnets_with_igw_route.recommendation = `Recommended to keep only private routes for private
+        subnets and protect public subnets with network acls`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allSubnets) {
             const regionSubnets = allSubnets[region];
@@ -26,7 +28,11 @@ export class SubnetsWithIgwRouteAnalyzer extends BaseAnalyzer {
                 }
                 const subnetAnalysis: IResourceAnalysisResult = {};
                 const subnetRouteTable = this.getSubnetRouteTable(subnet.SubnetId, subnet.VpcId, allRoutes[region]);
-                subnetAnalysis.resource = { subnetName: this.getName(subnet), id: subnet.SubnetId, route_table: subnetRouteTable };
+                subnetAnalysis.resource = {
+                    id: subnet.SubnetId, route_table: subnetRouteTable,
+                    subnetName: this.getName(subnet),
+
+                };
                 subnetAnalysis.resourceSummary = {
                     name: "Subnet",
                     value: `${subnetAnalysis.resource.subnetName} | ${subnet.SubnetId}`,
@@ -57,7 +63,7 @@ export class SubnetsWithIgwRouteAnalyzer extends BaseAnalyzer {
 
     private getName(subnet: any) {
         const nameTags = subnet.Tags.filter((tag) => {
-            return tag.Key == "Name";
+            return tag.Key === "Name";
         });
         if (nameTags.length) {
             return nameTags[0].Value;

@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
@@ -6,7 +9,7 @@ export class VolumesEncryptionEnabledAnalyzer extends BaseAnalyzer {
 
     public analyze(params: any, fullReport?: any): any {
         const allVolumes = params.volumes;
-        if ( !allVolumes) {
+        if (!allVolumes) {
             return undefined;
         }
         const volumes_encrypted_at_rest: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
@@ -19,7 +22,7 @@ export class VolumesEncryptionEnabledAnalyzer extends BaseAnalyzer {
             allRegionsAnalysis[region] = [];
             for (const volume of regionVolumes) {
                 const volumeAnalysis: IResourceAnalysisResult = {};
-                volumeAnalysis.resource = volume ;
+                volumeAnalysis.resource = volume;
                 volumeAnalysis.resourceSummary = {
                     name: "Volume",
                     value: `${ResourceUtil.getNameByTags(volume)} | ${volume.VolumeId}`,

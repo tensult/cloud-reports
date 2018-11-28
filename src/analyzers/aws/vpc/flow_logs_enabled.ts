@@ -1,4 +1,7 @@
-import { CheckAnalysisType, ICheckAnalysisResult, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class FlowLogsEnabledAnalyzer extends BaseAnalyzer {
@@ -9,7 +12,7 @@ export class FlowLogsEnabledAnalyzer extends BaseAnalyzer {
         if (!allFlowLogs || !allVpcs) {
             return undefined;
         }
-        const flow_logs_enabled: ICheckAnalysisResult = {type: CheckAnalysisType.Security};
+        const flow_logs_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         flow_logs_enabled.what = "Is flow logs enabled for vpc?";
         flow_logs_enabled.why = "VPC flow logs tells about the request patterns and helps to detect security threats";
         flow_logs_enabled.recommendation = "Recommended to enable flow logs for vpcs";

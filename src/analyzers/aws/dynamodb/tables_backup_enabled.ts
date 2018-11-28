@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class DynamoDBTablesBackupEnabledAnalyzer extends BaseAnalyzer {
@@ -10,7 +13,8 @@ export class DynamoDBTablesBackupEnabledAnalyzer extends BaseAnalyzer {
         }
         const tables_backup_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
         tables_backup_enabled.what = "Are there any DynamoDB table without backup enabled?";
-        tables_backup_enabled.why = "DynamoDB can be accidentally deleted and data can be lost when tables are without backup enabled";
+        tables_backup_enabled.why = `DynamoDB can be accidentally deleted and
+        data can be lost when tables are without backup enabled`;
         tables_backup_enabled.recommendation = "Recommended to enable backup for all production critical tables";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allTablesBackupStatuses) {
@@ -20,8 +24,7 @@ export class DynamoDBTablesBackupEnabledAnalyzer extends BaseAnalyzer {
                 const tableBackupStatus = regionTablesBackupStatuses[tableName];
                 const tableBackupEnableStatusAnalysis: IResourceAnalysisResult = {};
                 tableBackupEnableStatusAnalysis.resource = {
-                    tableName,
-                    tableBackupStatus: tableBackupStatus.ContinuousBackupsStatus,
+                    tableBackupStatus: tableBackupStatus.ContinuousBackupsStatus, tableName,
                 };
                 tableBackupEnableStatusAnalysis.resourceSummary = {
                     name: "Table",
@@ -40,7 +43,8 @@ export class DynamoDBTablesBackupEnabledAnalyzer extends BaseAnalyzer {
                 const tablePointInTimeRecoveryStatusAnalysis: IResourceAnalysisResult = {};
                 tablePointInTimeRecoveryStatusAnalysis.resource = {
                     tableName,
-                    tablePointInTimeRecoveryStatus: tableBackupStatus.PointInTimeRecoveryDescription.PointInTimeRecoveryStatus,
+                    tablePointInTimeRecoveryStatus:
+                        tableBackupStatus.PointInTimeRecoveryDescription.PointInTimeRecoveryStatus,
                 };
                 tablePointInTimeRecoveryStatusAnalysis.resourceSummary = {
                     name: "Table",

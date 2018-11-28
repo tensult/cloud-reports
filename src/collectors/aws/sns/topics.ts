@@ -19,7 +19,8 @@ export class TopicsCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const topicsResponse: AWS.SNS.ListTopicsResponse = await sns.listTopics({ NextToken: marker }).promise();
+                    const topicsResponse: AWS.SNS.ListTopicsResponse =
+                        await sns.listTopics({ NextToken: marker }).promise();
                     if (topicsResponse.Topics) {
                         topics[region] = topics[region].concat(topicsResponse.Topics);
                     }

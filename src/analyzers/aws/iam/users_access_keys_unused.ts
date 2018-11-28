@@ -1,4 +1,4 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import { CheckAnalysisType, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 const millsIn60Days = 60 * 24 * 60 * 60 * 1000;
@@ -15,15 +15,16 @@ export class UsersAccessKeysUnusedAnalyzer extends BaseAnalyzer {
         });
         const users_access_keys_unused: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         users_access_keys_unused.what = "Are there any user access keys unused?";
-        users_access_keys_unused.why = "It is important to delete unused or unneeded access keys as it reduces risk of misusing them";
+        users_access_keys_unused.why = `It is important to delete unused or
+        unneeded access keys as it reduces risk of misusing them`;
         users_access_keys_unused.recommendation = "Recommended to delete unused user access keys regularly";
         const allUsersAccessKeysAnalysis: IResourceAnalysisResult[] = [];
         userCredentials.forEach((credential) => {
             const user_access_keys_unused: IResourceAnalysisResult = {};
             user_access_keys_unused.resource = credential;
             user_access_keys_unused.resourceSummary = {
-                 name: "User",
-                 value: user_access_keys_unused.resource.user,
+                name: "User",
+                value: user_access_keys_unused.resource.user,
             };
             const access_key_1_used = this.isUserAccessKeysActivelyUsed(credential.access_key_1_last_used_date);
             const access_key_2_used = this.isUserAccessKeysActivelyUsed(credential.access_key_2_last_used_date);

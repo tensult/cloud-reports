@@ -20,7 +20,8 @@ export class ApisCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const apisResponse: AWS.APIGateway.RestApis = await apiGateway.getRestApis({ position: marker }).promise();
+                    const apisResponse: AWS.APIGateway.RestApis =
+                        await apiGateway.getRestApis({ position: marker }).promise();
                     if (apisResponse.items) {
                         apis[region] = apis[region].concat(apisResponse.items);
                     }

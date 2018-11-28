@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class SQSQueueSizeAlarmAnalyzer extends BaseAnalyzer {
@@ -12,8 +15,10 @@ export class SQSQueueSizeAlarmAnalyzer extends BaseAnalyzer {
 
         const sqs_queue_size_alarm: ICheckAnalysisResult = { type: [CheckAnalysisType.OperationalExcellence] };
         sqs_queue_size_alarm.what = "Are alarms are enabled for SQS Queue size?";
-        sqs_queue_size_alarm.why = "It is important to set alarms for SQS Queue size as when the consumers are failing to process the messages from queue then we will get notified";
-        sqs_queue_size_alarm.recommendation = "Recommended to set alarms for SQS Queue size to take appropriative action.";
+        sqs_queue_size_alarm.why = `It is important to set alarms for SQS Queue size as when
+        the consumers are failing to process the messages from queue then we will get notified`;
+        sqs_queue_size_alarm.recommendation = `Recommended to set alarms
+        for SQS Queue size to take appropriative action.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allQueueUrls) {
             const regionQueues = allQueueUrls[region];
@@ -23,8 +28,8 @@ export class SQSQueueSizeAlarmAnalyzer extends BaseAnalyzer {
             for (const queueUrl of regionQueues) {
                 const alarmAnalysis: IResourceAnalysisResult = {};
                 const queueName = queueUrl.split("/").pop();
-                const queueAlarms =  alarmsMapByQueue[queueName];
-                alarmAnalysis.resource = {queueName, alarms: queueAlarms};
+                const queueAlarms = alarmsMapByQueue[queueName];
+                alarmAnalysis.resource = { queueName, alarms: queueAlarms };
                 alarmAnalysis.resourceSummary = {
                     name: "Queue",
                     value: queueName,
@@ -64,9 +69,9 @@ export class SQSQueueSizeAlarmAnalyzer extends BaseAnalyzer {
     private isQueueSizeAlarmPresent(alarms) {
         return alarms && alarms.some((alarm) => {
             return alarm.ActionsEnabled &&
-            alarm.AlarmActions &&
-            alarm.AlarmActions.length &&
-            alarm.MetricName.startsWith("ApproximateNumberOfMessages");
+                alarm.AlarmActions &&
+                alarm.AlarmActions.length &&
+                alarm.MetricName.startsWith("ApproximateNumberOfMessages");
         });
     }
 }

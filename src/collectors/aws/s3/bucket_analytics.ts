@@ -23,8 +23,13 @@ export class BucketAnalyticsCollector extends BaseCollector {
                 let marker: string | undefined;
                 try {
                     while (fetchPending) {
-                        const s3BucketAnalyticsConfigOutput: AWS.S3.ListBucketAnalyticsConfigurationsOutput = await s3.listBucketAnalyticsConfigurations({ Bucket: bucket.Name, ContinuationToken: marker }).promise();
-                        bucket_analytics[bucket.Name] = bucket_analytics[bucket.Name].concat(s3BucketAnalyticsConfigOutput.AnalyticsConfigurationList);
+                        const s3BucketAnalyticsConfigOutput:
+                            AWS.S3.ListBucketAnalyticsConfigurationsOutput =
+                            await s3.listBucketAnalyticsConfigurations
+                                ({ Bucket: bucket.Name, ContinuationToken: marker }).promise();
+                        bucket_analytics[bucket.Name] =
+                            bucket_analytics[bucket.Name].concat
+                                (s3BucketAnalyticsConfigOutput.AnalyticsConfigurationList);
                         marker = s3BucketAnalyticsConfigOutput.NextContinuationToken;
                         fetchPending = marker !== undefined;
                     }

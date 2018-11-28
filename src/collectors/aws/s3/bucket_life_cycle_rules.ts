@@ -18,7 +18,9 @@ export class BucketLifecycleRulesCollector extends BaseCollector {
             const bucketsData = await CollectorUtil.cachedCollect(bucketsCollector);
             for (const bucket of bucketsData.buckets) {
                 try {
-                    const s3BucketPolicy: AWS.S3.GetBucketLifecycleConfigurationOutput = await s3.getBucketLifecycleConfiguration({ Bucket: bucket.Name }).promise();
+                    const s3BucketPolicy:
+                        AWS.S3.GetBucketLifecycleConfigurationOutput =
+                        await s3.getBucketLifecycleConfiguration({ Bucket: bucket.Name }).promise();
                     bucket_life_cycle_rules[bucket.Name] = s3BucketPolicy.Rules;
                 } catch (err) {
                     if (err.code === "NoSuchLifecycleConfiguration") {

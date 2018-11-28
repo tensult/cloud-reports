@@ -66,3 +66,5 @@ dist
 scan_report*
 .DS_Store
 data.json
+
+.vscode

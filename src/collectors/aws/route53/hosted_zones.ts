@@ -14,7 +14,8 @@ export class HostedZonesCollector extends BaseCollector {
             let marker: string | undefined;
             let hosted_zones: AWS.Route53.HostedZone[] = [];
             while (fetchPending) {
-                const route53HostedZonesData: AWS.Route53.ListHostedZonesResponse = await route53.listHostedZones({ Marker: marker }).promise();
+                const route53HostedZonesData:
+                    AWS.Route53.ListHostedZonesResponse = await route53.listHostedZones({ Marker: marker }).promise();
                 hosted_zones = hosted_zones.concat(route53HostedZonesData.HostedZones);
                 marker = route53HostedZonesData.NextMarker;
                 fetchPending = marker !== undefined;

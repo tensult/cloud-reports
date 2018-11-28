@@ -19,7 +19,8 @@ export class DynamoDBTableNamesCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const tableNamesResponse: AWS.DynamoDB.ListTablesOutput = await dynamoDB.listTables({ ExclusiveStartTableName: marker }).promise();
+                    const tableNamesResponse: AWS.DynamoDB.ListTablesOutput =
+                        await dynamoDB.listTables({ ExclusiveStartTableName: marker }).promise();
                     if (tableNamesResponse.TableNames) {
                         tableNames[region] = tableNames[region].concat(tableNamesResponse.TableNames);
                     }

@@ -22,7 +22,9 @@ export class ResourceGroupsCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const resourceGroupsResponse: AWS.ResourceGroups.Types.ListGroupsOutput = await resourceGroups.listGroups({ NextToken: marker }).promise();
+                    const resourceGroupsResponse:
+                        AWS.ResourceGroups.Types.ListGroupsOutput =
+                        await resourceGroups.listGroups({ NextToken: marker }).promise();
                     if (resourceGroupsResponse.Groups) {
                         resource_groups[region] = resource_groups[region].concat(resourceGroupsResponse.Groups);
                     }

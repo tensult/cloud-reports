@@ -11,7 +11,8 @@ export class CloudTrailsCollector extends BaseCollector {
         for (const region of cloudTrailRegions) {
             try {
                 const cloudTrail = self.getClient(serviceName, region) as AWS.CloudTrail;
-                const cloudTrailsResponse: AWS.CloudTrail.DescribeTrailsResponse = await cloudTrail.describeTrails().promise();
+                const cloudTrailsResponse:
+                    AWS.CloudTrail.DescribeTrailsResponse = await cloudTrail.describeTrails().promise();
                 cloud_trails[region] = cloudTrailsResponse.trailList;
             } catch (error) {
                 AWSErrorHandler.handle(error);

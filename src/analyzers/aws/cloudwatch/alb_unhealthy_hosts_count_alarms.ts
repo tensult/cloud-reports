@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult,
+    IDictionary, IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class AlbUnHealthyHostAlarmsAnalyzer extends BaseAnalyzer {
@@ -12,8 +15,10 @@ export class AlbUnHealthyHostAlarmsAnalyzer extends BaseAnalyzer {
 
         const alb_unhealthy_hosts_alarms: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         alb_unhealthy_hosts_alarms.what = "Are alarms are enabled for ALB Unhealthy hosts?";
-        alb_unhealthy_hosts_alarms.why = "It is important to set alarms for Unhealthy hosts as otherwise the performance of the application will be degraded";
-        alb_unhealthy_hosts_alarms.recommendation = "Recommended to set alarm for Unhealthy hosts to take appropriative action.";
+        alb_unhealthy_hosts_alarms.why = `It is important to set alarms for Unhealthy hosts as otherwise the
+        performance of the application will be degraded`;
+        alb_unhealthy_hosts_alarms.recommendation = `Recommended to set alarm for
+        Unhealthy hosts to take appropriative action.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allELBs) {
             const regionELBs = allELBs[region];
@@ -24,8 +29,8 @@ export class AlbUnHealthyHostAlarmsAnalyzer extends BaseAnalyzer {
             for (const elb of regionELBs) {
                 const alarmAnalysis: IResourceAnalysisResult = {};
                 console.log(elb.LoadBalancerArn);
-                const elbAlarms =  alarmsMapByELB[this.getLoadBalancerDimensionId(elb.LoadBalancerArn)];
-                alarmAnalysis.resource = {elb, alarms: elbAlarms};
+                const elbAlarms = alarmsMapByELB[this.getLoadBalancerDimensionId(elb.LoadBalancerArn)];
+                alarmAnalysis.resource = { elb, alarms: elbAlarms };
                 alarmAnalysis.resourceSummary = {
                     name: "LoadBalancer",
                     value: elb.LoadBalancerName,
@@ -65,9 +70,9 @@ export class AlbUnHealthyHostAlarmsAnalyzer extends BaseAnalyzer {
     private isUnHealthyHostCountAlarmsPresent(alarms) {
         return alarms && alarms.some((alarm) => {
             return alarm.ActionsEnabled &&
-            alarm.AlarmActions &&
-            alarm.AlarmActions.length &&
-            alarm.MetricName === "UnHealthyHostCount";
+                alarm.AlarmActions &&
+                alarm.AlarmActions.length &&
+                alarm.MetricName === "UnHealthyHostCount";
         });
     }
 

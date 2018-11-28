@@ -14,7 +14,8 @@ export class MFADevicesCollector extends BaseCollector {
             let marker: string | undefined;
             let mfaDevices: AWS.IAM.MFADevice[] = [];
             while (fetchPending) {
-                const iamMfaDevicesData: AWS.IAM.ListMFADevicesResponse = await iam.listMFADevices({ Marker: marker }).promise();
+                const iamMfaDevicesData: AWS.IAM.ListMFADevicesResponse =
+                    await iam.listMFADevices({ Marker: marker }).promise();
                 mfaDevices = mfaDevices.concat(iamMfaDevicesData.MFADevices);
                 marker = iamMfaDevicesData.Marker;
                 fetchPending = iamMfaDevicesData.IsTruncated === true;

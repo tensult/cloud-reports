@@ -14,7 +14,9 @@ export class DnsQueryLogsConfigCollector extends BaseCollector {
             let marker: string | undefined;
             let query_logs_config: AWS.Route53.QueryLoggingConfig[] = [];
             while (fetchPending) {
-                const route53QueryLogsConfig: AWS.Route53.ListQueryLoggingConfigsResponse = await route53.listQueryLoggingConfigs({ NextToken: marker }).promise();
+                const route53QueryLogsConfig:
+                    AWS.Route53.ListQueryLoggingConfigsResponse =
+                    await route53.listQueryLoggingConfigs({ NextToken: marker }).promise();
                 query_logs_config = query_logs_config.concat(route53QueryLogsConfig.QueryLoggingConfigs);
                 marker = route53QueryLogsConfig.NextToken;
                 fetchPending = marker !== undefined;

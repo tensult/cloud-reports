@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class LogGroupsRetentionAnalyzer extends BaseAnalyzer {
@@ -10,7 +13,8 @@ export class LogGroupsRetentionAnalyzer extends BaseAnalyzer {
         }
         const log_groups_retention: ICheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
         log_groups_retention.what = "Is retention set for CloudWatch log groups?";
-        log_groups_retention.why = "It is important to set proper retention for CloudWatch log groups as it is very costly to keep these logs forever";
+        log_groups_retention.why = `It is important to set proper retention for CloudWatch log
+        groups as it is very costly to keep these logs forever`;
         log_groups_retention.recommendation = "Recommended to set retention for all the CloudWatch log groups";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allLogGroups) {

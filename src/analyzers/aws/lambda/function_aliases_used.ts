@@ -1,4 +1,7 @@
-import { CheckAnalysisType, IDictionary, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class LambdaFunctionAliasesUsageAnalyzer extends BaseAnalyzer {
@@ -10,8 +13,12 @@ export class LambdaFunctionAliasesUsageAnalyzer extends BaseAnalyzer {
         }
         const function_aliases_used: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
         function_aliases_used.what = "Are you using aliasing for Lambda functions?";
-        function_aliases_used.why = "We need to use aliasing for Lambda functions; when every we make major updates to the function, it is important that we use alias with traffic shaping between multiple aliases so that we can perform A/B testing and smoothly migrate applications.";
-        function_aliases_used.recommendation = "Recommended to use aliasing while deploying major changes to the Lambda functions";
+        function_aliases_used.why = `We need to use aliasing for Lambda functions;
+        when every we make major updates to the function,
+        it is important that we use alias with traffic shaping between
+        multiple aliases so that we can perform A/B testing and smoothly migrate applications.`;
+        function_aliases_used.recommendation = `Recommended to use aliasing while
+        deploying major changes to the Lambda functions`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allFunctionAliases) {
             const regionFunctionAliases = allFunctionAliases[region];

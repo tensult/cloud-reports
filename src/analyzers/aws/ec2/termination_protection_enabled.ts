@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
@@ -12,15 +15,22 @@ export class EC2InstanceTerminationProtectionAnalyzer extends BaseAnalyzer {
         }
         const termination_protection_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
         termination_protection_enabled.what = "Are there any instances without termination protection?";
-        termination_protection_enabled.why = "Instances can be accidentally terminated and data can be lost when they are without termination protection";
-        termination_protection_enabled.recommendation = "Recommended to enable termination protection for all production critical instances";
+        termination_protection_enabled.why = `Instances can be accidentally terminated and data
+        can be lost when they are without termination protection`;
+        termination_protection_enabled.recommendation = `Recommended to enable termination protection
+        for all production critical instances`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
             allRegionsAnalysis[region] = [];
             for (const instance of regionInstances) {
                 const instanceAnalysis: IResourceAnalysisResult = {};
-                instanceAnalysis.resource = { instanceName: ResourceUtil.getNameByTags(instance), instanceId: instance.InstanceId, termination_protection: allTerminationProtectionStatuses[region][instance.InstanceId] } ;
+                instanceAnalysis.resource = {
+                    instanceId: instance.InstanceId,
+                    instanceName: ResourceUtil.getNameByTags(instance),
+                    termination_protection:
+                        allTerminationProtectionStatuses[region][instance.InstanceId],
+                };
                 instanceAnalysis.resourceSummary = {
                     name: "Instance",
                     value: `${instanceAnalysis.resource.instanceName} | ${instance.InstanceId}`,

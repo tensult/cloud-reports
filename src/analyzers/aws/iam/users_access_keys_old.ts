@@ -1,4 +1,4 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import { CheckAnalysisType, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 const millsIn180Days = 180 * 24 * 60 * 60 * 1000;
@@ -23,8 +23,8 @@ export class UsersAccessKeysOldAnalyzer extends BaseAnalyzer {
             const user_access_keys_old: IResourceAnalysisResult = {};
             user_access_keys_old.resource = credential;
             user_access_keys_old.resourceSummary = {
-                 name: "User",
-                 value: user_access_keys_old.resource.user,
+                name: "User",
+                value: user_access_keys_old.resource.user,
             };
             const access_key_1_old = this.isUserAccessKeysOld(credential.access_key_1_last_rotated);
             const access_key_2_old = this.isUserAccessKeysOld(credential.access_key_2_last_rotated);
@@ -56,7 +56,7 @@ export class UsersAccessKeysOldAnalyzer extends BaseAnalyzer {
             }
 
         });
-        users_access_keys_old.regions = {global : allUsersAccessKeysAnalysis};
+        users_access_keys_old.regions = { global: allUsersAccessKeysAnalysis };
         return { users_access_keys_old };
     }
 

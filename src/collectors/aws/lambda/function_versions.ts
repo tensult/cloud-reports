@@ -25,7 +25,10 @@ export class LambdaFunctionVersionsCollector extends BaseCollector {
                 try {
                     const lambda = self.getClient(serviceName, region) as AWS.Lambda;
                     for (const fn of functions[region]) {
-                        const functionVersionsResponse: AWS.Lambda.ListVersionsByFunctionResponse = await lambda.listVersionsByFunction({ FunctionName: fn.FunctionName, MaxItems: 7 }).promise();
+                        const functionVersionsResponse:
+                            AWS.Lambda.ListVersionsByFunctionResponse =
+                            await lambda.listVersionsByFunction
+                                ({ FunctionName: fn.FunctionName, MaxItems: 7 }).promise();
                         function_versions[region][fn.FunctionName] = functionVersionsResponse.Versions;
                     }
                 } catch (error) {

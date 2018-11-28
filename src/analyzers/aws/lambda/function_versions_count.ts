@@ -1,16 +1,21 @@
-import { CheckAnalysisType, IDictionary, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class LambdaFunctionVersionsCountAnalyzer extends BaseAnalyzer {
 
     public analyze(params: any, fullReport?: any): any {
         const allFunctionVersions = params.function_versions;
-        if ( !allFunctionVersions) {
+        if (!allFunctionVersions) {
             return undefined;
         }
         const function_versions_count: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         function_versions_count.what = "Are there too many versions for any Lambda function?";
-        function_versions_count.why = "We need to use versioning for Lambda functions but keeping too many versions will be confusing and also there is chance of exceed Lambda service limits so we need to keep deleting the old versions.";
+        function_versions_count.why = `We need to use versioning for Lambda functions but keeping too many versions
+        will be confusing and also there is chance of exceed Lambda
+        service limits so we need to keep deleting the old versions.`;
         function_versions_count.recommendation = "Recommended to keep maximum of 5 versions per Lambda function";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allFunctionVersions) {
@@ -18,7 +23,7 @@ export class LambdaFunctionVersionsCountAnalyzer extends BaseAnalyzer {
             allRegionsAnalysis[region] = [];
             for (const functionName in regionFunctionVersions) {
                 const functionAnalysis: IResourceAnalysisResult = {};
-                functionAnalysis.resource = { functionName, versions: regionFunctionVersions[functionName]} ;
+                functionAnalysis.resource = { functionName, versions: regionFunctionVersions[functionName] };
                 functionAnalysis.resourceSummary = {
                     name: "Function",
                     value: functionName,

@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class ESInstancesReservationAnalyzer extends BaseAnalyzer {
@@ -11,7 +14,8 @@ export class ESInstancesReservationAnalyzer extends BaseAnalyzer {
         }
         const instances_reserved: ICheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
         instances_reserved.what = "Are Elasticsearch Instances reserved?";
-        instances_reserved.why = "You can reserve the Elasticsearch Service domain which are you going to run for long time to save the cost.";
+        instances_reserved.why = `You can reserve the Elasticsearch Service domain
+        which are you going to run for long time to save the cost.`;
         instances_reserved.recommendation = "Recommended to reserve all long running instances";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allDomains) {
@@ -56,7 +60,8 @@ export class ESInstancesReservationAnalyzer extends BaseAnalyzer {
                         name: "DomainInstanceType",
                         value: `${domain.DomainName} | ${masterInstanceType}`,
                     };
-                    if (this.getInstancesReservedCount(instanceCountMap, masterInstanceType, masterInstanceCount) === masterInstanceCount) {
+                    if (this.getInstancesReservedCount(instanceCountMap,
+                        masterInstanceType, masterInstanceCount) === masterInstanceCount) {
                         domainMasterInstancesAnalysis.severity = SeverityStatus.Good;
                         domainMasterInstancesAnalysis.message = "All Instances are reserved";
                     } else {
@@ -80,8 +85,10 @@ export class ESInstancesReservationAnalyzer extends BaseAnalyzer {
         return reservedInstances.filter((reservedInstance) => {
             return reservedInstance.State === "active";
         }).reduce((instanceCountMap, reservedInstance) => {
-            instanceCountMap[reservedInstance.ElasticsearchInstanceType] = instanceCountMap[reservedInstance.ElasticsearchInstanceType] || { actual: 0, used: 0 };
-            instanceCountMap[reservedInstance.ElasticsearchInstanceType].actual += reservedInstance.ElasticsearchInstanceCount;
+            instanceCountMap[reservedInstance.ElasticsearchInstanceType]
+                = instanceCountMap[reservedInstance.ElasticsearchInstanceType] || { actual: 0, used: 0 };
+            instanceCountMap[reservedInstance.ElasticsearchInstanceType].actual
+                += reservedInstance.ElasticsearchInstanceCount;
             return instanceCountMap;
         }, {});
     }

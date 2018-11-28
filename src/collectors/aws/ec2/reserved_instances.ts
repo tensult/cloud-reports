@@ -16,7 +16,8 @@ export class EC2ReservedInstancesCollector extends BaseCollector {
         for (const region of ec2Regions) {
             try {
                 const ec2 = this.getClient(serviceName, region) as AWS.EC2;
-                const instancesResponse: AWS.EC2.DescribeReservedInstancesResult = await ec2.describeReservedInstances().promise();
+                const instancesResponse: AWS.EC2.DescribeReservedInstancesResult =
+                    await ec2.describeReservedInstances().promise();
                 if (instancesResponse && instancesResponse.ReservedInstances) {
                     reserved_instances[region] = instancesResponse.ReservedInstances;
                 }

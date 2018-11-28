@@ -17,7 +17,9 @@ export class DistributionConfigsCollector extends BaseCollector {
             const distributionData = await CollectorUtil.cachedCollect(distributionsCollector);
             const distribution_configs = {};
             for (const distribution of distributionData.distributions) {
-                const cloudfrontDistributionsData: AWS.CloudFront.GetDistributionConfigResult = await cloudfront.getDistributionConfig({Id: distribution.Id}).promise();
+                const cloudfrontDistributionsData:
+                    AWS.CloudFront.GetDistributionConfigResult =
+                    await cloudfront.getDistributionConfig({ Id: distribution.Id }).promise();
                 distribution_configs[distribution.Id] = cloudfrontDistributionsData.DistributionConfig;
             }
             return { distribution_configs };

@@ -14,7 +14,8 @@ export class DomainsCollector extends BaseCollector {
             let marker: string | undefined;
             let domains: AWS.Route53Domains.DomainSummary[] = [];
             while (fetchPending) {
-                const route53DomainsData: AWS.Route53Domains.ListDomainsResponse = await route53.listDomains({ Marker: marker }).promise();
+                const route53DomainsData:
+                    AWS.Route53Domains.ListDomainsResponse = await route53.listDomains({ Marker: marker }).promise();
                 domains = domains.concat(route53DomainsData.Domains);
                 marker = route53DomainsData.NextPageMarker;
                 fetchPending = marker !== undefined;

@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class LambdaInvocationsCountAlarmAnalyzer extends BaseAnalyzer {
@@ -10,10 +13,16 @@ export class LambdaInvocationsCountAlarmAnalyzer extends BaseAnalyzer {
         }
         const allLambdaFunctions: any[] = fullReport["aws.lambda"].functions;
 
-        const lambda_invocations_count_alarm: ICheckAnalysisResult = { type: [CheckAnalysisType.OperationalExcellence] };
+        const lambda_invocations_count_alarm: ICheckAnalysisResult = {
+            type:
+                [CheckAnalysisType.OperationalExcellence],
+        };
         lambda_invocations_count_alarm.what = "Are alarms are enabled for Lambda function based on invocation count?";
-        lambda_invocations_count_alarm.why = "It is important to set invocation count alarm for all Lambda functions as if there is any bug in the code then Lambda functions can be triggered continuously in a loop and eventually you will get a huge AWS bill.";
-        lambda_invocations_count_alarm.recommendation = "Recommended to set invocation alarm for all the Lambda functions.";
+        lambda_invocations_count_alarm.why = `It is important to set invocation count alarm for all Lambda functions
+        as if there is any bug in the code then Lambda functions can be
+        triggered continuously in a loop and eventually you will get a huge AWS bill.`;
+        lambda_invocations_count_alarm.recommendation = `Recommended to set invocation
+        alarm for all the Lambda functions.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allLambdaFunctions) {
             const regionLambdaFunctions = allLambdaFunctions[region];
@@ -22,8 +31,8 @@ export class LambdaInvocationsCountAlarmAnalyzer extends BaseAnalyzer {
             allRegionsAnalysis[region] = [];
             for (const lambdaFunction of regionLambdaFunctions) {
                 const alarmAnalysis: IResourceAnalysisResult = {};
-                const lambdaFunctionAlarms =  alarmsMapByLambdaFunction[lambdaFunction.FunctionName];
-                alarmAnalysis.resource = {lambdaFunction, alarms: lambdaFunctionAlarms};
+                const lambdaFunctionAlarms = alarmsMapByLambdaFunction[lambdaFunction.FunctionName];
+                alarmAnalysis.resource = { lambdaFunction, alarms: lambdaFunctionAlarms };
                 alarmAnalysis.resourceSummary = {
                     name: "LambdaFunction",
                     value: lambdaFunction.FunctionName,
@@ -63,9 +72,9 @@ export class LambdaInvocationsCountAlarmAnalyzer extends BaseAnalyzer {
     private isInvocationAlarmPresent(alarms) {
         return alarms && alarms.some((alarm) => {
             return alarm.ActionsEnabled &&
-            alarm.AlarmActions &&
-            alarm.AlarmActions.length &&
-            alarm.MetricName === "Invocations";
+                alarm.AlarmActions &&
+                alarm.AlarmActions.length &&
+                alarm.MetricName === "Invocations";
         });
     }
 }

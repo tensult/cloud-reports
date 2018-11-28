@@ -1,4 +1,7 @@
-import { CheckAnalysisType, ICheckAnalysisResult, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class CloudTrailsGlobalEventsAnalyzer extends BaseAnalyzer {
@@ -10,8 +13,10 @@ export class CloudTrailsGlobalEventsAnalyzer extends BaseAnalyzer {
         }
         const cloud_trails_global_service_events: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         cloud_trails_global_service_events.what = "Are global service events included in CloudTrails?";
-        cloud_trails_global_service_events.why = "We need to enable this option to keep track of events from global service like IAM";
-        cloud_trails_global_service_events.recommendation = "Recommended to enable IncludeGlobalServiceEvents for CloudTrails";
+        cloud_trails_global_service_events.why = `We need to enable this option to keep
+        track of events from global service like IAM`;
+        cloud_trails_global_service_events.recommendation = `Recommended to enable
+        IncludeGlobalServiceEvents for CloudTrails`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allTrails) {
             const regionTrails = allTrails[region];

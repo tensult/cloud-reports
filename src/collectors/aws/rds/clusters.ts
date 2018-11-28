@@ -22,7 +22,8 @@ export class RDSClustersCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const clustersResponse: AWS.RDS.DBClusterMessage = await rds.describeDBClusters({ Marker: marker }).promise();
+                    const clustersResponse: AWS.RDS.DBClusterMessage =
+                        await rds.describeDBClusters({ Marker: marker }).promise();
                     clusters[region] = clusters[region].concat(clustersResponse.DBClusters);
                     marker = clustersResponse.Marker;
                     fetchPending = marker !== undefined;

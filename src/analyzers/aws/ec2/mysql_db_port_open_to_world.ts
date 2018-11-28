@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class MySQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
@@ -10,13 +13,14 @@ export class MySQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
         const mysql_db_port_open_to_world: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         mysql_db_port_open_to_world.what = "Is MySQL port open to world?";
         mysql_db_port_open_to_world.why = "We should always restrict MySQL port only intended parties to access";
-        mysql_db_port_open_to_world.recommendation = "Recommended to restrict MySQL port in security groups to specific IPs";
+        mysql_db_port_open_to_world.recommendation = `Recommended to restrict MySQL
+        port in security groups to specific IPs`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allSecurityGroups) {
             const regionSecurityGroups = allSecurityGroups[region];
             allRegionsAnalysis[region] = [];
             for (const securityGroup of regionSecurityGroups) {
-                if (securityGroup.GroupName == "default") {
+                if (securityGroup.GroupName === "default") {
                     continue;
                 }
                 const securityGroupAnalysis: IResourceAnalysisResult = {};

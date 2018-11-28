@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { CommonUtil, ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
@@ -12,7 +15,8 @@ export class EC2InstancesReservationAnalyzer extends BaseAnalyzer {
         }
         const instances_reserved: ICheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
         instances_reserved.what = "Are there any long running instances which should be reserved?";
-        instances_reserved.why = "You can reserve the EC2 instance which are you going to run for long time to save the cost.";
+        instances_reserved.why = `You can reserve the EC2 instance which
+        are you going to run for long time to save the cost.`;
         instances_reserved.recommendation = "Recommended to reserve all long running instances";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
@@ -59,7 +63,8 @@ export class EC2InstancesReservationAnalyzer extends BaseAnalyzer {
         return reservedInstances.filter((reservedInstance) => {
             return reservedInstance.State === "active";
         }).reduce((instanceCountMap, reservedInstance) => {
-            instanceCountMap[reservedInstance.InstanceType] = instanceCountMap[reservedInstance.InstanceType] || { actual: 0, used: 0 };
+            instanceCountMap[reservedInstance.InstanceType] =
+                instanceCountMap[reservedInstance.InstanceType] || { actual: 0, used: 0 };
             instanceCountMap[reservedInstance.InstanceType].actual += reservedInstance.InstanceCount;
             return instanceCountMap;
         }, {});

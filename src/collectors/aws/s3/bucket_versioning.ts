@@ -18,7 +18,8 @@ export class BucketVersioningCollector extends BaseCollector {
             const bucketsData = await CollectorUtil.cachedCollect(bucketsCollector);
             for (const bucket of bucketsData.buckets) {
                 try {
-                    const s3BucketVersioning: AWS.S3.GetBucketVersioningOutput = await s3.getBucketVersioning({ Bucket: bucket.Name }).promise();
+                    const s3BucketVersioning:
+                     AWS.S3.GetBucketVersioningOutput = await s3.getBucketVersioning({ Bucket: bucket.Name }).promise();
                     bucket_versioning[bucket.Name] = s3BucketVersioning;
                 } catch (error) {
                     AWSErrorHandler.handle(error);

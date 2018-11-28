@@ -25,7 +25,8 @@ export class ElbV2ListenersCollector extends BaseCollector {
                     const regionElbs = elbs[region];
                     const allRegionElbListeners = {};
                     for (const elb of regionElbs) {
-                        const regionElbListeners: AWS.ELBv2.DescribeListenersOutput = await elbService.describeListeners({ LoadBalancerArn: elb.LoadBalancerArn }).promise();
+                        const regionElbListeners: AWS.ELBv2.DescribeListenersOutput
+                            = await elbService.describeListeners({ LoadBalancerArn: elb.LoadBalancerArn }).promise();
                         allRegionElbListeners[elb.LoadBalancerName] = regionElbListeners.Listeners;
                     }
                     elb_listeners[region] = allRegionElbListeners;

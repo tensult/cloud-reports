@@ -1,4 +1,7 @@
-import { CheckAnalysisType, ICheckAnalysisResult, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class TopicsWithoutSubscriptionsAnalyzer extends BaseAnalyzer {
@@ -12,8 +15,10 @@ export class TopicsWithoutSubscriptionsAnalyzer extends BaseAnalyzer {
         }
         const topics_without_subscriptions: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         topics_without_subscriptions.what = "Are there any SNS topics without subscriptions?";
-        topics_without_subscriptions.why = "Topics without subscriptions cause confusion as mistakenly we might be publishing to them but no one will receive them";
-        topics_without_subscriptions.recommendation = "Every SNS topic should have proper subscriptions else you should remove it";
+        topics_without_subscriptions.why = `Topics without subscriptions cause confusion as
+        mistakenly we might be publishing to them but no one will receive them`;
+        topics_without_subscriptions.recommendation = `Every SNS topic should have
+        proper subscriptions else you should remove it`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allTopics) {
             const regionTopics = allTopics[region];
@@ -23,7 +28,7 @@ export class TopicsWithoutSubscriptionsAnalyzer extends BaseAnalyzer {
             for (const topic of regionTopics) {
                 const topic_analysis: IResourceAnalysisResult = {};
                 const topicName = this.getTopicName(topic.TopicArn);
-                topic_analysis.resource = {topicName,  subscriptions: regionSubscriptionsMap[topic.TopicArn] };
+                topic_analysis.resource = { topicName, subscriptions: regionSubscriptionsMap[topic.TopicArn] };
                 topic_analysis.resourceSummary = {
                     name: "Topic", value: topicName,
                 };

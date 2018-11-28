@@ -25,7 +25,9 @@ export class LambdaFunctionAliasesCollector extends BaseCollector {
                 try {
                     const lambda = self.getClient(serviceName, region) as AWS.Lambda;
                     for (const fn of functions[region]) {
-                        const functionAliasesResponse: AWS.Lambda.ListAliasesResponse = await lambda.listAliases({ FunctionName: fn.FunctionName }).promise();
+                        const functionAliasesResponse:
+                            AWS.Lambda.ListAliasesResponse =
+                            await lambda.listAliases({ FunctionName: fn.FunctionName }).promise();
                         if (functionAliasesResponse.Aliases) {
                             function_aliases[region][fn.FunctionName] = functionAliasesResponse.Aliases;
                         } else {

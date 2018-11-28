@@ -22,7 +22,9 @@ export class RedshiftClustersCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const clustersResponse: AWS.Redshift.Types.ClustersMessage = await redshift.describeClusters({ Marker: marker }).promise();
+                    const clustersResponse:
+                        AWS.Redshift.Types.ClustersMessage = await redshift.describeClusters
+                        ({ Marker: marker }).promise();
                     clusters[region] = clusters[region].concat(clustersResponse.Clusters);
                     marker = clustersResponse.Marker;
                     fetchPending = marker !== undefined;

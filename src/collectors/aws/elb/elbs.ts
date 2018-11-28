@@ -22,7 +22,8 @@ export class ElbV2sCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const elbsResponse: AWS.ELBv2.DescribeLoadBalancersOutput = await elb.describeLoadBalancers({ Marker: marker }).promise();
+                    const elbsResponse: AWS.ELBv2.DescribeLoadBalancersOutput
+                        = await elb.describeLoadBalancers({ Marker: marker }).promise();
                     elbs[region] = elbs[region].concat(elbsResponse.LoadBalancers);
                     marker = elbsResponse.NextMarker;
                     fetchPending = marker !== undefined;

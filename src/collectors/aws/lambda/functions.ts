@@ -22,7 +22,8 @@ export class LambdaFunctionsCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const functionsResponse: AWS.Lambda.ListFunctionsResponse = await lambda.listFunctions({ Marker: marker }).promise();
+                    const functionsResponse: AWS.Lambda.ListFunctionsResponse =
+                        await lambda.listFunctions({ Marker: marker }).promise();
                     functions[region] = functions[region].concat(functionsResponse.Functions);
                     marker = functionsResponse.NextMarker;
                     fetchPending = marker !== undefined && marker !== null;

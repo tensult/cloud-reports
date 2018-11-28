@@ -1,16 +1,21 @@
-import { CheckAnalysisType, IDictionary, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class LambdaFunctionVersioningUsageAnalyzer extends BaseAnalyzer {
 
     public analyze(params: any, fullReport?: any): any {
         const allFunctionVersions = params.function_versions;
-        if ( !allFunctionVersions) {
+        if (!allFunctionVersions) {
             return undefined;
         }
         const function_versions_used: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
         function_versions_used.what = "Are you using versioning for Lambda functions?";
-        function_versions_used.why = "We need to use versioning for Lambda functions; when every we update the function, it is important that we create a new version and make changes there so that if required we can roll back to previous version.";
+        function_versions_used.why = `We need to use versioning for Lambda functions;
+        when every we update the function, it is important that we create a new version and make
+         changes there so that if required we can roll back to previous version.`;
         function_versions_used.recommendation = "Recommended to use versioning while deploying the Lambda functions";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allFunctionVersions) {
@@ -19,7 +24,7 @@ export class LambdaFunctionVersioningUsageAnalyzer extends BaseAnalyzer {
             for (const functionName in regionFunctionVersions) {
                 const functionAnalysis: IResourceAnalysisResult = {};
                 const functionVersions = this.getNonDefaultVersions(regionFunctionVersions[functionName]);
-                functionAnalysis.resource = { functionName, versions: functionVersions} ;
+                functionAnalysis.resource = { functionName, versions: functionVersions };
                 functionAnalysis.resourceSummary = {
                     name: "Function",
                     value: functionName,

@@ -1,4 +1,8 @@
-import { CheckAnalysisType, Dictionary, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult,
+    IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class RdsDeleteProtectionEnabledAnalyzer extends BaseAnalyzer {
@@ -10,9 +14,11 @@ export class RdsDeleteProtectionEnabledAnalyzer extends BaseAnalyzer {
         }
         const delete_protection_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
         delete_protection_enabled.what = "Is delete protection enabled for RDS instances?";
-        delete_protection_enabled.why = "Enabling delete protection for all production RDS instances, protects them from accidental deletion.";
-        delete_protection_enabled.recommendation = "Recommended to enable delete protection for all production RDS instances.";
-        const allRegionsAnalysis: Dictionary<IResourceAnalysisResult[]> = {};
+        delete_protection_enabled.why = `Enabling delete protection for all production
+        RDS instances, protects them from accidental deletion.`;
+        delete_protection_enabled.recommendation = `Recommended to enable delete
+         protection for all production RDS instances.`;
+        const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
             allRegionsAnalysis[region] = [];

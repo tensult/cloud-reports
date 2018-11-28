@@ -15,7 +15,9 @@ export class VirtualMFADevicesCollector extends BaseCollector {
             let marker: string | undefined;
             let mfaVirtualDevices: AWS.IAM.VirtualMFADevice[] = [];
             while (fetchPending) {
-                const iamMfaDevicesData: AWS.IAM.ListVirtualMFADevicesResponse = await iam.listVirtualMFADevices({ Marker: marker }).promise();
+                const iamMfaDevicesData:
+                    AWS.IAM.ListVirtualMFADevicesResponse =
+                    await iam.listVirtualMFADevices({ Marker: marker }).promise();
                 mfaVirtualDevices = mfaVirtualDevices.concat(iamMfaDevicesData.VirtualMFADevices);
                 marker = iamMfaDevicesData.Marker;
                 fetchPending = iamMfaDevicesData.IsTruncated === true;

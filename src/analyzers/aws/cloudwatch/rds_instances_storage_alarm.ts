@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class RDSInstanceStorageAlarmAnalyzer extends BaseAnalyzer {
@@ -12,8 +15,10 @@ export class RDSInstanceStorageAlarmAnalyzer extends BaseAnalyzer {
 
         const rds_instances_storage_alarm: ICheckAnalysisResult = { type: [CheckAnalysisType.PerformanceEfficiency] };
         rds_instances_storage_alarm.what = "Are alarms are enabled for RDS instance Storage?";
-        rds_instances_storage_alarm.why = "It is important to set alarms for RDS Storage as when there is no storage then the application will stop working.";
-        rds_instances_storage_alarm.recommendation = "Recommended to set alarms for RDS Storage to take appropriative action.";
+        rds_instances_storage_alarm.why = `It is important to set alarms for RDS Storage as when
+        there is no storage then the application will stop working.`;
+        rds_instances_storage_alarm.recommendation = `Recommended to set
+        alarms for RDS Storage to take appropriative action.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -25,8 +30,8 @@ export class RDSInstanceStorageAlarmAnalyzer extends BaseAnalyzer {
                     continue;
                 }
                 const alarmAnalysis: IResourceAnalysisResult = {};
-                const instanceAlarms =  alarmsMapByInstance[instance.DBInstanceIdentifier];
-                alarmAnalysis.resource = {instance, alarms: instanceAlarms};
+                const instanceAlarms = alarmsMapByInstance[instance.DBInstanceIdentifier];
+                alarmAnalysis.resource = { instance, alarms: instanceAlarms };
                 alarmAnalysis.resourceSummary = {
                     name: "DBInstance",
                     value: instance.DBInstanceIdentifier,
@@ -66,9 +71,9 @@ export class RDSInstanceStorageAlarmAnalyzer extends BaseAnalyzer {
     private isStorageAlarmPresent(alarms) {
         return alarms && alarms.some((alarm) => {
             return alarm.ActionsEnabled &&
-            alarm.AlarmActions &&
-            alarm.AlarmActions.length &&
-            alarm.MetricName === "FreeStorageSpace";
+                alarm.AlarmActions &&
+                alarm.AlarmActions.length &&
+                alarm.MetricName === "FreeStorageSpace";
         });
     }
 }

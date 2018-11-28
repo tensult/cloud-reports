@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
@@ -12,8 +15,10 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
         }
         const default_security_groups_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         default_security_groups_used.what = "Are there any default security groups used for EC2 instances?";
-        default_security_groups_used.why = "Default security groups are open to world by default and requires extra setup make them secure";
-        default_security_groups_used.recommendation = "Recommended not to use default security groups instead create a custom one as they make you better understand the security posture";
+        default_security_groups_used.why = `Default security groups are open to world by
+        default and requires extra setup make them secure`;
+        default_security_groups_used.recommendation = `Recommended not to use default security groups instead
+        create a custom one as they make you better understand the security posture`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -22,7 +27,11 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
             allRegionsAnalysis[region] = [];
             for (const instance of regionInstances) {
                 const instanceAnalysis: IResourceAnalysisResult = {};
-                instanceAnalysis.resource = { instanceName: ResourceUtil.getNameByTags(instance), instanceId: instance.InstanceId, security_groups: instance.SecurityGroups } ;
+                instanceAnalysis.resource = {
+                    instanceId: instance.InstanceId,
+                    instanceName: ResourceUtil.getNameByTags(instance),
+                    security_groups: instance.SecurityGroups,
+                };
                 instanceAnalysis.resourceSummary = {
                     name: "Instance",
                     value: `${instanceAnalysis.resource.instanceName} | ${instance.InstanceId}`,

@@ -20,9 +20,11 @@ export class RDSReservedInstancesCollector extends BaseCollector {
                 let marker: string | undefined;
                 reserved_instances[region] = [];
                 while (fetchPending) {
-                    const instancesResponse: AWS.RDS.ReservedDBInstanceMessage = await rds.describeReservedDBInstances({Marker: marker}).promise();
+                    const instancesResponse: AWS.RDS.ReservedDBInstanceMessage =
+                        await rds.describeReservedDBInstances({ Marker: marker }).promise();
                     if (instancesResponse && instancesResponse.ReservedDBInstances) {
-                        reserved_instances[region] = reserved_instances[region].concat(instancesResponse.ReservedDBInstances);
+                        reserved_instances[region] =
+                            reserved_instances[region].concat(instancesResponse.ReservedDBInstances);
                     }
                     marker = instancesResponse.Marker;
                     fetchPending = marker !== undefined && marker !== null;

@@ -1,4 +1,7 @@
-import { CheckAnalysisType, ICheckAnalysisResult, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class ResourceGroupsUsageAnalyzer extends BaseAnalyzer {
@@ -10,8 +13,10 @@ export class ResourceGroupsUsageAnalyzer extends BaseAnalyzer {
         }
         const resource_groups_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         resource_groups_used.what = "Are Resource groups used to track the AWS resources?";
-        resource_groups_used.why = "Resource groups helps to track various AWS resources using Tags like Department, team, project etc";
-        resource_groups_used.recommendation = "Recommended use Resource groups to track and monitor the AWS resources for better management of AWS services";
+        resource_groups_used.why = `Resource groups helps to track various AWS resources
+        using Tags like Department, team, project etc`;
+        resource_groups_used.recommendation = `Recommended use Resource groups to track and monitor
+        the AWS resources for better management of AWS services`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allResourceGroups) {
             const regionResourceGroups = allResourceGroups[region];

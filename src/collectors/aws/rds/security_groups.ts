@@ -22,7 +22,9 @@ export class RDSSecurityGroupsCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const securityGroupsResponse: AWS.RDS.DBSecurityGroupMessage = await rds.describeDBSecurityGroups({ Marker: marker }).promise();
+                    const securityGroupsResponse:
+                        AWS.RDS.DBSecurityGroupMessage =
+                        await rds.describeDBSecurityGroups({ Marker: marker }).promise();
                     security_groups[region] = security_groups[region].concat(securityGroupsResponse.DBSecurityGroups);
                     marker = securityGroupsResponse.Marker;
                     fetchPending = marker !== undefined;

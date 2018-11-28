@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
@@ -11,10 +14,14 @@ export class EC2InstanceCPUUtilizationAlarmsAnalyzer extends BaseAnalyzer {
         }
         const allInstances: any[] = fullReport["aws.ec2"].instances;
 
-        const ec2_instance_cpu_utilization_alarms: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
+        const ec2_instance_cpu_utilization_alarms: ICheckAnalysisResult = {
+            type: CheckAnalysisType.OperationalExcellence,
+        };
         ec2_instance_cpu_utilization_alarms.what = "Are alarms are enabled for EC2 instance CPU utilization?";
-        ec2_instance_cpu_utilization_alarms.why = "It is important to set alarms for EC2 CPU utilization as when utilization is high then the application performance will be degraded.";
-        ec2_instance_cpu_utilization_alarms.recommendation = "Recommended to set alarm for EC2 CPU utilization to take appropriative action.";
+        ec2_instance_cpu_utilization_alarms.why = `It is important to set alarms for EC2 CPU utilization as
+        when utilization is high then the application performance will be degraded.`;
+        ec2_instance_cpu_utilization_alarms.recommendation = `Recommended to set alarm for EC2 CPU
+        utilization to take appropriative action.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -26,8 +33,8 @@ export class EC2InstanceCPUUtilizationAlarmsAnalyzer extends BaseAnalyzer {
                     continue;
                 }
                 const alarmAnalysis: IResourceAnalysisResult = {};
-                const instanceAlarms =  alarmsMapByInstance[instance.InstanceId];
-                alarmAnalysis.resource = {instance, alarms: instanceAlarms};
+                const instanceAlarms = alarmsMapByInstance[instance.InstanceId];
+                alarmAnalysis.resource = { instance, alarms: instanceAlarms };
                 alarmAnalysis.resourceSummary = {
                     name: "Instance",
                     value: `${ResourceUtil.getNameByTags(instance)} | ${instance.InstanceId}`,
@@ -67,9 +74,9 @@ export class EC2InstanceCPUUtilizationAlarmsAnalyzer extends BaseAnalyzer {
     private isCPUUtilizationAlarmPresent(alarms) {
         return alarms && alarms.some((alarm) => {
             return alarm.ActionsEnabled &&
-            alarm.AlarmActions &&
-            alarm.AlarmActions.length &&
-            alarm.MetricName === "CPUUtilization";
+                alarm.AlarmActions &&
+                alarm.AlarmActions.length &&
+                alarm.MetricName === "CPUUtilization";
         });
     }
 }

@@ -1,4 +1,7 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IDictionary, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import {
+    CheckAnalysisType, ICheckAnalysisResult, IDictionary,
+    IResourceAnalysisResult, SeverityStatus,
+} from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class DeletionProtectionEnabledAnalyzer extends BaseAnalyzer {
@@ -10,7 +13,8 @@ export class DeletionProtectionEnabledAnalyzer extends BaseAnalyzer {
         }
         const deletion_protection_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         deletion_protection_enabled.what = "Is deletion protection enabled for Load balancers?";
-        deletion_protection_enabled.why = "Deletion protection should be enabled otherwise if you delete load balancer accidentally then it gets deleted permanently";
+        deletion_protection_enabled.why = `Deletion protection should be enabled otherwise if
+        you delete load balancer accidentally then it gets deleted permanently`;
         deletion_protection_enabled.recommendation = "Recommended to enable deletion protection for all load balancers";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allElbsAttributes) {

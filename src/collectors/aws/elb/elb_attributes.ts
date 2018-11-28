@@ -24,7 +24,10 @@ export class ElbV2AttributesCollector extends BaseCollector {
                     const regionElbs = elbs[region];
                     const allRegionElbAttributes = {};
                     for (const elb of regionElbs) {
-                        const regionElbAttributes: AWS.ELBv2.DescribeLoadBalancerAttributesOutput = await elbService.describeLoadBalancerAttributes({ LoadBalancerArn: elb.LoadBalancerArn }).promise();
+                        const regionElbAttributes: AWS.ELBv2.DescribeLoadBalancerAttributesOutput =
+                            await elbService.describeLoadBalancerAttributes({
+                                LoadBalancerArn: elb.LoadBalancerArn,
+                            }).promise();
                         allRegionElbAttributes[elb.LoadBalancerName] = regionElbAttributes.Attributes;
                     }
                     elb_attributes[region] = allRegionElbAttributes;

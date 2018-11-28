@@ -1,4 +1,4 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import { CheckAnalysisType, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 export class UserAccountsMfaEnabledAnalyzer extends BaseAnalyzer {
@@ -13,14 +13,15 @@ export class UserAccountsMfaEnabledAnalyzer extends BaseAnalyzer {
         });
         const user_accounts_mfa_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         user_accounts_mfa_enabled.what = "Are there any user access keys unused?";
-        user_accounts_mfa_enabled.why = "It is important to delete unused or unneeded access keys as it reduces risk of misusing them";
+        user_accounts_mfa_enabled.why = `It is important to delete unused or unneeded
+        access keys as it reduces risk of misusing them`;
         user_accounts_mfa_enabled.recommendation = "Recommended to delete unused user access keys regularly";
         const analysis: IResourceAnalysisResult[] = userCredentials.map((credential) => {
             const user_account_mfa_enabled: IResourceAnalysisResult = {};
             user_account_mfa_enabled.resource = credential;
             user_account_mfa_enabled.resourceSummary = {
-                 name: "User",
-                 value: user_account_mfa_enabled.resource.user,
+                name: "User",
+                value: user_account_mfa_enabled.resource.user,
             };
             if (credential.mfa_active === "true") {
                 user_account_mfa_enabled.severity = SeverityStatus.Good;

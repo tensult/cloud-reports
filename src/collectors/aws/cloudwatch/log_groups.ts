@@ -18,7 +18,8 @@ export class LogGroupsCollector extends BaseCollector {
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const logGroupsResponse: AWS.CloudWatchLogs.DescribeLogGroupsResponse = await cloudWatchService.describeLogGroups({ nextToken: marker }).promise();
+                    const logGroupsResponse: AWS.CloudWatchLogs.DescribeLogGroupsResponse =
+                        await cloudWatchService.describeLogGroups({ nextToken: marker }).promise();
                     if (logGroupsResponse.logGroups) {
                         log_groups[region] = log_groups[region].concat(logGroupsResponse.logGroups);
                     }

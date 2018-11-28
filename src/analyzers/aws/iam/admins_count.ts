@@ -1,4 +1,4 @@
-import { ICheckAnalysisResult, CheckAnalysisType, IResourceAnalysisResult, SeverityStatus } from "../../../types";
+import { CheckAnalysisType, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
 const adminPolicyArn = "arn:aws:iam::aws:policy/AdministratorAccess";
@@ -11,10 +11,11 @@ export class AdminCountAnalyzer extends BaseAnalyzer {
         adminUsers = adminUsers.concat(this.getAdminsFromUsers(params.user_policies));
         const admin_count: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         admin_count.what = "Are there too many admins for the account?";
-        admin_count.why = "It is hard to manage security goals when there too many admins as chances of mistakes increases";
+        admin_count.why = `It is hard to manage security goals
+        when there too many admins as chances of mistakes increases`;
         admin_count.recommendation = "Recommended to have 2-3 admins per account";
         const analysis: IResourceAnalysisResult = {};
-        analysis.resource =  { adminUsers };
+        analysis.resource = { adminUsers };
         analysis.resourceSummary = {
             name: "AdminUsers", value: adminUsers.length ? adminUsers.join(", ") : "None",
         };
@@ -31,7 +32,7 @@ export class AdminCountAnalyzer extends BaseAnalyzer {
             analysis.severity = SeverityStatus.Good;
             analysis.message = `Account has ${adminUsers.length} admins`;
         }
-        admin_count.regions = {global: [analysis]} ;
+        admin_count.regions = { global: [analysis] };
         return { admin_count };
     }
 
