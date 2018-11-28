@@ -19,8 +19,8 @@ export class UserPoliciesCollector extends BaseCollector {
 
             const usersData = await CollectorUtil.cachedCollect(usersCollector);
             const users: AWS.IAM.User[] = usersData.users;
-            for (const i of groups) {
-                const userName = users[i].UserName;
+            for (const user of users) {
+                const userName = user.UserName;
                 let fetchPending = true;
                 let marker: string | undefined;
                 let userPolicies: AWS.IAM.AttachedPolicy[] = [];
