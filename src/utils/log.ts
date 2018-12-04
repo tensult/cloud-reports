@@ -46,7 +46,7 @@ export class LogUtil {
             return;
         }
         for (const param of params) {
-            if (param && param instanceof Error) {
+            if (param && param.stack) {
                 console.log("StackTrace:\n", param.stack);
             }
         }
