@@ -1,4 +1,4 @@
-import {BaseCollector} from "../collectors/base";
+import { BaseCollector } from "../collectors/base";
 import { CacheUtil } from "./cache";
 
 export class CollectorUtil {

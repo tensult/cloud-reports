@@ -19,9 +19,9 @@ export class GroupUsersCollector extends BaseCollector {
         try {
             const groupsData = await CollectorUtil.cachedCollect(groupsCollector);
             const groups: AWS.IAM.Group[] = groupsData.groups;
-            for (let group of groups) {
+            for (const group of groups) {
                 try {
-                    const groupName  = group.GroupName;
+                    const groupName = group.GroupName;
                     let fetchPending = true;
                     let marker: string | undefined;
                     let groupUsers: AWS.IAM.User[] = [];

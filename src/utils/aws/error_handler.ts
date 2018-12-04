@@ -11,6 +11,6 @@ export class AWSErrorHandler {
         ) {
             return;
         }
-        LogUtil.error(...params);
+        throw params;
     }
 }
