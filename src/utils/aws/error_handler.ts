@@ -7,7 +7,8 @@ export class AWSErrorHandler {
             errorCode === "SubscriptionRequiredException" ||
             errorCode === "InvalidClientTokenId" ||
             errorCode === "AuthFailure" ||
-            errorCode === "UnrecognizedClientException"
+            errorCode === "UnrecognizedClientException" ||
+            errorCode === "NoSuchEntity"
         ) {
             return;
         }
@@ -15,7 +16,7 @@ export class AWSErrorHandler {
     }
 
     private static makeError(error: AWSError, params: any[]) {
-        if (params.length) {
+        if (params && params.length) {
             return new Error(error.code + ":" + error.message + " " + params);
         }
         return error;
