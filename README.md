@@ -67,6 +67,17 @@ This collects and analyzes information about your AWS cloud and stores as a repo
 ```
 npm run scan -- --profile Your-AWS-profile
 ```
+* To run on an EC2 instance
+```
+  - It is recommended not to keep the hard coded credentials on the instance so make sure to configure IAM EC2 instance profile role with Read access to AWS account.
+  - Kindly make sure the machine has minimum 2 GB RAM available.
+  - Once the above conditions are met, CloudReports can run on the instance using instance profile role so no need to pass the profile parameter.
+
+```
+npm run scan -- --module s3,acm
+```
+
+
 * To run for specific module
 ```
 npm run scan -- --profile Your-AWS-profile --module s3,acm
