@@ -1,8 +1,8 @@
-import { LogUtil } from "../log";
+import { AWSError } from "aws-sdk";
 
 export class AWSErrorHandler {
-    public static handle(...params: any[]) {
-        const errorCode = params && params[0] ? params[0].code : undefined;
+    public static handle(error: AWSError, ...params: any[]) {
+        const errorCode = error.code;
         if (errorCode === "OptInRequired" ||
             errorCode === "SubscriptionRequiredException" ||
             errorCode === "InvalidClientTokenId" ||
@@ -11,6 +11,13 @@ export class AWSErrorHandler {
         ) {
             return;
         }
-        throw params;
+        throw this.makeError(error, params);
+    }
+
+    private static makeError(error: AWSError, params: any[]) {
+        if (params.length) {
+            return new Error(error.code + ":" + error.message + " " + params);
+        }
+        return error;
     }
 }
