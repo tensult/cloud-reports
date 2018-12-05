@@ -1,5 +1,5 @@
 import * as AWS from "aws-sdk";
-import { CollectorUtil } from "../../../utils";
+import { CollectorUtil, CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 import { LambdaFunctionsCollector } from "./functions";
@@ -30,6 +30,7 @@ export class LambdaFunctionVersionsCollector extends BaseCollector {
                             await lambda.listVersionsByFunction
                                 ({ FunctionName: fn.FunctionName, MaxItems: 7 }).promise();
                         function_versions[region][fn.FunctionName] = functionVersionsResponse.Versions;
+                        await CommonUtil.wait(1000);
                     }
                 } catch (error) {
                     AWSErrorHandler.handle(error);
