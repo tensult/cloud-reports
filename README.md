@@ -149,3 +149,6 @@ node src/scripts/updateAwsServiceRegionsData.js
 ```
 ## Contribute
 Currently this application only supports AWS, but can be extendable to other cloud providers. Contributions are most welcome.
+
+## Contact us
+This product is supported and actively developed by [Tensult](https://wwww/tensult.com). You can contact us at info@tensult.com.
