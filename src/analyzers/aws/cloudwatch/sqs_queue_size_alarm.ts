@@ -13,7 +13,7 @@ export class SQSQueueSizeAlarmAnalyzer extends BaseAnalyzer {
         }
         const allQueueUrls: any[] = fullReport["aws.sqs"].queue_urls;
 
-        const sqs_queue_size_alarm: ICheckAnalysisResult = { type: [CheckAnalysisType.OperationalExcellence] };
+        const sqs_queue_size_alarm: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         sqs_queue_size_alarm.what = "Are alarms are enabled for SQS Queue size?";
         sqs_queue_size_alarm.why = `It is important to set alarms for SQS Queue size as when
         the consumers are failing to process the messages from queue then we will get notified`;

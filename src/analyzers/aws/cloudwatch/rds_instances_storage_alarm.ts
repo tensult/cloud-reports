@@ -13,7 +13,7 @@ export class RDSInstanceStorageAlarmAnalyzer extends BaseAnalyzer {
         }
         const allInstances: any[] = fullReport["aws.rds"].instances;
 
-        const rds_instances_storage_alarm: ICheckAnalysisResult = { type: [CheckAnalysisType.PerformanceEfficiency] };
+        const rds_instances_storage_alarm: ICheckAnalysisResult = { type: CheckAnalysisType.PerformanceEfficiency };
         rds_instances_storage_alarm.what = "Are alarms are enabled for RDS instance Storage?";
         rds_instances_storage_alarm.why = `It is important to set alarms for RDS Storage as when
         there is no storage then the application will stop working.`;

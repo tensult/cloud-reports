@@ -25,8 +25,8 @@ export class CloudReportService {
         'cn-north-1',
         'cn-northwest-1',
         'ap-northeast-3',
-    ]
-    
+    ];
+
 
     constructor(private http: HttpClient) { }
 
@@ -35,10 +35,10 @@ export class CloudReportService {
     }
 
     getAllRegions(provider) {
-        if(provider === 'aws') {
+        if (provider === 'aws') {
             return this.awsRegions;
         }
-    }   
+    }
 
     getScanReportData() {
         if (!this.scanReportData) {
@@ -52,13 +52,13 @@ export class CloudReportService {
     getDashboardData(data) {
         // console.log(data);
 
-        let dashboardData: object[] = [];
-        for (let serviceObjectKey in data) {  // each service
-            let serviceData: object = {};
+        const dashboardData: object[] = [];
+        for (const serviceObjectKey in data) {  // each service
+            const serviceData: object = {};
             serviceData['service'] = serviceObjectKey.split('.')[1];
             serviceData['noOfChecks'] = 0;
             serviceData['noOfFailures'] = 0;
-            for (let checkObjectKey in data[serviceObjectKey]) {
+            for (const checkObjectKey in data[serviceObjectKey]) {
                 if (data[serviceObjectKey][checkObjectKey].regions.hasOwnProperty('global')) {
                     const resources = data[serviceObjectKey][checkObjectKey].regions.global;
                     for (let i = 0; i < resources.length; i++) {
@@ -68,9 +68,8 @@ export class CloudReportService {
                             serviceData['noOfFailures']++;
                         }
                     }
-                }
-                else {
-                    for (let region in data[serviceObjectKey][checkObjectKey].regions) {
+                } else {
+                    for (const region in data[serviceObjectKey][checkObjectKey].regions) {
                         const resources = data[serviceObjectKey][checkObjectKey].regions[region];
                         // console.log(resources)
                         for (let i = 0; i < resources.length; i++) {
@@ -84,7 +83,7 @@ export class CloudReportService {
                     }
                 }
             }
-            if (serviceData['noOfChecks'] == 0) {
+            if (serviceData['noOfChecks'] === 0) {
                 continue;
             }
             dashboardData.push(serviceData);
@@ -98,7 +97,7 @@ export class CloudReportService {
     */
     checkServiceCheckCategoryHasData(checkCategoryObject) {
         const regionsObject = checkCategoryObject['regions'];
-        for (let regionsObjectKey in regionsObject) {
+        for (const regionsObjectKey in regionsObject) {
             if (regionsObject[regionsObjectKey].length >= 1) {
                 return true;
             }
@@ -107,9 +106,9 @@ export class CloudReportService {
     }
 
     checkServiceHasData(serviceObject) {
-        for (let checkCategoryObjectKey in serviceObject) {
+        for (const checkCategoryObjectKey in serviceObject) {
             const regionsObject = serviceObject[checkCategoryObjectKey]['regions'];
-            for (let regionsObjectKey in regionsObject) {
+            for (const regionsObjectKey in regionsObject) {
                 if (regionsObject[regionsObjectKey].length >= 1) {
                     return true;
                 }
@@ -142,17 +141,17 @@ export class CloudReportService {
         return false;
     }
 
-    /** 
-     * Check Category functions 
+    /**
+     * Check Category functions
      * */
     getCheckCategoryData(service, region, data) {
         // console.log(service, region)
-        let checkCategoryData: object[] = [];
-        let regionsHaveData = [];
-        for (let serviceObjectKey in data) {
+        const checkCategoryData: object[] = [];
+        const regionsHaveData = [];
+        for (const serviceObjectKey in data) {
             if (serviceObjectKey === service) {
-                for (let checkCategoryObjectKey in data[serviceObjectKey]) {
-                    let serviceData: object = {};
+                for (const checkCategoryObjectKey in data[serviceObjectKey]) {
+                    const serviceData: object = {};
                     serviceData['badConditionCount'] = 0;
                     serviceData['goodConditionCount'] = 0;
                     serviceData['checkCategoryName'] = this.replaceUnderscoreWithSpace(checkCategoryObjectKey);
@@ -160,10 +159,9 @@ export class CloudReportService {
                     if (regionsObject.hasOwnProperty('global')) {
                         if (regionsObject.global.length < 1) {
                             continue;
-                        }
-                        else if (regionsObject.global.length > 1) {
+                        } else if (regionsObject.global.length > 1) {
                             if (!this.checkHasData('global', regionsHaveData)) {
-                                regionsHaveData.push('global')
+                                regionsHaveData.push('global');
                                 serviceData['regionsHaveData'] = regionsHaveData;
                             }
                             for (let i = 0; i < regionsObject.global.length; i++) {
@@ -171,62 +169,57 @@ export class CloudReportService {
                                 const severity = resourceObject.severity;
                                 if (resourceObject.severity === 'Good') {
                                     serviceData['goodConditionCount']++;
-                                }
-                                else if (severity === 'Warning' || severity === 'Failure') {
+                                } else if (severity === 'Warning' || severity === 'Failure') {
                                     serviceData['badConditionCount']++;
                                 }
                             }
                         }
-                    }
-                    else if (region === 'all') {
-                        for (let regionsObjectKey in regionsObject) {
+                    } else if (region === 'all') {
+                        for (const regionsObjectKey in regionsObject) {
                             const regionData = regionsObject[regionsObjectKey];
                             if (regionData.length < 1) {
                                 continue;
-                            }
-                            else if (regionData.length >= 1) {
-                                if (!this.checkHasData(regionsObjectKey, regionsHaveData))
+                            } else if (regionData.length >= 1) {
+                                if (!this.checkHasData(regionsObjectKey, regionsHaveData)) {
                                     regionsHaveData.push(regionsObjectKey);
+                                }
                                 for (let i = 0; i < regionData.length; i++) {
                                     const resourceObject = regionData[i];
                                     const severity = resourceObject.severity;
                                     if (resourceObject.severity === 'Good') {
                                         serviceData['goodConditionCount']++;
-                                    }
-                                    else if (severity === 'Warning' || severity === 'Failure') {
+                                    } else if (severity === 'Warning' || severity === 'Failure') {
                                         serviceData['badConditionCount']++;
                                     }
                                 }
                             }
                         }
                         serviceData['regionsHaveData'] = regionsHaveData;
-                    }
-                    else {
-                        for (let regionsObjectKey in regionsObject) {
+                    } else {
+                        for (const regionsObjectKey in regionsObject) {
                             if (regionsObjectKey === region) {
                                 const regionData = regionsObject[regionsObjectKey];
                                 if (regionData.length < 1) {
                                     continue;
-                                }
-                                else if (regionData.length >= 1) {
+                                } else if (regionData.length >= 1) {
                                     for (let i = 0; i < regionData.length; i++) {
                                         const resourceObject = regionData[i];
                                         const severity = resourceObject.severity;
                                         if (resourceObject.severity === 'Good') {
                                             serviceData['goodConditionCount']++;
-                                        }
-                                        else if (severity === 'Warning' || severity === 'Failure') {
+                                        } else if (severity === 'Warning' || severity === 'Failure') {
                                             serviceData['badConditionCount']++;
                                         }
                                     }
-                                    if (!this.checkHasData(region, regionsHaveData))
+                                    if (!this.checkHasData(region, regionsHaveData)) {
                                         regionsHaveData.push(region);
+                                    }
                                 }
                             }
                         }
                         serviceData['regionsHaveData'] = regionsHaveData;
                     }
-                    if (serviceData['badConditionCount'] == 0 && serviceData['goodConditionCount'] == 0) {
+                    if (serviceData['badConditionCount'] === 0 && serviceData['goodConditionCount'] === 0) {
                         continue;
                     }
                     checkCategoryData.push(serviceData);
@@ -237,16 +230,17 @@ export class CloudReportService {
     }
 
     getRegionsHaveData(data, service) {
-        let regionsHaveData = [];
-        for (let serviceObjectKey in data) {
+        const regionsHaveData = [];
+        for (const serviceObjectKey in data) {
             if (service && serviceObjectKey !== service) {
                 continue;
             }
-            for (let checkCategoryKey in data[serviceObjectKey]) {
-                for (let regionObjectKey in data[serviceObjectKey][checkCategoryKey].regions) {
+            for (const checkCategoryKey in data[serviceObjectKey]) {
+                for (const regionObjectKey in data[serviceObjectKey][checkCategoryKey].regions) {
                     if (data[serviceObjectKey][checkCategoryKey].regions[regionObjectKey].length >= 1) {
-                        if (!this.checkHasData(regionObjectKey, regionsHaveData))
+                        if (!this.checkHasData(regionObjectKey, regionsHaveData)) {
                             regionsHaveData.push(regionObjectKey);
+                        }
                     }
                 }
             }
@@ -258,15 +252,13 @@ export class CloudReportService {
     manageRegion(region?, service?, data?) {
         if (!region && !localStorage.getItem('awsRegion')) {
             localStorage.setItem('awsRegion', 'all');
-        }
-        else if (region) {
+        } else if (region) {
             localStorage.setItem('awsRegion', region);
-        }
-        else if (service && !region && data) {
+        } else if (service && !region && data) {
             const selectedRegion = localStorage.getItem('awsRegion');
             const regionsHaveData = this.getRegionsHaveData(data, service);
             for (let i = 0; i < regionsHaveData.length; i++) {
-                if (selectedRegion == regionsHaveData[i]) {
+                if (selectedRegion === regionsHaveData[i]) {
                     return localStorage.getItem('awsRegion');
                 }
             }
@@ -278,57 +270,58 @@ export class CloudReportService {
 
     /************************************ check detail page start ***********************************************/
 
-    getCheckDetailData(data, service?: string, checkCategory?: string, region?: string, severities?: string[]) {
+    getCheckDetailData(data,
+        service?: string,
+        checkCategory?: string,
+        region?: string,
+        severities?: string[],
+        pillars?: string[]) {
 
         let filterredData = data;
         if (ArrayUtil.isNotBlank(service)) {
             filterredData = {
                 [service]: data[service]
-            }
+            };
             if (ArrayUtil.isNotBlank(checkCategory)) {
                 checkCategory = this.replaceSpaceWithUnderscore(checkCategory.toLowerCase());
                 filterredData[service] = {
                     [checkCategory]: filterredData[service][checkCategory]
+                };
+            }
+        }
+
+        if (ArrayUtil.isNotBlank(pillars)) {
+            for (const serviceIndex in filterredData) {
+                for (const checkCategoryIndex in filterredData[serviceIndex]) {
+                    if (!pillars.includes(filterredData[serviceIndex][checkCategoryIndex].type)) {
+                        delete filterredData[serviceIndex][checkCategoryIndex];
+                    }
                 }
             }
         }
-        
+
         if (ArrayUtil.isNotBlank(region)) {
-            for (let serviceIndex in filterredData) {
-                for (let checkCategoryIndex in filterredData[serviceIndex]) {
+            for (const serviceIndex in filterredData) {
+                for (const checkCategoryIndex in filterredData[serviceIndex]) {
                     if (filterredData[serviceIndex][checkCategoryIndex].regions[region]) {
                         filterredData[serviceIndex][checkCategoryIndex].regions = {
                             [region]: filterredData[serviceIndex][checkCategoryIndex].regions[region]
-                        }
+                        };
                     }
                 }
             }
         }
 
-        if (ArrayUtil.isNotBlank(severities)) {
-            for (let serviceIndex in filterredData) {
-                for (let checkCategoryIndex in filterredData[serviceIndex]) {
-                    for (let regionIndex in filterredData[serviceIndex][checkCategoryIndex].regions) {
-                        if(!filterredData[serviceIndex][checkCategoryIndex].regions[regionIndex]) {
-                            continue;
-                        }
-                        filterredData[serviceIndex][checkCategoryIndex].regions[regionIndex] = filterredData[serviceIndex][checkCategoryIndex].regions[regionIndex].filter((checkData) => {
-                            return severities.indexOf(checkData.severity) !== -1;
-                        });
-                    }
-                }
-            }
-        }
         return filterredData;
     }
 
-    /** 
-     * Return services which are 
+    /**
+     * Return services which are
      * present in report data and have data
      */
     getServices(data) {
-        let services = [];
-        for (let serviceObjectKey in data) {
+        const services = [];
+        for (const serviceObjectKey in data) {
             if (this.checkServiceHasData(data[serviceObjectKey])) {
                 services.push(serviceObjectKey.split('.')[1]);
             }
@@ -336,14 +329,14 @@ export class CloudReportService {
         return services;
     }
 
-    /** 
+    /**
      * Return check categories
      * based on service
     */
     getServiceCheckCategories(data) {
-        let checkCategories = [];
-        for (let serviceObjectKey in data) {
-            for (let checkCategoryObjectKey in data[serviceObjectKey]) {
+        const checkCategories = [];
+        for (const serviceObjectKey in data) {
+            for (const checkCategoryObjectKey in data[serviceObjectKey]) {
                 const checkCategoryObject = data[serviceObjectKey][checkCategoryObjectKey];
                 if (this.checkServiceCheckCategoryHasData(checkCategoryObject)) {
                     checkCategories.push(this.replaceUnderscoreWithSpace(checkCategoryObjectKey));
@@ -354,17 +347,18 @@ export class CloudReportService {
         return checkCategories;
     }
 
-    /** 
+    /**
      * Return regions based on service and check category
     */
     getServiceRegions(data) {
-        let regionsHaveData = [];
-        for (let serviceObjectKey in data) {
-            for (let checkCategoryKey in data[serviceObjectKey]) {
-                for (let regionObjectKey in data[serviceObjectKey][checkCategoryKey].regions) {
+        const regionsHaveData = [];
+        for (const serviceObjectKey in data) {
+            for (const checkCategoryKey in data[serviceObjectKey]) {
+                for (const regionObjectKey in data[serviceObjectKey][checkCategoryKey].regions) {
                     if (data[serviceObjectKey][checkCategoryKey].regions[regionObjectKey].length >= 1) {
-                        if (!this.checkHasData(regionObjectKey, regionsHaveData))
+                        if (!this.checkHasData(regionObjectKey, regionsHaveData)) {
                             regionsHaveData.push(regionObjectKey);
+                        }
                     }
                 }
             }
@@ -376,7 +370,7 @@ export class CloudReportService {
     storeFilterSelectionData(data) {
         let storedFilterSelection = [];
         storedFilterSelection = JSON.parse(localStorage.getItem('filterSelection'));
-        if(!storedFilterSelection || storedFilterSelection.length < 1) {
+        if (!storedFilterSelection || storedFilterSelection.length < 1) {
             storedFilterSelection = [];
         }
         storedFilterSelection.push(data);
@@ -384,19 +378,19 @@ export class CloudReportService {
     }
 
     getFilterSelectionData() {
-        let storedFilterSelection = JSON.parse(localStorage.getItem('filterSelection'));
-        if(storedFilterSelection && storedFilterSelection.length > 0) {
+        const storedFilterSelection = JSON.parse(localStorage.getItem('filterSelection'));
+        if (storedFilterSelection && storedFilterSelection.length > 0) {
             return storedFilterSelection;
         }
     }
 
     checkSameFilterSelectionData(storedFilterSelectionData: Object[], newFilterSelectionData: Object) {
-        for(let i=0; i<storedFilterSelectionData.length; i++) {
-            
+        for (let i = 0; i < storedFilterSelectionData.length; i++) {
+
         }
     }
 
-/************************************ check detail page end ***********************************************/
+    /************************************ check detail page end ***********************************************/
 
 
 }

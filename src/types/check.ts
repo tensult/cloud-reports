@@ -7,7 +7,7 @@ export interface ICheckAnalysisResult {
     recommendation?: string;
     reference?: string;
     resourceKeys?: string[];
-    type: CheckAnalysisType | CheckAnalysisType[];
+    type: CheckAnalysisType;
     regions?: IDictionary<IResourceAnalysisResult[]>;
 }
 

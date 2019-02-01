@@ -15,7 +15,7 @@ export class RDSInstanceCPUUtilizationAlarmAnalyzer extends BaseAnalyzer {
         const allInstances: any[] = fullReport["aws.rds"].instances;
 
         const rds_instance_cpu_utilization_alarm:
-            ICheckAnalysisResult = { type: [CheckAnalysisType.PerformanceEfficiency] };
+            ICheckAnalysisResult = { type: CheckAnalysisType.PerformanceEfficiency };
         rds_instance_cpu_utilization_alarm.what = "Are alarms are enabled for RDS instance CPU utilization?";
         rds_instance_cpu_utilization_alarm.why = `It is important to set alarms for RDS CPU utilization
         as when utilization is high then the application performance will be degraded.`;

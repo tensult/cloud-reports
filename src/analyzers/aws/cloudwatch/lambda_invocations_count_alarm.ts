@@ -14,8 +14,7 @@ export class LambdaInvocationsCountAlarmAnalyzer extends BaseAnalyzer {
         const allLambdaFunctions: any[] = fullReport["aws.lambda"].functions;
 
         const lambda_invocations_count_alarm: ICheckAnalysisResult = {
-            type:
-                [CheckAnalysisType.OperationalExcellence],
+            type: CheckAnalysisType.OperationalExcellence,
         };
         lambda_invocations_count_alarm.what = "Are alarms are enabled for Lambda function based on invocation count?";
         lambda_invocations_count_alarm.why = `It is important to set invocation count alarm for all Lambda functions

@@ -7,14 +7,14 @@
   background-color: #8080801f;
   ">
   <div style="margin-right: 30px">
-      <a href="/">
-        <img src="assets/tensult-text-logo.svg" alt="Tensult" height="40px">
+    <a href="/">
+      <img src="assets/tensult-text-logo.svg" alt="Tensult" height="40px">
     </a>
   </div>
   <div style="margin-right: 10px">
     <mat-form-field>
       <mat-select placeholder="Services" [(value)]="selectedService" (selectionChange)="fetchServiceCheckCategories()">
-          <mat-option>All</mat-option>
+        <mat-option>All</mat-option>
         <mat-option *ngFor="let service of services" [value]="service">{{service}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -47,6 +47,20 @@
       </mat-select>
     </mat-form-field>
   </div>
+
+  <div style="margin-right: 10px">
+    <mat-form-field>
+      <mat-select placeholder="Pillar" [(value)]="selectedPillar" multiple (selectionChange)=reload()>
+        <mat-option>All</mat-option>
+        <mat-option [value]="'CostOptimization'">CostOptimization</mat-option>
+        <mat-option [value]="'Informational'">Informational</mat-option>
+        <mat-option [value]="'OperationalExcellence'">OperationalExcellence</mat-option>
+        <mat-option [value]="'PerformanceEfficiency'">PerformanceEfficiency</mat-option>
+        <mat-option [value]="'Reliability'">Reliability</mat-option>
+        <mat-option [value]="'Security'">Security</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <!-- <div style="margin-right: 10px">
     <button mat-flat-button (click)="reload()">Go</button>
   </div> -->
@@ -60,12 +74,13 @@
 </div>
 
 <div class="filter-selection">
-        <mat-chip-list>
-            <mat-chip *ngFor="let filterSelection of filterSelections" [selectable]="selectable" [removable]="removable" (removed)="remove(filterSelection)">
-              {{filterSelection.key}}:{{filterSelection.value}}
-              <span matChipRemove> <b>X</b> </span>
-            </mat-chip>
-        </mat-chip-list>
+  <mat-chip-list>
+    <mat-chip *ngFor="let filterSelection of filterSelections" [selectable]="selectable" [removable]="removable"
+      (removed)="remove(filterSelection)">
+      {{filterSelection.key}}:{{filterSelection.value}}
+      <span matChipRemove> <b>X</b> </span>
+    </mat-chip>
+  </mat-chip-list>
 </div>
 
 <div class="no-data" *ngIf="!tableData || tableData.length==0">
@@ -96,6 +111,12 @@
           {{element.region}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="pillar">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Pillar </th>
+        <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
+          {{element.pillar}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="resourceName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Resource Name </th>
         <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
@@ -121,10 +142,10 @@
       </ng-container>
 
       <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
-          <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
-            {{element.recommendation}} </td>
-        </ng-container>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+        <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
+          {{element.recommendation}} </td>
+      </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
