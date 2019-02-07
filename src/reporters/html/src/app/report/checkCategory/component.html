@@ -4,7 +4,7 @@
       <img src="assets/tensult-text-logo.svg" alt="Tensult" height="40px">
     </a>
     <span class="example-spacer"></span>
-    <button mat-button [matMenuTriggerFor]="menu" [disabled]="regionSelectValidate" matTooltip="Select a region">{{selectedRegion}}</button>
+    <button mat-button [matMenuTriggerFor]="menu" *ngIf="regions" [disabled]="regions.length===1" matTooltip="Select a region">{{selectedRegion}}</button>
     <mat-menu #menu="matMenu">
       <div style="height: 300px;">
         <button mat-menu-item *ngIf="regions && regions.length>1" (click)="onRegionChange('all')">all</button>
