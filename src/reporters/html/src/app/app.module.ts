@@ -12,16 +12,16 @@ import { ReportModule } from './report/report.module';
 @NgModule({
   declarations: [
     AppComponent,
-    PageNotFound
+    PageNotFound,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ReportModule,
     RouterModule.forRoot([
       { path: '', redirectTo: '/report/dashboard', pathMatch: 'full' },
       { path: '**', component: PageNotFound }
     ], { useHash: true }),
-    ReportModule
   ],
   providers: [],
   bootstrap: [AppComponent]

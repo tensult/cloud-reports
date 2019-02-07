@@ -1,7 +1,8 @@
-import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CloudReportService } from '../report.service';
-import { Location } from '@angular/common';
+import { MatDialog } from '@angular/material';
+import { NoDataToShowComponent } from '../../no-data-to-show/no-data-to-show.component';
 
 @Component({
   selector: 'app-cloud-report-check-category',
@@ -19,9 +20,7 @@ export class CloudReportCheckCategoryComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private cloudReportService: CloudReportService,
-    private elementRef: ElementRef,
-    private router: Router
-  ) { }
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.loadCheckCategoryPageData();
@@ -42,8 +41,9 @@ export class CloudReportCheckCategoryComponent implements OnInit {
         }
         this.checkCategories = this.cloudReportService.getCheckCategoryData('aws.' + this.service, this.selectedRegion, data);
         if (!this.checkCategories.length) {
-          alert('No data to show');
-          this.router.navigate(['/']);
+          this.dialog.open(NoDataToShowComponent, {
+            width: '250px',
+          });
         }
       });
   }
