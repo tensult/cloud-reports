@@ -1,7 +1,8 @@
-import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'
+import { Component, OnInit, ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CloudReportService } from '../report.service';
-import { Location } from '@angular/common';
+import { MatDialog } from '@angular/material';
+import { NoDataToShowComponent } from '../../no-data-to-show/no-data-to-show.component';
 
 @Component({
   selector: 'app-cloud-report-check-category',
@@ -14,15 +15,12 @@ export class CloudReportCheckCategoryComponent implements OnInit {
   checkCategories: object[];
   selectedRegion: string;
   globalService: boolean;
-  regionSelectValidate: boolean = false;
   service: string;
   scanReportData: Object;
 
   constructor(private route: ActivatedRoute,
     private cloudReportService: CloudReportService,
-    private elementRef: ElementRef,
-    private router: Router
-  ) { }
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.loadCheckCategoryPageData();
@@ -33,18 +31,21 @@ export class CloudReportCheckCategoryComponent implements OnInit {
     this.cloudReportService.getScanReportData()
       .subscribe((data) => {
         this.scanReportData = data;
-        const regionsHaveData = this.cloudReportService.getRegionsHaveData(data, 'aws.' + this.service);
+        const regionsHaveData = this.cloudReportService.getRegionsWithData(data, 'aws.' + this.service);
         if (regionsHaveData.length === 1) {
           this.selectedRegion = regionsHaveData[0];
-          this.regionSelectValidate = true;
           this.regions = regionsHaveData;
-        }
-        else {
+        } else {
           this.regions = regionsHaveData;
           this.selectedRegion = this.cloudReportService.manageRegion(undefined, 'aws.' + this.service, data);
         }
         this.checkCategories = this.cloudReportService.getCheckCategoryData('aws.' + this.service, this.selectedRegion, data);
-      })
+        if (!this.checkCategories.length) {
+          this.dialog.open(NoDataToShowComponent, {
+            width: '250px',
+          });
+        }
+      });
   }
 
   onRegionChange(region) {
