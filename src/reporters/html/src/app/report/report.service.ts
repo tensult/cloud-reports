@@ -229,7 +229,7 @@ export class CloudReportService {
         return checkCategoryData;
     }
 
-    getRegionsHaveData(data, service) {
+    getRegionsWithData(data, service) {
         const regionsHaveData = [];
         for (const serviceObjectKey in data) {
             if (service && serviceObjectKey !== service) {
@@ -256,7 +256,7 @@ export class CloudReportService {
             localStorage.setItem('awsRegion', region);
         } else if (service && !region && data) {
             const selectedRegion = localStorage.getItem('awsRegion');
-            const regionsHaveData = this.getRegionsHaveData(data, service);
+            const regionsHaveData = this.getRegionsWithData(data, service);
             for (let i = 0; i < regionsHaveData.length; i++) {
                 if (selectedRegion === regionsHaveData[i]) {
                     return localStorage.getItem('awsRegion');
