@@ -4,7 +4,7 @@ import {
 } from "../../../types";
 import { BaseAnalyzer } from "../../base";
 
-const millsIn30Days = 30 * 24 * 60 * 60 * 1000;
+const millsInOneDay = 24 * 60 * 60 * 1000;
 export class CertificatesExpiryAnalyzer extends BaseAnalyzer {
 
     public analyze(params: any, fullReport?: any): any {
@@ -32,18 +32,18 @@ export class CertificatesExpiryAnalyzer extends BaseAnalyzer {
                     value: `${certificate.DomainName} | ${this.getCertificateId(certificate.CertificateArn)}`,
                 };
                 const expirationTime = new Date(certificate.NotAfter);
-                const dateAfter30Days = new Date(Date.now() + millsIn30Days);
-                const dateAfter90Days = new Date(Date.now() + 3 * millsIn30Days);
+                const dateAfter30Days = new Date(Date.now() + 30 * millsInOneDay);
+                const dateAfter90Days = new Date(Date.now() + 90 * millsInOneDay);
                 if (expirationTime < new Date()) {
                     certificate_analysis.severity = SeverityStatus.Failure;
                     certificate_analysis.message = "Certificate is expired";
                     certificate_analysis.action = "Renew the certificate or remove it if no longer needed";
                 } else if (expirationTime < dateAfter30Days) {
-                    certificate_analysis.severity = SeverityStatus.Warning;
+                    certificate_analysis.severity = SeverityStatus.Failure;
                     certificate_analysis.message = "Certificate is expiring within a month";
                     certificate_analysis.action = "Renew the certificate immediately";
                 } else if (expirationTime < dateAfter90Days) {
-                    certificate_analysis.severity = SeverityStatus.Info;
+                    certificate_analysis.severity = SeverityStatus.Warning;
                     certificate_analysis.message = "Certificate is expiring within 3 months";
                     certificate_analysis.action = "Plan for its renewal";
                 } else {
