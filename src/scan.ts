@@ -34,8 +34,8 @@ AWS.config.maxRetries = 3;
 
 const collectorReportFileName = cliArgs.outputDir + "/collector_report.json";
 
-function makeFileName() {
-    return cliArgs.outputDir + "/" + cliArgs.output + "_" +
+function makeFileName(accountNumber) {
+    return cliArgs.outputDir + "/" + cliArgs.output + "_" + accountNumber + "_" +
         Moment().format("YYYY-MM-DD-hh-mm-ss") + "." + cliArgs.format;
 }
 
@@ -79,6 +79,9 @@ async function getCollectorResults() {
     return await CollectorMain.collect(cliArgs.module, credentials);
 }
 
+function getAccountNumber(analyzedData) {
+    return analyzedData["aws.account"].summary.regions.global[0].resourceSummary.value;
+}
 async function scan() {
     try {
         const collectorResults = await getCollectorResults();
@@ -94,7 +97,7 @@ async function scan() {
         }
         const reportFileData = await makeFileContents(analyzedData);
         if (cliArgs.format !== "html") {
-            const reportFileName = makeFileName();
+            const reportFileName = makeFileName(getAccountNumber(analyzedData));
             writeFileSync(reportFileName, reportFileData);
             LogUtil.log(`${reportFileName} is generated`);
             opn(reportFileName, { wait: false });
