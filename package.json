@@ -35,6 +35,7 @@
   "dependencies": {
     "aws-sdk": "^2.328.0",
     "flat": "^4.0.0",
-    "moment": "^2.22.2"
+    "moment": "^2.22.2",
+    "extend": ">=3.0.2"
   }
 }
