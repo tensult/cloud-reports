@@ -90,6 +90,7 @@ async function scan() {
             LogUtil.log(`${collectorReportFileName} is generated`);
         }
         const analyzedData = AnalyzerMain.analyze(collectorResults);
+        const accountNumber = getAccountNumber(analyzedData);
         if (cliArgs.debug) {
             const analyzerReportFileName = cliArgs.outputDir + "/analyzer_report.json";
             writeFileSync(analyzerReportFileName, JSON.stringify(analyzedData, null, 2));
@@ -97,7 +98,7 @@ async function scan() {
         }
         const reportFileData = await makeFileContents(analyzedData);
         if (cliArgs.format !== "html") {
-            const reportFileName = makeFileName(getAccountNumber(analyzedData));
+            const reportFileName = makeFileName(accountNumber);
             writeFileSync(reportFileName, reportFileData);
             LogUtil.log(`${reportFileName} is generated`);
             opn(reportFileName, { wait: false });
