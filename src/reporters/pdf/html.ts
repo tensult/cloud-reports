@@ -11,7 +11,8 @@ function processReportData(reportData: any, includeOnlyIssues: boolean) {
                 let regionDetails = reportData[serviceName][checkName].regions[regionName];
                 if (includeOnlyIssues) {
                     regionDetails = regionDetails.filter((resourceDetails) => {
-                        return resourceDetails.severity < 2;
+                        return resourceDetails.severity === "Warning" ||
+                            resourceDetails.severity === "Failure";
                     });
                     reportData[serviceName][checkName].regions[regionName] = regionDetails;
                 }

@@ -20,6 +20,7 @@ const cliArgs = Cli.parse({
     outputDir: ["D", "Output directory", "string", "."],
     profile: ["p", "AWS profile name", "string", "default"],
     reuseCollectorReport: ["u", "Reuse collection report", "boolean", false],
+    showIssuesOnly: ["i", "should show only issues", "boolean", false],
 });
 
 LogUtil.setCurrentLogLevel(cliArgs.logLevel);
@@ -60,7 +61,7 @@ async function makeFileContents(analyzedData) {
             opn("http://localhost:3000");
         }
         case "pdf": {
-            return Reporters.generatePDF(analyzedData);
+            return Reporters.generatePDF(analyzedData, { showIssuesOnly: cliArgs.showIssuesOnly });
         }
     }
 }

@@ -93,6 +93,7 @@ npm run scan -- --profile Your-AWS-profile  -f html
 * To generate PDF report file
 ```
 npm run scan -- --profile Your-AWS-profile  -f pdf
+npm run scan -- --profile Your-AWS-profile  -f pdf -i # This will report only issues
 ```
 * To generate JSON report file
 ```
