@@ -1,7 +1,7 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=73QY55FZWSPRJ)
 
 # Cloud Reports
-Collects info about various cloud resources and analyzes them against best practices and give a JSON, HTML or PDF reports.
+Collects info about various cloud resources and analyzes them against best practices and give a JSON, CSV, HTML, or PDF reports.
 
 
 <p align="center"> 
@@ -93,7 +93,12 @@ npm run scan -- --profile Your-AWS-profile  -f html
 * To generate PDF report file
 ```
 npm run scan -- --profile Your-AWS-profile  -f pdf
-npm run scan -- --profile Your-AWS-profile  -f pdf -i # This will report only issues
+npm run scan -- --profile Your-AWS-profile  -f pdf -i # This will only report issues
+```
+* To generate CSV report file
+```
+npm run scan -- --profile Your-AWS-profile  -f csv
+npm run scan -- --profile Your-AWS-profile  -f csv -i # This will only report issues
 ```
 * To generate JSON report file
 ```

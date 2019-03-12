@@ -13,19 +13,19 @@ import { LogUtil } from "./utils/log";
 
 const cliArgs = Cli.parse({
     debug: ["d", "if you enable Debug then it will generate intermediate reports", "boolean", false],
-    format: ["f", "output format: html, json or pdf", "string", "html"],
+    format: ["f", "output format: html, json, csv or pdf", "string", "html"],
+    issuesOnly: ["i", "should show only issues", "boolean", false],
     logLevel: ["l", "Log level: off=100, info=1, warning=2, error=3", "int", "3"],
     module: ["m", "name of the module", "string"],
     output: ["o", "Report file name", "string", "scan_report"],
     outputDir: ["D", "Output directory", "string", "."],
     profile: ["p", "AWS profile name", "string", "default"],
     reuseCollectorReport: ["u", "Reuse collection report", "boolean", false],
-    showIssuesOnly: ["i", "should show only issues", "boolean", false],
 });
 
 LogUtil.setCurrentLogLevel(cliArgs.logLevel);
 
-if (["json", "pdf", "html"].indexOf(cliArgs.format) === -1) {
+if (["json", "csv", "pdf", "html"].indexOf(cliArgs.format) === -1) {
     Cli.getUsage();
 }
 
@@ -44,6 +44,9 @@ async function makeFileContents(analyzedData) {
         case "json": {
             return JSON.stringify(analyzedData, null, 2);
         }
+        case "csv": {
+            return Reporters.generateCSV(analyzedData, { showIssuesOnly: cliArgs.issuesOnly });
+        }
         case "html": {
             writeFileSync("src/reporters/html/dist/html-report/assets/data.json",
                 JSON.stringify(analyzedData, null, 2));
@@ -61,8 +64,9 @@ async function makeFileContents(analyzedData) {
             opn("http://localhost:3000");
         }
         case "pdf": {
-            return Reporters.generatePDF(analyzedData, { showIssuesOnly: cliArgs.showIssuesOnly });
+            return Reporters.generatePDF(analyzedData, { showIssuesOnly: cliArgs.issuesOnly });
         }
+        default: throw new Error("Unsupported report format");
     }
 }
 
