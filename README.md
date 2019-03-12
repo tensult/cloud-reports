@@ -5,7 +5,7 @@ Collects info about various cloud resources and analyzes them against best pract
 
 
 <p align="center"> 
-<img src="https://user-images.githubusercontent.com/33080863/43033177-3b6466f4-8ce3-11e8-8c6a-7efca76d1043.png">
+<img src="https://user-images.githubusercontent.com/33080863/54195436-a734d300-44e4-11e9-952e-482eac08f345.png">
 </p>
 
 ## Modules
