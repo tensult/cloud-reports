@@ -1,6 +1,8 @@
 src
 tsconfig.json
-*report*.json
+tslint.json
+*report.json
+scan_report*
 *.ejs
 sample-reports
 node_modules
