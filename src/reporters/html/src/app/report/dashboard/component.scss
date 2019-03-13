@@ -1,31 +1,27 @@
 .dashboard-content {
-  margin-top: 20px;
+    margin-top: 20px;
+    height: 650px;
+    overflow: auto;
 }
+
 table {
     width: 100%;
-    overflow: auto;
-    max-height: 500px;
-    .service-name {
-      font-weight: bold;
-    }
-  }
-
-.column-header {
-  font-size: 120%;
 }
 
-.column-desc-good {
-  text-align: center;
-  background-color: rgb(6, 165, 32)
+.header {
+    font-size: 120%;
+    background-color: rgb(206, 206, 206);
 }
 
-.column-desc-alert {
-  text-align: center;
-  background-color: rgb(221, 31, 6)
+.text {
+    text-align: center;
 }
 
-.column-desc-normal {
-  text-align: center;
-  background-color:lightgray;
+.highlight {
+    cursor: pointer;
+    background-color: rgb(204, 201, 201);
 }
 
+.alert {
+    color: red;
+}

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CloudReportService } from '../report.service'
+import { CloudReportService } from '../report.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
 
@@ -10,9 +10,10 @@ import { MatTableDataSource } from '@angular/material';
 })
 export class CloudReportDashboardComponent implements OnInit {
 
-  displayedColumns: string[] = ['services', 'noOfChecks', 'noOfFailures', 'action'];
+  displayedColumns: string[] = ['services', 'noOfChecks', 'noOfFailures'];
   dataSource;
   scanReportData: Object;
+  selectedRowService: string;
 
   constructor(private cloudReportService: CloudReportService, private router: Router) { }
 
@@ -28,11 +29,19 @@ export class CloudReportDashboardComponent implements OnInit {
       }, (error) => {
         console.log(error);
       }
-      )
+      );
   }
 
-  goToService(element) {
-    this.router.navigate(['report/checkCategory', element.service]);
+  goToService(row) {
+    this.router.navigate(['report/checkCategory', row.service]);
+  }
+
+  doHighlight(row) {
+    this.selectedRowService = row.service;
+  }
+
+  doNonHighLight() {
+    this.selectedRowService = null;
   }
 
 
