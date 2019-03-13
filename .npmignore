@@ -3,3 +3,4 @@ tsconfig.json
 *report*.json
 *.ejs
 sample-reports
+node_modules
