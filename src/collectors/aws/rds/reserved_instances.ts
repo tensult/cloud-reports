@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -28,6 +29,7 @@ export class RDSReservedInstancesCollector extends BaseCollector {
                     }
                     marker = instancesResponse.Marker;
                     fetchPending = marker !== undefined && marker !== null;
+                    await CommonUtil.wait(200);
                 }
             } catch (error) {
                 AWSErrorHandler.handle(error);

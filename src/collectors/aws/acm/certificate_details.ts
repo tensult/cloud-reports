@@ -1,5 +1,5 @@
 import * as AWS from "aws-sdk";
-import { CollectorUtil } from "../../../utils";
+import { CollectorUtil, CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 import { CertificateCollector } from "./certificates";
@@ -34,6 +34,7 @@ export class CertificateDetailsCollector extends BaseCollector {
                         }
                     }
                     certificate_details[region] = allRegionCertificateDetails;
+                    await CommonUtil.wait(200);
                 } catch (error) {
                     AWSErrorHandler.handle(error);
                     continue;

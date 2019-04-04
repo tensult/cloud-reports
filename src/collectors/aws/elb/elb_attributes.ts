@@ -1,5 +1,5 @@
 import * as AWS from "aws-sdk";
-import { CollectorUtil } from "../../../utils";
+import { CollectorUtil, CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 import { ElbV2sCollector } from "./elbs";
@@ -29,6 +29,7 @@ export class ElbV2AttributesCollector extends BaseCollector {
                                 LoadBalancerArn: elb.LoadBalancerArn,
                             }).promise();
                         allRegionElbAttributes[elb.LoadBalancerName] = regionElbAttributes.Attributes;
+                        await CommonUtil.wait(200);
                     }
                     elb_attributes[region] = allRegionElbAttributes;
                 } catch (error) {

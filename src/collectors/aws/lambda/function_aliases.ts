@@ -1,5 +1,5 @@
 import * as AWS from "aws-sdk";
-import { CollectorUtil } from "../../../utils";
+import { CollectorUtil, CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 import { LambdaFunctionsCollector } from "./functions";
@@ -27,12 +27,13 @@ export class LambdaFunctionAliasesCollector extends BaseCollector {
                     for (const fn of functions[region]) {
                         const functionAliasesResponse:
                             AWS.Lambda.ListAliasesResponse =
-                            await lambda.listAliases({ FunctionName: fn.FunctionName }).promise();
+                            await lambda.listAliases({ FunctionName: fn.FunctionName, MaxItems: 5 }).promise();
                         if (functionAliasesResponse.Aliases) {
                             function_aliases[region][fn.FunctionName] = functionAliasesResponse.Aliases;
                         } else {
                             function_aliases[region][fn.FunctionName] = [];
                         }
+                        await CommonUtil.wait(200);
                     }
                 } catch (error) {
                     AWSErrorHandler.handle(error);

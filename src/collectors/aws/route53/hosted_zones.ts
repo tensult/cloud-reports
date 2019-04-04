@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -19,6 +20,7 @@ export class HostedZonesCollector extends BaseCollector {
                 hosted_zones = hosted_zones.concat(route53HostedZonesData.HostedZones);
                 marker = route53HostedZonesData.NextMarker;
                 fetchPending = marker !== undefined;
+                await CommonUtil.wait(200);
             }
             return { hosted_zones };
         } catch (error) {

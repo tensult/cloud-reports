@@ -1,6 +1,6 @@
 import * as AWS from "aws-sdk";
 import { IDictionary } from "../../../types";
-import { CollectorUtil } from "../../../utils";
+import { CollectorUtil, CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 import { UsersCollector } from "./users";
@@ -30,6 +30,7 @@ export class MFADevicesCollector extends BaseCollector {
                     userMfaDevices = userMfaDevices.concat(iamMfaDevicesData.MFADevices);
                     marker = iamMfaDevicesData.Marker;
                     fetchPending = iamMfaDevicesData.IsTruncated === true;
+                    await CommonUtil.wait(200);
                 }
                 mfa_devices[userName] = userMfaDevices;
             }

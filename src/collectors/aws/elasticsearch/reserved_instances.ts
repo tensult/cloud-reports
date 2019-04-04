@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -27,6 +28,7 @@ export class ESReservedInstancesCollector extends BaseCollector {
                             reserved_instances[region].concat(instancesResponse.ReservedElasticsearchInstances);
                         marker = instancesResponse.NextToken;
                         fetchPending = marker !== undefined && marker !== null;
+                        await CommonUtil.wait(200);
                     } else {
                         fetchPending = false;
                     }

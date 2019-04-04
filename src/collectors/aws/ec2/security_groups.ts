@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -13,6 +14,7 @@ export class SecurityGroupsCollector extends BaseCollector {
                 const securityGroupsResponse: AWS.EC2.DescribeSecurityGroupsResult =
                     await ec2.describeSecurityGroups().promise();
                 security_groups[region] = securityGroupsResponse.SecurityGroups;
+                await CommonUtil.wait(200);
             } catch (error) {
                 AWSErrorHandler.handle(error);
                 continue;

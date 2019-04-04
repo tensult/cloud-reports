@@ -1,6 +1,6 @@
 import * as AWS from "aws-sdk";
 import { RedshiftClustersCollector } from ".";
-import { CollectorUtil } from "../../../utils";
+import { CollectorUtil, CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -33,6 +33,7 @@ export class RedshiftAuditLogsCollector extends BaseCollector {
                             await redshift.describeLoggingStatus
                                 ({ ClusterIdentifier: cluster.ClusterIdentifier }).promise();
                         audit_logs[region][cluster.ClusterIdentifier] = loggingStatus;
+                        await CommonUtil.wait(200);
                     }
                 } catch (error) {
                     AWSErrorHandler.handle(error);

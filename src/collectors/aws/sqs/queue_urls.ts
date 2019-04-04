@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -22,8 +23,8 @@ export class QueueUrlsCollector extends BaseCollector {
                 }
             } catch (error) {
                 AWSErrorHandler.handle(error);
-                continue;
             }
+            await CommonUtil.wait(200);
         }
         return { queue_urls };
     }

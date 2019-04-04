@@ -1,5 +1,5 @@
 import * as AWS from "aws-sdk";
-import { CollectorUtil } from "../../../utils";
+import { CollectorUtil, CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 import { BucketsCollector } from "./buckets";
@@ -18,13 +18,13 @@ export class BucketVersioningCollector extends BaseCollector {
             const bucketsData = await CollectorUtil.cachedCollect(bucketsCollector);
             for (const bucket of bucketsData.buckets) {
                 try {
-                    const s3BucketVersioning:
-                     AWS.S3.GetBucketVersioningOutput = await s3.getBucketVersioning({ Bucket: bucket.Name }).promise();
+                    const s3BucketVersioning: AWS.S3.GetBucketVersioningOutput =
+                        await s3.getBucketVersioning({ Bucket: bucket.Name }).promise();
                     bucket_versioning[bucket.Name] = s3BucketVersioning;
                 } catch (error) {
                     AWSErrorHandler.handle(error);
-                    continue;
                 }
+                await CommonUtil.wait(200);
             }
         } catch (error) {
             AWSErrorHandler.handle(error);

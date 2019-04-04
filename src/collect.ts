@@ -54,7 +54,6 @@ export async function collect(moduleNames?: string | string[], credentials?: any
                 }).catch((err) => {
                     LogUtil.error(collectorName, "failed", err);
                 });
-            await CommonUtil.wait(500);
             promises.push(collectorPromise);
         }
         try {

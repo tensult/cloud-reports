@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -24,10 +25,11 @@ export class RedshiftClustersCollector extends BaseCollector {
                 while (fetchPending) {
                     const clustersResponse:
                         AWS.Redshift.Types.ClustersMessage = await redshift.describeClusters
-                        ({ Marker: marker }).promise();
+                            ({ Marker: marker }).promise();
                     clusters[region] = clusters[region].concat(clustersResponse.Clusters);
                     marker = clustersResponse.Marker;
                     fetchPending = marker !== undefined;
+                    await CommonUtil.wait(200);
                 }
             } catch (error) {
                 AWSErrorHandler.handle(error);

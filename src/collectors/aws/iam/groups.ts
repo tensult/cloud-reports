@@ -1,6 +1,7 @@
 import * as AWS from "aws-sdk";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
+import { CommonUtil } from "../../../utils";
 
 export class GroupsCollector extends BaseCollector {
     public collect() {
@@ -18,6 +19,7 @@ export class GroupsCollector extends BaseCollector {
                 groups = groups.concat(iamGroupsData.Groups);
                 marker = iamGroupsData.Marker;
                 fetchPending = iamGroupsData.IsTruncated === true;
+                await CommonUtil.wait(200);
             }
             return { groups };
         } catch (error) {

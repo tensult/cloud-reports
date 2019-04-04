@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -21,6 +22,7 @@ export class EC2ReservedInstancesCollector extends BaseCollector {
                 if (instancesResponse && instancesResponse.ReservedInstances) {
                     reserved_instances[region] = instancesResponse.ReservedInstances;
                 }
+                await CommonUtil.wait(200);
             } catch (error) {
                 AWSErrorHandler.handle(error);
                 continue;

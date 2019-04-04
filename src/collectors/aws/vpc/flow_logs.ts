@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -28,6 +29,7 @@ export class FlowLogsCollector extends BaseCollector {
                         flow_logs[region] = flow_logs[region].concat(flowLogsResponse.FlowLogs);
                         marker = flowLogsResponse.NextToken;
                         fetchPending = marker !== undefined;
+                        await CommonUtil.wait(200);
                     } else {
                         fetchPending = false;
                     }

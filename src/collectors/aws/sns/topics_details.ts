@@ -1,6 +1,6 @@
 import * as AWS from "aws-sdk";
 import { IDictionary } from "../../../types";
-import { CollectorUtil } from "../../../utils";
+import { CollectorUtil, CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 import { TopicsCollector } from "./topics";
@@ -39,6 +39,7 @@ export class TopicsDetailsCollector extends BaseCollector {
                                 allRegionTopicDetails.push(topicAttributeDetails.Attributes);
                             }
                         }
+                        await CommonUtil.wait(200);
                     }
                     topics_details[region] = allRegionTopicDetails;
                 } catch (error) {

@@ -46,7 +46,7 @@ export class VolumeSnapshotsCollector extends BaseCollector {
                             }
                             marker = snapshotsResponse.NextToken;
                             fetchPending = marker !== undefined;
-
+                            await CommonUtil.wait(200);
                         }
                     }
                 } catch (error) {

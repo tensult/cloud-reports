@@ -80,7 +80,10 @@ async function getCollectorResults() {
 }
 
 function getAccountNumber(analyzedData) {
-    return analyzedData["aws.account"].summary.regions.global[0].resourceSummary.value;
+    if (analyzedData["aws.account"]) {
+        return analyzedData["aws.account"].summary.regions.global[0].resourceSummary.value;
+    }
+    return "";
 }
 async function scan() {
     try {

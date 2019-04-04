@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -20,6 +21,7 @@ export class ElasticIPsCollector extends BaseCollector {
                 if (elasticIPsResponse && elasticIPsResponse.Addresses) {
                     elastic_ips[region] = elasticIPsResponse.Addresses;
                 }
+                await CommonUtil.wait(200);
             } catch (error) {
                 AWSErrorHandler.handle(error);
                 continue;

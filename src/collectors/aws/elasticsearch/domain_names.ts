@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -21,6 +22,7 @@ export class ESDomainNamesCollector extends BaseCollector {
                     domain_names[region] = domainsResponse.DomainNames.map((domain) => {
                         return domain.DomainName;
                     });
+                    await CommonUtil.wait(200);
                 }
             } catch (error) {
                 AWSErrorHandler.handle(error);

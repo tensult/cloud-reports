@@ -1,5 +1,5 @@
 import * as AWS from "aws-sdk";
-import { CollectorUtil } from "../../../utils";
+import { CollectorUtil, CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 import { EC2InstancesCollector } from "./instances";
@@ -31,6 +31,7 @@ export class TerminationProtectionCollector extends BaseCollector {
                             }).promise();
                         termination_protection[region][instance.InstanceId] =
                             instanceAttributeResponse.DisableApiTermination;
+                        await CommonUtil.wait(200);
                     }
                 } catch (error) {
                     AWSErrorHandler.handle(error);

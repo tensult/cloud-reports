@@ -1,6 +1,6 @@
 import * as AWS from "aws-sdk";
 import { IDictionary } from "../../../types";
-import { CollectorUtil } from "../../../utils";
+import { CollectorUtil, CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 import { ApisCollector } from "./apis";
@@ -32,6 +32,7 @@ export class ApiStagesCollector extends BaseCollector {
                         if (apiStages.item) {
                             regionApiStages[api.id] = apiStages.item;
                         }
+                        await CommonUtil.wait(200);
                     }
                     api_stages[region] = regionApiStages;
                 } catch (error) {

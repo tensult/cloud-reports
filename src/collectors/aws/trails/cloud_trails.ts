@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -14,9 +15,9 @@ export class CloudTrailsCollector extends BaseCollector {
                 const cloudTrailsResponse:
                     AWS.CloudTrail.DescribeTrailsResponse = await cloudTrail.describeTrails().promise();
                 cloud_trails[region] = cloudTrailsResponse.trailList;
+                await CommonUtil.wait(200);
             } catch (error) {
                 AWSErrorHandler.handle(error);
-                continue;
             }
         }
         return { cloud_trails };

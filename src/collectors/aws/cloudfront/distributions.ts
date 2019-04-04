@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -22,6 +23,7 @@ export class DistributionsCollector extends BaseCollector {
                     distributions = distributions.concat(cloudfrontDistributionsData.DistributionList.Items);
                     marker = cloudfrontDistributionsData.DistributionList.NextMarker;
                     fetchPending = marker !== undefined && marker !== null;
+                    await CommonUtil.wait(200);
                 } else {
                     fetchPending = false;
                 }

@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -12,6 +13,7 @@ export class KeyPairsCollector extends BaseCollector {
                 const ec2 = this.getClient(serviceName, region) as AWS.EC2;
                 const keyPairsResponse: AWS.EC2.DescribeKeyPairsResult = await ec2.describeKeyPairs().promise();
                 key_pairs[region] = keyPairsResponse.KeyPairs;
+                await CommonUtil.wait(200);
             } catch (error) {
                 AWSErrorHandler.handle(error);
                 continue;

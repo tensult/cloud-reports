@@ -1,6 +1,6 @@
 import * as AWS from "aws-sdk";
 import { IDictionary } from "../../../types";
-import { CollectorUtil } from "../../../utils";
+import { CollectorUtil, CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 import { GroupsCollector } from "./groups";
@@ -36,6 +36,7 @@ export class GroupPoliciesCollector extends BaseCollector {
                         }
                         marker = policiesData.Marker;
                         fetchPending = policiesData.IsTruncated === true;
+                        await CommonUtil.wait(200);
                     }
                     group_policies[groupName] = groupPolicies;
                 } catch (error) {

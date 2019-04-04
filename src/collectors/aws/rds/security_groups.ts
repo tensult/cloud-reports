@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -28,6 +29,7 @@ export class RDSSecurityGroupsCollector extends BaseCollector {
                     security_groups[region] = security_groups[region].concat(securityGroupsResponse.DBSecurityGroups);
                     marker = securityGroupsResponse.Marker;
                     fetchPending = marker !== undefined;
+                    await CommonUtil.wait(200);
                 }
             } catch (error) {
                 AWSErrorHandler.handle(error);

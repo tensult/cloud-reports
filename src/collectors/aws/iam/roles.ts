@@ -1,4 +1,5 @@
 import * as AWS from "aws-sdk";
+import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
@@ -18,6 +19,7 @@ export class RolesCollector extends BaseCollector {
                 roles = roles.concat(iamRolesData.Roles);
                 marker = iamRolesData.Marker;
                 fetchPending = iamRolesData.IsTruncated === true;
+                await CommonUtil.wait(200);
             }
             roles.forEach((role) => {
                 if (role.AssumeRolePolicyDocument) {
