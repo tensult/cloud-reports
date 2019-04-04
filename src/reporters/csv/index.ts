@@ -25,10 +25,10 @@ function prepareRecords(reportData, options) {
                 for (const regionResourceDetails of regionDetails) {
                     records.push([serviceName, checkName, regionName,
                         regionResourceDetails.resourceSummary.name,
-                        regionResourceDetails.resourceSummary.value.replace(/,/g, " "),
-                        regionResourceDetails.message.replace(/,/g, " "),
-                        regionResourceDetails.action.replace(/,/g, " "),
-                        regionResourceDetails.severity,
+                        (regionResourceDetails.resourceSummary.value || "").replace(/,/g, " "),
+                        (regionResourceDetails.message || "").replace(/,/g, " "),
+                        (regionResourceDetails.action || "").replace(/,/g, " "),
+                        (regionResourceDetails.severity || ""),
                     ]);
                 }
             }
