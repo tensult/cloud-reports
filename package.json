@@ -7,7 +7,9 @@
   "scripts": {
     "build": "npm install && tsc && cd src/reporters/html && npm install && npm run ng build --  --prod && cd ../../..",
     "compile": "tsc",
-    "scan": "node dist/scan.js"
+    "scan": "node dist/scan.js",
+    "copy-ejs": "cp reporters/**/*.ejs ../dist",
+    "prepare": "npm run copy-ejs"
   },
   "keywords": [
     "aws",
@@ -24,18 +26,18 @@
     "cheerio": "^1.0.0-rc.2",
     "node-fetch": "^2.1.2",
     "typescript": "^2.9.2",
-    "html-pdf": "^2.2.0",
-    "opn": "^5.3.0",
-    "serve-static": "^1.13.2",
     "cli": "^1.0.1",
-    "cpy": "^7.0.1",
-    "ejs": "^2.6.1",
+    "serve-static": "^1.13.2",
+    "opn": "^5.3.0",
     "finalhandler": "^1.1.1"
   },
   "dependencies": {
     "aws-sdk": "^2.328.0",
     "extend": ">=3.0.2",
     "flat": "^4.0.0",
-    "moment": "^2.22.2"
+    "moment": "^2.22.2",
+    "html-pdf": "^2.2.0",
+    "cpy": "^7.0.1",
+    "ejs": "^2.6.1"
   }
 }
