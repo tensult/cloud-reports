@@ -38,7 +38,7 @@ export async function generateHTML(reportData: any, options?: {
     showIssuesOnly: boolean,
 }) {
     options = options || { showIssuesOnly: false };
-    await copyEJSFiles();
+    // await copyEJSFiles();
     reportData = processReportData(reportData, options.showIssuesOnly);
     return await new Promise((resolve, reject) => {
         ejs.renderFile(__dirname + "/template.ejs",
