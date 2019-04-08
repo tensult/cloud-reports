@@ -9,7 +9,7 @@
     "compile": "tsc",
     "scan": "node dist/scan.js",
     "copy-ejs": "cp src/reporters/**/*.ejs dist/",
-    "prepare": "npm run build && npm run copy-ejs"
+    "prepare": "npm run compile && npm run copy-ejs"
   },
   "keywords": [
     "aws",
