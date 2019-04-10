@@ -40,12 +40,12 @@ export async function collect(moduleNames?: string | string[], credentials?: any
             return true;
         });
         for (const collectorName of filteredCollectorNames) {
-            LogUtil.log("Running", collectorName);
+            LogUtil.info("Running", collectorName);
             const collector: BaseCollector = new flatListOfCollectors[collectorName]();
             collector.setSession(session);
             const collectorPromise = CollectorUtil.cachedCollect(collector)
                 .then((data) => {
-                    LogUtil.log(collectorName, "completed");
+                    LogUtil.info(collectorName, "completed");
                     const collectNameSpace = collectorName.replace(/.[A-Za-z0-9]+$/, "");
                     return {
                         data,
