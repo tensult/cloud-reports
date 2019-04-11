@@ -8,7 +8,7 @@
     "build": "npm install && npm run copy-ejs && tsc && cd src/reporters/html && npm install && npm run ng build --  --prod && cd ../../..",
     "compile": "tsc",
     "scan": "node dist/scan.js",
-    "copy-ejs": "cp src/reporters/**/*.ejs dist/",
+    "copy-ejs": "mkdir -p dist/reporters/pdf/partials; cp src/reporters/pdf/*.ejs dist/reporters/pdf; cp src/reporters/pdf/partials/*.ejs dist/reporters/pdf/partials",
     "prepare": "npm run compile && npm run copy-ejs"
   },
   "keywords": [
