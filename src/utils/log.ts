@@ -35,5 +35,5 @@ export class LogUtil {
         Warn: 2,
     };
 
-    private static currentLogLevel = LogUtil.LogLevel.Warn;
+    private static currentLogLevel = process.env.LOG_LEVEL || LogUtil.LogLevel.Warn;
 }

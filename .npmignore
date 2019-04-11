@@ -3,6 +3,6 @@ tsconfig.json
 tslint.json
 *report.json
 scan_report*
-*.ejs
+# *.ejs
 sample-reports
 node_modules
