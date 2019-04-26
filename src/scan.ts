@@ -92,6 +92,7 @@ async function scan() {
             writeFileSync(collectorReportFileName, JSON.stringify(collectorResults, null, 2));
             LogUtil.log(`${collectorReportFileName} is generated`);
         }
+        
         const analyzedData = AnalyzerMain.analyze(collectorResults);
         const accountNumber = getAccountNumber(analyzedData);
         if (cliArgs.debug) {

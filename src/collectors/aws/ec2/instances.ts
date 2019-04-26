@@ -46,5 +46,8 @@ export class EC2InstancesCollector extends BaseCollector {
             }
         }
         return { instances };
+          // change instances
+
     }
+
 }
