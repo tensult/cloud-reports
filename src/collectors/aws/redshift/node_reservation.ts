@@ -14,19 +14,19 @@ export class RedshiftNodeReservationCollector extends BaseCollector {
         const self = this;
         const serviceName = "Redshift";
         const redshiftRegions = self.getRegions(serviceName);
-        const Reserved_Nodes = {};
+        const ReservedNodes = {};
 
         for (const region of redshiftRegions) {
             try {
                 const redshift = self.getClient(serviceName, region) as AWS.Redshift;
-                Reserved_Nodes[region] = [];
+                ReservedNodes[region] = [];
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
                     const RedshiftReservedNode:
                         AWS.Redshift.Types.ReservedNodesMessage = await redshift.describeReservedNodes
                             ({ Marker: marker }).promise();
-                            Reserved_Nodes[region] = Reserved_Nodes[region].concat(RedshiftReservedNode.ReservedNodes);
+                            ReservedNodes[region] = ReservedNodes[region].concat(RedshiftReservedNode.ReservedNodes);
                     marker = RedshiftReservedNode.Marker;
                     fetchPending = marker !== undefined;
                     await CommonUtil.wait(200);
@@ -36,6 +36,6 @@ export class RedshiftNodeReservationCollector extends BaseCollector {
                 AWSErrorHandler.handle(error);
             }
         }        
-        return { Reserved_Nodes};
+        return { ReservedNodes};
     }
 }
