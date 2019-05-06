@@ -10,6 +10,7 @@ import * as Reporters from "./reporters";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { AWSCredentialsProvider } from "./utils/aws/credentials";
 import { LogUtil } from "./utils/log";
+import { iam } from "./collectors/aws";
 
 const cliArgs = Cli.parse({
     debug: ["d", "if you enable Debug then it will generate intermediate reports", "boolean", false],
@@ -78,7 +79,6 @@ async function getCollectorResults() {
     const credentials = await AWSCredentialsProvider.getCredentials(cliArgs.profile);
     return await CollectorMain.collect(cliArgs.module, credentials);
 }
-
 function getAccountNumber(analyzedData) {
     if (analyzedData["aws.account"]) {
         return analyzedData["aws.account"].summary.regions.global[0].resourceSummary.value;
@@ -92,7 +92,8 @@ async function scan() {
             writeFileSync(collectorReportFileName, JSON.stringify(collectorResults, null, 2));
             LogUtil.log(`${collectorReportFileName} is generated`);
         }
-        
+        //console.log(collectorResults);
+       // return;
         const analyzedData = AnalyzerMain.analyze(collectorResults);
         const accountNumber = getAccountNumber(analyzedData);
         if (cliArgs.debug) {
@@ -100,6 +101,8 @@ async function scan() {
             writeFileSync(analyzerReportFileName, JSON.stringify(analyzedData, null, 2));
             LogUtil.log(`${analyzerReportFileName} is generated`);
         }
+        //console.log(analyzedData);
+        //return;
         const reportFileData = await makeFileContents(analyzedData);
         if (cliArgs.format !== "html") {
             const reportFileName = makeFileName(accountNumber);

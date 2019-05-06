@@ -1,6 +1,6 @@
 export * from "./default_security_groups_used";
 export * from "./default_vpcs_used";
-export * from "./dedicated_security_groups_used";
+export * from "./dedicated_ec2_instances_used";
 export * from "./elastic_ips_unused";
 export * from "./instance_stored_volume_used";
 export * from "./instances_profiles_used";
