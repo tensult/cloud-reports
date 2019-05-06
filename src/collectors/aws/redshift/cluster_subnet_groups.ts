@@ -13,19 +13,19 @@ export class RedshiftSubnetGroupCollector extends BaseCollector {
         const self = this;
         const serviceName = "Redshift";
         const redshiftRegions = self.getRegions(serviceName);
-        const SubnetGroups = {};
+        const cluster_subnet_groups = {};
 
         for (const region of redshiftRegions) {
             try {
                 const redshift = self.getClient(serviceName, region) as AWS.Redshift;
-                SubnetGroups[region] = [];
+                cluster_subnet_groups[region] = [];
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
                     const RedshiftSubnetGroupResponse:
                         AWS.Redshift.Types.ClusterSubnetGroupMessage = await redshift.describeClusterSubnetGroups
                             ({ Marker: marker }).promise();
-                    SubnetGroups[region] = SubnetGroups[region].concat(RedshiftSubnetGroupResponse.ClusterSubnetGroups);
+                    cluster_subnet_groups[region] = cluster_subnet_groups[region].concat(RedshiftSubnetGroupResponse.ClusterSubnetGroups);
                     marker = RedshiftSubnetGroupResponse.Marker;
                     fetchPending = marker !== undefined;
                     await CommonUtil.wait(200);
@@ -35,6 +35,6 @@ export class RedshiftSubnetGroupCollector extends BaseCollector {
                 AWSErrorHandler.handle(error);
             }
         }        
-        return { SubnetGroups};
+        return { cluster_subnet_groups };
     }
 }

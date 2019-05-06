@@ -3,30 +3,30 @@ import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
-export class RedshiftClusterSecurityGroupsCollector extends BaseCollector {
+export class RedshiftEventSubscriptions extends BaseCollector {
     public collect(callback: (err?: Error, data?: any) => void) {
-        return this.getAllclusterSecurityGroups();
+        return this.getAllEventSubscriptions();
     }
 
-    private async getAllclusterSecurityGroups() {
+    private async getAllEventSubscriptions() {
 
         const self = this;
         const serviceName = "Redshift";
         const redshiftRegions = self.getRegions(serviceName);
-        const clusterSecurityGroups = {};
+        const event_subscriptions = {};
 
         for (const region of redshiftRegions) {
             try {
                 const redshift = self.getClient(serviceName, region) as AWS.Redshift;
-                clusterSecurityGroups[region] = [];
+                event_subscriptions[region] = [];
                 let fetchPending = true;
                 let marker: string | undefined;
                 while (fetchPending) {
-                    const clusterSecurityGroupsResponse:
-                        AWS.Redshift.Types.ClusterSecurityGroupMessage = await redshift.describeClusterSecurityGroups
-                        ({ Marker: marker }).promise();
-                    clusterSecurityGroups[region] = clusterSecurityGroups[region].concat(clusterSecurityGroupsResponse.ClusterSecurityGroups);
-                    marker = clusterSecurityGroupsResponse.Marker;
+                    const eventSubscriptionsResponse:
+                        AWS.Redshift.Types.EventSubscriptionsMessage = await redshift.describeEventSubscriptions
+                            ({ Marker: marker }).promise();
+                        event_subscriptions[region] = event_subscriptions[region].concat(eventSubscriptionsResponse.EventSubscriptionsList);
+                    marker = eventSubscriptionsResponse.Marker;
                     fetchPending = marker !== undefined;
                     await CommonUtil.wait(200);
                 }
@@ -34,7 +34,6 @@ export class RedshiftClusterSecurityGroupsCollector extends BaseCollector {
                 AWSErrorHandler.handle(error);
             }
         }
-        return { clusterSecurityGroups };
+        return { event_subscriptions };
     }
 }
-    
