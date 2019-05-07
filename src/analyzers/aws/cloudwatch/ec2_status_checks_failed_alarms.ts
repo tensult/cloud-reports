@@ -17,8 +17,7 @@ export class EC2InstanceSystemChecksAlarmsAnalyzer extends BaseAnalyzer {
         const ec2_instance_system_checks_alarms: ICheckAnalysisResult = {
             type: CheckAnalysisType.OperationalExcellence,
         };
-        ec2_instance_system_checks_alarms.what = `Are alarms are enabled for
-         EC2 instance System checks?`;
+        ec2_instance_system_checks_alarms.what = "Are alarms are enabled for EC2 instance System checks?";
         ec2_instance_system_checks_alarms.why = `It is important to set alarms for EC2 systems checks as
         otherwise suddenly your applications might be down.`;
         ec2_instance_system_checks_alarms.recommendation = `Recommended to set alarm for EC2
