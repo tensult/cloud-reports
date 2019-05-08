@@ -93,7 +93,7 @@ async function scan() {
             LogUtil.log(`${collectorReportFileName} is generated`);
         }
         //console.log(collectorResults);
-       // return;
+        //return;
         const analyzedData = AnalyzerMain.analyze(collectorResults);
         const accountNumber = getAccountNumber(analyzedData);
         if (cliArgs.debug) {
