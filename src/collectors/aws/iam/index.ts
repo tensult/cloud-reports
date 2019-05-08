@@ -10,3 +10,4 @@ export * from "./user_policies";
 export * from "./virtual_mfa_devices";
 export * from "./instances";
 export * from "./reserved_instances";
+export * from "./instances";
