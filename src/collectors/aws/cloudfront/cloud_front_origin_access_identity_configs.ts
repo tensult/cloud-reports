@@ -2,25 +2,25 @@ import * as AWS from "aws-sdk";
 import { CollectorUtil, CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
-import { IdentityCollector } from "./cloud_front_origin_access_identity";
+import { OriginAccessCollector } from "./cloud_front_origin_access_identity";
 
-export class IdentityConfigsCollector extends BaseCollector {
+export class OriginAccessConfigsCollector extends BaseCollector {
     public collect() {
         return this.listAllCloudFrontOriginAccessIdentityConfigs();
     }
 
     private async listAllCloudFrontOriginAccessIdentityConfigs() {
         try {
-            const identity = this.getClient("CloudFront", "us-east-1") as AWS.CloudFront;
-            const identityCollector = new IdentityCollector();
-            identityCollector.setSession(this.getSession());
-            const identityData = await CollectorUtil.cachedCollect(identityCollector);
+            const cloudfront = this.getClient("CloudFront", "us-east-1") as AWS.CloudFront;
+            const origin_access_Collector = new OriginAccessCollector();
+            origin_access_Collector.setSession(this.getSession());
+            const origin_access_Data = await CollectorUtil.cachedCollect(origin_access_Collector);
             const cloud_front_configs = {};
-            for (const identity of identityData.identity) {
-                const identityDistributionsData:
-                    AWS.CloudFront.GetDistributionConfigResult =
-                    await identity.getDistributionConfig({ Id: identity.Id }).promise();
-                    cloud_front_configs[identity.Id] = identityDistributionsData.DistributionConfig;
+            for (const origin_access of origin_access_Data.origin_access) {
+                const Origin_Access_Data:
+                    AWS.CloudFront.GetCloudFrontOriginAccessIdentityResult =
+                    await origin_access.getDistributionConfig({ Id: origin_access.Id }).promise();
+                    cloud_front_configs[origin_access.Id] = Origin_Access_Data.CloudFrontOriginAccessIdentity;
                 await CommonUtil.wait(200);
             }
             return { cloud_front_configs };

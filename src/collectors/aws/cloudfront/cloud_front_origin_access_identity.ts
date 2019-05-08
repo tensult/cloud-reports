@@ -3,7 +3,7 @@ import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
-export class IdentityCollector extends BaseCollector {
+export class OriginAccessCollector extends BaseCollector {
     public collect() {
         return this.listCloudFrontOriginAccessIdentities();
     }
