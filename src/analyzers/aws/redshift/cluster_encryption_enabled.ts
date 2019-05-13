@@ -12,8 +12,8 @@ export class ClusterEncryptionAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const clusters: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        clusters.what = "Are audit logs enabled for RedShift clusters?";
-        clusters.why = "Audit logs contains information about connection requests and queries";
+        clusters.what = "Are Cluster Encryption enabled for RedShift clusters?";
+        clusters.why = "Cluster Encryption is used to secure the clusters since it is always at high risk";
         clusters.recommendation = "Recommended to enable ClusterEncryption for all RedShift clusters";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allClusterEncryption) {
