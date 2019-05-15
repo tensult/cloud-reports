@@ -2,16 +2,17 @@ import { CheckAnalysisType, ICheckAnalysisResult, IResourceAnalysisResult, Sever
 import { BaseAnalyzer } from "../../base";
 
 export class BucketAnalyticsAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Is S3 Bucket Analytics enabled?";
+    public  checks_why : string =  `Bucket Analytics gives insights into how
+    object are being accessed and using this information we can get life cycle rule to reduce cost.`;
     public analyze(params: any): any {
         const allBucketAnalyticsConfig = params.bucket_analytics;
         if (!allBucketAnalyticsConfig) {
             return undefined;
         }
         const bucket_analytics_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
-        bucket_analytics_enabled.what = "Is S3 Bucket Analytics enabled?";
-        bucket_analytics_enabled.why = `Bucket Analytics gives insights into how
-        object are being accessed and using this information we can get life cycle rule to reduce cost.`;
+        bucket_analytics_enabled.what = this.checks_what;
+        bucket_analytics_enabled.why =this.checks_why;
         bucket_analytics_enabled.recommendation = "Recommended to enable Analytics for all buckets";
         const allBucketsAnalysis: IResourceAnalysisResult[] = [];
         for (const bucketName in allBucketAnalyticsConfig) {

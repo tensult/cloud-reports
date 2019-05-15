@@ -3,15 +3,16 @@ import { BaseAnalyzer } from "../../base";
 
 const millsIn30Days = 30 * 24 * 60 * 60 * 1000;
 export class DomainsExpiryAnalyzer extends BaseAnalyzer {
-
+    public checks_what : string ="Are there any domain expiring soon?";
+    public checks_why : string = "When domains get expired, someone may claim them so it is import to keep an eye on them";
     public analyze(params: any): any {
         const allDomains = params.domains;
         if (!allDomains || allDomains.length === 0) {
             return undefined;
         }
         const domains_expiry: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        domains_expiry.what = "Are there any domain expiring soon?";
-        domains_expiry.why = "When domains get expired, someone may claim them so it is import to keep an eye on them";
+        domains_expiry.what = this.checks_what;
+        domains_expiry.why = this.checks_why;
         domains_expiry.recommendation = `It is recommended to enable AutoRenewable to automatically renew the domain or
         we can periodically check the expiry and renew it manually`;
         const allDomainAnalysis: IResourceAnalysisResult[] = [];

@@ -6,7 +6,11 @@ import { CloudFrontUtil } from "../../../utils/aws/cloudfront";
 import { BaseAnalyzer } from "../../base";
 
 export class DistributionLogsAnalyzer extends BaseAnalyzer {
-
+    public checks_what : string ="Are access logs enabled for CloudFront distributions?";
+    public checks_why : string = `It is important to enabled access logs for the distributions to understand
+    access patterns and come with better caching strategies`;
+    public checks_recommendation: string = "Recommended to enable access logs for all distributions";
+    public checks_name: string = "Distribution";
     public analyze(params: any, fullReport?: any): any {
         const allDistributionConfigs: any[] = params.distribution_configs;
 
@@ -14,10 +18,9 @@ export class DistributionLogsAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const distributions_logs_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        distributions_logs_enabled.what = "Are access logs enabled for CloudFront distributions?";
-        distributions_logs_enabled.why = `It is important to enabled access logs for the distributions to understand
-        access patterns and come with better caching strategies`;
-        distributions_logs_enabled.recommendation = "Recommended to enable access logs for all distributions";
+        distributions_logs_enabled.what = this.checks_what;
+        distributions_logs_enabled.why = this.checks_why;
+        distributions_logs_enabled.recommendation = this.checks_recommendation;
         const allDistributionsAnalysis: IResourceAnalysisResult[] = [];
         for (const distributionId in allDistributionConfigs) {
             const distribution = allDistributionConfigs[distributionId];
@@ -26,7 +29,7 @@ export class DistributionLogsAnalyzer extends BaseAnalyzer {
             distributionsAnalysis.resource = { distributionId, logging: distribution.Logging };
             const distributionAlias = CloudFrontUtil.getAliasName(distribution);
             distributionsAnalysis.resourceSummary = {
-                name: "Distribution",
+                name: this.checks_name,
                 value: distributionAlias ? `${distributionAlias} | ${distributionId}` : distributionId,
             };
             if (distribution.Logging.Enabled) {

@@ -1,9 +1,12 @@
 import { CheckAnalysisType, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
 import { BaseAnalyzer } from "../../base";
+import { UserAccountsMfaEnabledAnalyzer } from "./users_mfa_enabled";
 
 const millsIn60Days = 60 * 24 * 60 * 60 * 1000;
 export class UsersAccessKeysUnusedAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there any user access keys unused?";
+    public  checks_why : string = `It is important to delete unused or
+    unneeded access keys as it reduces risk of misusing them`;
     public analyze(params: any, fullReport?: any): any {
         const credentials: any[] = params.credentials;
         if (!credentials) {
@@ -14,9 +17,8 @@ export class UsersAccessKeysUnusedAnalyzer extends BaseAnalyzer {
                 (credential.access_key_1_active === "true" || credential.access_key_2_active === "true");
         });
         const users_access_keys_unused: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        users_access_keys_unused.what = "Are there any user access keys unused?";
-        users_access_keys_unused.why = `It is important to delete unused or
-        unneeded access keys as it reduces risk of misusing them`;
+        users_access_keys_unused.what = this.checks_what;
+        users_access_keys_unused.why = this.checks_why;
         users_access_keys_unused.recommendation = "Recommended to delete unused user access keys regularly";
         const allUsersAccessKeysAnalysis: IResourceAnalysisResult[] = [];
         userCredentials.forEach((credential) => {

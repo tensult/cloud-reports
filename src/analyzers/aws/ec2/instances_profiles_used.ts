@@ -6,16 +6,27 @@ import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class InstanceProfilesUsageAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there any EC2 instances without IAM Instance Profile?";
+    public  checks_why : string = `We should use IAM Instance profile
+    roles for granting EC2 instances access to other AWS resources`;
+    public checks_recommendation: string =`Recommended to assign IAM instance profile to EC2 instances instead of hard coding IAM credentials` ;
+    public checks_name : string = "Instance";
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         if (!allInstances) {
             return undefined;
         }
         const instance_profiles_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
+
         instance_profiles_used.what = "Are there any EC2 instances without IAM Instance Profile?";
         instance_profiles_used.why = `We should use IAM Instance profile roles for granting EC2 instances access to other AWS resources`;
-        instance_profiles_used.recommendation = `Recommended to assign IAM instance profile to EC2 instances instead of hard coding IAM credentials`;
+        instance_profiles_used.recommendation = this.checks_recommendation;
+
+        instance_profiles_used.what = this.checks_what;
+        instance_profiles_used.why = this.checks_why;
+        instance_profiles_used.recommendation = `Recommended to assign IAM instance profile to
+        EC2 instances instead of hard coding IAM credentials`;
+
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -24,7 +35,7 @@ export class InstanceProfilesUsageAnalyzer extends BaseAnalyzer {
                 const instanceAnalysis: IResourceAnalysisResult = {};
                 instanceAnalysis.resource = instance;
                 instanceAnalysis.resourceSummary = {
-                    name: "Instance",
+                    name: this.checks_name,
                     value: `${ResourceUtil.getNameByTags(instance)} | ${instance.InstanceId}`,
                 };
                 if (instance.IamInstanceProfile) {

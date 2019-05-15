@@ -5,7 +5,9 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class TopicsWithoutSubscriptionsAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there any SNS topics without subscriptions?";
+    public  checks_why : string = `Topics without subscriptions cause confusion as
+    mistakenly we might be publishing to them but no one will receive them`;
     public analyze(params: any, fullReport?: any): any {
         const allSubscriptions = params.subscriptions;
         const allTopics = params.topics;
@@ -14,9 +16,8 @@ export class TopicsWithoutSubscriptionsAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const topics_without_subscriptions: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        topics_without_subscriptions.what = "Are there any SNS topics without subscriptions?";
-        topics_without_subscriptions.why = `Topics without subscriptions cause confusion as
-        mistakenly we might be publishing to them but no one will receive them`;
+        topics_without_subscriptions.what = this.checks_what;
+        topics_without_subscriptions.why = this.checks_why;
         topics_without_subscriptions.recommendation = `Every SNS topic should have
         proper subscriptions else you should remove it`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

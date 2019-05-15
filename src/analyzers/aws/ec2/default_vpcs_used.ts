@@ -6,7 +6,11 @@ import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class DefaultVpcUsedEC2InstancesAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there any default vpc used for EC2 instances?";
+    public  checks_why : string = "Default vpcs are open to world by default and requires extra setup make them secure";
+    public checks_recommendation: string = `Recommended not to use default vpc instead create a custom one
+        as they make you better understand the security posture`;
+    public checks_name : string = "Instance";
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         if (!fullReport["aws.vpc"] || !fullReport["aws.vpc"].vpcs || !allInstances) {
@@ -15,10 +19,9 @@ export class DefaultVpcUsedEC2InstancesAnalyzer extends BaseAnalyzer {
         const allVpcs = fullReport["aws.vpc"].vpcs;
 
         const default_vpcs_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        default_vpcs_used.what = "Are there any default vpc used for EC2 instances?";
-        default_vpcs_used.why = "Default vpcs are open to world by default and requires extra setup make them secure";
-        default_vpcs_used.recommendation = `Recommended not to use default vpc instead create a custom one
-        as they make you better understand the security posture`;
+        default_vpcs_used.what = this.checks_what;
+        default_vpcs_used.why = this.checks_why
+        default_vpcs_used.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -33,7 +36,7 @@ export class DefaultVpcUsedEC2InstancesAnalyzer extends BaseAnalyzer {
                     vpcId: instance.VpcId,
                 };
                 instanceAnalysis.resourceSummary = {
-                    name: "Instance",
+                    name: this.checks_name,
                     value: `${instanceAnalysis.resource.instanceName} | ${instance.InstanceId}`,
                 };
                 if (this.isVpcExist(defaultVpcs, instance.VpcId)) {

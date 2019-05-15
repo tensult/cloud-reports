@@ -5,15 +5,16 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class AccessLogsEnabledAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are access logs enabled for Load balancers?";
+    public  checks_why : string = "Access logs helps us to understand request patterns also helps to detect threats";
     public analyze(params: any, fullReport?: any): any {
         const allElbsAttributes = params.elb_attributes;
         if (!allElbsAttributes) {
             return undefined;
         }
         const access_logs_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        access_logs_enabled.what = "Are access logs enabled for Load balancers?";
-        access_logs_enabled.why = "Access logs helps us to understand request patterns also helps to detect threats";
+        access_logs_enabled.what = this.checks_what;
+        access_logs_enabled.why = this.checks_why;
         access_logs_enabled.recommendation = "Recommended to enable access logs for all public facing load balancers";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allElbsAttributes) {

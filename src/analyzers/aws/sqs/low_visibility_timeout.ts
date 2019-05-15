@@ -5,17 +5,18 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class VisibilityTimeoutAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Is SQS Queue VisibilityTimeout too low?";
+    public  checks_why: string =`We need to set proper VisibilityTimeout for the queues
+    otherwise messages will be processed multiple times and they will become available to other consumers
+    while they are being processed; this will have performance impact.`;
     public analyze(params: any, fullReport?: any): any {
         const allQueuess = params.queue_attributes;
         if (!allQueuess) {
             return undefined;
         }
         const low_visibility_timeout: ICheckAnalysisResult = { type: CheckAnalysisType.PerformanceEfficiency };
-        low_visibility_timeout.what = "Is SQS Queue VisibilityTimeout too low?";
-        low_visibility_timeout.why = `We need to set proper VisibilityTimeout for the queues
-        otherwise messages will be processed multiple times and they will become available to other consumers
-        while they are being processed; this will have performance impact.`;
+        low_visibility_timeout.what = this.checks_what;
+        low_visibility_timeout.why = this.checks_why;
         low_visibility_timeout.recommendation = `Recommended to set VisibilityTimeout
         higher than the maximum processing time of the messages`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

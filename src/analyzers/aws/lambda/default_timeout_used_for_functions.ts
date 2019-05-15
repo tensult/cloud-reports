@@ -5,7 +5,9 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class DefaultFunctionTimeoutAnalyzer extends BaseAnalyzer {
-
+    public   checks_what : string = "Is default timeout is used for Lambda functions?";
+    public  checks_why : string = `We need to set proper timeout for Lambda
+    functions in order achieve desire performance.`;
     public analyze(params: any, fullReport?: any): any {
         const allFunctions = params.functions;
         if (!allFunctions) {
@@ -13,9 +15,8 @@ export class DefaultFunctionTimeoutAnalyzer extends BaseAnalyzer {
         }
         const default_timeout_used_for_functions:
             ICheckAnalysisResult = { type: CheckAnalysisType.PerformanceEfficiency };
-        default_timeout_used_for_functions.what = "Is default timeout is used for Lambda functions?";
-        default_timeout_used_for_functions.why = `We need to set proper timeout for Lambda
-        functions in order achieve desire performance.`;
+        default_timeout_used_for_functions.what = this.checks_what;
+        default_timeout_used_for_functions.why = this.checks_why;
         default_timeout_used_for_functions.recommendation = `Recommended to set proper
         timeout as per your requirements`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

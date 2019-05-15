@@ -5,16 +5,17 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class DeletionProtectionEnabledAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string =  "Is deletion protection enabled for Load balancers?";
+    public  checks_why : string  =  `Deletion protection should be enabled otherwise if
+    you delete load balancer accidentally then it gets deleted permanently`;
     public analyze(params: any, fullReport?: any): any {
         const allElbsAttributes = params.elb_attributes;
         if (!allElbsAttributes) {
             return undefined;
         }
         const deletion_protection_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        deletion_protection_enabled.what = "Is deletion protection enabled for Load balancers?";
-        deletion_protection_enabled.why = `Deletion protection should be enabled otherwise if
-        you delete load balancer accidentally then it gets deleted permanently`;
+        deletion_protection_enabled.what =this.checks_what;
+        deletion_protection_enabled.why = this.checks_why;
         deletion_protection_enabled.recommendation = "Recommended to enable deletion protection for all load balancers";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allElbsAttributes) {

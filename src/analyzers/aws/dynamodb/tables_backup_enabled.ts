@@ -5,17 +5,20 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class DynamoDBTablesBackupEnabledAnalyzer extends BaseAnalyzer {
-
+    public checks_what : string = "Are there any DynamoDB table without backup enabled?";
+    public checks_why : string = `DynamoDB can be accidentally deleted and
+    data can be lost when tables are without backup enabled`;
+    public checks_recommendation: string = "Recommended to enable backup for all production critical tables";
+    public checks_name : string = "Table";
     public analyze(params: any, fullReport?: any): any {
         const allTablesBackupStatuses = params.tables_backup;
         if (!allTablesBackupStatuses) {
             return undefined;
         }
         const tables_backup_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
-        tables_backup_enabled.what = "Are there any DynamoDB table without backup enabled?";
-        tables_backup_enabled.why = `DynamoDB can be accidentally deleted and
-        data can be lost when tables are without backup enabled`;
-        tables_backup_enabled.recommendation = "Recommended to enable backup for all production critical tables";
+        tables_backup_enabled.what = this.checks_what;
+        tables_backup_enabled.why = this.checks_why;
+        tables_backup_enabled.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allTablesBackupStatuses) {
             const regionTablesBackupStatuses = allTablesBackupStatuses[region];
@@ -27,7 +30,7 @@ export class DynamoDBTablesBackupEnabledAnalyzer extends BaseAnalyzer {
                     tableBackupStatus: tableBackupStatus.ContinuousBackupsStatus, tableName,
                 };
                 tableBackupEnableStatusAnalysis.resourceSummary = {
-                    name: "Table",
+                    name: this.checks_name,
                     value: tableName,
                 };
                 if (tableBackupStatus.ContinuousBackupsStatus) {

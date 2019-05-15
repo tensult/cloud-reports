@@ -6,7 +6,11 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class ApiRequestLogsAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are APIs logging requests and response?";
+    public  checks_why : string ="Logging request and response helps to debug APIs better";
+    public checks_recommendation: string = `Recommended to enable logs for all Apis which doesn't handle
+    sensitive data as we can't log sensitive information in logs`;
+    public checks_name: string = "ApiState";
     public analyze(params: any, fullReport?: any): any {
         const allApis: any[] = params.apis;
         const allApiStages: any[] = params.api_stages;
@@ -15,10 +19,9 @@ export class ApiRequestLogsAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const api_logs_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        api_logs_enabled.what = "Are APIs logging requests and response?";
-        api_logs_enabled.why = "Logging request and response helps to debug APIs better";
-        api_logs_enabled.recommendation = `Recommended to enable logs for all Apis which doesn't handle
-        sensitive data as we can't log sensitive information in logs`;
+        api_logs_enabled.what = this.checks_what;
+        api_logs_enabled.why = this.checks_why;
+        api_logs_enabled.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allApis) {
             const regionApis = allApis[region];
@@ -32,7 +35,7 @@ export class ApiRequestLogsAnalyzer extends BaseAnalyzer {
 
                     apiStageAnalysis.resource = { apiName: api.name, stage: apiStage };
                     apiStageAnalysis.resourceSummary = {
-                        name: "ApiState",
+                        name: this.checks_name,
                         value: `${api.name} | ${apiStage.stageName}`,
                     };
                     if (this.isRequestLoggingEnabled(apiStage)) {

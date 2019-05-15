@@ -1,25 +1,24 @@
 import * as flat from "flat";
 import * as Analyzers from "./analyzers";
 import { BaseAnalyzer } from "./analyzers/base";
-import { IDictionary } from "./types";
+import * as FS from 'fs';
 
-export function analyze(collectorData: any) {
+export function checksInfo() {
     const flatListOfAnalyzers = flat(Analyzers);
-    const result: IDictionary<any> = {};
+    const checks: string[] = [];
+    checks.push("serviceName,checkName,checkDetails");
     for (const analyzerName in flatListOfAnalyzers) {
        // console.log('analyzer',analyzerName);
         if (!analyzerName.endsWith("Analyzer")) {
             continue;
         }
         const analyzerNameSpace = analyzerName.replace(/.[A-Za-z0-9]+$/, "");
-        if (!collectorData[analyzerNameSpace]) {
-            continue;
-        }
         const analyzer: BaseAnalyzer = new flatListOfAnalyzers[analyzerName]();
-
-        const data = analyzer.analyze(collectorData[analyzerNameSpace], collectorData);
-        result[analyzerNameSpace] = result[analyzerNameSpace] || {};
-        result[analyzerNameSpace] = Object.assign(result[analyzerNameSpace], data);
+        if(analyzer.checks_what) {
+            checks.push(`${analyzerNameSpace},${analyzer.checks_what},${analyzer.checks_why}`);
+        }
     }
-    return result;
+    FS.writeFileSync("./cloud_report_checks.csv", checks.join("\n"), {encoding: "utf-8"});
 }
+
+checksInfo();

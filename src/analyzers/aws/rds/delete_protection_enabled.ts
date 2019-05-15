@@ -6,16 +6,17 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class RdsDeleteProtectionEnabledAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Is delete protection enabled for RDS instances?";
+    public  checks_why : string = `Enabling delete protection for all production
+    RDS instances, protects them from accidental deletion.`;
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         if (!allInstances) {
             return undefined;
         }
         const delete_protection_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
-        delete_protection_enabled.what = "Is delete protection enabled for RDS instances?";
-        delete_protection_enabled.why = `Enabling delete protection for all production
-        RDS instances, protects them from accidental deletion.`;
+        delete_protection_enabled.what = this.checks_what;
+        delete_protection_enabled.why = this.checks_why;
         delete_protection_enabled.recommendation = `Recommended to enable delete
          protection for all production RDS instances.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

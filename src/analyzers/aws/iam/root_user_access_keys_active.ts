@@ -5,7 +5,9 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class RootUserAccessKeysActiveAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there any root user access keys active?";
+    public  checks_why : string = `Root user access keys are unrestrictable hence shouldn't be
+    used as damage will be determental if they gets leaked`;
     public analyze(params: any, fullReport?: any): any {
         const credentials: any[] = params.credentials;
         if (!credentials) {
@@ -18,9 +20,8 @@ export class RootUserAccessKeysActiveAnalyzer extends BaseAnalyzer {
             return;
         }
         const root_user_access_keys_active: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        root_user_access_keys_active.what = "Are there any root user access keys active?";
-        root_user_access_keys_active.why = `Root user access keys are unrestrictable hence shouldn't be
-        used as damage will be determental if they gets leaked`;
+        root_user_access_keys_active.what = this.checks_what;
+        root_user_access_keys_active.why = this.checks_why;
         root_user_access_keys_active.recommendation = "Recommended to delete and never user root user access keys";
         const analysis: IResourceAnalysisResult = {};
         analysis.resource = credentials[rootUserIndex];
