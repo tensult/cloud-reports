@@ -5,16 +5,17 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class DynamoDBTablesCapacitiesAnalyzer extends BaseAnalyzer {
-
+    public checks_what : string = "Are you reviewing DynamoDB table capacities regularly?";
+    public checks_why : string = `DynamoDB table capacities effect both
+    performance and cost so we need to review them regularly`;
     public analyze(params: any, fullReport?: any): any {
         const allTablesDetails = params.tables_details;
         if (!allTablesDetails) {
             return undefined;
         }
         const tables_capacities: ICheckAnalysisResult = { type: CheckAnalysisType.PerformanceEfficiency };
-        tables_capacities.what = "Are you reviewing DynamoDB table capacities regularly?";
-        tables_capacities.why = `DynamoDB table capacities effect both
-        performance and cost so we need to review them regularly`;
+        tables_capacities.what = this.checks_what;
+        tables_capacities.why = this.checks_why;
         tables_capacities.recommendation = "Recommended to review DynamoDB table capacities at least once in a month";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allTablesDetails) {

@@ -5,16 +5,17 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class DashboardsUsageAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are CloudWatch Dashboards being used?";
+    public  checks_why : string = `We need to monitor our applications and infrastructure with various metrics and
+    dashboards help us to quickly glance at these graphs`;
     public analyze(params: any, fullReport?: any): any {
         const allDashboards: any[] = params.dashboards;
         if (!allDashboards) {
             return undefined;
         }
         const dashboards_used: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        dashboards_used.what = "Are CloudWatch Dashboards being used?";
-        dashboards_used.why = `We need to monitor our applications and infrastructure with various metrics and
-        dashboards help us to quickly glance at these graphs`;
+        dashboards_used.what = this.checks_what;
+        dashboards_used.why = this.checks_why;
         dashboards_used.recommendation = `Recommended to use dashboards for various important
         metrics such as Errors, Latency and CPU Utilization etc`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

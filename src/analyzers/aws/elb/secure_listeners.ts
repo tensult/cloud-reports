@@ -5,7 +5,8 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class SecureListenerAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there any Load balancers without secure(SSL/TSL) listeners?";
+    public  checks_why : string = "Transmission of sensitive data to/from Load balancer should happen via secure listener";
     public analyze(params: any, fullReport?: any): any {
         const allElbs = params.elbs;
         const allElbListeners = params.elb_listeners;
@@ -14,8 +15,8 @@ export class SecureListenerAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const secure_listeners: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        secure_listeners.what = "Are there any Load balancers without secure(SSL/TSL) listeners?";
-        secure_listeners.why = "Transmission of sensitive data to/from Load balancer should happen via secure listener";
+        secure_listeners.what = this.checks_what;
+        secure_listeners.why = this.checks_why;
         secure_listeners.recommendation = "Recommended to have secure listener and use them to transmit sensitive data";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allElbs) {

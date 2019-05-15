@@ -6,7 +6,9 @@ import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class EC2InstanceDiskUsageAlarmsAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are alarms are enabled for Disks attached to EC2 instance?";
+    public  checks_why : string =  `It is important to set alarms for Disks as otherwise
+    suddenly your applications might be down.`;
     public analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
         if (!allAlarms || !fullReport["aws.ec2"] || !fullReport["aws.ec2"].instances) {
@@ -15,9 +17,8 @@ export class EC2InstanceDiskUsageAlarmsAnalyzer extends BaseAnalyzer {
         const allInstances: any[] = fullReport["aws.ec2"].instances;
 
         const ec2_instance_disk_usage_alarms: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        ec2_instance_disk_usage_alarms.what = "Are alarms are enabled for Disks attached to EC2 instance?";
-        ec2_instance_disk_usage_alarms.why = `It is important to set alarms for Disks as otherwise
-        suddenly your applications might be down.`;
+        ec2_instance_disk_usage_alarms.what = this.checks_what;
+        ec2_instance_disk_usage_alarms.why =this.checks_why;
         ec2_instance_disk_usage_alarms.recommendation = `Recommended to set alarm for
         Disks to take appropriative action.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

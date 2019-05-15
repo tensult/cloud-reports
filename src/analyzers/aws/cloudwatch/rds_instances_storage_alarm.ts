@@ -5,7 +5,9 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class RDSInstanceStorageAlarmAnalyzer extends BaseAnalyzer {
-
+    public checks_what : string = "Are alarms are enabled for RDS instance Storage?";
+    public checks_why : string = `It is important to set alarms for RDS Storage as when
+    there is no storage then the application will stop working.`;
     public analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
         if (!allAlarms || !fullReport["aws.rds"] || !fullReport["aws.rds"].instances) {
@@ -14,9 +16,8 @@ export class RDSInstanceStorageAlarmAnalyzer extends BaseAnalyzer {
         const allInstances: any[] = fullReport["aws.rds"].instances;
 
         const rds_instances_storage_alarm: ICheckAnalysisResult = { type: CheckAnalysisType.PerformanceEfficiency };
-        rds_instances_storage_alarm.what = "Are alarms are enabled for RDS instance Storage?";
-        rds_instances_storage_alarm.why = `It is important to set alarms for RDS Storage as when
-        there is no storage then the application will stop working.`;
+        rds_instances_storage_alarm.what = this.checks_what;
+        rds_instances_storage_alarm.why = this.checks_why;
         rds_instances_storage_alarm.recommendation = `Recommended to set
         alarms for RDS Storage to take appropriative action.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

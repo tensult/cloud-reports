@@ -6,7 +6,8 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class ApiRequestLogsAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are APIs logging requests and response?";
+    public  checks_why : string ="Logging request and response helps to debug APIs better";
     public analyze(params: any, fullReport?: any): any {
         const allApis: any[] = params.apis;
         const allApiStages: any[] = params.api_stages;
@@ -15,8 +16,8 @@ export class ApiRequestLogsAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const api_logs_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        api_logs_enabled.what = "Are APIs logging requests and response?";
-        api_logs_enabled.why = "Logging request and response helps to debug APIs better";
+        api_logs_enabled.what = this.checks_what;
+        api_logs_enabled.why = this.checks_why;
         api_logs_enabled.recommendation = `Recommended to enable logs for all Apis which doesn't handle
         sensitive data as we can't log sensitive information in logs`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
