@@ -9,6 +9,9 @@ export class VolumesUsageAnalyzer extends BaseAnalyzer {
     public checks_what : string = "Are there any EBS unused volumes?";
     public checks_why : string = `EBS volumes are costly resources so you should
     take snapshot and deleted the unused volumes`;
+    public checks_recommendation: string = `Recommended to delete unused EBS volumes
+        once snapshot is taken incase if there will be need for that data later`;
+    public checks_name : string = "Volume";
     public analyze(params: any, fullReport?: any): any {
         const allVolumes = params.volumes;
         if (!allVolumes) {
@@ -17,8 +20,7 @@ export class VolumesUsageAnalyzer extends BaseAnalyzer {
         const volumes_unused: ICheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
         volumes_unused.what = this.checks_what;
         volumes_unused.why = this.checks_why;
-        volumes_unused.recommendation = `Recommended to delete unused EBS volumes
-        once snapshot is taken incase if there will be need for that data later`;
+        volumes_unused.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allVolumes) {
             const regionVolumes = allVolumes[region];
@@ -27,7 +29,7 @@ export class VolumesUsageAnalyzer extends BaseAnalyzer {
                 const volumeAnalysis: IResourceAnalysisResult = {};
                 volumeAnalysis.resource = volume;
                 volumeAnalysis.resourceSummary = {
-                    name: "Volume",
+                    name: this.checks_name,
                     value: `${ResourceUtil.getNameByTags(volume)} | ${volume.VolumeId}`,
                 };
                 if (volume.Attachments && volume.Attachments.length) {

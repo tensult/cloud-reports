@@ -8,6 +8,9 @@ export class RDSInstanceStorageAlarmAnalyzer extends BaseAnalyzer {
     public checks_what : string = "Are alarms are enabled for RDS instance Storage?";
     public checks_why : string = `It is important to set alarms for RDS Storage as when
     there is no storage then the application will stop working.`;
+    public  checks_recommendation: string = `Recommended to set
+    alarms for RDS Storage to take appropriative action.`;
+    public  checks_name: string = "DBInstance";
     public analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
         if (!allAlarms || !fullReport["aws.rds"] || !fullReport["aws.rds"].instances) {
@@ -18,8 +21,7 @@ export class RDSInstanceStorageAlarmAnalyzer extends BaseAnalyzer {
         const rds_instances_storage_alarm: ICheckAnalysisResult = { type: CheckAnalysisType.PerformanceEfficiency };
         rds_instances_storage_alarm.what = this.checks_what;
         rds_instances_storage_alarm.why = this.checks_why;
-        rds_instances_storage_alarm.recommendation = `Recommended to set
-        alarms for RDS Storage to take appropriative action.`;
+        rds_instances_storage_alarm.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -34,7 +36,7 @@ export class RDSInstanceStorageAlarmAnalyzer extends BaseAnalyzer {
                 const instanceAlarms = alarmsMapByInstance[instance.DBInstanceIdentifier];
                 alarmAnalysis.resource = { instance, alarms: instanceAlarms };
                 alarmAnalysis.resourceSummary = {
-                    name: "DBInstance",
+                    name: this.checks_name,
                     value: instance.DBInstanceIdentifier,
                 };
 

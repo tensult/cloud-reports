@@ -9,6 +9,9 @@ export class VisibilityTimeoutAnalyzer extends BaseAnalyzer {
     public  checks_why: string =`We need to set proper VisibilityTimeout for the queues
     otherwise messages will be processed multiple times and they will become available to other consumers
     while they are being processed; this will have performance impact.`;
+    public  checks_recommendation : string =`Recommended to set VisibilityTimeout
+    higher than the maximum processing time of the messages`;
+    public  checks_name : string = "Queue";
     public analyze(params: any, fullReport?: any): any {
         const allQueuess = params.queue_attributes;
         if (!allQueuess) {
@@ -17,8 +20,7 @@ export class VisibilityTimeoutAnalyzer extends BaseAnalyzer {
         const low_visibility_timeout: ICheckAnalysisResult = { type: CheckAnalysisType.PerformanceEfficiency };
         low_visibility_timeout.what = this.checks_what;
         low_visibility_timeout.why = this.checks_why;
-        low_visibility_timeout.recommendation = `Recommended to set VisibilityTimeout
-        higher than the maximum processing time of the messages`;
+        low_visibility_timeout.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allQueuess) {
             const regionQueuess = allQueuess[region];
@@ -28,7 +30,7 @@ export class VisibilityTimeoutAnalyzer extends BaseAnalyzer {
                 const queueName = this.getQueueName(queueUrl);
                 queueAnalysis.resource = { queueName, attributes: regionQueuess[queueUrl] };
                 queueAnalysis.resourceSummary = {
-                    name: "Queue",
+                    name: this.checks_name,
                     value: queueName,
                 };
                 if (regionQueuess[queueUrl].VisibilityTimeout > 5) {

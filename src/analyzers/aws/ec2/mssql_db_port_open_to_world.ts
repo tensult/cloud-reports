@@ -7,6 +7,9 @@ import { BaseAnalyzer } from "../../base";
 export class MSSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
     public  checks_what : string =  "Is MSSQL port open to world?";
     public  checks_why : string =  "We should always restrict MSSQL port only intended parties to access";
+    public checks_recommendation: string =`Recommended to restrict MSSQL
+        port in security groups to specific IPs`;
+    public checks_name : string = "SecurityGroup";
     public analyze(params: any, fullReport?: any): any {
         const allSecurityGroups = params.security_groups;
         if (!allSecurityGroups) {
@@ -15,8 +18,7 @@ export class MSSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
         const mssql_db_port_open_to_world: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         mssql_db_port_open_to_world.what = this.checks_what;
         mssql_db_port_open_to_world.why = this.checks_why;
-        mssql_db_port_open_to_world.recommendation = `Recommended to restrict MSSQL
-        port in security groups to specific IPs`;
+        mssql_db_port_open_to_world.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allSecurityGroups) {
             const regionSecurityGroups = allSecurityGroups[region];
@@ -28,7 +30,7 @@ export class MSSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
                 const securityGroupAnalysis: IResourceAnalysisResult = {};
                 securityGroupAnalysis.resource = securityGroup;
                 securityGroupAnalysis.resourceSummary = {
-                    name: "SecurityGroup",
+                    name: this.checks_name,
                     value: `${securityGroup.GroupName} | ${securityGroup.GroupId}`,
                 };
                 if (this.isMSSQLOpenToWorld(securityGroup)) {

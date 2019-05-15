@@ -8,6 +8,9 @@ export class PostgreSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
     public  checks_what : string = "Is PostgreSQL port open to world?";
     public  checks_why : string = `We should always restrict PostgreSQL
     port only intended parties to access`;
+    public  checks_recommendation : string = `Recommended to restrict PostgreSQL
+        port in security groups to specific IPs`;
+    public  checks_name : string = "SecurityGroup";
     public analyze(params: any, fullReport?: any): any {
         const allSecurityGroups = params.security_groups;
         if (!allSecurityGroups) {
@@ -16,8 +19,7 @@ export class PostgreSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
         const postgre_sql_db_port_open_to_world: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         postgre_sql_db_port_open_to_world.what = this.checks_what;
         postgre_sql_db_port_open_to_world.why = this.checks_why;
-        postgre_sql_db_port_open_to_world.recommendation = `Recommended to restrict PostgreSQL
-        port in security groups to specific IPs`;
+        postgre_sql_db_port_open_to_world.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allSecurityGroups) {
             const regionSecurityGroups = allSecurityGroups[region];
@@ -29,7 +31,7 @@ export class PostgreSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
                 const securityGroupAnalysis: IResourceAnalysisResult = {};
                 securityGroupAnalysis.resource = securityGroup;
                 securityGroupAnalysis.resourceSummary = {
-                    name: "SecurityGroup",
+                    name: this.checks_name,
                     value: `${securityGroup.GroupName} | ${securityGroup.GroupId}`,
                 };
                 if (this.isPostgreSQLOpenToWorld(securityGroup)) {

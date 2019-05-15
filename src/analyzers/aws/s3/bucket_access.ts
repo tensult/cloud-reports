@@ -7,6 +7,8 @@ const allUsersUri = "http://acs.amazonaws.com/groups/global/AllUsers";
 export class BucketAccessAnalyzer extends BaseAnalyzer {
     public  checks_what : string ="Are there any buckets with open access to everyone?";
     public  checks_why : string ="Generally buckets shouldn't allow open access unless there is good usecase";
+    public  checks_recommendation : string ="Recommended to keep bucket acl as restrictive as possible for the business";
+    public  checks_name :string ="Bucket";
     public analyze(params: any): any {
         const allBucketAcls = params.bucket_acls;
         if (!allBucketAcls || allBucketAcls.length === 0) {
@@ -15,14 +17,14 @@ export class BucketAccessAnalyzer extends BaseAnalyzer {
         const bucket_access: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         bucket_access.what = this.checks_what;
         bucket_access.why = this.checks_why;
-        bucket_access.recommendation = "Recommended to keep bucket acl as restrictive as possible for the business";
+        bucket_access.recommendation = this.checks_recommendation;
         const allBucketsAnalysis: IResourceAnalysisResult[] = [];
 
         for (const bucketName in allBucketAcls) {
             const bucketAcl = allBucketAcls[bucketName];
             const bucketAnalysis: IResourceAnalysisResult = {};
             bucketAnalysis.resource = { bucketName, bucketAcl };
-            bucketAnalysis.resourceSummary = { name: "Bucket", value: bucketName };
+            bucketAnalysis.resourceSummary = { name: this.checks_name, value: bucketName };
             const grants = bucketAcl.Grants;
             const authenticateUsersGrant = this.getAnalysisForGroupGrants(grants, allAuthenticatedUsersUri);
             if (authenticateUsersGrant) {

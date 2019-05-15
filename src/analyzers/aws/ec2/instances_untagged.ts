@@ -8,6 +8,8 @@ import { BaseAnalyzer } from "../../base";
 export class InstanceUntaggedAnalyzer extends BaseAnalyzer {
     public  checks_what : string = "Are there EC2 any instances without tags?";
     public  checks_why : string =  "Tags help to follow security practices easily";
+    public checks_recommendation: string = "Recommended to add tags to all instances" ;
+    public checks_name : string = "Instance";
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         if (!allInstances) {
@@ -16,7 +18,7 @@ export class InstanceUntaggedAnalyzer extends BaseAnalyzer {
         const untagged_instances: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         untagged_instances.what = this.checks_what;
         untagged_instances.why =this.checks_why;
-        untagged_instances.recommendation = "Recommended to add tags to all instances";
+        untagged_instances.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -29,7 +31,7 @@ export class InstanceUntaggedAnalyzer extends BaseAnalyzer {
                     security_groups: instance.SecurityGroups,
                 };
                 instanceAnalysis.resourceSummary = {
-                    name: "Instance",
+                    name: this.checks_name,
                     value: `${instanceAnalysis.resource.instanceName} | ${instance.InstanceId}`,
                 };
                 if (instance.Tags.length === 0) {

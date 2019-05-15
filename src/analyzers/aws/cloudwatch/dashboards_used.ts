@@ -8,6 +8,9 @@ export class DashboardsUsageAnalyzer extends BaseAnalyzer {
     public  checks_what : string = "Are CloudWatch Dashboards being used?";
     public  checks_why : string = `We need to monitor our applications and infrastructure with various metrics and
     dashboards help us to quickly glance at these graphs`;
+    public checks_recommendation: string = `Recommended to use dashboards for various important
+        metrics such as Errors, Latency and CPU Utilization etc`;
+    public checks_name: string = "Dashboards";
     public analyze(params: any, fullReport?: any): any {
         const allDashboards: any[] = params.dashboards;
         if (!allDashboards) {
@@ -16,8 +19,7 @@ export class DashboardsUsageAnalyzer extends BaseAnalyzer {
         const dashboards_used: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         dashboards_used.what = this.checks_what;
         dashboards_used.why = this.checks_why;
-        dashboards_used.recommendation = `Recommended to use dashboards for various important
-        metrics such as Errors, Latency and CPU Utilization etc`;
+        dashboards_used.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allDashboards) {
             const regionDashboards = allDashboards[region];
@@ -27,7 +29,7 @@ export class DashboardsUsageAnalyzer extends BaseAnalyzer {
             if (regionDashboards && regionDashboards.length) {
                 dashboardAnalysis.resource = regionDashboards;
                 dashboardAnalysis.resourceSummary = {
-                    name: "Dashboards",
+                    name: this.checks_name,
                     value: this.getDashboardNames(regionDashboards).join(", "),
                 };
                 dashboardAnalysis.severity = SeverityStatus.Good;
