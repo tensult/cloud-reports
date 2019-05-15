@@ -9,6 +9,9 @@ export class LambdaInvocationsCountAlarmAnalyzer extends BaseAnalyzer {
     public checks_why : string = `It is important to set invocation count alarm for all Lambda functions
     as if there is any bug in the code then Lambda functions can be
     triggered continuously in a loop and eventually you will get a huge AWS bill.`;
+    public  checks_recommendation: string = `Recommended to set invocation
+        alarm for all the Lambda functions.`;
+    public  checks_name: string = "LambdaFunction";
     public analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
         if (!allAlarms || !fullReport["aws.lambda"] || !fullReport["aws.lambda"].functions) {
@@ -21,8 +24,7 @@ export class LambdaInvocationsCountAlarmAnalyzer extends BaseAnalyzer {
         };
         lambda_invocations_count_alarm.what = this.checks_what;
         lambda_invocations_count_alarm.why = this.checks_why;
-        lambda_invocations_count_alarm.recommendation = `Recommended to set invocation
-        alarm for all the Lambda functions.`;
+        lambda_invocations_count_alarm.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allLambdaFunctions) {
             const regionLambdaFunctions = allLambdaFunctions[region];
@@ -34,7 +36,7 @@ export class LambdaInvocationsCountAlarmAnalyzer extends BaseAnalyzer {
                 const lambdaFunctionAlarms = alarmsMapByLambdaFunction[lambdaFunction.FunctionName];
                 alarmAnalysis.resource = { lambdaFunction, alarms: lambdaFunctionAlarms };
                 alarmAnalysis.resourceSummary = {
-                    name: "LambdaFunction",
+                    name: this.checks_name,
                     value: lambdaFunction.FunctionName,
                 };
 

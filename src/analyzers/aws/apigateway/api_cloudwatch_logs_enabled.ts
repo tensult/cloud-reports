@@ -7,6 +7,8 @@ import { BaseAnalyzer } from "../../base";
 export class ApiLogsAnalyzer extends BaseAnalyzer {
     public checks_what : string = "Are CloudWatch logs enabled for Apis?";
     public checks_why : string = "It is important to set logs for Apis for debugging API issues";
+    public checks_recommendation: string = "Recommended to set logs for all Apis";
+    public checks_name: string =  "ApiState";
     public analyze(params: any, fullReport?: any): any {
         const allApis: any[] = params.apis;
         const allApiStages: any[] = params.api_stages;
@@ -17,7 +19,7 @@ export class ApiLogsAnalyzer extends BaseAnalyzer {
         const api_logs_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         api_logs_enabled.what = this.checks_what;
         api_logs_enabled.why = this.checks_why;
-        api_logs_enabled.recommendation = "Recommended to set logs for all Apis";
+        api_logs_enabled.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allApis) {
             const regionApis = allApis[region];
@@ -31,7 +33,7 @@ export class ApiLogsAnalyzer extends BaseAnalyzer {
 
                     apiStageAnalysis.resource = { apiName: api.name, stage: apiStage };
                     apiStageAnalysis.resourceSummary = {
-                        name: "ApiState",
+                        name:this.checks_name,
                         value: `${api.name} | ${apiStage.stageName}`,
                     };
                     const stageLogLevel = this.getLogLevel(apiStage);

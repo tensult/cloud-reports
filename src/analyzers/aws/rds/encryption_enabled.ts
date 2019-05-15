@@ -7,6 +7,9 @@ import { BaseAnalyzer } from "../../base";
 export class RdsEncryptionEnabledAnalyzer extends BaseAnalyzer {
     public  checks_what : string = "Is encryption enabled for RDS instances?";
     public  checks_why : string ="It is important to encrypt data at rest";
+    public checks_recommendation: string = `Recommended to enable encryption for
+        RDS instance as it provides additional layer of security`;
+    public checks_name : string = "DBInstance";
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         if (!allInstances) {
@@ -15,8 +18,7 @@ export class RdsEncryptionEnabledAnalyzer extends BaseAnalyzer {
         const encryption_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         encryption_enabled.what = this.checks_what;
         encryption_enabled.why = this.checks_why;
-        encryption_enabled.recommendation = `Recommended to enable encryption for
-        RDS instance as it provides additional layer of security`;
+        encryption_enabled.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -25,7 +27,7 @@ export class RdsEncryptionEnabledAnalyzer extends BaseAnalyzer {
                 const instance_analysis: IResourceAnalysisResult = {};
                 instance_analysis.resource = instance;
                 instance_analysis.resourceSummary = {
-                    name: "DBInstance",
+                    name: this.checks_name,
                     value: instance.DBInstanceIdentifier,
                 };
                 if (instance.StorageEncrypted) {

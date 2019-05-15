@@ -9,6 +9,9 @@ export class EC2InstanceCPUUtilizationAlarmsAnalyzer extends BaseAnalyzer {
     public  checks_what : string = "Are alarms are enabled for EC2 instance CPU utilization?";
     public  checks_why : string = `It is important to set alarms for EC2 CPU utilization as
     when utilization is high then the application performance will be degraded.`;
+    public checks_recommendation: string = `Recommended to set alarm for EC2 CPU
+        utilization to take appropriative action.`;
+    public checks_name: string = "Instance";
     public analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
         if (!allAlarms || !fullReport["aws.ec2"] || !fullReport["aws.ec2"].instances) {
@@ -21,8 +24,7 @@ export class EC2InstanceCPUUtilizationAlarmsAnalyzer extends BaseAnalyzer {
         };
         ec2_instance_cpu_utilization_alarms.what = this.checks_what;
         ec2_instance_cpu_utilization_alarms.why = this.checks_why;
-        ec2_instance_cpu_utilization_alarms.recommendation = `Recommended to set alarm for EC2 CPU
-        utilization to take appropriative action.`;
+        ec2_instance_cpu_utilization_alarms.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -37,7 +39,7 @@ export class EC2InstanceCPUUtilizationAlarmsAnalyzer extends BaseAnalyzer {
                 const instanceAlarms = alarmsMapByInstance[instance.InstanceId];
                 alarmAnalysis.resource = { instance, alarms: instanceAlarms };
                 alarmAnalysis.resourceSummary = {
-                    name: "Instance",
+                    name: this.checks_name,
                     value: `${ResourceUtil.getNameByTags(instance)} | ${instance.InstanceId}`,
                 };
 

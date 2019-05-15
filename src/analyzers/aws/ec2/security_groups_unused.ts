@@ -8,6 +8,8 @@ import { BaseAnalyzer } from "../../base";
 export class SecurityGroupsUnusedAnalyzer extends BaseAnalyzer {
     public  checks_what : string = "Are there any security groups unused?";
     public  checks_why : string = "Unused security groups causes confusion and allows to make mistakes";
+    public  checks_recommendation : string = "Recommended delete unused security groups";
+    public  checks_name : string = "SecurityGroup";
     public analyze(params: any, fullReport?: any): any {
         const allSecurityGroups = params.security_groups;
         const allInstances = params.instances;
@@ -17,7 +19,7 @@ export class SecurityGroupsUnusedAnalyzer extends BaseAnalyzer {
         const security_groups_unused: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         security_groups_unused.what = this.checks_what;
         security_groups_unused.why = this.checks_why;
-        security_groups_unused.recommendation = "Recommended delete unused security groups";
+        security_groups_unused.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -50,7 +52,7 @@ export class SecurityGroupsUnusedAnalyzer extends BaseAnalyzer {
 
                 };
                 securityGroupAnalysis.resourceSummary = {
-                    name: "SecurityGroup",
+                    name: this.checks_name,
                     value: `${securityGroup.GroupName} | ${securityGroup.GroupId}`,
                 };
                 if (securityGroupInstancesMap[securityGroup.GroupId]) {

@@ -6,6 +6,11 @@ import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class DedicatedTenUsedEC2InstancesAnalyzer extends BaseAnalyzer {
+    public checks_what: string = "Are there any dedicated ec2 used for EC2 instances?";
+    public checks_why : string = "Dedicated ec2 are open to world by dedicated and requires extra setup make them secure";
+    public checks_recommendation: string =   `Recommended not to use dedicated ec2 instead create a custom one
+        as they make you better understand the security posture`;
+    public checks_name : string = "Instance";
 
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
@@ -15,10 +20,9 @@ export class DedicatedTenUsedEC2InstancesAnalyzer extends BaseAnalyzer {
         const allEc2s = fullReport["aws.ec2"].ec2;
 
         const dedicated_ec2_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        dedicated_ec2_used.what = "Are there any dedicated ec2 used for EC2 instances?";
-        dedicated_ec2_used.why = "Dedicated ec2 are open to world by dedicated and requires extra setup make them secure";
-        dedicated_ec2_used.recommendation = `Recommended not to use dedicated ec2 instead create a custom one
-        as they make you better understand the security posture`;
+        dedicated_ec2_used.what = this.checks_what;
+        dedicated_ec2_used.why = this.checks_why;
+        dedicated_ec2_used.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -33,7 +37,7 @@ export class DedicatedTenUsedEC2InstancesAnalyzer extends BaseAnalyzer {
                     ec2Id: instance.Ec2Id,
                 };
                 instanceAnalysis.resourceSummary = {
-                    name: "Instance",
+                    name: this.checks_name,
                     value: `${instanceAnalysis.resource.instanceName} | ${instance.InstanceId}`,
                 };
                 if (this.isEc2Exist(dedicatedEc2s, instance.Ec2Id)) {
