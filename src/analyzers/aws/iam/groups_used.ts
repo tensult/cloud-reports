@@ -5,7 +5,11 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class GroupsAnalyzerAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are IAM groups used for granting permissions?";
+    public  checks_why : string =  `When we use IAM groups to grant access to
+    IAM users then it will be easy to manage access control`;
+    public checks_recommendation : string = "Recommended to use IAM groups for granting access to the users";
+    public checks_name : string = "User";
     public analyze(params: any, fullReport?: any): any {
         const allGroupUsers: IDictionary<any[]> = params.group_users;
         const allUsers: any[] = params.users;
@@ -13,17 +17,16 @@ export class GroupsAnalyzerAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const iam_groups_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        iam_groups_used.what = "Are IAM groups used for granting permissions?";
-        iam_groups_used.why = `When we use IAM groups to grant access to
-        IAM users then it will be easy to manage access control`;
-        iam_groups_used.recommendation = "Recommended to use IAM groups for granting access to the users";
+        iam_groups_used.what = this.checks_what;
+        iam_groups_used.why =this.checks_why;
+        iam_groups_used.recommendation = this.checks_recommendation;
         const groupsByUser = this.mapGroupsByUser(allGroupUsers);
         const allUserAnalysis: IResourceAnalysisResult[] = [];
         for (const user of allUsers) {
             const userAnalysis: IResourceAnalysisResult = {};
             userAnalysis.resource = { user, groups: groupsByUser[user.UserName] };
             userAnalysis.resourceSummary = {
-                name: "User",
+                name: this.checks_name,
                 value: user.UserName,
             };
             if (groupsByUser[user.UserName] && groupsByUser[user.UserName].length) {

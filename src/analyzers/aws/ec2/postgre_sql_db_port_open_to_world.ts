@@ -5,15 +5,17 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class PostgreSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
+    public  checks_what : string = "Is PostgreSQL port open to world?";
+    public  checks_why : string = `We should always restrict PostgreSQL
+    port only intended parties to access`;
     public analyze(params: any, fullReport?: any): any {
         const allSecurityGroups = params.security_groups;
         if (!allSecurityGroups) {
             return undefined;
         }
         const postgre_sql_db_port_open_to_world: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        postgre_sql_db_port_open_to_world.what = "Is PostgreSQL port open to world?";
-        postgre_sql_db_port_open_to_world.why = `We should always restrict PostgreSQL
-        port only intended parties to access`;
+        postgre_sql_db_port_open_to_world.what = this.checks_what;
+        postgre_sql_db_port_open_to_world.why = this.checks_why;
         postgre_sql_db_port_open_to_world.recommendation = `Recommended to restrict PostgreSQL
         port in security groups to specific IPs`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

@@ -5,7 +5,12 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class DefaultFunctionTimeoutAnalyzer extends BaseAnalyzer {
-
+    public   checks_what : string = "Is default timeout is used for Lambda functions?";
+    public  checks_why : string = `We need to set proper timeout for Lambda
+    functions in order achieve desire performance.`;
+    public checks_recommendation : string = `Recommended to set proper
+    timeout as per your requirements`;
+    public checks_name : string = "Function";
     public analyze(params: any, fullReport?: any): any {
         const allFunctions = params.functions;
         if (!allFunctions) {
@@ -13,11 +18,9 @@ export class DefaultFunctionTimeoutAnalyzer extends BaseAnalyzer {
         }
         const default_timeout_used_for_functions:
             ICheckAnalysisResult = { type: CheckAnalysisType.PerformanceEfficiency };
-        default_timeout_used_for_functions.what = "Is default timeout is used for Lambda functions?";
-        default_timeout_used_for_functions.why = `We need to set proper timeout for Lambda
-        functions in order achieve desire performance.`;
-        default_timeout_used_for_functions.recommendation = `Recommended to set proper
-        timeout as per your requirements`;
+        default_timeout_used_for_functions.what = this.checks_what;
+        default_timeout_used_for_functions.why = this.checks_why;
+        default_timeout_used_for_functions.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allFunctions) {
             const regionFunctions = allFunctions[region];
@@ -26,7 +29,7 @@ export class DefaultFunctionTimeoutAnalyzer extends BaseAnalyzer {
                 const functionAnalysis: IResourceAnalysisResult = {};
                 functionAnalysis.resource = fn;
                 functionAnalysis.resourceSummary = {
-                    name: "Function",
+                    name: this.checks_name,
                     value: fn.FunctionName,
                 };
                 if (fn.Timeout !== 3) {

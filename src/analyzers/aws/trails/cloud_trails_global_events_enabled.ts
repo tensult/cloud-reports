@@ -5,18 +5,21 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class CloudTrailsGlobalEventsAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string ="Are global service events included in CloudTrails?";
+    public  checks_why : string = `We need to enable this option to keep
+    track of events from global service like IAM`;
+    public checks_recommendation : string = `Recommended to enable
+    IncludeGlobalServiceEvents for CloudTrails`;
+    public checks_name : string = "CloudTrail";
     public analyze(params: any, fullReport?: any): any {
         const allTrails = params.cloud_trails;
         if (!allTrails) {
             return undefined;
         }
         const cloud_trails_global_service_events: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        cloud_trails_global_service_events.what = "Are global service events included in CloudTrails?";
-        cloud_trails_global_service_events.why = `We need to enable this option to keep
-        track of events from global service like IAM`;
-        cloud_trails_global_service_events.recommendation = `Recommended to enable
-        IncludeGlobalServiceEvents for CloudTrails`;
+        cloud_trails_global_service_events.what = this.checks_what;
+        cloud_trails_global_service_events.why = this.checks_why;
+        cloud_trails_global_service_events.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allTrails) {
             const regionTrails = allTrails[region];
@@ -25,7 +28,7 @@ export class CloudTrailsGlobalEventsAnalyzer extends BaseAnalyzer {
                 const trail_analysis: IResourceAnalysisResult = {};
                 trail_analysis.resource = trail;
                 trail_analysis.resourceSummary = {
-                    name: "CloudTrail", value: trail.Name,
+                    name: this.checks_name, value: trail.Name,
                 };
                 if (trail.IncludeGlobalServiceEvents) {
                     trail_analysis.severity = SeverityStatus.Good;

@@ -3,20 +3,24 @@ import {
     IResourceAnalysisResult, SeverityStatus,
 } from "../../../types";
 import { BaseAnalyzer } from "../../base";
+import { LambdaDeadLetterQueueAnalyzer } from "./dead_letter_queue_configured";
 
 export class LambdaFunctionVersioningUsageAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are you using versioning for Lambda functions?";
+    public  checks_why : string = `We need to use versioning for Lambda functions;
+    when every we update the function, it is important that we create a new version and make
+     changes there so that if required we can roll back to previous version.`;
+    public checks_recommendation : string = "Recommended to use versioning while deploying the Lambda functions";
+    public checks_name : string = "Function";
     public analyze(params: any, fullReport?: any): any {
         const allFunctionVersions = params.function_versions;
         if (!allFunctionVersions) {
             return undefined;
         }
         const function_versions_used: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
-        function_versions_used.what = "Are you using versioning for Lambda functions?";
-        function_versions_used.why = `We need to use versioning for Lambda functions;
-        when every we update the function, it is important that we create a new version and make
-         changes there so that if required we can roll back to previous version.`;
-        function_versions_used.recommendation = "Recommended to use versioning while deploying the Lambda functions";
+        function_versions_used.what = this.checks_what;
+        function_versions_used.why = this.checks_why;
+        function_versions_used.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allFunctionVersions) {
             const regionFunctionVersions = allFunctionVersions[region];
@@ -26,7 +30,7 @@ export class LambdaFunctionVersioningUsageAnalyzer extends BaseAnalyzer {
                 const functionVersions = this.getNonDefaultVersions(regionFunctionVersions[functionName]);
                 functionAnalysis.resource = { functionName, versions: functionVersions };
                 functionAnalysis.resourceSummary = {
-                    name: "Function",
+                    name: this.checks_name,
                     value: functionName,
                 };
                 if (functionVersions.length) {

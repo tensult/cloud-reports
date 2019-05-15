@@ -5,17 +5,20 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class CloudTrailsLogValidationAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Is log file validation enabled for cloud trails?";
+    public  checks_why : string = `Cloud trails helps understand who did what so
+    enabling log file validation keep their integrity intact`;
+    public checks_recommendation : string = "Recommended to enable log file validation for all cloud trails";
+    public checks_name : string = "CloudTrail";
     public analyze(params: any, fullReport?: any): any {
         const allTrails = params.cloud_trails;
         if (!allTrails) {
             return undefined;
         }
         const cloud_trails_log_validation: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
-        cloud_trails_log_validation.what = "Is log file validation enabled for cloud trails?";
-        cloud_trails_log_validation.why = `Cloud trails helps understand who did what so
-        enabling log file validation keep their integrity intact`;
-        cloud_trails_log_validation.recommendation = "Recommended to enable log file validation for all cloud trails";
+        cloud_trails_log_validation.what = this.checks_what;
+        cloud_trails_log_validation.why = this.checks_why;
+        cloud_trails_log_validation.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allTrails) {
             const regionTrails = allTrails[region];
@@ -24,7 +27,7 @@ export class CloudTrailsLogValidationAnalyzer extends BaseAnalyzer {
                 const trail_analysis: IResourceAnalysisResult = {};
                 trail_analysis.resource = trail;
                 trail_analysis.resourceSummary = {
-                    name: "CloudTrail", value: trail.Name,
+                    name: this.checks_name, value: trail.Name,
                 };
                 if (trail.LogFileValidationEnabled) {
                     trail_analysis.severity = SeverityStatus.Good;

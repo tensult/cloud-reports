@@ -5,16 +5,17 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class LogGroupsRetentionAnalyzer extends BaseAnalyzer {
-
+    public checks_what : string = "Is retention set for CloudWatch log groups?";
+    public checks_why : string = `It is important to set proper retention for CloudWatch log
+    groups as it is very costly to keep these logs forever`;
     public analyze(params: any, fullReport?: any): any {
         const allLogGroups: any[] = params.log_groups;
         if (!allLogGroups) {
             return undefined;
         }
         const log_groups_retention: ICheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
-        log_groups_retention.what = "Is retention set for CloudWatch log groups?";
-        log_groups_retention.why = `It is important to set proper retention for CloudWatch log
-        groups as it is very costly to keep these logs forever`;
+        log_groups_retention.what = this.checks_what;
+        log_groups_retention.why = this.checks_why;
         log_groups_retention.recommendation = "Recommended to set retention for all the CloudWatch log groups";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allLogGroups) {

@@ -5,7 +5,9 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class SQSQueueSizeAlarmAnalyzer extends BaseAnalyzer {
-
+    public checks_what : string = "Are alarms are enabled for SQS Queue size?";
+    public checks_why : string = `It is important to set alarms for SQS Queue size as when
+    the consumers are failing to process the messages from queue then we will get notified`;
     public analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
         if (!allAlarms || !fullReport["aws.sqs"] || !fullReport["aws.sqs"].queue_urls) {
@@ -14,9 +16,8 @@ export class SQSQueueSizeAlarmAnalyzer extends BaseAnalyzer {
         const allQueueUrls: any[] = fullReport["aws.sqs"].queue_urls;
 
         const sqs_queue_size_alarm: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        sqs_queue_size_alarm.what = "Are alarms are enabled for SQS Queue size?";
-        sqs_queue_size_alarm.why = `It is important to set alarms for SQS Queue size as when
-        the consumers are failing to process the messages from queue then we will get notified`;
+        sqs_queue_size_alarm.what = this.checks_what;
+        sqs_queue_size_alarm.why = this.checks_why;
         sqs_queue_size_alarm.recommendation = `Recommended to set alarms
         for SQS Queue size to take appropriative action.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

@@ -5,16 +5,20 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class ESDomainsOpenToWorldAnalyzer extends BaseAnalyzer {
+    public  checks_what : string = "Are there any Elasticsearch service domains open to world?";
+    public  checks_why : string = `Domains open to world posses serious security
+    threat so we need to allow only intended parties to access`;
+    public checks_recommendation : string = "Recommended to restrict domain access as per your application needs";
+    public checks_name : string = "Domain";
     public analyze(params: any, fullReport?: any): any {
         const allDomains = params.domains;
         if (!allDomains) {
             return undefined;
         }
         const domains_open_to_world: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        domains_open_to_world.what = "Are there any Elasticsearch service domains open to world?";
-        domains_open_to_world.why = `Domains open to world posses serious security
-        threat so we need to allow only intended parties to access`;
-        domains_open_to_world.recommendation = "Recommended to restrict domain access as per your application needs";
+        domains_open_to_world.what = this.checks_what;
+        domains_open_to_world.why = this.checks_why;
+        domains_open_to_world.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allDomains) {
             const regionDomains = allDomains[region];
@@ -23,7 +27,7 @@ export class ESDomainsOpenToWorldAnalyzer extends BaseAnalyzer {
                 const domainAnalysis: IResourceAnalysisResult = {};
                 domainAnalysis.resource = domain;
                 domainAnalysis.resourceSummary = {
-                    name: "Domain",
+                    name: this.checks_name,
                     value: domain.DomainName,
                 };
                 if (this.isOpenToWorld(domain)) {

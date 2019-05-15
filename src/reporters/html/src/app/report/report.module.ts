@@ -22,13 +22,15 @@ import {
     MatIconModule,
     MatDialogModule
 } from '@angular/material';
+import { DetailsComponent } from './checkDetail/details/details.component';
 
 @NgModule({
     declarations: [
         CloudReportDashboardComponent,
         CloudReportCheckCategoryComponent,
         CloudReportCheckDetailComponent,
-        NoDataToShowComponent
+        NoDataToShowComponent,
+        DetailsComponent
     ],
     imports: [
         CommonModule,
@@ -48,7 +50,8 @@ import {
         RouterModule.forChild([
             { path: 'report/dashboard', component: CloudReportDashboardComponent },
             { path: 'report/checkCategory/:service', component: CloudReportCheckCategoryComponent },
-            { path: 'report/checkDetail', component: CloudReportCheckDetailComponent }
+            { path: 'report/checkDetail', component: CloudReportCheckDetailComponent },
+            { path: 'report/checkDetail/details', component: DetailsComponent}
         ]),
         HttpClientModule
     ],

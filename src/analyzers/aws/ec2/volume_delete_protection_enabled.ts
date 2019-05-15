@@ -6,7 +6,9 @@ import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class EC2VolumeDeleteProtectionOnTerminationAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there any instances without deletion protection for volumes?";
+    public  checks_why : string = `Instances can be accidentally terminated and data can be
+    lost when they are without deletion protection for volumes`;
     public analyze(params: any, fullReport?: any): any {
         const allTerminationProtectionStatuses = params.termination_protection;
         const allInstances = params.instances;
@@ -14,9 +16,8 @@ export class EC2VolumeDeleteProtectionOnTerminationAnalyzer extends BaseAnalyzer
             return undefined;
         }
         const volume_delete_protection_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
-        volume_delete_protection_enabled.what = "Are there any instances without deletion protection for volumes?";
-        volume_delete_protection_enabled.why = `Instances can be accidentally terminated and data can be
-        lost when they are without deletion protection for volumes`;
+        volume_delete_protection_enabled.what = this.checks_what;
+        volume_delete_protection_enabled.why = this.checks_why;
         volume_delete_protection_enabled.recommendation = `Recommended to enable deletion
         protection for volumes attached to all production critical instances`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

@@ -5,7 +5,12 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class TopicsWithoutSubscriptionsAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there any SNS topics without subscriptions?";
+    public  checks_why : string = `Topics without subscriptions cause confusion as
+    mistakenly we might be publishing to them but no one will receive them`;
+    public checks_recommendation : string = `Every SNS topic should have
+    proper subscriptions else you should remove it`;
+    public checks_name : string = "Topic";
     public analyze(params: any, fullReport?: any): any {
         const allSubscriptions = params.subscriptions;
         const allTopics = params.topics;
@@ -14,11 +19,9 @@ export class TopicsWithoutSubscriptionsAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const topics_without_subscriptions: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        topics_without_subscriptions.what = "Are there any SNS topics without subscriptions?";
-        topics_without_subscriptions.why = `Topics without subscriptions cause confusion as
-        mistakenly we might be publishing to them but no one will receive them`;
-        topics_without_subscriptions.recommendation = `Every SNS topic should have
-        proper subscriptions else you should remove it`;
+        topics_without_subscriptions.what = this.checks_what;
+        topics_without_subscriptions.why = this.checks_why;
+        topics_without_subscriptions.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allTopics) {
             const regionTopics = allTopics[region];
@@ -30,7 +33,7 @@ export class TopicsWithoutSubscriptionsAnalyzer extends BaseAnalyzer {
                 const topicName = this.getTopicName(topic.TopicArn);
                 topic_analysis.resource = { topicName, subscriptions: regionSubscriptionsMap[topic.TopicArn] };
                 topic_analysis.resourceSummary = {
-                    name: "Topic", value: topicName,
+                    name: this.checks_name, value: topicName,
                 };
                 if (regionSubscriptionsMap[topic.TopicArn] && regionSubscriptionsMap[topic.TopicArn].length) {
                     topic_analysis.severity = SeverityStatus.Good;

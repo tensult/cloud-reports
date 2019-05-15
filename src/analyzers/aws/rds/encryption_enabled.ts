@@ -5,15 +5,16 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class RdsEncryptionEnabledAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Is encryption enabled for RDS instances?";
+    public  checks_why : string ="It is important to encrypt data at rest";
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         if (!allInstances) {
             return undefined;
         }
         const encryption_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        encryption_enabled.what = "Is encryption enabled for RDS instances?";
-        encryption_enabled.why = "It is important to encrypt data at rest";
+        encryption_enabled.what = this.checks_what;
+        encryption_enabled.why = this.checks_why;
         encryption_enabled.recommendation = `Recommended to enable encryption for
         RDS instance as it provides additional layer of security`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

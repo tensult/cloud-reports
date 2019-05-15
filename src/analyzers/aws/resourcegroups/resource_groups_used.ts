@@ -5,16 +5,17 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class ResourceGroupsUsageAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string ="Are Resource groups used to track the AWS resources?";
+    public  checks_why : string =`Resource groups helps to track various AWS resources
+    using Tags like Department, team, project etc`;
     public analyze(params: any, fullReport?: any): any {
         const allResourceGroups = params.resource_groups;
         if (!allResourceGroups) {
             return undefined;
         }
         const resource_groups_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        resource_groups_used.what = "Are Resource groups used to track the AWS resources?";
-        resource_groups_used.why = `Resource groups helps to track various AWS resources
-        using Tags like Department, team, project etc`;
+        resource_groups_used.what = this.checks_what;
+        resource_groups_used.why = this.checks_why;
         resource_groups_used.recommendation = `Recommended use Resource groups to track and monitor
         the AWS resources for better management of AWS services`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

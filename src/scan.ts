@@ -14,7 +14,7 @@ import { iam } from "./collectors/aws";
 
 const cliArgs = Cli.parse({
     debug: ["d", "if you enable Debug then it will generate intermediate reports", "boolean", false],
-    format: ["f", "output format: html, json, csv or pdf", "string", "html"],
+    format: ["f", "output format: html, json, csv or pdf", "string", "json"],
     issuesOnly: ["i", "should show only issues", "boolean", false],
     logLevel: ["l", "Log level: off=100, info=1, warning=2, error=3", "int", "3"],
     module: ["m", "name of the module", "string"],

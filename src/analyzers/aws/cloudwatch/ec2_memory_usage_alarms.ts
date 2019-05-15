@@ -6,7 +6,9 @@ import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class EC2InstanceMemoryUsageAlarmsAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are alarms are enabled for RAM (Memory) of EC2 instance?";
+    public  checks_why : string = `It is important to set alarms for RAM (Memory) as otherwise
+    suddenly your applications might be running slower.`;
     public analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
         if (!allAlarms || !fullReport["aws.ec2"] || !fullReport["aws.ec2"].instances) {
@@ -16,9 +18,8 @@ export class EC2InstanceMemoryUsageAlarmsAnalyzer extends BaseAnalyzer {
 
         const ec2_instance_memory_usage_alarms:
             ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        ec2_instance_memory_usage_alarms.what = "Are alarms are enabled for RAM (Memory) of EC2 instance?";
-        ec2_instance_memory_usage_alarms.why = `It is important to set alarms for RAM (Memory) as otherwise
-        suddenly your applications might be running slower.`;
+        ec2_instance_memory_usage_alarms.what = this.checks_what;
+        ec2_instance_memory_usage_alarms.why = this.checks_why;
         ec2_instance_memory_usage_alarms.recommendation = `Recommended to set alarm for RAM (Memory)
         of EC2 instances to take appropriative action.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

@@ -3,20 +3,24 @@ import {
     IResourceAnalysisResult, SeverityStatus,
 } from "../../../types";
 import { BaseAnalyzer } from "../../base";
+import { LambdaDeadLetterQueueAnalyzer } from "./dead_letter_queue_configured";
 
 export class LambdaFunctionVersionsCountAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there too many versions for any Lambda function?";
+    public  checks_why : string = `We need to use versioning for Lambda functions but keeping too many versions
+    will be confusing and also there is chance of exceed Lambda
+    service limits so we need to keep deleting the old versions.`;
+    public checks_recommendation : string = "Recommended to keep maximum of 5 versions per Lambda function";
+    public checks_name : string = "Function";
     public analyze(params: any, fullReport?: any): any {
         const allFunctionVersions = params.function_versions;
         if (!allFunctionVersions) {
             return undefined;
         }
         const function_versions_count: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        function_versions_count.what = "Are there too many versions for any Lambda function?";
-        function_versions_count.why = `We need to use versioning for Lambda functions but keeping too many versions
-        will be confusing and also there is chance of exceed Lambda
-        service limits so we need to keep deleting the old versions.`;
-        function_versions_count.recommendation = "Recommended to keep maximum of 5 versions per Lambda function";
+        function_versions_count.what = this.checks_what;
+        function_versions_count.why = this.checks_why;
+        function_versions_count.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allFunctionVersions) {
             const regionFunctionVersions = allFunctionVersions[region];
@@ -25,7 +29,7 @@ export class LambdaFunctionVersionsCountAnalyzer extends BaseAnalyzer {
                 const functionAnalysis: IResourceAnalysisResult = {};
                 functionAnalysis.resource = { functionName, versions: regionFunctionVersions[functionName] };
                 functionAnalysis.resourceSummary = {
-                    name: "Function",
+                    name: this.checks_name,
                     value: functionName,
                 };
                 if (regionFunctionVersions[functionName].length === 1) {

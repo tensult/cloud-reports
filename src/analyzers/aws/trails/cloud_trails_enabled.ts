@@ -5,24 +5,27 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class CloudTrailsEnabledAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Is cloud trails enabled for account?";
+    public  checks_why : string = `Cloud trails helps understand who did what
+    and this is utmost important when a security breach happens`;
+    public checks_recommendation : string = "Recommended to enable cloud trails for all regions";
+    public checks_name : string = "CloudTrails";
     public analyze(params: any, fullReport?: any): any {
         const allTrails = params.cloud_trails;
         if (!allTrails) {
             return undefined;
         }
         const cloud_trails_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        cloud_trails_enabled.what = "Is cloud trails enabled for account?";
-        cloud_trails_enabled.why = `Cloud trails helps understand who did what
-        and this is utmost important when a security breach happens`;
-        cloud_trails_enabled.recommendation = "Recommended to enable cloud trails for all regions";
+        cloud_trails_enabled.what = this.checks_what;
+        cloud_trails_enabled.why =this.checks_why;
+        cloud_trails_enabled.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allTrails) {
             const regionTrails = allTrails[region];
             const trail_analysis: IResourceAnalysisResult = {};
             trail_analysis.resource = regionTrails;
             trail_analysis.resourceSummary = {
-                name: "CloudTrails", value: this.getTrailNames(regionTrails),
+                name: this.checks_name, value: this.getTrailNames(regionTrails),
             };
             if (regionTrails.length) {
                 trail_analysis.severity = SeverityStatus.Good;
