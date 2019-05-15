@@ -5,7 +5,9 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class GroupsAnalyzerAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are IAM groups used for granting permissions?";
+    public  checks_why : string =  `When we use IAM groups to grant access to
+    IAM users then it will be easy to manage access control`;
     public analyze(params: any, fullReport?: any): any {
         const allGroupUsers: IDictionary<any[]> = params.group_users;
         const allUsers: any[] = params.users;
@@ -13,9 +15,8 @@ export class GroupsAnalyzerAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const iam_groups_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        iam_groups_used.what = "Are IAM groups used for granting permissions?";
-        iam_groups_used.why = `When we use IAM groups to grant access to
-        IAM users then it will be easy to manage access control`;
+        iam_groups_used.what = this.checks_what;
+        iam_groups_used.why =this.checks_why;
         iam_groups_used.recommendation = "Recommended to use IAM groups for granting access to the users";
         const groupsByUser = this.mapGroupsByUser(allGroupUsers);
         const allUserAnalysis: IResourceAnalysisResult[] = [];

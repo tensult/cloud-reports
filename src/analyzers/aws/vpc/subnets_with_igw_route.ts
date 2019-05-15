@@ -5,7 +5,9 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class SubnetsWithIgwRouteAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Which subnets have route to public?";
+    public  checks_why : string = `It is important to know which subnets have routes to
+    public and can become valnerable to attacks. Also sometimes we misconfigure private subnets with public routes`;
     public analyze(params: any, fullReport?: any): any {
         const allSubnets = params.subnets;
         const allRoutes = params.route_tables;
@@ -13,10 +15,9 @@ export class SubnetsWithIgwRouteAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const subnets_with_igw_route: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        subnets_with_igw_route.what = "Which subnets have route to public?";
-        subnets_with_igw_route.why = `It is important to know which subnets have routes to
-        public and can become valnerable to attacks. Also sometimes we misconfigure private subnets with public routes`;
-        subnets_with_igw_route.recommendation = `Recommended to keep only private routes for private
+        subnets_with_igw_route.what = this.checks_what;
+        subnets_with_igw_route.why = this.checks_why;
+         subnets_with_igw_route.recommendation = `Recommended to keep only private routes for private
         subnets and protect public subnets with network acls`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allSubnets) {

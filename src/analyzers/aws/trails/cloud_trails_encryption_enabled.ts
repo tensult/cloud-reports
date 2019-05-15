@@ -5,15 +5,16 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class CloudTrailsEncryptionAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are Cloud trails encrypted at rest?";
+    public  checks_why : string = "Critical data should always be encrypted at rest";
     public analyze(params: any, fullReport?: any): any {
         const allTrails = params.cloud_trails;
         if (!allTrails) {
             return undefined;
         }
         const cloud_trails_encryption_at_rest: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        cloud_trails_encryption_at_rest.what = "Are Cloud trails encrypted at rest?";
-        cloud_trails_encryption_at_rest.why = "Critical data should always be encrypted at rest";
+        cloud_trails_encryption_at_rest.what =this.checks_what;
+        cloud_trails_encryption_at_rest.why =this.checks_why;
         cloud_trails_encryption_at_rest.recommendation = "Recommended to enable encryption at rest for CloudTrails";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allTrails) {

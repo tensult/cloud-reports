@@ -5,14 +5,16 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class OraclePortOpenToWorldAnalyzer extends BaseAnalyzer {
+    public  checks_what : string =  "Is Oracle port open to world?";
+    public  checks_why : string =  "We should always restrict Oracle port only intended parties to access";
     public analyze(params: any, fullReport?: any): any {
         const allSecurityGroups = params.security_groups;
         if (!allSecurityGroups) {
             return undefined;
         }
         const oracle_db_port_open_to_world: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        oracle_db_port_open_to_world.what = "Is Oracle port open to world?";
-        oracle_db_port_open_to_world.why = "We should always restrict Oracle port only intended parties to access";
+        oracle_db_port_open_to_world.what = this.checks_what;
+        oracle_db_port_open_to_world.why =this.checks_why;
         oracle_db_port_open_to_world.recommendation = `Recommended to restrict Oracle
         port in security groups to specific IPs`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

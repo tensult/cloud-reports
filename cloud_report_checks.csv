@@ -1,0 +1,162 @@
+serviceName,checkName,checkDetails
+aws.account,Cloud reports scans and reports issues about the AWS Account,AWS cloud offers several security features but it also
+    enforces a shared responsibility so we need to keep reviewing the
+     account and fixing the issues.
+aws.acm,Are certificates expiring soon?,Expired certificates can make services inaccessible for your customers.
+aws.acm,Are there any expired certificates in use?,Expired certificates can make services
+    inaccessible for your customers so they shouldn't used
+aws.apigateway,Are CloudWatch logs enabled for Apis?,It is important to set logs for Apis for debugging API issues
+aws.apigateway,Are APIs logging requests and response?,Logging request and response helps to debug APIs better
+aws.cloudfront,Are alarms are enabled for Distribution 5XX errors?,It is important to set alarms for 5XX Errors as otherwise
+    you won't be aware when the application is failing
+aws.cloudfront,Are access logs enabled for CloudFront distributions?,It is important to enabled access logs for the distributions to understand
+    access patterns and come with better caching strategies
+aws.cloudwatch,Are alarms are enabled for ALB 5XX errors?,It is important to set alarms for 5XX Errors
+    as otherwise you won't be aware when the application is failing
+aws.cloudwatch,Are alarms are enabled for ALB Unhealthy hosts?,It is important to set alarms for Unhealthy hosts as otherwise the
+    performance of the application will be degraded
+aws.cloudwatch,Are alarms are enabled for Api 5XX errors?,It is important to set alarms for 5XX Errors as otherwise
+    you won't be aware when the application is failing
+aws.cloudwatch,Are CloudWatch Dashboards being used?,We need to monitor our applications and infrastructure with various metrics and
+    dashboards help us to quickly glance at these graphs
+aws.cloudwatch,Are alarms are enabled for Disks attached to EC2 instance?,It is important to set alarms for Disks as otherwise
+    suddenly your applications might be down.
+aws.cloudwatch,Are alarms are enabled for EC2 instance CPU utilization?,It is important to set alarms for EC2 CPU utilization as
+    when utilization is high then the application performance will be degraded.
+aws.cloudwatch,Are alarms are enabled for RAM (Memory) of EC2 instance?,It is important to set alarms for RAM (Memory) as otherwise
+    suddenly your applications might be running slower.
+aws.cloudwatch,Are alarms are enabled for
+    EC2 instance System checks?,It is important to set alarms for EC2 systems checks as
+    otherwise suddenly your applications might be down.
+aws.cloudwatch,Are alarms are enabled for Lambda function Errors?,It is important to set Errors alarm for all Lambda functions so
+    that when Lambda functions are failing we will be notified.
+aws.cloudwatch,Are alarms are enabled for Lambda function based on invocation count?,It is important to set invocation count alarm for all Lambda functions
+    as if there is any bug in the code then Lambda functions can be
+    triggered continuously in a loop and eventually you will get a huge AWS bill.
+aws.cloudwatch,Is retention set for CloudWatch log groups?,It is important to set proper retention for CloudWatch log
+    groups as it is very costly to keep these logs forever
+aws.cloudwatch,Are alarms are enabled for RDS instance CPU utilization?,It is important to set alarms for RDS CPU utilization
+    as when utilization is high then the application performance will be degraded.
+aws.cloudwatch,Are alarms are enabled for RDS instance Storage?,It is important to set alarms for RDS Storage as when
+    there is no storage then the application will stop working.
+aws.cloudwatch,Are alarms are enabled for SQS Queue size?,It is important to set alarms for SQS Queue size as when
+    the consumers are failing to process the messages from queue then we will get notified
+aws.dynamodb,Are there any DynamoDB table without backup enabled?,DynamoDB can be accidentally deleted and
+    data can be lost when tables are without backup enabled
+aws.dynamodb,Are you reviewing DynamoDB table capacities regularly?,DynamoDB table capacities effect both
+    performance and cost so we need to review them regularly
+aws.ebs,Are Snapshots being taken for EBS volumes?,If we take regular snapshots of EBS volumes
+    then it prevents data loss incase of volume failure or accidental deletes
+aws.ebs,Are EBS volumes encrypted at rest?,Data at rest should always be encrypted
+aws.ebs,Are there any EBS unused volumes?,EBS volumes are costly resources so you should
+    take snapshot and deleted the unused volumes
+aws.ec2,Are there any default security groups used for EC2 instances?,Default security groups are open to world by
+    default and requires extra setup make them secure
+aws.ec2,Are there any default vpc used for EC2 instances?,Default vpcs are open to world by default and requires extra setup make them secure
+aws.ec2,Are there any elastic IPs unused?,Elastic IPs are not free so we shouldn't keep unused IPs
+aws.ec2,Are there any EC2 instances with instance stored volumes,Instance store volumes will lose the data
+    in case the instance is failed or terminated
+aws.ec2,Are there any EC2 instances without IAM Instance Profile?,We should use IAM Instance profile
+    roles for granting EC2 instances access to other AWS resources
+aws.ec2,Are there any long running instances which should be reserved?,You can reserve the EC2 instance which
+    are you going to run for long time to save the cost.
+aws.ec2,Are there any EC2 instances without Name tags,Tags help to follow security practices easily
+aws.ec2,Are there EC2 any instances without tags?,Tags help to follow security practices easily
+aws.ec2,Are there any EC2 instances without Elastic IP?,We should attach Elastic IP to EC2 instances
+    so that incase of instance failures we can easily
+    replace the instance without losing the associated public IP
+aws.ec2,Are there any key pairs unused?,Unused key pairs causes confusion and allows to make mistakes
+aws.ec2,Is MSSQL port open to world?,We should always restrict MSSQL port only intended parties to access
+aws.ec2,Is MySQL port open to world?,We should always restrict MySQL port only intended parties to access
+aws.ec2,Is Oracle port open to world?,We should always restrict Oracle port only intended parties to access
+aws.ec2,Is PostgreSQL port open to world?,We should always restrict PostgreSQL
+    port only intended parties to access
+aws.ec2,Is RDP port open to world?,We should always restrict RDP port only intended parties to access
+aws.ec2,Are there any security groups with wide range of ports?,Security group should not expose wide range of
+    port as it will be valnerable for port scan attacks
+aws.ec2,Is SSH port open to world?,We should always restrict SSH port only intended parties to access
+aws.ec2,Are there any instances without termination protection?,Instances can be accidentally terminated and data
+    can be lost when they are without termination protection
+aws.ec2,Are there any instances without deletion protection for volumes?,Instances can be accidentally terminated and data can be
+    lost when they are without deletion protection for volumes
+aws.elasticsearch,Are there any Elasticsearch service domains open to world?,Domains open to world posses serious security
+    threat so we need to allow only intended parties to access
+aws.elasticsearch,Are Elasticsearch Instances reserved?,You can reserve the Elasticsearch Service domain
+    which are you going to run for long time to save the cost.
+aws.elb,Are access logs enabled for Load balancers?,Access logs helps us to understand request patterns also helps to detect threats
+aws.elb,Is deletion protection enabled for Load balancers?,Deletion protection should be enabled otherwise if
+    you delete load balancer accidentally then it gets deleted permanently
+aws.elb,Are there any Load balancers without secure(SSL/TSL) listeners?,Transmission of sensitive data to/from Load balancer should happen via secure listener
+aws.iam,Are there too many admins for the account?,It is hard to manage security goals
+    when there too many admins as chances of mistakes increases
+aws.iam,Are IAM groups used for granting permissions?,When we use IAM groups to grant access to
+    IAM users then it will be easy to manage access control
+aws.iam,Is account password policy following best practices?,It is important to have secure password policy as
+    leaked or weak passwords can give direct access to attackers
+aws.iam,Are there any root user access keys active?,Root user access keys are unrestrictable hence shouldn't be
+    used as damage will be determental if they gets leaked
+aws.iam,Is MFA enabled root user?,Root user should always use MFA when they login via AWS console as access
+    can't be restricted so damage caused by leakage will be determental
+aws.iam,Are there cross account roles without ExternalId?,It is important to associate
+    ExternalId for cross account role access
+aws.iam,Are there any user access keys unused?,It is important to delete unused or
+    unneeded access keys as it reduces risk of misusing them
+aws.iam,Are user access keys are too old?,It is important to rotate access keys regularly as it will reduce improper use
+aws.iam,Are there any user access keys unused?,It is important to delete unused or unneeded
+    access keys as it reduces risk of misusing them
+aws.lambda,Is dead letter queue (DLQ) configured for Lambda functions?,When we configure DLQ then Lambda function will pushes
+    all the failure events into the queue for further investigation.
+aws.lambda,Is default timeout is used for Lambda functions?,We need to set proper timeout for Lambda
+    functions in order achieve desire performance.
+aws.lambda,Are you using aliasing for Lambda functions?,We need to use aliasing for Lambda functions;
+    when every we make major updates to the function,
+    it is important that we use alias with traffic shaping between
+    multiple aliases so that we can perform A/B testing and smoothly migrate applications.
+aws.lambda,Are there too many versions for any Lambda function?,We need to use versioning for Lambda functions but keeping too many versions
+    will be confusing and also there is chance of exceed Lambda
+    service limits so we need to keep deleting the old versions.
+aws.lambda,Are you using versioning for Lambda functions?,We need to use versioning for Lambda functions;
+    when every we update the function, it is important that we create a new version and make
+     changes there so that if required we can roll back to previous version.
+aws.rds,Is Automated backup enabled for RDS instances?,It is important to enabled automated backups so that incase of
+    hardware failures and accidental data loss, we can recover data.
+aws.rds,Are there any default security groups used for RDS instances?,Default security groups are open to world by
+    default and requires extra setup make them secure
+aws.rds,Are there any default vpc used for RDS instances?,Default vpcs are open to world by default and requires extra setup make them secure
+aws.rds,Is delete protection enabled for RDS instances?,Enabling delete protection for all production
+    RDS instances, protects them from accidental deletion.
+aws.rds,Is encryption enabled for RDS instances?,It is important to encrypt data at rest
+aws.rds,Are there any long running instances which should be reserved?,You can reserve the RDS instance which
+    are you going to run for long time to save the cost.
+aws.rds,Are there any publicly accessible RDS instances?,It is important to restrict
+    RDS instances for private access only for most of the usecases
+aws.resourcegroups,Are Resource groups used to track the AWS resources?,Resource groups helps to track various AWS resources
+    using Tags like Department, team, project etc
+aws.route53,Is the DNS Query Logs enabled for Hosted Zones?,DNS query logs provides insights into who and how is
+    the domain getting accessed and this helps to enable proper security controls
+aws.route53,Are there any domain expiring soon?,When domains get expired, someone may claim them so it is import to keep an eye on them
+aws.route53,Is transfer lock enabled for the domains?,It is important to enable transfer lock
+    for domains as it protects someone from claiming them
+aws.s3,Are there any buckets with open access to everyone?,Generally buckets shouldn't allow open access unless there is good usecase
+aws.s3,Is S3 Bucket Analytics enabled?,Bucket Analytics gives insights into how
+    object are being accessed and using this information we can get life cycle rule to reduce cost.
+aws.s3,Are S3 Bucket Life Cycle rules used?,Bucket life cycle rules helps us to manage the S3 object storage by either
+    transferring objects to cheaper storage class or deleting them.
+aws.s3,Are access logs enabled for buckets containing Cloud Trails?,
+aws.s3,Is deleting cloud trails protected by MFA?,Cloud trails deletes should be MFA
+    enabled so that attacker won't able to delete them
+aws.sns,Are there any SNS topics without subscriptions?,Topics without subscriptions cause confusion as
+    mistakenly we might be publishing to them but no one will receive them
+aws.sqs,Is SQS Queue VisibilityTimeout too low?,We need to set proper VisibilityTimeout for the queues
+    otherwise messages will be processed multiple times and they will become available to other consumers
+    while they are being processed; this will have performance impact.
+aws.trails,Is cloud trails enabled for account?,Cloud trails helps understand who did what
+    and this is utmost important when a security breach happens
+aws.trails,Are Cloud trails encrypted at rest?,Critical data should always be encrypted at rest
+aws.trails,Are global service events included in CloudTrails?,We need to enable this option to keep
+    track of events from global service like IAM
+aws.trails,Is log file validation enabled for cloud trails?,Cloud trails helps understand who did what so
+    enabling log file validation keep their integrity intact
+aws.vpc,Is flow logs enabled for vpc?,VPC flow logs tells about the request patterns and helps to detect security threats
+aws.vpc,Which subnets have route to public?,It is important to know which subnets have routes to
+    public and can become valnerable to attacks. Also sometimes we misconfigure private subnets with public routes

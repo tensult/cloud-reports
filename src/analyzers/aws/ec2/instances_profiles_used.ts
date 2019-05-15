@@ -6,16 +6,17 @@ import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class InstanceProfilesUsageAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there any EC2 instances without IAM Instance Profile?";
+    public  checks_why : string = `We should use IAM Instance profile
+    roles for granting EC2 instances access to other AWS resources`;
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         if (!allInstances) {
             return undefined;
         }
         const instance_profiles_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        instance_profiles_used.what = "Are there any EC2 instances without IAM Instance Profile?";
-        instance_profiles_used.why = `We should use IAM Instance profile
-        roles for granting EC2 instances access to other AWS resources`;
+        instance_profiles_used.what = this.checks_what;
+        instance_profiles_used.why = this.checks_why;
         instance_profiles_used.recommendation = `Recommended to assign IAM instance profile to
         EC2 instances instead of hard coding IAM credentials`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

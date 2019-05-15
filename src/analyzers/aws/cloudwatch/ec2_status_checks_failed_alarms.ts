@@ -6,7 +6,10 @@ import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class EC2InstanceSystemChecksAlarmsAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = `Are alarms are enabled for
+    EC2 instance System checks?`;
+    public  checks_why : string = `It is important to set alarms for EC2 systems checks as
+    otherwise suddenly your applications might be down.`;
     public analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
         if (!allAlarms || !fullReport["aws.ec2"] || !fullReport["aws.ec2"].instances) {
@@ -17,10 +20,8 @@ export class EC2InstanceSystemChecksAlarmsAnalyzer extends BaseAnalyzer {
         const ec2_instance_system_checks_alarms: ICheckAnalysisResult = {
             type: CheckAnalysisType.OperationalExcellence,
         };
-        ec2_instance_system_checks_alarms.what = `Are alarms are enabled for
-         EC2 instance System checks?`;
-        ec2_instance_system_checks_alarms.why = `It is important to set alarms for EC2 systems checks as
-        otherwise suddenly your applications might be down.`;
+        ec2_instance_system_checks_alarms.what = this.checks_what;
+        ec2_instance_system_checks_alarms.why = this.checks_why;
         ec2_instance_system_checks_alarms.recommendation = `Recommended to set alarm for EC2
         system checks to take appropriative action.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

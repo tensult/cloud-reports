@@ -6,15 +6,16 @@ import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class InstanceUntaggedAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there EC2 any instances without tags?";
+    public  checks_why : string =  "Tags help to follow security practices easily";
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         if (!allInstances) {
             return undefined;
         }
         const untagged_instances: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        untagged_instances.what = "Are there EC2 any instances without tags?";
-        untagged_instances.why = "Tags help to follow security practices easily";
+        untagged_instances.what = this.checks_what;
+        untagged_instances.why =this.checks_why;
         untagged_instances.recommendation = "Recommended to add tags to all instances";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {

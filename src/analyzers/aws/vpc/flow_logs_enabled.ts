@@ -5,7 +5,8 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class FlowLogsEnabledAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string =  "Is flow logs enabled for vpc?";
+    public  checks_why : string = "VPC flow logs tells about the request patterns and helps to detect security threats";
     public analyze(params: any, fullReport?: any): any {
         const allFlowLogs = params.flow_logs;
         const allVpcs = params.vpcs;
@@ -13,8 +14,8 @@ export class FlowLogsEnabledAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const flow_logs_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        flow_logs_enabled.what = "Is flow logs enabled for vpc?";
-        flow_logs_enabled.why = "VPC flow logs tells about the request patterns and helps to detect security threats";
+        flow_logs_enabled.what = this.checks_what;
+        flow_logs_enabled.why = this.checks_why;
         flow_logs_enabled.recommendation = "Recommended to enable flow logs for vpcs";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allVpcs) {

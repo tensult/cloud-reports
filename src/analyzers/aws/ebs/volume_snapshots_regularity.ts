@@ -7,7 +7,9 @@ import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class VolumeSnapshotsRegularityAnalyzer extends BaseAnalyzer {
-
+    public checks_what : string = "Are Snapshots being taken for EBS volumes?";
+    public checks_why : string = `If we take regular snapshots of EBS volumes
+    then it prevents data loss incase of volume failure or accidental deletes`;
     public analyze(params: any, fullReport?: any): any {
         const allVolumes = params.volumes;
         const allSnapshots = params.snapshots;
@@ -17,9 +19,8 @@ export class VolumeSnapshotsRegularityAnalyzer extends BaseAnalyzer {
         }
         const currentMoment = Moment();
         const volume_snapshots_regularity: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
-        volume_snapshots_regularity.what = "Are Snapshots being taken for EBS volumes?";
-        volume_snapshots_regularity.why = `If we take regular snapshots of EBS volumes
-        then it prevents data loss incase of volume failure or accidental deletes`;
+        volume_snapshots_regularity.what = this.checks_what;
+        volume_snapshots_regularity.why = this.checks_why;
         volume_snapshots_regularity.recommendation = "Recommended to take regular snapshots for all in-use volumes";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allVolumes) {

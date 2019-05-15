@@ -2,7 +2,9 @@ import { CheckAnalysisType, ICheckAnalysisResult, IResourceAnalysisResult, Sever
 import { BaseAnalyzer } from "../../base";
 
 export class DnsQueryLogsConfigAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Is the DNS Query Logs enabled for Hosted Zones?";
+    public  checks_why : string = `DNS query logs provides insights into who and how is
+    the domain getting accessed and this helps to enable proper security controls`;
     public analyze(params: any): any {
         const allHostZoneQueryLogsConfig = params.query_logs_config;
         const allHostedZones = params.hosted_zones;
@@ -10,9 +12,8 @@ export class DnsQueryLogsConfigAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const dns_query_logs_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        dns_query_logs_enabled.what = "Is the DNS Query Logs enabled for Hosted Zones?";
-        dns_query_logs_enabled.why = `DNS query logs provides insights into who and how is
-         the domain getting accessed and this helps to enable proper security controls`;
+        dns_query_logs_enabled.what = this.checks_what;
+        dns_query_logs_enabled.why = this.checks_why;
         dns_query_logs_enabled.recommendation = "It is recommended to enable query logs for all hosted zones.";
         const allHostZonesAnalysis: IResourceAnalysisResult[] = [];
         const allHostZoneQueryLogsConfigMapByHostedZoneId = this.getHostZoneQueryLogsConfigMapByHostedZoneId(

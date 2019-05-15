@@ -3,19 +3,23 @@ import {
     IDictionary, IResourceAnalysisResult, SeverityStatus,
 } from "../../../types";
 import { BaseAnalyzer } from "../../base";
+import { CertificatesExpiryAnalyzer } from "./certificates_expiry";
 
 export class ExpiredCertificatesUsedAnalyzer extends BaseAnalyzer {
-
+    public  checks_what:string = "Are there any expired certificates in use?";
+    public  checks_why:string = `Expired certificates can make services
+    inaccessible for your customers so they shouldn't used`;
+    public checks_name = "Certificate";
+    public checks_recommendation = `Recommended to remove the expired certificates from usage`;
     public analyze(params: any, fullReport?: any): any {
         const allCertificates = params.certificate_details;
         if (!allCertificates) {
             return undefined;
         }
         const expired_certificates_used: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
-        expired_certificates_used.what = "Are there any expired certificates in use?";
-        expired_certificates_used.why = `Expired certificates can make services
-        inaccessible for your customers so they shouldn't used`;
-        expired_certificates_used.recommendation = `Recommended to remove the expired certificates from usage`;
+        expired_certificates_used.what = this.checks_what;
+        expired_certificates_used.why = this.checks_why;
+        expired_certificates_used.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allCertificates) {
             allRegionsAnalysis[region] = [];
@@ -28,7 +32,7 @@ export class ExpiredCertificatesUsedAnalyzer extends BaseAnalyzer {
                     DomainName: certificate.DomainName,
                 };
                 certificate_analysis.resourceSummary = {
-                    name: "Certificate",
+                    name: this.checks_name,
                     value: `${certificate.DomainName} | ${this.getCertificateId(certificate.CertificateArn)}`,
                 };
 

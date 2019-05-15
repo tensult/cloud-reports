@@ -2,13 +2,14 @@ import { CheckAnalysisType, ICheckAnalysisResult, IResourceAnalysisResult, Sever
 import { BaseAnalyzer } from "../../base";
 
 export class PasswordPolicyAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Is account password policy following best practices?";
+    public  checks_why : string =  `It is important to have secure password policy as
+    leaked or weak passwords can give direct access to attackers`;
     public analyze(params: any, fullReport?: any): any {
         const password_policy_report = params.password_policy;
         const password_policy: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        password_policy.what = "Is account password policy following best practices?";
-        password_policy.why = `It is important to have secure password policy as
-        leaked or weak passwords can give direct access to attackers`;
+        password_policy.what = this.checks_what;
+        password_policy.why = this.checks_why;
         password_policy.recommendation = "Recommended to have secure password policy";
         const analysis: IResourceAnalysisResult[] = [];
 

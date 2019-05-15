@@ -2,7 +2,9 @@ import { CheckAnalysisType, ICheckAnalysisResult, IResourceAnalysisResult, Sever
 import { BaseAnalyzer } from "../../base";
 
 export class CloudTrailsBucketMFADeleteAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string =  "Is deleting cloud trails protected by MFA?";
+    public  checks_why : string = `Cloud trails deletes should be MFA
+    enabled so that attacker won't able to delete them`;
     public analyze(params: any, fullReport: any): any {
         const allBucketVersionings = params.bucket_versioning;
         if (!fullReport["aws.trails"] || !fullReport["aws.trails"].cloud_trails || !allBucketVersionings) {
@@ -11,9 +13,8 @@ export class CloudTrailsBucketMFADeleteAnalyzer extends BaseAnalyzer {
         const allCloudTrails = fullReport["aws.trails"].cloud_trails;
 
         const cloud_trails_bucket_mfa_delete: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        cloud_trails_bucket_mfa_delete.what = "Is deleting cloud trails protected by MFA?";
-        cloud_trails_bucket_mfa_delete.why = `Cloud trails deletes should be MFA
-        enabled so that attacker won't able to delete them`;
+        cloud_trails_bucket_mfa_delete.what = this.checks_what;
+        cloud_trails_bucket_mfa_delete.why = this.checks_why;
         cloud_trails_bucket_mfa_delete.recommendation = "Recommended to enable MFA for deleting Cloud Trails";
         const allBucketsAnalysis: IResourceAnalysisResult[] = [];
         const cloudTrailBuckets = this.getCloudTrailBuckets(allCloudTrails);

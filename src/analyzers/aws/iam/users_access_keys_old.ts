@@ -3,7 +3,8 @@ import { BaseAnalyzer } from "../../base";
 
 const millsIn180Days = 180 * 24 * 60 * 60 * 1000;
 export class UsersAccessKeysOldAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are user access keys are too old?";
+    public  checks_why : string = "It is important to rotate access keys regularly as it will reduce improper use";
     public analyze(params: any, fullReport?: any): any {
         const credentials: any[] = params.credentials;
         if (!credentials) {
@@ -15,8 +16,8 @@ export class UsersAccessKeysOldAnalyzer extends BaseAnalyzer {
         });
 
         const users_access_keys_old: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        users_access_keys_old.what = "Are user access keys are too old?";
-        users_access_keys_old.why = "It is important to rotate access keys regularly as it will reduce improper use";
+        users_access_keys_old.what = this.checks_what;
+        users_access_keys_old.why = this.checks_why;
         users_access_keys_old.recommendation = "Recommended to rotate user access keys regularly";
         const allUsersAccessKeysAnalysis: IResourceAnalysisResult[] = [];
         userCredentials.forEach((credential) => {

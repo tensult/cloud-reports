@@ -6,7 +6,9 @@ import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there any default security groups used for EC2 instances?";
+    public  checks_why : string = `Default security groups are open to world by
+    default and requires extra setup make them secure`;
     public analyze(params: any, fullReport?: any): any {
         const allSecurityGroups = params.security_groups;
         const allInstances = params.instances;
@@ -14,9 +16,8 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const default_security_groups_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        default_security_groups_used.what = "Are there any default security groups used for EC2 instances?";
-        default_security_groups_used.why = `Default security groups are open to world by
-        default and requires extra setup make them secure`;
+        default_security_groups_used.what = this.checks_what;
+        default_security_groups_used.why = this.checks_why;
         default_security_groups_used.recommendation = `Recommended not to use default security groups instead
         create a custom one as they make you better understand the security posture`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

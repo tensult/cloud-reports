@@ -5,7 +5,9 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class ApiGateway5xxAlarmsAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string =  "Are alarms are enabled for Api 5XX errors?";
+    public  checks_why : string = `It is important to set alarms for 5XX Errors as otherwise
+    you won't be aware when the application is failing`;
     public analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
         if (!allAlarms || !fullReport["aws.apigateway"] || !fullReport["aws.apigateway"].apis) {
@@ -14,9 +16,8 @@ export class ApiGateway5xxAlarmsAnalyzer extends BaseAnalyzer {
         const allApis: any[] = fullReport["aws.apigateway"].apis;
 
         const api_5xx_errors_alarms: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        api_5xx_errors_alarms.what = "Are alarms are enabled for Api 5XX errors?";
-        api_5xx_errors_alarms.why = `It is important to set alarms for 5XX Errors as otherwise
-        you won't be aware when the application is failing`;
+        api_5xx_errors_alarms.what = this.checks_what;
+        api_5xx_errors_alarms.why = this.checks_why;
         api_5xx_errors_alarms.recommendation = "Recommended to set alarm for 5XX Errors to take appropriative action.";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allApis) {

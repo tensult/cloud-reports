@@ -6,7 +6,8 @@ import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class SecurityGroupsUnusedAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there any security groups unused?";
+    public  checks_why : string = "Unused security groups causes confusion and allows to make mistakes";
     public analyze(params: any, fullReport?: any): any {
         const allSecurityGroups = params.security_groups;
         const allInstances = params.instances;
@@ -14,8 +15,8 @@ export class SecurityGroupsUnusedAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const security_groups_unused: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        security_groups_unused.what = "Are there any security groups unused?";
-        security_groups_unused.why = "Unused security groups causes confusion and allows to make mistakes";
+        security_groups_unused.what = this.checks_what;
+        security_groups_unused.why = this.checks_why;
         security_groups_unused.recommendation = "Recommended delete unused security groups";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {

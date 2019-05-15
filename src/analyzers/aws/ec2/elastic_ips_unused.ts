@@ -6,15 +6,16 @@ import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class ElasticIPsUsageAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there any elastic IPs unused?";
+    public  checks_why : string = "Elastic IPs are not free so we shouldn't keep unused IPs";
     public analyze(params: any, fullReport?: any): any {
         const allElasticIPs = params.elastic_ips;
         if (!allElasticIPs) {
             return undefined;
         }
         const elastic_ips_unused: ICheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
-        elastic_ips_unused.what = "Are there any elastic IPs unused?";
-        elastic_ips_unused.why = "Elastic IPs are not free so we shouldn't keep unused IPs";
+        elastic_ips_unused.what = this.checks_what;
+        elastic_ips_unused.why = this.checks_why;
         elastic_ips_unused.recommendation = "Recommended delete unused elastic IPs";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allElasticIPs) {

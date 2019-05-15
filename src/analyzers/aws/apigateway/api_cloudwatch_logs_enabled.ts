@@ -5,7 +5,8 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class ApiLogsAnalyzer extends BaseAnalyzer {
-
+    public checks_what : string = "Are CloudWatch logs enabled for Apis?";
+    public checks_why : string = "It is important to set logs for Apis for debugging API issues";
     public analyze(params: any, fullReport?: any): any {
         const allApis: any[] = params.apis;
         const allApiStages: any[] = params.api_stages;
@@ -14,8 +15,8 @@ export class ApiLogsAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const api_logs_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        api_logs_enabled.what = "Are CloudWatch logs enabled for Apis?";
-        api_logs_enabled.why = "It is important to set logs for Apis for debugging API issues";
+        api_logs_enabled.what = this.checks_what;
+        api_logs_enabled.why = this.checks_why;
         api_logs_enabled.recommendation = "Recommended to set logs for all Apis";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allApis) {

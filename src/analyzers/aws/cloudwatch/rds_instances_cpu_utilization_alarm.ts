@@ -4,9 +4,12 @@ import {
 } from "../../../types";
 import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
+import { RDS } from "aws-sdk";
 
 export class RDSInstanceCPUUtilizationAlarmAnalyzer extends BaseAnalyzer {
-
+    public checks_what : string = "Are alarms are enabled for RDS instance CPU utilization?";
+    public checks_why : string = `It is important to set alarms for RDS CPU utilization
+    as when utilization is high then the application performance will be degraded.`;
     public analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
         if (!allAlarms || !fullReport["aws.rds"] || !fullReport["aws.rds"].instances) {
@@ -16,9 +19,8 @@ export class RDSInstanceCPUUtilizationAlarmAnalyzer extends BaseAnalyzer {
 
         const rds_instance_cpu_utilization_alarm:
             ICheckAnalysisResult = { type: CheckAnalysisType.PerformanceEfficiency };
-        rds_instance_cpu_utilization_alarm.what = "Are alarms are enabled for RDS instance CPU utilization?";
-        rds_instance_cpu_utilization_alarm.why = `It is important to set alarms for RDS CPU utilization
-        as when utilization is high then the application performance will be degraded.`;
+        rds_instance_cpu_utilization_alarm.what = this.checks_what;
+        rds_instance_cpu_utilization_alarm.why = this.checks_why;
         rds_instance_cpu_utilization_alarm.recommendation = `Recommended to set alarms for RDS CPU
         utilization to take appropriative action.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};

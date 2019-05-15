@@ -6,15 +6,16 @@ import { ResourceUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class VolumesEncryptionEnabledAnalyzer extends BaseAnalyzer {
-
+    public checks_what : string = "Are EBS volumes encrypted at rest?";
+    public checks_why : string =  "Data at rest should always be encrypted";
     public analyze(params: any, fullReport?: any): any {
         const allVolumes = params.volumes;
         if (!allVolumes) {
             return undefined;
         }
         const volumes_encrypted_at_rest: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        volumes_encrypted_at_rest.what = "Are EBS volumes encrypted at rest?";
-        volumes_encrypted_at_rest.why = "Data at rest should always be encrypted";
+        volumes_encrypted_at_rest.what = this.checks_what;
+        volumes_encrypted_at_rest.why =this.checks_why;
         volumes_encrypted_at_rest.recommendation = "Recommended to enable encryption for EBS volumes";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allVolumes) {
