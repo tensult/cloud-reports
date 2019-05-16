@@ -16,7 +16,7 @@ export class DedicatedVpcUsedEC2InstancesAnalyzer extends BaseAnalyzer {
 
         const dedicated_vpcs_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         dedicated_vpcs_used.what = "Are there any dedicated vpc used for EC2 instances?";
-        dedicated_vpcs_used.why = "Dedicated vpc are safe and secure and can only be accessed by person who is assigned to it";
+        dedicated_vpcs_used.why = "Dedicated vpc are safe and secure and can only be accessed by person who is assigned to it.";
         dedicated_vpcs_used.recommendation = `Recommended to use Dedicated vpc.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
@@ -37,14 +37,15 @@ export class DedicatedVpcUsedEC2InstancesAnalyzer extends BaseAnalyzer {
                 };
                 if (this.isVpcExist(dedicatedVpcs, instance.VpcId)) {
                     instanceAnalysis.severity = SeverityStatus.Failure;
-                    instanceAnalysis.message = "Default VPC";
-                    instanceAnalysis.action = "Use dedicated VPC";
+                    instanceAnalysis.message = "Default VPC.";
+                    instanceAnalysis.action = "Use dedicated VPC.";
                 } else {
                     instanceAnalysis.severity = SeverityStatus.Good;
-                    instanceAnalysis.message = "Dedicated VPC";
+                    instanceAnalysis.message = "Dedicated VPC.";
                 }
                 allRegionsAnalysis[region].push(instanceAnalysis);
             }
+            console.log(dedicated_vpcs_used);
         }
         dedicated_vpcs_used.regions = allRegionsAnalysis;
         return { dedicated_vpcs_used };
