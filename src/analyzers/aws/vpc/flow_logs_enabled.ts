@@ -14,8 +14,8 @@ export class FlowLogsEnabledAnalyzer extends BaseAnalyzer {
         }
         const flow_logs_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         flow_logs_enabled.what = "Is flow logs enabled for vpc?";
-        flow_logs_enabled.why = "VPC flow logs tells about the request patterns and helps to detect security threats";
-        flow_logs_enabled.recommendation = "Recommended to enable flow logs for vpcs";
+        flow_logs_enabled.why = "VPC flow logs tells about the request patterns and helps to detect security threats.";
+        flow_logs_enabled.recommendation = "Recommended to enable flow logs for vpcs.";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allVpcs) {
             const regionVpcs = allVpcs[region];
@@ -32,11 +32,11 @@ export class FlowLogsEnabledAnalyzer extends BaseAnalyzer {
                 };
                 if (flow_log_analysis.resource.length) {
                     flow_log_analysis.severity = SeverityStatus.Good;
-                    flow_log_analysis.message = "VPC flow logs are enabled";
+                    flow_log_analysis.message = "VPC flow logs are enabled.";
                 } else {
                     flow_log_analysis.severity = SeverityStatus.Failure;
-                    flow_log_analysis.message = "VPC flow logs are not enabled";
-                    flow_log_analysis.action = "Enable vpc flow logs for debugging access requests to the VPC";
+                    flow_log_analysis.message = "VPC flow logs are not enabled.";
+                    flow_log_analysis.action = "Enable vpc flow logs for debugging access requests to the VPC.";
                 }
                 allRegionsAnalysis[region].push(flow_log_analysis);
             }

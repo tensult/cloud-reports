@@ -15,9 +15,9 @@ export class SubnetsWithIgwRouteAnalyzer extends BaseAnalyzer {
         const subnets_with_igw_route: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         subnets_with_igw_route.what = "Which subnets have route to public?";
         subnets_with_igw_route.why = `It is important to know which subnets have routes to
-        public and can become valnerable to attacks. Also sometimes we misconfigure private subnets with public routes`;
+        public and can become valnerable to attacks. Also sometimes we misconfigure private subnets with public routes.`;
         subnets_with_igw_route.recommendation = `Recommended to keep only private routes for private
-        subnets and protect public subnets with network acls`;
+        subnets and protect public subnets with network acls.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allSubnets) {
             const regionSubnets = allSubnets[region];
@@ -39,11 +39,11 @@ export class SubnetsWithIgwRouteAnalyzer extends BaseAnalyzer {
                 };
                 if (this.doesRouteTableContainIgwRoute(subnetRouteTable)) {
                     subnetAnalysis.severity = SeverityStatus.Warning;
-                    subnetAnalysis.message = "Subnet has route to the world";
-                    subnetAnalysis.action = "If the subnet is private then it shouldn't have route to the world";
+                    subnetAnalysis.message = "Subnet has route to the world.";
+                    subnetAnalysis.action = "If the subnet is private then it shouldn't have route to the world.";
                 } else {
                     subnetAnalysis.severity = SeverityStatus.Good;
-                    subnetAnalysis.message = "Subnet does not have route to the world";
+                    subnetAnalysis.message = "Subnet does not have route to the world.";
                 }
                 allRegionsAnalysis[region].push(subnetAnalysis);
             }
