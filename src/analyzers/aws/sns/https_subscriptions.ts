@@ -5,11 +5,11 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class ProtocolsWithHttpSubscriptionsAnalyzer extends BaseAnalyzer {
-    public  checks_what : string = "Are there any SNS topics without HTTP subscriptions but  ?";
-    public  checks_why : string = `Topics without subscriptions cause confusion as
-    mistakenly we might be publishing to them but no one will receive them`;
-    public checks_recommendation : string = `Every SNS topic should have
-    proper subscriptions else you should remove it`;
+    public  checks_what : string = "Are there any SNS protocol without HTTPS ?";
+    public  checks_why : string = `Ensure that none of the Amazon SNS subscriptions created within your AWS account are using
+     HTTP instead of HTTPS as delivery protocol in order to enforce SSL encryption for all subscription requests.`;
+    public checks_recommendation : string = `Every SNS protocol should have
+    proper HTTPS else you should remove it`;
     public checks_name : string = "Protocol";
     public analyze(params: any, fullReport?: any): any {
         const allSubscriptions = params.subscriptions;
@@ -28,23 +28,23 @@ export class ProtocolsWithHttpSubscriptionsAnalyzer extends BaseAnalyzer {
             const regionSubscriptionsMap = this.mapSubscriptionByTopicArn(allSubscriptions[region]);
 
             allRegionsAnalysis[region] = [];
-            for (const topic of regionTopics) {
-                const topic_analysis: IResourceAnalysisResult = {};
-                const topicName = this.getTopicName(topic.TopicArn);
-                topic_analysis.resource = { topicName, subscriptions: regionSubscriptionsMap[topic.TopicArn] };
-                topic_analysis.resourceSummary = {
+            for (const protocol of regionTopics) {
+                const protocol_analysis: IResourceAnalysisResult = {};
+                const topicName = this.getTopicName(protocol.TopicArn);
+                protocol_analysis.resource = { topicName, subscriptions: regionSubscriptionsMap[protocol.TopicArn] };
+                protocol_analysis.resourceSummary = {
                     name: this.checks_name, value: topicName,
                 };
-                if (regionSubscriptionsMap[topic.TopicArn] && regionSubscriptionsMap[topic.TopicArn].length) {
-                    topic_analysis.severity = SeverityStatus.Good;
-                    topic_analysis.message = "Topic has subscriptions";
+                if (regionSubscriptionsMap[protocol.TopicArn] && regionSubscriptionsMap[protocol.TopicArn].length) {
+                    protocol_analysis.severity = SeverityStatus.Good;
+                    protocol_analysis.message = "Protocol has HTTPS";
                 } else {
-                    topic_analysis.severity = SeverityStatus.Warning;
-                    topic_analysis.message = "Topic does not have any subscriptions";
-                    topic_analysis.action = "Either add subscription or delete the topic";
+                    protocol_analysis.severity = SeverityStatus.Warning;
+                    protocol_analysis.message = "Protocols doesn't have HTTPS";
+                    protocol_analysis.action = "Either protocol should have HTTPS or it is not safe";
                 }
 
-                allRegionsAnalysis[region].push(topic_analysis);
+                allRegionsAnalysis[region].push(protocol_analysis);
             }
         }
         protocols_without_https.regions = allRegionsAnalysis;
