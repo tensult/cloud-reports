@@ -9,7 +9,7 @@ export class TopicsWithHttpsSubscriptionsAnalyzer extends BaseAnalyzer {
     public  checks_why : string = `Ensure that none of the Amazon SNS subscriptions created within your AWS account are using
     HTTP instead of HTTPS as delivery protocol in order to enforce SSL encryption for all subscription requests.`;
     public checks_recommendation: string = `Every SNS topic should have
-    proper subscriptions else you should remove it`
+    proper HTTPS subscriptions else you should remove it`
     public checks_name : string = "Topic";
     public analyze(params: any, fullReport?: any): any {
         const allSubscriptions = params.subscriptions;
@@ -25,7 +25,7 @@ export class TopicsWithHttpsSubscriptionsAnalyzer extends BaseAnalyzer {
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allTopics) {
             const regionTopics = allTopics[region];
-            const regionSubscriptionsMap = this.mapSubscriptionByTopicArn(allSubscriptions[region]);
+            const regionSubscriptionsMap = this.mapHTTPSSubscriptionByTopicArn(allSubscriptions[region]);
 
             allRegionsAnalysis[region] = [];
             for (const topic of regionTopics) {
@@ -51,8 +51,8 @@ export class TopicsWithHttpsSubscriptionsAnalyzer extends BaseAnalyzer {
         return { topics_with_https_subscriptions };
     }
 
-    private mapSubscriptionByTopicArn(subscriptions: any[]): IDictionary<any[]> {
-        return subscriptions.reduce((subscriptionsMap, subscription) => {
+    private mapHTTPSSubscriptionByTopicArn(https_subscriptions: any[]): IDictionary<any[]> {
+        return https_subscriptions.reduce((subscriptionsMap, subscription) => {
             subscriptionsMap[subscription.TopicArn] = subscriptionsMap[subscription.TopicArn] || [];
             subscriptionsMap[subscription.TopicArn].push(subscription);
             return subscriptionsMap;
