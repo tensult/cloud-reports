@@ -9,7 +9,7 @@ export class ProtocolsWithHttpSubscriptionsAnalyzer extends BaseAnalyzer {
     public  checks_why : string = `Ensure that none of the Amazon SNS subscriptions created within your AWS account are using
      HTTP instead of HTTPS as delivery protocol in order to enforce SSL encryption for all subscription requests.`;
     public checks_recommendation : string = `Every SNS protocol should have
-    proper HTTPS else you should remove it`;
+    proper HTTPS else you should remove it.`;
     public checks_name : string = "Protocol";
     public analyze(params: any, fullReport?: any): any {
         const allSubscriptions = params.subscriptions;
@@ -37,11 +37,11 @@ export class ProtocolsWithHttpSubscriptionsAnalyzer extends BaseAnalyzer {
                 };
                 if (regionSubscriptionsMap[protocol.TopicArn] && regionSubscriptionsMap[protocol.TopicArn].length) {
                     protocol_analysis.severity = SeverityStatus.Good;
-                    protocol_analysis.message = "Protocol has HTTPS";
+                    protocol_analysis.message = "Protocol has HTTPS.";
                 } else {
                     protocol_analysis.severity = SeverityStatus.Warning;
-                    protocol_analysis.message = "Protocols doesn't have HTTPS";
-                    protocol_analysis.action = "Either protocol should have HTTPS or it is not safe";
+                    protocol_analysis.message = "Protocols doesn't have HTTPS.";
+                    protocol_analysis.action = "Either protocol should have HTTPS or it is not safe.";
                 }
 
                 allRegionsAnalysis[region].push(protocol_analysis);
