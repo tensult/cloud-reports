@@ -17,7 +17,7 @@ export class CloudFront5xxAlarmsAnalyzer extends BaseAnalyzer {
         const distribution_5xx_errors_alarms: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         distribution_5xx_errors_alarms.what = "Are alarms are enabled for Distribution 5XX errors?";
         distribution_5xx_errors_alarms.why = `It is important to set alarms for 5XX Errors as otherwise
-         you won't be aware when the application is failing`;
+         you won't be aware when the application is failing.`;
         distribution_5xx_errors_alarms.recommendation = `Recommended to set alarm
         for 5XX Errors to take appropriative action.`;
         const allDistributionsAnalysis: IResourceAnalysisResult[] = [];
@@ -35,11 +35,11 @@ export class CloudFront5xxAlarmsAnalyzer extends BaseAnalyzer {
 
             if (this.is5xxAlarmsPresent(distributionAlarms)) {
                 alarmAnalysis.severity = SeverityStatus.Good;
-                alarmAnalysis.message = "5XX errors alarms are enabled";
+                alarmAnalysis.message = "5XX errors alarms are enabled.";
             } else {
                 alarmAnalysis.severity = SeverityStatus.Failure;
-                alarmAnalysis.message = "5XX errors alarms are not enabled";
-                alarmAnalysis.action = "Set 5XX errors alarms";
+                alarmAnalysis.message = "5XX errors alarms are not enabled.";
+                alarmAnalysis.action = "Set 5XX errors alarms.";
             }
             allDistributionsAnalysis.push(alarmAnalysis);
         }

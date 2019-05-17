@@ -15,9 +15,9 @@ export class FieldLevelEncrytionAnalyzer extends BaseAnalyzer {
         }
         const field_level_encryption_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         field_level_encryption_enabled.what = "Is field level encryption enabled in the CloudFront web distribution?";
-        field_level_encryption_enabled.why = `It is important, in order to help protect sensitive data like credit card numbers or social security numbers, 
-        and to help protect your data across application services.`;
-        field_level_encryption_enabled.recommendation = "Recommended to enable  field level encryption for all distributions";
+        field_level_encryption_enabled.why = `It is important, in order to help protect sensitive data like credit 
+        card numbers or social security numbers, and to help protect your data across application services.`;
+        field_level_encryption_enabled.recommendation = "Recommended to enable  field level encryption for all distributions.";
         const allFieldLevelEncryptionAnalysis: IResourceAnalysisResult[] = [];
         for (const field_level_encryption_Id in allFieldLevelEncryptionConfigs) {
             const field_level_encryption = allFieldLevelEncryptionConfigs[field_level_encryption_Id];
@@ -31,11 +31,11 @@ export class FieldLevelEncrytionAnalyzer extends BaseAnalyzer {
             };
             if (field_level_encryption.Logging.Enabled) {
                 field_level_encryption_Analysis.severity = SeverityStatus.Good;
-                field_level_encryption_Analysis.message = "Field level encryption  are enabled";
+                field_level_encryption_Analysis.message = "Field level encryption  are enabled.";
             } else {
                 field_level_encryption_Analysis.severity = SeverityStatus.Warning;
-                field_level_encryption_Analysis.message = "Field level encryption  are not enabled";
-                field_level_encryption_Analysis.action = "Enable  field level encryption";
+                field_level_encryption_Analysis.message = "Field level encryption  are not enabled.";
+                field_level_encryption_Analysis.action = "Enable  field level encryption.";
             }
             allFieldLevelEncryptionAnalysis.push(field_level_encryption_Analysis);
         }
