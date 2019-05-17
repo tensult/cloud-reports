@@ -11,9 +11,9 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
         const cross_accounts_without_external_id: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         cross_accounts_without_external_id.what = "Are there cross account roles without ExternalId?";
         cross_accounts_without_external_id.why = `It is important to associate
-        ExternalId for cross account role access`;
+        ExternalId for cross account role access.`;
         cross_accounts_without_external_id.recommendation = `Recommended to use ExternalId for
-        roles which give access to third party accounts`;
+        roles which give access to third party accounts.`;
         const analysis: IResourceAnalysisResult[] = [];
 
         permittedAccounts.forEach((roleAccountsObject) => {
@@ -30,11 +30,11 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
                 };
                 if (account.ExternalID) {
                     crossAccountAnalysis.severity = SeverityStatus.Good;
-                    crossAccountAnalysis.message = `Accounts ${account.accountIDs} has ExternalId`;
+                    crossAccountAnalysis.message = `Accounts ${account.accountIDs} has ExternalId.`;
                 } else {
                     crossAccountAnalysis.severity = SeverityStatus.Failure;
-                    crossAccountAnalysis.action = "Add an ExternalId";
-                    crossAccountAnalysis.message = `Accounts ${account.accountIDs} does not have ExternalId`;
+                    crossAccountAnalysis.action = "Add an ExternalId.";
+                    crossAccountAnalysis.message = `Accounts ${account.accountIDs} does not have ExternalId.`;
                 }
                 analysis.push(crossAccountAnalysis);
 

@@ -16,8 +16,8 @@ export class UsersAccessKeysUnusedAnalyzer extends BaseAnalyzer {
         const users_access_keys_unused: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         users_access_keys_unused.what = "Are there any user access keys unused?";
         users_access_keys_unused.why = `It is important to delete unused or
-        unneeded access keys as it reduces risk of misusing them`;
-        users_access_keys_unused.recommendation = "Recommended to delete unused user access keys regularly";
+        unneeded access keys as it reduces risk of misusing them.`;
+        users_access_keys_unused.recommendation = "Recommended to delete unused user access keys regularly.";
         const allUsersAccessKeysAnalysis: IResourceAnalysisResult[] = [];
         userCredentials.forEach((credential) => {
             const user_access_keys_unused: IResourceAnalysisResult = {};
@@ -33,11 +33,11 @@ export class UsersAccessKeysUnusedAnalyzer extends BaseAnalyzer {
                 const user_access_key1_unused: IResourceAnalysisResult = Object.assign({}, user_access_keys_unused);
                 if (access_key_1_used) {
                     user_access_key1_unused.severity = SeverityStatus.Good;
-                    user_access_key1_unused.message = "User access key 1 is actively used";
+                    user_access_key1_unused.message = "User access key 1 is actively used.";
                 } else {
                     user_access_key1_unused.severity = SeverityStatus.Failure;
-                    user_access_key1_unused.message = "User access key 1 is unused";
-                    user_access_key1_unused.action = "Delete unused user access key 1";
+                    user_access_key1_unused.message = "User access key 1 is unused.";
+                    user_access_key1_unused.action = "Delete unused user access key 1.";
                 }
                 allUsersAccessKeysAnalysis.push(user_access_key1_unused);
             }
@@ -46,11 +46,11 @@ export class UsersAccessKeysUnusedAnalyzer extends BaseAnalyzer {
                 const user_access_key2_unused: IResourceAnalysisResult = Object.assign({}, user_access_keys_unused);
                 if (access_key_2_used) {
                     user_access_key2_unused.severity = SeverityStatus.Good;
-                    user_access_key2_unused.message = "User access key 2 is actively used";
+                    user_access_key2_unused.message = "User access key 2 is actively used.";
                 } else {
                     user_access_key2_unused.severity = SeverityStatus.Failure;
-                    user_access_key2_unused.message = "User access key 2 is unused";
-                    user_access_key2_unused.action = "Delete unused user access key 2";
+                    user_access_key2_unused.message = "User access key 2 is unused.";
+                    user_access_key2_unused.action = "Delete unused user access key 2.";
                 }
                 allUsersAccessKeysAnalysis.push(user_access_key2_unused);
             }
