@@ -31,17 +31,17 @@ export class ProtocolsWithHttpSubscriptionsAnalyzer extends BaseAnalyzer {
             for (const protocol of regionTopics) {
                 const protocol_analysis: IResourceAnalysisResult = {};
                 const topicName = this.getTopicName(protocol.TopicArn);
-                protocol_analysis.resource = { topicName, subscriptions: regionSubscriptionsMap[protocol.TopicArn] };
+                protocol_analysis.resource = { topicName, subscriptions: regionSubscriptionsMap[protocol.TopicArn, protocol.Protocol]};
                 protocol_analysis.resourceSummary = {
-                    name: this.checks_name, value: topicName,
+                    name: this.checks_name, value: protocol.Protocol,
                 };
-                if (regionSubscriptionsMap[protocol.TopicArn] && regionSubscriptionsMap[protocol.TopicArn].length) {
-                    protocol_analysis.severity = SeverityStatus.Good;
-                    protocol_analysis.message = "Protocol has HTTPS.";
-                } else {
+                if (regionSubscriptionsMap[protocol.Protocol] == regionSubscriptionsMap["http"]) {
                     protocol_analysis.severity = SeverityStatus.Warning;
                     protocol_analysis.message = "Protocols doesn't have HTTPS.";
-                    protocol_analysis.action = "Either protocol should have HTTPS or it is not safe.";
+                    protocol_analysis.action = "Protocol should have HTTPS because it is not secure to have HTTP protocol."
+                } else {
+                    protocol_analysis.severity = SeverityStatus.Good;
+                    protocol_analysis.message = "Protocol has HTTPS.";
                 }
 
                 allRegionsAnalysis[region].push(protocol_analysis);
