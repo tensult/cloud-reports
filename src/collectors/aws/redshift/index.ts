@@ -4,5 +4,4 @@ export * from "./node_reservation";
 export * from "./cluster_subnet_groups";
 export * from "./event_subscriptions";
 export * from "./events";
-export * from "./cluster_security_groups";
 export * from "./snapshots";
