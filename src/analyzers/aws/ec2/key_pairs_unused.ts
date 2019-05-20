@@ -14,8 +14,8 @@ export class KeyPairsUnusedAnalyzer extends BaseAnalyzer {
         }
         const key_pairs_unused: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         key_pairs_unused.what = "Are there any key pairs unused?";
-        key_pairs_unused.why = "Unused key pairs causes confusion and allows to make mistakes";
-        key_pairs_unused.recommendation = "Recommended delete unused key pairs";
+        key_pairs_unused.why = "Unused key pairs causes confusion and allows to make mistakes.";
+        key_pairs_unused.recommendation = "Recommended delete unused key pairs.";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -34,11 +34,11 @@ export class KeyPairsUnusedAnalyzer extends BaseAnalyzer {
                 keyPairAnalysis.resourceSummary = { name: "KeyPair", value: keyPair.KeyName };
                 if (usedKeyPairs.indexOf(keyPair.KeyName) !== -1) {
                     keyPairAnalysis.severity = SeverityStatus.Good;
-                    keyPairAnalysis.message = "Key pair is used";
+                    keyPairAnalysis.message = "Key pair is used.";
                 } else {
                     keyPairAnalysis.severity = SeverityStatus.Warning;
-                    keyPairAnalysis.message = "Key pair is not used";
-                    keyPairAnalysis.action = "Delete the key pair";
+                    keyPairAnalysis.message = "Key pair is not used.";
+                    keyPairAnalysis.action = "Delete the key pair.";
                 }
                 allRegionsAnalysis[region].push(keyPairAnalysis);
             });

@@ -16,9 +16,9 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
         const default_security_groups_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         default_security_groups_used.what = "Are there any default security groups used for EC2 instances?";
         default_security_groups_used.why = `Default security groups are open to world by
-        default and requires extra setup make them secure`;
+        default and requires extra setup make them secure.`;
         default_security_groups_used.recommendation = `Recommended not to use default security groups instead
-        create a custom one as they make you better understand the security posture`;
+        create a custom one as they make you better understand the security posture.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -38,11 +38,11 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
                 };
                 if (this.isCommonSecurityGroupExist(defaultSecurityGroups, instance.SecurityGroups)) {
                     instanceAnalysis.severity = SeverityStatus.Failure;
-                    instanceAnalysis.message = "Default security groups are used";
-                    instanceAnalysis.action = "Use custom security group instead default security group";
+                    instanceAnalysis.message = "Default security groups are used.";
+                    instanceAnalysis.action = "Use custom security group instead default security group.";
                 } else {
                     instanceAnalysis.severity = SeverityStatus.Good;
-                    instanceAnalysis.message = "Default security groups are not used";
+                    instanceAnalysis.message = "Default security groups are not used.";
                 }
                 allRegionsAnalysis[region].push(instanceAnalysis);
             }

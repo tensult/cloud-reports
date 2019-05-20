@@ -16,9 +16,9 @@ export class DefaultVpcUsedEC2InstancesAnalyzer extends BaseAnalyzer {
 
         const default_vpcs_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         default_vpcs_used.what = "Are there any default vpc used for EC2 instances?";
-        default_vpcs_used.why = "Default vpcs are open to world by default and requires extra setup make them secure";
+        default_vpcs_used.why = "Default vpcs are open to world by default and requires extra setup make them secure.";
         default_vpcs_used.recommendation = `Recommended not to use default vpc instead create a custom one
-        as they make you better understand the security posture`;
+        as they make you better understand the security posture.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -38,11 +38,11 @@ export class DefaultVpcUsedEC2InstancesAnalyzer extends BaseAnalyzer {
                 };
                 if (this.isVpcExist(defaultVpcs, instance.VpcId)) {
                     instanceAnalysis.severity = SeverityStatus.Failure;
-                    instanceAnalysis.message = "Default VPC is used";
-                    instanceAnalysis.action = "Use custom VPC instead of default VPC";
+                    instanceAnalysis.message = "Default VPC is used.";
+                    instanceAnalysis.action = "Use custom VPC instead of default VPC.";
                 } else {
                     instanceAnalysis.severity = SeverityStatus.Good;
-                    instanceAnalysis.message = "Default VPC is not used";
+                    instanceAnalysis.message = "Default VPC is not used.";
                 }
                 allRegionsAnalysis[region].push(instanceAnalysis);
             }

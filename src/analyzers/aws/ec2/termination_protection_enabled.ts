@@ -16,9 +16,9 @@ export class EC2InstanceTerminationProtectionAnalyzer extends BaseAnalyzer {
         const termination_protection_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
         termination_protection_enabled.what = "Are there any instances without termination protection?";
         termination_protection_enabled.why = `Instances can be accidentally terminated and data
-        can be lost when they are without termination protection`;
+        can be lost when they are without termination protection.`;
         termination_protection_enabled.recommendation = `Recommended to enable termination protection
-        for all production critical instances`;
+        for all production critical instances.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -38,11 +38,11 @@ export class EC2InstanceTerminationProtectionAnalyzer extends BaseAnalyzer {
                 if (allTerminationProtectionStatuses[region][instance.InstanceId] &&
                     allTerminationProtectionStatuses[region][instance.InstanceId].Value) {
                     instanceAnalysis.severity = SeverityStatus.Good;
-                    instanceAnalysis.message = "Already enabled";
+                    instanceAnalysis.message = "Already enabled.";
                 } else {
                     instanceAnalysis.severity = SeverityStatus.Warning;
-                    instanceAnalysis.message = "Not enabled";
-                    instanceAnalysis.action = "Enable termination protection";
+                    instanceAnalysis.message = "Not enabled.";
+                    instanceAnalysis.action = "Enable termination protection.";
                 }
                 allRegionsAnalysis[region].push(instanceAnalysis);
             }

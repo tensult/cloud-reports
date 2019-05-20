@@ -13,8 +13,8 @@ export class SecurityGroupsWidePortRangeAnalyzer extends BaseAnalyzer {
         const security_groups_wide_port_range: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         security_groups_wide_port_range.what = "Are there any security groups with wide range of ports?";
         security_groups_wide_port_range.why = `Security group should not expose wide range of
-        port as it will be valnerable for port scan attacks`;
-        security_groups_wide_port_range.recommendation = "Recommended to expose only port used by application";
+        port as it will be valnerable for port scan attacks.`;
+        security_groups_wide_port_range.recommendation = "Recommended to expose only port used by application.";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allSecurityGroups) {
             const regionSecurityGroups = allSecurityGroups[region];
@@ -31,11 +31,11 @@ export class SecurityGroupsWidePortRangeAnalyzer extends BaseAnalyzer {
                 };
                 if (this.containsWidePortRange(securityGroup)) {
                     securityGroupAnalysis.severity = SeverityStatus.Failure;
-                    securityGroupAnalysis.message = "Exposes wide port range";
-                    securityGroupAnalysis.action = "Remove rule containing IP protocol: -1";
+                    securityGroupAnalysis.message = "Exposes wide port range.";
+                    securityGroupAnalysis.action = "Remove rule containing IP protocol: -1.";
                 } else {
                     securityGroupAnalysis.severity = SeverityStatus.Good;
-                    securityGroupAnalysis.message = "Exposes only specific ports";
+                    securityGroupAnalysis.message = "Exposes only specific ports.";
                 }
                 allRegionsAnalysis[region].push(securityGroupAnalysis);
             }

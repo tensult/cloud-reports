@@ -17,9 +17,9 @@ export class InstanceWithoutElasticIPAnalyzer extends BaseAnalyzer {
         instances_without_elastic_ip.what = "Are there any EC2 instances without Elastic IP?";
         instances_without_elastic_ip.why = `We should attach Elastic IP to EC2 instances
         so that incase of instance failures we can easily
-        replace the instance without losing the associated public IP`;
+        replace the instance without losing the associated public IP.`;
         instances_without_elastic_ip.recommendation = `Recommended to attach Elastic IP to EC2 instances which
-        you are accessing via SSH or web application without a load balancer`;
+        you are accessing via SSH or web application without a load balancer.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -34,11 +34,11 @@ export class InstanceWithoutElasticIPAnalyzer extends BaseAnalyzer {
                 };
                 if (this.isElasticIPAssociated(instance, regionElasticIPs)) {
                     instanceAnalysis.severity = SeverityStatus.Good;
-                    instanceAnalysis.message = "Elastic IP is attached";
+                    instanceAnalysis.message = "Elastic IP is attached.";
                 } else {
                     instanceAnalysis.severity = SeverityStatus.Info;
-                    instanceAnalysis.message = "Elastic IP is not attached";
-                    instanceAnalysis.action = "Attach an Elastic IP";
+                    instanceAnalysis.message = "Elastic IP is not attached.";
+                    instanceAnalysis.action = "Attach an Elastic IP.";
                 }
                 allRegionsAnalysis[region].push(instanceAnalysis);
             }

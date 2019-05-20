@@ -14,8 +14,8 @@ export class InstanceUntaggedAnalyzer extends BaseAnalyzer {
         }
         const untagged_instances: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         untagged_instances.what = "Are there EC2 any instances without tags?";
-        untagged_instances.why = "Tags help to follow security practices easily";
-        untagged_instances.recommendation = "Recommended to add tags to all instances";
+        untagged_instances.why = "Tags help to follow security practices easily.";
+        untagged_instances.recommendation = "Recommended to add tags to all instances.";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -33,11 +33,11 @@ export class InstanceUntaggedAnalyzer extends BaseAnalyzer {
                 };
                 if (instance.Tags.length === 0) {
                     instanceAnalysis.severity = SeverityStatus.Failure;
-                    instanceAnalysis.message = "No tags";
-                    instanceAnalysis.action = "Add tags for the instance";
+                    instanceAnalysis.message = "No tags.";
+                    instanceAnalysis.action = "Add tags for the instance.";
                 } else {
                     instanceAnalysis.severity = SeverityStatus.Good;
-                    instanceAnalysis.message = "Tags are present";
+                    instanceAnalysis.message = "Tags are present.";
                 }
                 allRegionsAnalysis[region].push(instanceAnalysis);
             }

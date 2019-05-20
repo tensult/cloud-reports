@@ -16,9 +16,9 @@ export class DedicatedTenUsedEC2InstancesAnalyzer extends BaseAnalyzer {
         const dedicated_ec2_instances_used: ICheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
        dedicated_ec2_instances_used.what = "Are there any default Instances used for EC2 instances?";
        dedicated_ec2_instances_used.why = `Default instances are open to world by
-        default and can be used by anyone`;
+        default and can be used by anyone.`;
        dedicated_ec2_instances_used.recommendation = `Recommended to use dedicated instances as it is assigned to one person in particular
-       and can be accessed by one person only `;
+       and can be accessed by one person only. `;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -38,11 +38,11 @@ export class DedicatedTenUsedEC2InstancesAnalyzer extends BaseAnalyzer {
                 };
                 if (this.isDedicatedInstancesExist(dedicatedEc2InstancesUsed, instance.reserved_instances)) {
                     instanceAnalysis.severity = SeverityStatus.Failure;
-                    instanceAnalysis.message = "Default Instances are used";
-                    instanceAnalysis.action = "Use dedicated Instances instead of default instances";
+                    instanceAnalysis.message = "Default Instances are used.";
+                    instanceAnalysis.action = "Use dedicated Instances instead of default instances.";
                 } else {
                     instanceAnalysis.severity = SeverityStatus.Good;
-                    instanceAnalysis.message = "Dedicated Instances are used";
+                    instanceAnalysis.message = "Dedicated Instances are used.";
                 }
                 allRegionsAnalysis[region].push(instanceAnalysis);
             }
