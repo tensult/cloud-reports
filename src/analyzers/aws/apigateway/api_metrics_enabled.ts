@@ -36,14 +36,14 @@ export class ApiMetricsAnalyzer extends BaseAnalyzer {
                         name: "ApiState",
                         value: _value,
                     };
-                    if (this.isRequestLoggingEnabled(apiStage)) {
+                    if (this.isMetricsEnabled(apiStage)) {
                         apiStageAnalysis.severity = SeverityStatus.Good;
                         apiStageAnalysis.message = "Metrics is enabled.";
                     } else {
                         apiStageAnalysis.severity = SeverityStatus.Info;
                         apiStageAnalysis.message = "Metrics is not enabled.";
-                        apiStageAnalysis.action = `Metrics for API for
-                        efficient data and error monitoring.`;
+                        apiStageAnalysis.action = `Enable Metrics for API for
+                        efficient data handling and error monitoring.`;
                     }
                     allRegionsAnalysis[region].push(apiStageAnalysis);
                 }
@@ -53,7 +53,7 @@ export class ApiMetricsAnalyzer extends BaseAnalyzer {
         return { api_metrics_enabled };
     }
 
-    private isRequestLoggingEnabled(stage: any) {
+    private isMetricsEnabled(stage: any) {
         if (stage.methodSettings["*/*"]) {
             return stage.methodSettings["*/*"].dataTraceEnabled;
         }
