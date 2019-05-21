@@ -11,8 +11,6 @@ export class DefaultVpcUsedRDSInstancesAnalyzer extends BaseAnalyzer {
         if (!fullReport["aws.rds"] || !fullReport["aws.rds"].vpcs || !allInstances) {
             return undefined;
         }
-        console.log('fullReport', fullReport);
-        console.log('allInstances\n', allInstances);
         const allVpcs = fullReport["aws.rds"].vpcs;
         const default_vpcs_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         default_vpcs_used.what = "Are there any default vpc used for RDS instances?";
