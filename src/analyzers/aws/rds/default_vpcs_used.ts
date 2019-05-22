@@ -8,10 +8,10 @@ export class DefaultVpcUsedRDSInstancesAnalyzer extends BaseAnalyzer {
 
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
-        if (!fullReport["aws.vpc"] || !fullReport["aws.vpc"].vpcs || !allInstances) {
+        if (!fullReport["aws.rds"] || !fullReport["aws.rds"].vpcs || !allInstances) {
             return undefined;
         }
-        const allVpcs = fullReport["aws.vpc"].vpcs;
+        const allVpcs = fullReport["aws.rds"].vpcs;
         const default_vpcs_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         default_vpcs_used.what = "Are there any default vpc used for RDS instances?";
         default_vpcs_used.why = "Default vpcs are open to world by default and requires extra setup make them secure";
