@@ -25,6 +25,9 @@ export class DefaultVpcUsedRDSInstancesAnalyzer extends BaseAnalyzer {
             allRegionsAnalysis[region] = [];
             for (const instance of regionInstances) {
                 const instanceAnalysis: IResourceAnalysisResult = {};
+                if (!instance.DBSubnetGroup) {
+                    continue;
+                }
                 instanceAnalysis.resource = {
                     instanceName: instance.DBInstanceIdentifier,
                     vpcId: instance.DBSubnetGroup.VpcId,
