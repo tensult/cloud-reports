@@ -5,3 +5,4 @@ export * from "./function_versions_count";
 export * from "./function_versions_used";
 export * from "./tracing_enabled";
 export * from "./node_version_check";
+export * from "./code_size_limits";
