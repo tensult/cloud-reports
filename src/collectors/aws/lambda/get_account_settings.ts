@@ -35,7 +35,6 @@ export class LambdaAccountSettingsCollector extends BaseCollector {
                 continue;
             }
         }
-        console.log("Output 4::",accounts);
         return { accounts };
     }
 }
