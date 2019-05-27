@@ -31,11 +31,11 @@ export class CodeSizeAnalyzer extends BaseAnalyzer {
                 const Size_Left = this.getCodeSizeLeft(Code_Size, size70gb);
                 code_size_Analysis.resourceSummary = {
                     name: "CodeSize",
-                    value: `${Function_Name} | ${Code_Size} | Code_Size left : ${Size_Left}`,
+                    value: `Code size : ${Code_Size} | Code_Size left : ${Size_Left}`,
                 };
                 if (Code_Size <= size40gb) {
                     code_size_Analysis.severity = SeverityStatus.Good;
-                    code_size_Analysis.message = "The file size been used is less than 40gb.Your file still has access to lot of memory.";
+                    code_size_Analysis.message = "The file size been used is less than 40gb.";
                 } else if (Code_Size <= size60gb && Code_Size > size40gb) {
                     code_size_Analysis.severity = SeverityStatus.Warning;
                     code_size_Analysis.message = "Your file size has exceeded 40gb and is nearing the max limit of code size i.e. 75gb.";
