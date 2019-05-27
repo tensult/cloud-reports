@@ -15,7 +15,7 @@ export class CodeSizeAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const code_size:
-            ICheckAnalysisResult = { type: CheckAnalysisType.PerformanceEfficiency };
+            ICheckAnalysisResult = { type: CheckAnalysisType.Informational };
         code_size.what = "What is the code size your funtion has used?";
         code_size.why = `Lambda has threshold code size of 75gb, your code size cannot exceed the limit.`;
         code_size.recommendation = `Recommended to keep track of the size of the code been used.`;
