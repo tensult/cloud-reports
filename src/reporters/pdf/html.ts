@@ -9,7 +9,10 @@ function processReportData(reportData: any, includeOnlyIssues: boolean) {
                     reportData[serviceName][checkName].isGlobal = true;
                 }
                 let regionDetails = reportData[serviceName][checkName].regions[regionName];
-                if (includeOnlyIssues && regionDetails) {
+                if (!regionDetails) {
+                    continue;
+                }
+                if (includeOnlyIssues && regionDetails.length) {
                     regionDetails = regionDetails.filter((resourceDetails) => {
                         return resourceDetails.severity === "Warning" ||
                             resourceDetails.severity === "Failure";
