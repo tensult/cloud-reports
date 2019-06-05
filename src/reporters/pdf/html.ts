@@ -9,14 +9,14 @@ function processReportData(reportData: any, includeOnlyIssues: boolean) {
                     reportData[serviceName][checkName].isGlobal = true;
                 }
                 let regionDetails = reportData[serviceName][checkName].regions[regionName];
-                if (includeOnlyIssues) {
+                if (includeOnlyIssues && regionDetails) {
                     regionDetails = regionDetails.filter((resourceDetails) => {
                         return resourceDetails.severity === "Warning" ||
                             resourceDetails.severity === "Failure";
                     });
                     reportData[serviceName][checkName].regions[regionName] = regionDetails;
                 }
-                if (regionDetails.length) {
+                if (regionDetails && regionDetails.length) {
                     reportData[serviceName][checkName].resourceName = regionDetails[0].resourceSummary.name;
                 }
             }
