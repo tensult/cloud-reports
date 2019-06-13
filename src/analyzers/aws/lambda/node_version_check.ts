@@ -24,43 +24,30 @@ export class NodeVersionCheckAnalyzer extends BaseAnalyzer {
             for (const fn of regionFunctions) {
                 const nodeVersionAnalysis: IResourceAnalysisResult = {};
                 nodeVersionAnalysis.resource = fn;
-                
-                if(fn.Runtime.indexOf("nodejs") != -1)
-                {
-                const nodejs_V= fn.Runtime;
-                const version_validator = this.nodeVersionValidator(nodejs_V);
-                nodeVersionAnalysis.resourceSummary = {
-                    name: "Node-Version",
-                    value: fn.Runtime,
-                };
-                if (version_validator >= 8.10) {
-                    nodeVersionAnalysis.severity = SeverityStatus.Good;
-                    nodeVersionAnalysis.message = "The version is upto date";
-                } else {
-                    nodeVersionAnalysis.severity = SeverityStatus.Warning;
-                    nodeVersionAnalysis.message = "You need to update your node version.";
-                    nodeVersionAnalysis.action = "Some feature won't be supported with the following verion. UPDATE IS REQUIRED!!!!";
+                if (fn.Runtime.indexOf("nodejs") != -1) {
+                    const nodejs_V = fn.Runtime;
+                    const version_validator = this.nodeVersionValidator(nodejs_V);
+                    nodeVersionAnalysis.resourceSummary = {
+                        name: "Node-Version",
+                        value: fn.Runtime,
+                    };
+                    if (version_validator >= 8) {
+                        nodeVersionAnalysis.severity = SeverityStatus.Good;
+                        nodeVersionAnalysis.message = "The version is upto date";
+                    } else {
+                        nodeVersionAnalysis.severity = SeverityStatus.Warning;
+                        nodeVersionAnalysis.message = "You need to update your node version.";
+                        nodeVersionAnalysis.action = "Some feature won't be supported with the following verion. UPDATE IS REQUIRED!!!!";
+                    }
+                    allRegionsAnalysis[region].push(nodeVersionAnalysis);
                 }
-            }
-            else
-            {
-                nodeVersionAnalysis.resourceSummary = {
-                    name: "?-Version :: Check if function is running on NODE",
-                    value: fn.Runtime,
-
-                };
-            }
-                allRegionsAnalysis[region].push(nodeVersionAnalysis);
             }
         }
         node_version_check.regions = allRegionsAnalysis;
         return { node_version_check };
     }
-    private nodeVersionValidator(nodejs_V)
-    {
-        const split_values = nodejs_V.split("nodejs",2);
-        const node_version = split_values[1];
-        return node_version;
-
+    private nodeVersionValidator(nodejs_V) {
+        const version = nodejs_V.split("nodejs")[1];
+        return parseInt(version.split('.')[0]);
     }
 }
