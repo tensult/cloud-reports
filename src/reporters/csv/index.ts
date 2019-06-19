@@ -1,7 +1,7 @@
 export function generateCSV(reportData: any, options?: {
     showIssuesOnly: boolean,
 }) {
-    const records = prepareRecords(reportData, options);
+    const records:any = prepareRecords(reportData, options);
     return records.map((record) => {
         return record.join(",").replace(/\s+/g, " ");
     }).join("\n");
@@ -14,7 +14,7 @@ function prepareRecords(reportData, options) {
     for (const serviceName in reportData) {
         for (const checkName in reportData[serviceName]) {
             for (const regionName in reportData[serviceName][checkName].regions) {
-                let regionDetails = reportData[serviceName][checkName].regions[regionName];
+                let regionDetails= reportData[serviceName][checkName].regions[regionName];
                 if (!regionDetails) {
                     continue;
                 }
@@ -25,16 +25,16 @@ function prepareRecords(reportData, options) {
                     });
                     reportData[serviceName][checkName].regions[regionName] = regionDetails;
                 }
-
                 for (const regionResourceDetails of regionDetails) {
                     records.push([serviceName, checkName, regionName,
                         regionResourceDetails.resourceSummary.name,
                         (regionResourceDetails.resourceSummary.value || "").replace(/,/g, " "),
                         (regionResourceDetails.message || "").replace(/,/g, " "),
                         (regionResourceDetails.action || "").replace(/,/g, " "),
-                        (regionResourceDetails.severity || ""),
+                        (regionResourceDetails.severity || "")
                     ]);
                 }
+            
             }
         }
     }

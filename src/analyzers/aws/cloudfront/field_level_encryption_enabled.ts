@@ -19,27 +19,31 @@ export class FieldLevelEncrytionAnalyzer extends BaseAnalyzer {
         card numbers or social security numbers, and to help protect your data across application services.`;
         field_level_encryption_enabled.recommendation = "Recommended to enable  field level encryption for all distributions.";
         const allFieldLevelEncryptionAnalysis: IResourceAnalysisResult[] = [];
+
         for (const field_level_encryption_Id in allFieldLevelEncryptionConfigs) {
             const field_level_encryption = allFieldLevelEncryptionConfigs[field_level_encryption_Id];
             const field_level_encryption_Analysis: IResourceAnalysisResult = {};
-
-            field_level_encryption_Analysis.resource = {field_level_encryption_Id, logging: field_level_encryption.Logging };
+            field_level_encryption_Analysis.resource = { field_level_encryption_Id, logging: field_level_encryption.Logging };
             const field_level_encryption_Alias = CloudFrontUtil.getAliasName(field_level_encryption);
+
             field_level_encryption_Analysis.resourceSummary = {
                 name: "Distribution",
                 value: field_level_encryption_Alias ? `${field_level_encryption_Alias} | ${field_level_encryption_Id}` : field_level_encryption_Id,
             };
+
             if (field_level_encryption.Logging.Enabled) {
                 field_level_encryption_Analysis.severity = SeverityStatus.Good;
-                field_level_encryption_Analysis.message = "Field level encryption  are enabled.";
+                field_level_encryption_Analysis.message = "Field level encryption are enabled.";
             } else {
                 field_level_encryption_Analysis.severity = SeverityStatus.Warning;
-                field_level_encryption_Analysis.message = "Field level encryption  are not enabled.";
-                field_level_encryption_Analysis.action = "Enable  field level encryption.";
+                field_level_encryption_Analysis.message = "Field level encryption are not enabled.";
+                field_level_encryption_Analysis.action = "Enable field level encryption.";
             }
+
             allFieldLevelEncryptionAnalysis.push(field_level_encryption_Analysis);
         }
-        field_level_encryption_enabled.regions = { global: allFieldLevelEncryptionConfigs };
-        return { field_level_encryption_enabled};
+        
+        field_level_encryption_enabled.regions = { global: allFieldLevelEncryptionAnalysis };
+        return { field_level_encryption_enabled };
     }
 }
