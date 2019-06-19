@@ -1,7 +1,7 @@
 export function generateCSV(reportData: any, options?: {
     showIssuesOnly: boolean,
 }) {
-    const records:any = prepareRecords(reportData, options);
+    const records = prepareRecords(reportData, options);
     return records.map((record) => {
         return record.join(",").replace(/\s+/g, " ");
     }).join("\n");
@@ -14,7 +14,7 @@ function prepareRecords(reportData, options) {
     for (const serviceName in reportData) {
         for (const checkName in reportData[serviceName]) {
             for (const regionName in reportData[serviceName][checkName].regions) {
-                let regionDetails= reportData[serviceName][checkName].regions[regionName];
+                let regionDetails = reportData[serviceName][checkName].regions[regionName];
                 if (!regionDetails) {
                     continue;
                 }
@@ -34,7 +34,7 @@ function prepareRecords(reportData, options) {
                         (regionResourceDetails.severity || "")
                     ]);
                 }
-            
+
             }
         }
     }
