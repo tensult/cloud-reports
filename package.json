@@ -23,7 +23,7 @@
   "devDependencies": {
     "@types/core-js": "^2.5.0",
     "@types/node": "^10.5.1",
-    "cheerio": "^1.0.0-rc.2",
+    "cheerio": "^1.0.0-rc.3",
     "cli": "^1.0.1",
     "finalhandler": "^1.1.1",
     "gulp": "^4.0.1",
