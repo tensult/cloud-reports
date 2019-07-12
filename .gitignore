@@ -41,7 +41,6 @@ typings/
 
 # Optional npm cache directory
 .npm
-package-lock.json
 
 # Optional eslint cache
 .eslintcache
@@ -68,3 +67,4 @@ scan_report*
 data.json
 
 .vscode
+package-lock.json
