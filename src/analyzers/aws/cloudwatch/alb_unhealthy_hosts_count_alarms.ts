@@ -24,11 +24,9 @@ export class AlbUnHealthyHostAlarmsAnalyzer extends BaseAnalyzer {
             const regionELBs = allELBs[region];
             const regionAlarms = allAlarms[region];
             const alarmsMapByELB = this.mapAlarmsByELB(regionAlarms);
-            console.log(alarmsMapByELB);
             allRegionsAnalysis[region] = [];
             for (const elb of regionELBs) {
                 const alarmAnalysis: IResourceAnalysisResult = {};
-                console.log(elb.LoadBalancerArn);
                 const elbAlarms = alarmsMapByELB[this.getLoadBalancerDimensionId(elb.LoadBalancerArn)];
                 alarmAnalysis.resource = { elb, alarms: elbAlarms };
                 alarmAnalysis.resourceSummary = {
