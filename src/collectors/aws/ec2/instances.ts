@@ -1,6 +1,7 @@
 import * as AWS from "aws-sdk";
 import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
+import * as Moment from "moment";
 import { BaseCollector } from "../../base";
 
 export class EC2InstancesCollector extends BaseCollector {
@@ -52,6 +53,7 @@ export class EC2InstancesCollector extends BaseCollector {
                 continue;
             }
         }
+
         return { instances };
         // change instances
 
@@ -61,22 +63,28 @@ export class EC2InstancesCollector extends BaseCollector {
         let snapshots = [] as any;
         let fetchPending = true;
         let marker: string | undefined;
+        const dataStringsToSearch = CommonUtil.removeDuplicates([this.getDateStringForSearch(30),
+            this.getDateStringForSearch(0)]);
         while (fetchPending) {
             const params: AWS.EC2.DescribeSnapshotsRequest = {
                 Filters: [
-                    {
-                        Name: 'volume-id',
-                        Values: [volumeId]
-                    },
+                    {Name: 'volume-id', Values: [volumeId]},
+                    { Name: "start-time", Values: dataStringsToSearch }, 
+                    { Name: "status", Values: ["completed"] }
                 ],
                 NextToken: marker
             };
             const response: AWS.EC2.DescribeSnapshotsResult = await ec2Obj.describeSnapshots(params).promise();
+            console.log('ec2 snapshot details',response);
             marker = response.NextToken;
             fetchPending = marker !== undefined && marker !== null;
-            snapshots = snapshots.concat(response.Snapshots);
+            snapshots = snapshots.concat(response.Snapshots);   
         }
         return snapshots;
+    }
+
+    private getDateStringForSearch(beforeDays: number) {
+        return Moment().subtract(beforeDays, "days").format("YYYY-MM-*");
     }
 
 }
