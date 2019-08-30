@@ -10,15 +10,9 @@ export class EC2InstanceSystemChecksAlarmsAnalyzer extends BaseAnalyzer {
     EC2 instance System checks?`;
     public  checks_why : string = `It is important to set alarms for EC2 systems checks as
     otherwise suddenly your applications might be down.`;
-<<<<<<< HEAD
     public checks_recommendation : string = `Recommended to set alarm for EC2
     system checks to take appropriative action.`;
     public checks_name : string = "Instance";
-=======
-    public  checks_recommendation :string =`Recommended to set alarm for EC2
-    system checks to take appropriative action.`;
-    public  checks_name : string ="Instance";
->>>>>>> e37109bec4da4ef67bd5b6184b5748559393860e
     public analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
         if (!allAlarms || !fullReport["aws.ec2"] || !fullReport["aws.ec2"].instances) {
