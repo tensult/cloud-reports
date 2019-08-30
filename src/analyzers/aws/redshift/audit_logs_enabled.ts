@@ -13,8 +13,8 @@ export class AuditLogsAnalyzer extends BaseAnalyzer {
         }
         const audit_logs: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         audit_logs.what = "Are audit logs enabled for RedShift clusters?";
-        audit_logs.why = "Audit logs contains information about connection requests and queries";
-        audit_logs.recommendation = "Recommended to enable AuditLogs for all RedShift clusters";
+        audit_logs.why = "Audit logs contains information about connection requests and queries.";
+        audit_logs.recommendation = "Recommended to enable AuditLogs for all RedShift clusters.";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allAuditLogs) {
             const regionAuditLogs = allAuditLogs[region];
@@ -28,11 +28,11 @@ export class AuditLogsAnalyzer extends BaseAnalyzer {
                 };
                 if (auditLog && auditLog.LoggingEnabled) {
                     audit_log_analysis.severity = SeverityStatus.Good;
-                    audit_log_analysis.message = "Audit log is enabled";
+                    audit_log_analysis.message = "Audit log is enabled.";
                 } else {
                     audit_log_analysis.severity = SeverityStatus.Failure;
-                    audit_log_analysis.message = "Audit log is not enabled";
-                    audit_log_analysis.action = "Enable audit log for cluster";
+                    audit_log_analysis.message = "Audit log is not enabled.";
+                    audit_log_analysis.action = "Enable audit log for cluster.";
                 }
                 allRegionsAnalysis[region].push(audit_log_analysis);
             }
