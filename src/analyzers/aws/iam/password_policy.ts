@@ -137,7 +137,7 @@ export class PasswordPolicyAnalyzer extends BaseAnalyzer {
         };
         if (!password_policy_report.MaxPasswordAge) {
             maxPasswordAgeAnalysis.severity = SeverityStatus.Failure;
-            maxPasswordAgeAnalysis.message = "Password should be change at lease once in 90 days.";
+            maxPasswordAgeAnalysis.message = "Password should be change at least once in 90 days.";
             maxPasswordAgeAnalysis.action = "Set this to 90";
         } else {
             maxPasswordAgeAnalysis.severity = SeverityStatus.Good;
