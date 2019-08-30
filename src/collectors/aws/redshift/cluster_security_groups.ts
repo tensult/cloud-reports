@@ -25,7 +25,7 @@ export class RedshiftClusterSecurityGroupsCollector extends BaseCollector {
                 while (fetchPending) {
                     const clusterSecurityGroupsResponse:
                         AWS.Redshift.Types.ClusterSecurityGroupMessage = await redshift.describeClusterSecurityGroups
-                        ({ Marker: marker }).promise();
+                            ({ Marker: marker }).promise();
                     clusterSecurityGroups[region] = clusterSecurityGroups[region].concat(clusterSecurityGroupsResponse.ClusterSecurityGroups);
                     marker = clusterSecurityGroupsResponse.Marker;
                     fetchPending = marker !== undefined;
@@ -38,4 +38,3 @@ export class RedshiftClusterSecurityGroupsCollector extends BaseCollector {
         return { clusterSecurityGroups };
     }
 }
-    

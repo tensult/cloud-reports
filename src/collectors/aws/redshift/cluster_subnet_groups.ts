@@ -9,7 +9,6 @@ export class RedshiftSubnetGroupCollector extends BaseCollector {
     }
 
     private async getAllSubnetGroups() {
-
         const self = this;
         const serviceName = "Redshift";
         const redshiftRegions = self.getRegions(serviceName);
