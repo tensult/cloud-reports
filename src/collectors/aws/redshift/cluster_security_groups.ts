@@ -4,11 +4,12 @@ import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
 export class RedshiftClusterSecurityGroupsCollector extends BaseCollector {
+    
     public collect(callback: (err?: Error, data?: any) => void) {
-        return this.getAllclusterSecurityGroups();
+        return this.getAllClusterSecurityGroups();
     }
 
-    private async getAllclusterSecurityGroups() {
+    private async getAllClusterSecurityGroups() {
 
         const self = this;
         const serviceName = "Redshift";

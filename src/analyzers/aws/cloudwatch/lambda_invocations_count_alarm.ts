@@ -53,6 +53,9 @@ export class LambdaInvocationsCountAlarmAnalyzer extends BaseAnalyzer {
     }
 
     private mapAlarmsByLambdaFunction(alarms: any[]): IDictionary<any[]> {
+        if (!alarms) {
+            return {};
+        }
         return alarms.reduce((alarmsMap, alarm) => {
             if (alarm.Namespace === "AWS/Lambda" && alarm.Dimensions) {
                 const lambdaFunctionDimension = alarm.Dimensions.find((dimension) => {
