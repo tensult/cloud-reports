@@ -4,7 +4,7 @@ import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
 
-export class configurationRecorderCollector extends BaseCollector {
+export class ConfigurationRecorderCollector extends BaseCollector {
     public collect(callback: (err?: Error, data?: any) => void) {
         return this.getAllConfigurationRecorder();
     }
