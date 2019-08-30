@@ -24,9 +24,9 @@ export class EMRSecurityConfigurationCollector extends BaseCollector {
                 let marker: string | undefined;
                 while (fetchPending) {
                     const securityConfigurationResponse:
-                        AWS.EMR.Types.ListSecurityConfigurationsOutput= await emr.listSecurityConfigurations
+                        AWS.EMR.Types.ListSecurityConfigurationsOutput = await emr.listSecurityConfigurations
                             ({ Marker: marker }).promise();
-                            securityConfiguration[region] = securityConfiguration[region].concat(securityConfigurationResponse.Marker);
+                    securityConfiguration[region] = securityConfiguration[region].concat(securityConfigurationResponse.Marker);
                     marker = securityConfigurationResponse.Marker;
                     fetchPending = marker !== undefined;
                     await CommonUtil.wait(200);

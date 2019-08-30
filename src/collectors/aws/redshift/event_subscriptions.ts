@@ -25,7 +25,7 @@ export class RedshiftEventSubscriptions extends BaseCollector {
                     const eventSubscriptionsResponse:
                         AWS.Redshift.Types.EventSubscriptionsMessage = await redshift.describeEventSubscriptions
                             ({ Marker: marker }).promise();
-                        event_subscriptions[region] = event_subscriptions[region].concat(eventSubscriptionsResponse.EventSubscriptionsList);
+                    event_subscriptions[region] = event_subscriptions[region].concat(eventSubscriptionsResponse.EventSubscriptionsList);
                     marker = eventSubscriptionsResponse.Marker;
                     fetchPending = marker !== undefined;
                     await CommonUtil.wait(200);
