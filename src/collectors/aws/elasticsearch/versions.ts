@@ -19,16 +19,16 @@ export class ESVersionsCollector extends BaseCollector {
                 const es = this.getClient(serviceName, region) as AWS.ES;
                 let fetchPending = true;
                 let token: string | undefined;
-
-                while ( fetchPending ) {
-                    const versionsResponse: AWS.ES.ListElasticsearchVersionsResponse = await es.listElasticsearchVersions({ NextToken : token }).promise();
+                while (fetchPending) {
+                    const versionsResponse: AWS.ES.ListElasticsearchVersionsResponse =
+                        await es.listElasticsearchVersions({ NextToken: token }).promise();
                     if (versionsResponse && versionsResponse.ElasticsearchVersions) {
-                        versions[region] = versionsResponse.ElasticsearchVersions.map((versions) => {
-                            return versions;
+                        versions[region] = versionsResponse.ElasticsearchVersions.map((version) => {
+                            return version;
                         });
                         await CommonUtil.wait(200);
                         token = versionsResponse.NextToken;
-                        fetchPending = token !== undefined && token!== null;
+                        fetchPending = token !== undefined && token !== null;
                     }
 
                 }

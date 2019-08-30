@@ -29,7 +29,6 @@ export class ESDomainsCollector extends BaseCollector {
                     const es = this.getClient(serviceName, region) as AWS.ES;
                     const domainsResponse: AWS.ES.DescribeElasticsearchDomainsResponse =
                         await es.describeElasticsearchDomains({ DomainNames: domainNames[region] }).promise();
-                        
                     if (domainsResponse && domainsResponse.DomainStatusList) {
                         domains[region] = domainsResponse.DomainStatusList;
                     }

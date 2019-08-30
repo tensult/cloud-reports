@@ -4,12 +4,10 @@ import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
 export class EC2FleetsCollector extends BaseCollector {
-    public async collect(callback: (err?: Error,data?: any)=>void) {
-    
+    public async collect() {
         const serviceName = "EC2";
         const ec2Regions = this.getRegions(serviceName);
         const fleets = {};
-
         for (const region of ec2Regions) {
             try {
                 fleets[region] = [];

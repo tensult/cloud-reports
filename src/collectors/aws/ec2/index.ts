@@ -4,7 +4,6 @@ export * from "./instances";
 export * from "./key_pairs";
 export * from "./security_groups";
 export * from "./termination_protection";
-
 export * from "./account_attributes";
 export * from "./availability_zones";
 export * from "./capacity_reservations";
