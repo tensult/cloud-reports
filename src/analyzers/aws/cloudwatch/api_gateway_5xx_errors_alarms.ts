@@ -49,6 +49,9 @@ export class ApiGateway5xxAlarmsAnalyzer extends BaseAnalyzer {
     }
 
     private mapAlarmsByApi(alarms: any[]): IDictionary<any[]> {
+        if (!alarms) {
+            return {};
+        }
         return alarms.reduce((alarmsMap, alarm) => {
             if (alarm.Namespace === "AWS/ApiGateway" && alarm.Dimensions) {
                 const apiDimension = alarm.Dimensions.find((dimension) => {

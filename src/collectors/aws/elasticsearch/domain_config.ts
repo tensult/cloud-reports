@@ -10,13 +10,11 @@ export class ESDomainConfigCollector extends BaseCollector {
     }
 
     private async getAllDomainConfigs() {
-
         const serviceName = "ES";
         const esRegions = this.getRegions(serviceName);
         const esDomainNamesCollector = new ESDomainNamesCollector();
         esDomainNamesCollector.setSession(this.getSession());
         const domain_config = {};
-
         try {
             const domainNamesData = await CollectorUtil.cachedCollect(esDomainNamesCollector);
             const domainNames = domainNamesData.domain_names;
@@ -31,7 +29,6 @@ export class ESDomainConfigCollector extends BaseCollector {
                         const es = this.getClient(serviceName, region) as AWS.ES;
                         const domainConfigResponse: AWS.ES.DescribeElasticsearchDomainConfigResponse =
                             await es.describeElasticsearchDomainConfig({ DomainName: name }).promise();
-
                         if (domainConfigResponse && domainConfigResponse.DomainConfig) {
                             domain_config[region] = domainConfigResponse.DomainConfig;
                         }
@@ -42,7 +39,6 @@ export class ESDomainConfigCollector extends BaseCollector {
                     }
 
                 }
-
             }
         } catch (error) {
             AWSErrorHandler.handle(error);

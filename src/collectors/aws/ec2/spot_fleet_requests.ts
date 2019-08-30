@@ -4,7 +4,7 @@ import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
 export class EC2SpotFleetRequestsCollector extends BaseCollector {
-    public async collect(callback: (err?: Error, data?: any) => void) {
+    public async collect() {
         const serviceName = "EC2";
         const ec2Regions = this.getRegions(serviceName);
         const spot_fleet_requests = {};

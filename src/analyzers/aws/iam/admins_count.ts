@@ -12,22 +12,22 @@ export class AdminCountAnalyzer extends BaseAnalyzer {
         const admin_count: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         admin_count.what = "Are there too many admins for the account?";
         admin_count.why = `It is hard to manage security goals
-        when there too many admins as chances of mistakes increases`;
-        admin_count.recommendation = "Recommended to have 2-3 admins per account";
+        when there too many admins as chances of mistakes increases.`;
+        admin_count.recommendation = "Recommended to have 2-3 admins per account.";
         const analysis: IResourceAnalysisResult = {};
         analysis.resource = { adminUsers };
         analysis.resourceSummary = {
             name: "AdminUsers", value: adminUsers.length ? adminUsers.join(", ") : "None",
         };
-        analysis.title = "Number of admins in the account";
+        analysis.title = "Number of admins in the account.";
         if (adminUsers.length > 3) {
             analysis.severity = SeverityStatus.Warning;
-            analysis.message = "Account has more than 3 admins";
-            analysis.action = "Keep only 3 admins";
+            analysis.message = "Account has more than 3 admins.";
+            analysis.action = "Keep only 3 admins.";
         } else if (adminUsers.length === 0) {
             analysis.severity = SeverityStatus.Failure;
-            analysis.message = "Account has no admins";
-            analysis.action = "You should create at least one admin";
+            analysis.message = "Account has no admins.";
+            analysis.action = "You should create at least one admin.";
         } else {
             analysis.severity = SeverityStatus.Good;
             analysis.message = `Account has ${adminUsers.length} admins`;

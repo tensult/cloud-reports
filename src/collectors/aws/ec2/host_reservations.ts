@@ -8,7 +8,6 @@ export class EC2HostReservationsCollector extends BaseCollector {
         return this.getAllHostReservation();
     }
     private async getAllHostReservation() {
-
         const serviceName = "EC2";
         const ec2Regions = this.getRegions(serviceName);
         const host_reservations = {};

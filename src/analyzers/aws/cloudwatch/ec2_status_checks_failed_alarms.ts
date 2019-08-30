@@ -57,6 +57,9 @@ export class EC2InstanceSystemChecksAlarmsAnalyzer extends BaseAnalyzer {
     }
 
     private mapAlarmsByInstance(alarms: any[]): IDictionary<any[]> {
+        if (!alarms) {
+            return {};
+        }
         return alarms.reduce((alarmsMap, alarm) => {
             if (alarm.Namespace === "AWS/EC2" && alarm.Dimensions) {
                 const instanceDimension = alarm.Dimensions.find((dimension) => {

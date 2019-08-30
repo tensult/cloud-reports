@@ -4,7 +4,7 @@ import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
 export class EC2AvailabilityZonesCollector extends BaseCollector {
-    public async collect(callback: (err?: Error, data?: any) => void) {
+    public async collect() {
         const serviceName = "EC2";
         const ec2Regions = this.getRegions(serviceName);
         const availability_zones = {};
@@ -16,7 +16,7 @@ export class EC2AvailabilityZonesCollector extends BaseCollector {
                 const availabilityZonesResponse: AWS.EC2.DescribeAvailabilityZonesResult =
                     await ec2.describeAvailabilityZones().promise();
                 availability_zones[region] =
-                    availability_zones[region].concat(availabilityZonesResponse.AvailabilityZones);
+                    availability_zones[region].concat(availabilityZonesResponse.AvailabilityZones);  
                 await CommonUtil.wait(200);
             } catch (error) {
                 AWSErrorHandler.handle(error);

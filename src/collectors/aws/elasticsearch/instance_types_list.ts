@@ -10,17 +10,14 @@ export class ESInstanceTypesCollector extends BaseCollector {
     }
 
     private async getAllInstanceTypes() {
-
         const serviceName = "ES";
         const esRegions = this.getRegions(serviceName);
         const esVersionsCollector = new ESVersionsCollector();
         esVersionsCollector.setSession(this.getSession());
         const instance_types = {};
-
         try {
             const versionsData = await CollectorUtil.cachedCollect(esVersionsCollector);
             const version = versionsData.versions;
-
             for (const region of esRegions) {
                 if (!version[region]) {
                     continue;
@@ -41,7 +38,6 @@ export class ESInstanceTypesCollector extends BaseCollector {
                         continue;
                     }
                 }
-
             }
         } catch (error) {
             AWSErrorHandler.handle(error);

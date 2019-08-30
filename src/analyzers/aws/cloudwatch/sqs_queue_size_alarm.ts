@@ -51,6 +51,9 @@ export class SQSQueueSizeAlarmAnalyzer extends BaseAnalyzer {
     }
 
     private mapAlarmsByQueue(alarms: any[]): IDictionary<any[]> {
+        if (!alarms) {
+            return {};
+        }
         return alarms.reduce((alarmsMap, alarm) => {
             if (alarm.Namespace === "AWS/SQS" && alarm.Dimensions) {
                 const queueDimension = alarm.Dimensions.find((dimension) => {
