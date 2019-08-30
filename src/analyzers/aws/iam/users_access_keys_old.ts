@@ -16,8 +16,8 @@ export class UsersAccessKeysOldAnalyzer extends BaseAnalyzer {
 
         const users_access_keys_old: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         users_access_keys_old.what = "Are user access keys are too old?";
-        users_access_keys_old.why = "It is important to rotate access keys regularly as it will reduce improper use";
-        users_access_keys_old.recommendation = "Recommended to rotate user access keys regularly";
+        users_access_keys_old.why = "It is important to rotate access keys regularly as it will reduce improper use.";
+        users_access_keys_old.recommendation = "Recommended to rotate user access keys regularly.";
         const allUsersAccessKeysAnalysis: IResourceAnalysisResult[] = [];
         userCredentials.forEach((credential) => {
             const user_access_keys_old: IResourceAnalysisResult = {};
@@ -33,11 +33,11 @@ export class UsersAccessKeysOldAnalyzer extends BaseAnalyzer {
                 const user_access_key1_old: IResourceAnalysisResult = Object.assign({}, user_access_keys_old);
                 if (access_key_1_old) {
                     user_access_key1_old.severity = SeverityStatus.Failure;
-                    user_access_key1_old.message = "User access key 1 is not rotated from last 180 days";
-                    user_access_key1_old.action = "Rotate user access key 1";
+                    user_access_key1_old.message = "User access key 1 is not rotated from last 180 days.";
+                    user_access_key1_old.action = "Rotate user access key 1.";
                 } else {
                     user_access_key1_old.severity = SeverityStatus.Good;
-                    user_access_key1_old.message = "User access key 1 is rotated within last 180 days";
+                    user_access_key1_old.message = "User access key 1 is rotated within last 180 days.";
                 }
                 allUsersAccessKeysAnalysis.push(user_access_key1_old);
             }
@@ -46,11 +46,11 @@ export class UsersAccessKeysOldAnalyzer extends BaseAnalyzer {
                 const user_access_key2_old: IResourceAnalysisResult = Object.assign({}, user_access_keys_old);
                 if (access_key_2_old) {
                     user_access_key2_old.severity = SeverityStatus.Failure;
-                    user_access_key2_old.message = "User access key 2 is not rotated from last 180 days";
-                    user_access_key2_old.action = "Rotate user access key 2";
+                    user_access_key2_old.message = "User access key 2 is not rotated from last 180 days.";
+                    user_access_key2_old.action = "Rotate user access key 2.";
                 } else {
                     user_access_key2_old.severity = SeverityStatus.Good;
-                    user_access_key2_old.message = "User access key 2 is rotated within last 180 days";
+                    user_access_key2_old.message = "User access key 2 is rotated within last 180 days.";
                 }
                 allUsersAccessKeysAnalysis.push(user_access_key2_old);
             }
