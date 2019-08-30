@@ -3,7 +3,7 @@ import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
-export class pendingAggregationRequestsCollector extends BaseCollector {
+export class PendingAggregationRequestsCollector extends BaseCollector {
     public collect(callback: (err?: Error, data?: any) => void) {
         return this.getAllPendingAggregationRequests();
     }
