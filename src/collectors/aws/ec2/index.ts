@@ -4,3 +4,18 @@ export * from "./instances";
 export * from "./key_pairs";
 export * from "./security_groups";
 export * from "./termination_protection";
+
+export * from "./account_attributes";
+export * from "./availability_zones";
+export * from "./capacity_reservations";
+export * from "./dedicated_hosts";
+export * from "./fleets";
+export * from "./host_reservations";
+export * from "./placement_groups";
+export * from "./regions";
+export * from "./route_tables";
+export * from "./scheduled_instances";
+export * from "./spot_fleet_requests";
+export * from "./subnets";
+export * from "./volumes";
+export * from "./vpcs";
