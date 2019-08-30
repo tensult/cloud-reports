@@ -4,3 +4,4 @@ export * from "./function_aliases_used";
 export * from "./function_versions_count";
 export * from "./function_versions_used";
 export * from "./tracing_enabled";
+export * from "./node_version_check";

@@ -15,7 +15,10 @@ function prepareRecords(reportData, options) {
         for (const checkName in reportData[serviceName]) {
             for (const regionName in reportData[serviceName][checkName].regions) {
                 let regionDetails = reportData[serviceName][checkName].regions[regionName];
-                if (options.showIssuesOnly) {
+                if (!regionDetails) {
+                    continue;
+                }
+                if (options.showIssuesOnly && regionDetails.length) {
                     regionDetails = regionDetails.filter((resourceDetails) => {
                         return resourceDetails.severity === "Warning" ||
                             resourceDetails.severity === "Failure";
@@ -28,9 +31,10 @@ function prepareRecords(reportData, options) {
                         (regionResourceDetails.resourceSummary.value || "").replace(/,/g, " "),
                         (regionResourceDetails.message || "").replace(/,/g, " "),
                         (regionResourceDetails.action || "").replace(/,/g, " "),
-                        (regionResourceDetails.severity || ""),
+                        (regionResourceDetails.severity || "")
                     ]);
                 }
+
             }
         }
     }

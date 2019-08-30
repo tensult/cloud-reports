@@ -30,7 +30,6 @@ export class TracingAnalyzer extends BaseAnalyzer {
                     value: fn.TracingConfig.Mode,                  
                 };
                 const P = fn.TracingConfig;
-                console.log(fn.TracingConfig.Mode);
                 if (fn.TracingConfig.Mode == "PassThrough") {
                     functionAnalysis.severity = SeverityStatus.Warning;
                     functionAnalysis.message = "Tracing for AWS Lambda is not enabled.";
