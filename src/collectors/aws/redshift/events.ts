@@ -25,7 +25,7 @@ export class RedshiftEvents extends BaseCollector {
                     const redshiftEvents:
                         AWS.Redshift.Types.EventsMessage = await redshift.describeEvents
                             ({ Marker: marker }).promise();
-                        events[region] = events[region].concat(redshiftEvents.Events);
+                    events[region] = events[region].concat(redshiftEvents.Events);
                     marker = redshiftEvents.Marker;
                     fetchPending = marker !== undefined;
                     await CommonUtil.wait(200);

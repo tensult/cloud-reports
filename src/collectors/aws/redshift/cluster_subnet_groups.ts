@@ -29,12 +29,12 @@ export class RedshiftSubnetGroupCollector extends BaseCollector {
                     marker = RedshiftSubnetGroupResponse.Marker;
                     fetchPending = marker !== undefined;
                     await CommonUtil.wait(200);
-                }                
+                }
             }
             catch (error) {
                 AWSErrorHandler.handle(error);
             }
-        }        
+        }
         return { cluster_subnet_groups };
     }
 }
