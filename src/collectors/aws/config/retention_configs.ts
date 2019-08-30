@@ -11,7 +11,7 @@ export class ConfigServiceRetentionConfigsCollector extends BaseCollector {
     private async getAllRetentionConfigs() {
 
         const self = this;
-        const serviceName = "ConfigService";
+        const serviceName = "Config";
         const configServiceRegions = self.getRegions(serviceName);
         const retention_configs = {};
 
@@ -20,13 +20,15 @@ export class ConfigServiceRetentionConfigsCollector extends BaseCollector {
                 const configservice = self.getClient(serviceName, region) as AWS.ConfigService;
                 retention_configs[region] = [];
                 let fetchPending = true;
-                let marker : undefined | string;
+                let token: undefined | string;
                 while (fetchPending) {
-                    const retentionConfigResponse:
-                        AWS.ConfigService.Types.DescribeRetentionConfigurationsResponse = await configservice.describeRetentionConfigurations
+                    const retentionConfigResponse: AWS.ConfigService.Types.DescribeRetentionConfigurationsResponse =
+                        await configservice.describeRetentionConfigurations
                             ({}).promise();
-                        retention_configs[region] = retention_configs[region].concat(retentionConfigResponse.RetentionConfigurations);
-                        fetchPending = marker !== undefined && marker !== null;
+                    retention_configs[region] =
+                        retention_configs[region].concat(retentionConfigResponse.RetentionConfigurations);
+                    token = retentionConfigResponse.NextToken;
+                    fetchPending = token !== undefined && token !== null;
                     await CommonUtil.wait(200);
                 }
             } catch (error) {
