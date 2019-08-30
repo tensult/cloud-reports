@@ -21,7 +21,6 @@ export class EC2RouteTablesCollector extends BaseCollector {
                 continue;
             }
         }
-        // console.log(route_tables);
         return { route_tables };
     }
 }
