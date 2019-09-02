@@ -27,17 +27,17 @@ export class TracingAnalyzer extends BaseAnalyzer {
                 functionAnalysis.resource = fn;
                 functionAnalysis.resourceSummary = {
                     name: "Function",
-                    value: fn.TracingConfig.Mode,                  
+                    value: fn.TracingConfig.Mode,
                 };
                 const P = fn.TracingConfig;
-                if (fn.TracingConfig.Mode == "PassThrough") {
+                if (fn.TracingConfig.Mode.indexOf("PassThrough") == 0) {
                     functionAnalysis.severity = SeverityStatus.Warning;
                     functionAnalysis.message = "Tracing for AWS Lambda is not enabled.";
                     functionAnalysis.action = "The AWS X-Ray integration for AWS Lambda should be enabled.";
                 } else {
                     functionAnalysis.severity = SeverityStatus.Good;
                     functionAnalysis.message = "Tracing is enabled.";
-                    
+
                 }
                 allRegionsAnalysis[region].push(functionAnalysis);
             }
