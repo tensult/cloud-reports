@@ -15,8 +15,8 @@ export class GroupsAnalyzerAnalyzer extends BaseAnalyzer {
         const iam_groups_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         iam_groups_used.what = "Are IAM groups used for granting permissions?";
         iam_groups_used.why = `When we use IAM groups to grant access to
-        IAM users then it will be easy to manage access control`;
-        iam_groups_used.recommendation = "Recommended to use IAM groups for granting access to the users";
+        IAM users then it will be easy to manage access control.`;
+        iam_groups_used.recommendation = "Recommended to use IAM groups for granting access to the users.";
         const groupsByUser = this.mapGroupsByUser(allGroupUsers);
         const allUserAnalysis: IResourceAnalysisResult[] = [];
         for (const user of allUsers) {
@@ -28,11 +28,11 @@ export class GroupsAnalyzerAnalyzer extends BaseAnalyzer {
             };
             if (groupsByUser[user.UserName] && groupsByUser[user.UserName].length) {
                 userAnalysis.severity = SeverityStatus.Good;
-                userAnalysis.message = `User belongs to ${groupsByUser[user.UserName].join(", ")} groups`;
+                userAnalysis.message = `User belongs to ${groupsByUser[user.UserName].join(", ")} groups.`;
             } else {
                 userAnalysis.severity = SeverityStatus.Failure;
-                userAnalysis.message = "User doesn't belong to any group";
-                userAnalysis.action = "User groups for granting access to the users";
+                userAnalysis.message = "User doesn't belong to any group.";
+                userAnalysis.action = "User groups for granting access to the users.";
             }
             allUserAnalysis.push(userAnalysis);
         }

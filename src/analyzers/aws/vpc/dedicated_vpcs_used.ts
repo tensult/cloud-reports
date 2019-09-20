@@ -45,7 +45,6 @@ export class DedicatedVpcUsedEC2InstancesAnalyzer extends BaseAnalyzer {
                 }
                 allRegionsAnalysis[region].push(instanceAnalysis);
             }
-            console.log(dedicated_vpcs_used);
         }
         dedicated_vpcs_used.regions = allRegionsAnalysis;
         return { dedicated_vpcs_used };

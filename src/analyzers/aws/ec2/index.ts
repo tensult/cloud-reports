@@ -1,5 +1,6 @@
 export * from "./default_security_groups_used";
 export * from "./default_vpcs_used";
+export * from "./dedicated_ec2_instances_used";
 export * from "./elastic_ips_unused";
 export * from "./instance_stored_volume_used";
 export * from "./instances_profiles_used";
@@ -18,3 +19,4 @@ export * from "./security_groups_wide_port_range";
 export * from "./ssh_port_open_to_world";
 export * from "./termination_protection_enabled";
 export * from "./volume_delete_protection_enabled";
+export * from "./instances_volume_snapshot"
