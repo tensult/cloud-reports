@@ -28,7 +28,6 @@ export class ZoneAwarenessAnalyzer extends BaseAnalyzer {
                     name: "Domain",
                     value: DomainName,
                 };
-                console.log(zoneEnability)
                 if (zoneEnability == false) {
                     cluster_config_Analysis.severity = SeverityStatus.Failure;
                     cluster_config_Analysis.message = "ZoneAwareness not enabled.";
