@@ -12,8 +12,8 @@ export class RDPPortOpenToWorldAnalyzer extends BaseAnalyzer {
         }
         const rdp_port_open_to_world: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         rdp_port_open_to_world.what = "Is RDP port open to world?";
-        rdp_port_open_to_world.why = "We should always restrict RDP port only intended parties to access";
-        rdp_port_open_to_world.recommendation = "Recommended to restrict RDP port in security groups to specific IPs";
+        rdp_port_open_to_world.why = "We should always restrict RDP port only intended parties to access.";
+        rdp_port_open_to_world.recommendation = "Recommended to restrict RDP port in security groups to specific IPs.";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allSecurityGroups) {
             const regionSecurityGroups = allSecurityGroups[region];
@@ -30,11 +30,11 @@ export class RDPPortOpenToWorldAnalyzer extends BaseAnalyzer {
                 };
                 if (this.isRDPOpenToWorld(securityGroup)) {
                     securityGroupAnalysis.severity = SeverityStatus.Failure;
-                    securityGroupAnalysis.message = "RDP Port is open to entire world";
-                    securityGroupAnalysis.action = "Restrict RDP port";
+                    securityGroupAnalysis.message = "RDP Port is open to entire world.";
+                    securityGroupAnalysis.action = "Restrict RDP port.";
                 } else {
                     securityGroupAnalysis.severity = SeverityStatus.Good;
-                    securityGroupAnalysis.message = "RDP port is not open to entire world";
+                    securityGroupAnalysis.message = "RDP port is not open to entire world.";
                 }
                 allRegionsAnalysis[region].push(securityGroupAnalysis);
             }

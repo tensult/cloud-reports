@@ -12,9 +12,9 @@ export class OraclePortOpenToWorldAnalyzer extends BaseAnalyzer {
         }
         const oracle_db_port_open_to_world: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         oracle_db_port_open_to_world.what = "Is Oracle port open to world?";
-        oracle_db_port_open_to_world.why = "We should always restrict Oracle port only intended parties to access";
+        oracle_db_port_open_to_world.why = "We should always restrict Oracle port only intended parties to access.";
         oracle_db_port_open_to_world.recommendation = `Recommended to restrict Oracle
-        port in security groups to specific IPs`;
+        port in security groups to specific IPs.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allSecurityGroups) {
             const regionSecurityGroups = allSecurityGroups[region];
@@ -31,11 +31,11 @@ export class OraclePortOpenToWorldAnalyzer extends BaseAnalyzer {
                 };
                 if (this.isOracleOpenToWorld(securityGroup)) {
                     securityGroupAnalysis.severity = SeverityStatus.Failure;
-                    securityGroupAnalysis.message = "Oracle Port is open to entire world";
-                    securityGroupAnalysis.action = "Restrict Oracle port";
+                    securityGroupAnalysis.message = "Oracle Port is open to entire world.";
+                    securityGroupAnalysis.action = "Restrict Oracle port.";
                 } else {
                     securityGroupAnalysis.severity = SeverityStatus.Good;
-                    securityGroupAnalysis.message = "Oracle port is not open to entire world";
+                    securityGroupAnalysis.message = "Oracle port is not open to entire world.";
                 }
                 allRegionsAnalysis[region].push(securityGroupAnalysis);
             }

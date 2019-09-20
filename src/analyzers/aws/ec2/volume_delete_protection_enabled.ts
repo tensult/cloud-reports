@@ -16,9 +16,9 @@ export class EC2VolumeDeleteProtectionOnTerminationAnalyzer extends BaseAnalyzer
         const volume_delete_protection_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
         volume_delete_protection_enabled.what = "Are there any instances without deletion protection for volumes?";
         volume_delete_protection_enabled.why = `Instances can be accidentally terminated and data can be
-        lost when they are without deletion protection for volumes`;
+        lost when they are without deletion protection for volumes.`;
         volume_delete_protection_enabled.recommendation = `Recommended to enable deletion
-        protection for volumes attached to all production critical instances`;
+        protection for volumes attached to all production critical instances.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -41,11 +41,11 @@ export class EC2VolumeDeleteProtectionOnTerminationAnalyzer extends BaseAnalyzer
                     };
                     if (!volume.Ebs.DeleteOnTermination) {
                         instanceAnalysis.severity = SeverityStatus.Good;
-                        instanceAnalysis.message = "Already enabled";
+                        instanceAnalysis.message = "Already enabled.";
                     } else {
                         instanceAnalysis.severity = SeverityStatus.Warning;
-                        instanceAnalysis.message = "Not enabled";
-                        instanceAnalysis.action = "Enable deletion protection";
+                        instanceAnalysis.message = "Not enabled.";
+                        instanceAnalysis.action = "Enable deletion protection.";
                     }
                     allRegionsAnalysis[region].push(instanceAnalysis);
                 }

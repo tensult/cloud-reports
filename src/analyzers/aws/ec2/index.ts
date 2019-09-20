@@ -10,7 +10,7 @@ export * from "./instances_untagged";
 export * from "./instances_without_elastic_ip";
 export * from "./key_pairs_unused";
 export * from "./mssql_db_port_open_to_world";
-export * from "./mysql_db_port_open_to_world";
+//export * from "./mysql_db_port_open_to_world";
 export * from "./oracle_db_port_open_to_world";
 export * from "./postgre_sql_db_port_open_to_world";
 export * from "./rdp_port_open_to_world";

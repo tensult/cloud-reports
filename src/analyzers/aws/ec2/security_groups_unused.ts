@@ -15,8 +15,8 @@ export class SecurityGroupsUnusedAnalyzer extends BaseAnalyzer {
         }
         const security_groups_unused: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         security_groups_unused.what = "Are there any security groups unused?";
-        security_groups_unused.why = "Unused security groups causes confusion and allows to make mistakes";
-        security_groups_unused.recommendation = "Recommended delete unused security groups";
+        security_groups_unused.why = "Unused security groups causes confusion and allows to make mistakes.";
+        security_groups_unused.recommendation = "Recommended delete unused security groups.";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -54,11 +54,11 @@ export class SecurityGroupsUnusedAnalyzer extends BaseAnalyzer {
                 };
                 if (securityGroupInstancesMap[securityGroup.GroupId]) {
                     securityGroupAnalysis.severity = SeverityStatus.Good;
-                    securityGroupAnalysis.message = "Security group is used";
+                    securityGroupAnalysis.message = "Security group is used.";
                 } else {
                     securityGroupAnalysis.severity = SeverityStatus.Warning;
-                    securityGroupAnalysis.message = "Security group is not used";
-                    securityGroupAnalysis.action = "Delete the security group";
+                    securityGroupAnalysis.message = "Security group is not used.";
+                    securityGroupAnalysis.action = "Delete the security group.";
                 }
                 allRegionsAnalysis[region].push(securityGroupAnalysis);
             }

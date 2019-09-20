@@ -12,9 +12,9 @@ export class MSSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
         }
         const mssql_db_port_open_to_world: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         mssql_db_port_open_to_world.what = "Is MSSQL port open to world?";
-        mssql_db_port_open_to_world.why = "We should always restrict MSSQL port only intended parties to access";
+        mssql_db_port_open_to_world.why = "We should always restrict MSSQL port only intended parties to access.";
         mssql_db_port_open_to_world.recommendation = `Recommended to restrict MSSQL
-        port in security groups to specific IPs`;
+        port in security groups to specific IPs.`;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allSecurityGroups) {
             const regionSecurityGroups = allSecurityGroups[region];
@@ -31,11 +31,11 @@ export class MSSQLPortOpenToWorldAnalyzer extends BaseAnalyzer {
                 };
                 if (this.isMSSQLOpenToWorld(securityGroup)) {
                     securityGroupAnalysis.severity = SeverityStatus.Failure;
-                    securityGroupAnalysis.message = "MSSQL Port is open to entire world";
-                    securityGroupAnalysis.action = "Restrict MSSQL port";
+                    securityGroupAnalysis.message = "MSSQL Port is open to entire world.";
+                    securityGroupAnalysis.action = "Restrict MSSQL port.";
                 } else {
                     securityGroupAnalysis.severity = SeverityStatus.Good;
-                    securityGroupAnalysis.message = "MSSQL port is not open to entire world";
+                    securityGroupAnalysis.message = "MSSQL port is not open to entire world.";
                 }
                 allRegionsAnalysis[region].push(securityGroupAnalysis);
             }

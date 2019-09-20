@@ -17,7 +17,7 @@ export class EC2InstancesReservationAnalyzer extends BaseAnalyzer {
         instances_reserved.what = "Are there any long running instances which should be reserved?";
         instances_reserved.why = `You can reserve the EC2 instance which
         are you going to run for long time to save the cost.`;
-        instances_reserved.recommendation = "Recommended to reserve all long running instances";
+        instances_reserved.recommendation = "Recommended to reserve all long running instances.";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -38,7 +38,7 @@ export class EC2InstancesReservationAnalyzer extends BaseAnalyzer {
 
                 if (this.getInstancesReservedCount(instanceCountMap, instance.InstanceType) === 1) {
                     instanceAnalysis.severity = SeverityStatus.Good;
-                    instanceAnalysis.message = "Instance is reserved";
+                    instanceAnalysis.message = "Instance is reserved.";
                 } else {
                     if (runningFromDays > 365) {
                         instanceAnalysis.severity = SeverityStatus.Warning;
@@ -46,7 +46,7 @@ export class EC2InstancesReservationAnalyzer extends BaseAnalyzer {
                         instanceAnalysis.severity = SeverityStatus.Info;
                     }
                     instanceAnalysis.message = `Instance is running from ${runningFromDays} days`;
-                    instanceAnalysis.action = "Reserve the instance to save costs";
+                    instanceAnalysis.action = "Reserve the instance to save costs.";
                 }
                 allRegionsAnalysis[region].push(instanceAnalysis);
             }
