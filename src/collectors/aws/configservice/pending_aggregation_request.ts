@@ -4,7 +4,7 @@ import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
 export class PendingAggregationRequestsCollector extends BaseCollector {
-    public collect(callback: (err?: Error, data?: any) => void) {
+    public collect() {
         return this.getAllPendingAggregationRequests();
     }
     private async getAllPendingAggregationRequests() {
@@ -19,18 +19,21 @@ export class PendingAggregationRequestsCollector extends BaseCollector {
                 pending_aggregation_requests[region] = [];
                 let fetchPending = true;
                 let token: string | undefined;
-                while(fetchPending) {
+                while (fetchPending) {
                     const pendingAggregationRequestsResponse:
-                        AWS.ConfigService.Types.DescribePendingAggregationRequestsResponse = await confiservice.describePendingAggregationRequests
+                        AWS.ConfigService.Types.DescribePendingAggregationRequestsResponse =
+                        await confiservice.describePendingAggregationRequests
                             ().promise();
-                    pending_aggregation_requests[region] = pending_aggregation_requests[region].concat(pendingAggregationRequestsResponse.PendingAggregationRequests);
-                    fetchPending = token !== undefined;                 
+                    pending_aggregation_requests[region] = pending_aggregation_requests[region].
+                        concat(pendingAggregationRequestsResponse.PendingAggregationRequests);
+                    token = pendingAggregationRequestsResponse.NextToken;
+                    fetchPending = token !== undefined;
                     await CommonUtil.wait(200);
-                }    
-            }catch (error) {
+                }
+            } catch (error) {
                 AWSErrorHandler.handle(error);
             }
         }
-        return { pending_aggregation_requests };   
+        return { pending_aggregation_requests };
     }
 }

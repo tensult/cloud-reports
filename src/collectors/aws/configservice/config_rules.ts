@@ -4,7 +4,7 @@ import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
 export class ConfigRulesCollector extends BaseCollector {
-    public collect(callback: (err?: Error, data?: any) => void) {
+    public collect() {
         return this.getAllconfigRules();
     }
     private async getAllconfigRules() {
@@ -19,21 +19,18 @@ export class ConfigRulesCollector extends BaseCollector {
                 let fetchPending = true;
                 let token: string | undefined;
                 while (fetchPending) {
-                    const configRulesResponse: AWS.ConfigService.Types.DescribeConfigRulesResponse = await configRules.describeConfigRules
-                    ({ NextToken: token }).promise();
+                    const configRulesResponse: AWS.ConfigService.Types.DescribeConfigRulesResponse =
+                        await configRules.describeConfigRules
+                            ({ NextToken: token }).promise();
                     rules[region] = rules[region].concat(configRulesResponse.ConfigRules);
+                    token = configRulesResponse.NextToken;
                     fetchPending = token !== undefined;
                     await CommonUtil.wait(200);
                 }
-            }
-            catch (error) {
+            } catch (error) {
                 AWSErrorHandler.handle(error);
             }
         }
         return { rules };
     }
 }
-
-
-
-
