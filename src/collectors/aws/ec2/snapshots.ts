@@ -3,31 +3,22 @@ import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
-export class EC2DedicatedHostsCollector extends BaseCollector {
-    public collect() {
-        return this.getAllDedicatedHosts();
-    }
-
-    private async getAllDedicatedHosts() {
-
+export class SnapshotsCollector extends BaseCollector {
+    public async collect() {
         const serviceName = "EC2";
         const ec2Regions = this.getRegions(serviceName);
-        const dedicated_hosts = {};
-
+        const snapshots = {};
         for (const region of ec2Regions) {
             try {
                 const ec2 = this.getClient(serviceName, region) as AWS.EC2;
-                const dedicatedHostsResponse: AWS.EC2.DescribeHostsResult =
-                    await ec2.describeHosts().promise();
-                if (dedicatedHostsResponse && dedicatedHostsResponse.Hosts) {
-                    dedicated_hosts[region] = dedicatedHostsResponse.Hosts;
-                }
+                const snapshotsResponse: AWS.EC2.DescribeSnapshotsResult = await ec2.describeSnapshots().promise();
+                snapshots[region] = snapshotsResponse.Snapshots;
                 await CommonUtil.wait(200);
             } catch (error) {
                 AWSErrorHandler.handle(error);
                 continue;
             }
         }
-        return { dedicated_hosts };
+        return { snapshots };
     }
 }

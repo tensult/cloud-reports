@@ -18,3 +18,7 @@ export * from "./spot_fleet_requests";
 export * from "./subnets";
 export * from "./volumes";
 export * from "./vpcs";
+export * from "./snapshots";
+export * from "./dedicated_hosts";
+export * from "./volumes";
+export * from "./placement_groups";
