@@ -38,7 +38,6 @@ export class KinesisStreamCollector extends BaseCollector {
                             AWS.Kinesis.Types.DescribeStreamOutput = await Kinesis.describeStream
                                 (params).promise();
                         stream[region] = stream[region].concat(streamResponse.StreamDescription);
-                        // token = streamResponse.;
                         fetchPending = token !== undefined && token !== null;
                         await CommonUtil.wait(600);
                     }

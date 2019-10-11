@@ -15,7 +15,6 @@ export class KinesisShardListCollector extends BaseCollector {
         const serviceName = "Kinesis";
         const kinesisRegions = self.getRegions(serviceName);
         const shard_list = {};
-        // getting stream names from stream_list
         const KinesisStreamListCollectorInstance = new KinesisStreamListCollector();
         const streamNamesObj = await KinesisStreamListCollectorInstance.getAllStreamNames()
         
