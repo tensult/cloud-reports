@@ -10,7 +10,6 @@ import * as Reporters from "./reporters";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { AWSCredentialsProvider } from "./utils/aws/credentials";
 import { LogUtil } from "./utils/log";
-import { iam } from "./collectors/aws";
 
 const cliArgs = Cli.parse({
     debug: ["d", "if you enable Debug then it will generate intermediate reports", "boolean", false],
