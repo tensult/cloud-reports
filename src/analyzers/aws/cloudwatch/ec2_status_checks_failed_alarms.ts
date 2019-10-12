@@ -25,7 +25,7 @@ export class EC2InstanceSystemChecksAlarmsAnalyzer extends BaseAnalyzer {
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
-            const regionAlarms = allAlarms[region];
+            const regionAlarms = allAlarms[region] || [];
             const alarmsMapByInstance = this.mapAlarmsByInstance(regionAlarms);
             allRegionsAnalysis[region] = [];
             for (const instance of regionInstances) {

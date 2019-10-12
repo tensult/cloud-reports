@@ -1,7 +1,7 @@
 import * as AWS from "aws-sdk";
+import * as Moment from "moment";
 import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
-import * as Moment from "moment";
 import { BaseCollector } from "../../base";
 
 export class EC2InstancesCollector extends BaseCollector {
@@ -27,7 +27,7 @@ export class EC2InstancesCollector extends BaseCollector {
                     if (instancesResponse && instancesResponse.Reservations) {
                         instances[region] = instances[region].concat(
                             instancesResponse.Reservations.reduce((instancesFromReservations:
-                                AWS.EC2.Instance[], reservation) => {
+                                AWS.EC2.Instance[],                reservation) => {
                                 if (!reservation.Instances) {
                                     return instancesFromReservations;
                                 } else {
@@ -41,10 +41,11 @@ export class EC2InstancesCollector extends BaseCollector {
                         fetchPending = false;
                     }
                 }
-                for (let instance of instances[region]) {
-                    if (instance.hasOwnProperty('BlockDeviceMappings')) {
-                        for (let blockDeviceMap of instance.BlockDeviceMappings) {
-                            blockDeviceMap.Ebs.Snapshots = await this.getSnapshotsByVolume(ec2, blockDeviceMap.Ebs.VolumeId);
+                for (const instance of instances[region]) {
+                    if (instance.hasOwnProperty("BlockDeviceMappings")) {
+                        for (const blockDeviceMap of instance.BlockDeviceMappings) {
+                            blockDeviceMap.Ebs.Snapshots =
+                                await this.getSnapshotsByVolume(ec2, blockDeviceMap.Ebs.VolumeId);
                         }
                     }
                 }
@@ -64,21 +65,20 @@ export class EC2InstancesCollector extends BaseCollector {
         let fetchPending = true;
         let marker: string | undefined;
         const dataStringsToSearch = CommonUtil.removeDuplicates([this.getDateStringForSearch(30),
-            this.getDateStringForSearch(0)]);
+        this.getDateStringForSearch(0)]);
         while (fetchPending) {
             const params: AWS.EC2.DescribeSnapshotsRequest = {
                 Filters: [
-                    {Name: 'volume-id', Values: [volumeId]},
-                    { Name: "start-time", Values: dataStringsToSearch }, 
-                    { Name: "status", Values: ["completed"] }
+                    { Name: "volume-id", Values: [volumeId] },
+                    { Name: "start-time", Values: dataStringsToSearch },
+                    { Name: "status", Values: ["completed"] },
                 ],
-                NextToken: marker
+                NextToken: marker,
             };
             const response: AWS.EC2.DescribeSnapshotsResult = await ec2Obj.describeSnapshots(params).promise();
-            console.log('ec2 snapshot details',response);
             marker = response.NextToken;
             fetchPending = marker !== undefined && marker !== null;
-            snapshots = snapshots.concat(response.Snapshots);   
+            snapshots = snapshots.concat(response.Snapshots);
         }
         return snapshots;
     }
