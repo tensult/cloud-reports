@@ -65,7 +65,7 @@ async function makeFileContents(analyzedData) {
             opn("http://localhost:3000");
         }
         case "pdf": {
-            return Reporters.generatePDF(analyzedData, { showIssuesOnly: cliArgs.issuesOnly });
+            return Reporters.generatePDF(analyzedData, { showIssuesOnly: cliArgs.issuesOnly, debug: cliArgs.debug });
         }
         default: throw new Error("Unsupported report format");
     }

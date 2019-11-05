@@ -1,17 +1,10 @@
-import pdf = require("html-pdf");
+import fs = require("fs");
+import puppeteer = require("puppeteer");
 import htmlGenerator = require("./html");
 
-const pdfOptions = {
-    base: `file://${__dirname}/../html`,
-    border: {
-        bottom: "0.2in",
-        left: "0.2in",
-        right: "0.2in",
-        top: "0.2in", // default is 0, units: mm, cm, in, px
-    },
-    footer: {
-        contents: {
-            default: `
+const pdfOptions: puppeteer.PDFOptions = {
+    displayHeaderFooter: true,
+    footerTemplate: `
         <div class="footer">
           <hr>
           <span class="copyright" style="float: left;">
@@ -21,32 +14,32 @@ const pdfOptions = {
             {{page}} of {{pages}}
           </span>
         </div>`,
-        },
-        height: "15mm",
-    },
     format: "A4",
-    header: {
-        height: "15mm",
+    margin: {
+        bottom: "0.2in",
+        left: "0.2in",
+        right: "0.2in",
+        top: "0.2in", // default is 0, units: mm, cm, in, px
     },
 };
 
-function createPDF(html) {
-    return new Promise((resolve, reject) => {
-        pdf.create(html, pdfOptions).toBuffer(function(err, buffer) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(buffer);
-            }
-        });
-    });
-
+async function createPDF(html) {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.setContent(html);
+    return await page.pdf(pdfOptions);
 }
 
-export function generatePDF(reportData: any, options?: {
-    showIssuesOnly: boolean,
+export async function generatePDF(reportData: any, options?: {
+    showIssuesOnly?: boolean,
+    debug?: boolean,
 }) {
-    return htmlGenerator.generateHTML(reportData, options).then((html) => {
-        return createPDF(html);
-    });
+    options = options || {};
+    const html = await htmlGenerator.generateHTML(reportData, options);
+    if (options.debug) {
+        console.log("./scan_report.html is generated");
+        fs.writeFileSync("scan_report.html", html);
+    }
+    const pdf = await createPDF(html);
+    return pdf;
 }

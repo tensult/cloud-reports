@@ -1,7 +1,7 @@
 import * as cpy from "cpy";
 import * as ejs from "ejs";
 
-function processReportData(reportData: any, includeOnlyIssues: boolean) {
+function processReportData(reportData: any, includeOnlyIssues?: boolean) {
     for (const serviceName in reportData) {
         for (const checkName in reportData[serviceName]) {
             for (const regionName in reportData[serviceName][checkName].regions) {
@@ -38,7 +38,8 @@ function copyEJSFiles() {
 }
 
 export async function generateHTML(reportData: any, options?: {
-    showIssuesOnly: boolean,
+    showIssuesOnly?: boolean,
+    debug?: boolean,
 }) {
     options = options || { showIssuesOnly: false };
     // await copyEJSFiles();
