@@ -1,8 +1,7 @@
 import fs = require("fs");
-import puppeteer = require("puppeteer");
 import htmlGenerator = require("./html");
 
-const pdfOptions: puppeteer.PDFOptions = {
+const pdfOptions: any = {
     displayHeaderFooter: true,
     footerTemplate: `
         <div class="footer">
@@ -23,23 +22,59 @@ const pdfOptions: puppeteer.PDFOptions = {
     },
 };
 
+const getPuppeteer = async () => {
+    try {
+        const puppeteer = require('puppeteer');
+        return await puppeteer.launch();
+    } catch (error) {
+        if (error.code === 'MODULE_NOT_FOUND') {
+            console.log('Error(This package is used for local development) ', JSON.stringify(error, null, 2));
+            try {
+                const chromium = require('chrome-aws-lambda')
+                return await chromium.puppeteer.launch({
+                    args: chromium.args,
+                    defaultViewport: chromium.defaultViewport,
+                    executablePath: await chromium.executablePath,
+                    headless: chromium.headless
+                });
+            } catch (_error) {
+                throw error;
+            }
+        }
+    }
+}
+
 async function createPDF(html) {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.setContent(html);
-    return await page.pdf(pdfOptions);
+    let browser: any = null;
+    try {
+        browser = await getPuppeteer();
+        const page = await browser.newPage();
+        await page.setContent(html);
+        return await page.pdf(pdfOptions);
+    } catch (error) {
+        throw error;
+    } finally {
+        if (browser) {
+            await browser.close();
+        }
+    }
 }
 
 export async function generatePDF(reportData: any, options?: {
     showIssuesOnly?: boolean,
     debug?: boolean,
 }) {
-    options = options || {};
-    const html = await htmlGenerator.generateHTML(reportData, options);
-    if (options.debug) {
-        console.log("./scan_report.html is generated");
-        fs.writeFileSync("scan_report.html", html);
+    try {
+        options = options || {};
+        const html = await htmlGenerator.generateHTML(reportData, options);
+        if (options.debug) {
+            console.log("./scan_report.html is generated");
+            fs.writeFileSync("scan_report.html", html);
+        }
+        const pdf = await createPDF(html);
+        return pdf;
+    } catch (error) {
+        throw error;
     }
-    const pdf = await createPDF(html);
-    return pdf;
+
 }
