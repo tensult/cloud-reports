@@ -1,5 +1,4 @@
 import fs = require("fs");
-// import puppeteer = require("puppeteer");
 import htmlGenerator = require("./html");
 
 const pdfOptions: any = {
@@ -46,22 +45,36 @@ const getPuppeteer = async () => {
 }
 
 async function createPDF(html) {
-    const browser = await getPuppeteer();
-    const page = await browser.newPage();
-    await page.setContent(html);
-    return await page.pdf(pdfOptions);
+    let browser: any = null;
+    try {
+        browser = await getPuppeteer();
+        const page = await browser.newPage();
+        await page.setContent(html);
+        return await page.pdf(pdfOptions);
+    } catch (error) {
+        throw error;
+    } finally {
+        if (browser) {
+            await browser.close();
+        }
+    }
 }
 
 export async function generatePDF(reportData: any, options?: {
     showIssuesOnly?: boolean,
     debug?: boolean,
 }) {
-    options = options || {};
-    const html = await htmlGenerator.generateHTML(reportData, options);
-    if (options.debug) {
-        console.log("./scan_report.html is generated");
-        fs.writeFileSync("scan_report.html", html);
+    try {
+        options = options || {};
+        const html = await htmlGenerator.generateHTML(reportData, options);
+        if (options.debug) {
+            console.log("./scan_report.html is generated");
+            fs.writeFileSync("scan_report.html", html);
+        }
+        const pdf = await createPDF(html);
+        return pdf;
+    } catch (error) {
+        throw error;
     }
-    const pdf = await createPDF(html);
-    return pdf;
+
 }
