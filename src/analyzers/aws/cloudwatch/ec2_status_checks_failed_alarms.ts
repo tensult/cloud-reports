@@ -77,7 +77,8 @@ export class EC2InstanceSystemChecksAlarmsAnalyzer extends BaseAnalyzer {
             return alarm.ActionsEnabled &&
                 alarm.AlarmActions &&
                 alarm.AlarmActions.length &&
-                alarm.MetricName === "StatusCheckFailed_System";
+                (alarm.MetricName === "StatusCheckFailed_System" ||
+                    alarm.MetricName === "StatusCheckFailed");
         });
     }
 }
