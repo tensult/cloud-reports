@@ -52,6 +52,9 @@ export class Alb5xxAlarmsAnalyzer extends BaseAnalyzer {
     }
 
     private mapAlarmsByELB(alarms: any[]): IDictionary<any[]> {
+        if (!alarms) {
+            return {};
+        }
         return alarms.reduce((alarmsMap, alarm) => {
             if (alarm.Namespace === "AWS/ApplicationELB" && alarm.Dimensions) {
                 const elbDimension = alarm.Dimensions.find((dimension) => {

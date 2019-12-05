@@ -27,11 +27,9 @@ export class AlbUnHealthyHostAlarmsAnalyzer extends BaseAnalyzer {
             const regionELBs = allELBs[region];
             const regionAlarms = allAlarms[region];
             const alarmsMapByELB = this.mapAlarmsByELB(regionAlarms);
-            console.log(alarmsMapByELB);
             allRegionsAnalysis[region] = [];
             for (const elb of regionELBs) {
                 const alarmAnalysis: IResourceAnalysisResult = {};
-                console.log(elb.LoadBalancerArn);
                 const elbAlarms = alarmsMapByELB[this.getLoadBalancerDimensionId(elb.LoadBalancerArn)];
                 alarmAnalysis.resource = { elb, alarms: elbAlarms };
                 alarmAnalysis.resourceSummary = {
@@ -55,6 +53,9 @@ export class AlbUnHealthyHostAlarmsAnalyzer extends BaseAnalyzer {
     }
 
     private mapAlarmsByELB(alarms: any[]): IDictionary<any[]> {
+        if (!alarms) {
+            return {};
+        }
         return alarms.reduce((alarmsMap, alarm) => {
             if (alarm.Namespace === "AWS/ApplicationELB" && alarm.Dimensions) {
                 const elbDimension = alarm.Dimensions.find((dimension) => {

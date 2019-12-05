@@ -13,11 +13,11 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
     public checks_name : string = "DBInstance";
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
-        if (!fullReport["aws.ec2"] || !fullReport["aws.ec2"].security_groups || !allInstances) {
+        if (!fullReport["aws.rds"] || !fullReport["aws.rds"].security_groups || !allInstances) {
             return undefined;
         }
 
-        const allVpcSecurityGroups = fullReport["aws.ec2"].security_groups;
+        const allVpcSecurityGroups = fullReport["aws.rds"].security_groups;
 
         const default_security_groups_used: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         default_security_groups_used.what = this.checks_what;

@@ -6,12 +6,7 @@ import { CloudFrontUtil } from "../../../utils/aws/cloudfront";
 import { BaseAnalyzer } from "../../base";
 
 export class CloudFront5xxAlarmsAnalyzer extends BaseAnalyzer {
-    public checks_what : string = "Are alarms are enabled for Distribution 5XX errors?";
-    public checks_why : string =  `It is important to set alarms for 5XX Errors as otherwise
-    you won't be aware when the application is failing`;
-    public checks_recommendation: string = `Recommended to set alarm
-    for 5XX Errors to take appropriative action.`;
-    public checks_name: string = "CloudFrontDistribution";
+
     public analyze(params: any, fullReport?: any): any {
         const allDistributions: any[] = params.distributions;
         if (!allDistributions || !fullReport["aws.cloudwatch"] || !fullReport["aws.cloudwatch"].alarms) {
@@ -20,9 +15,11 @@ export class CloudFront5xxAlarmsAnalyzer extends BaseAnalyzer {
         const allAlarms: any[] = fullReport["aws.cloudwatch"].alarms;
 
         const distribution_5xx_errors_alarms: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        distribution_5xx_errors_alarms.what = this.checks_what;
-        distribution_5xx_errors_alarms.why = this.checks_why;
-        distribution_5xx_errors_alarms.recommendation = this.checks_recommendation;
+        distribution_5xx_errors_alarms.what = "Are alarms are enabled for Distribution 5XX errors?";
+        distribution_5xx_errors_alarms.why = `It is important to set alarms for 5XX Errors as otherwise
+         you won't be aware when the application is failing.`;
+        distribution_5xx_errors_alarms.recommendation = `Recommended to set alarm
+        for 5XX Errors to take appropriative action.`;
         const allDistributionsAnalysis: IResourceAnalysisResult[] = [];
         for (const distribution of allDistributions) {
             const alarms = allAlarms["us-east-1"];
@@ -32,17 +29,17 @@ export class CloudFront5xxAlarmsAnalyzer extends BaseAnalyzer {
             alarmAnalysis.resource = { distribution, alarms: distributionAlarms };
             const distributionAlias = CloudFrontUtil.getAliasName(distribution);
             alarmAnalysis.resourceSummary = {
-                name: this.checks_name,
+                name: "CloudFrontDistribution",
                 value: distributionAlias ? `${distributionAlias} | ${distribution.Id}` : distribution.Id,
             };
 
             if (this.is5xxAlarmsPresent(distributionAlarms)) {
                 alarmAnalysis.severity = SeverityStatus.Good;
-                alarmAnalysis.message = "5XX errors alarms are enabled";
+                alarmAnalysis.message = "5XX errors alarms are enabled.";
             } else {
                 alarmAnalysis.severity = SeverityStatus.Failure;
-                alarmAnalysis.message = "5XX errors alarms are not enabled";
-                alarmAnalysis.action = "Set 5XX errors alarms";
+                alarmAnalysis.message = "5XX errors alarms are not enabled.";
+                alarmAnalysis.action = "Set 5XX errors alarms.";
             }
             allDistributionsAnalysis.push(alarmAnalysis);
         }
