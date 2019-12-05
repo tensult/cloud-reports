@@ -5,7 +5,11 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class ESInstancesReservationAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are Elasticsearch Instances reserved?";
+    public  checks_why : string =  `You can reserve the Elasticsearch Service domain
+    which are you going to run for long time to save the cost.`;
+    public checks_recommendation : string = "Recommended to reserve all long running instances";
+    public checks_name : string = "DomainInstanceType";
     public analyze(params: any, fullReport?: any): any {
         const allDomains = params.domains;
         const allReservedInstances = params.reserved_instances;
@@ -13,10 +17,9 @@ export class ESInstancesReservationAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const instances_reserved: ICheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
-        instances_reserved.what = "Are Elasticsearch Instances reserved?";
-        instances_reserved.why = `You can reserve the Elasticsearch Service domain
-        which are you going to run for long time to save the cost.`;
-        instances_reserved.recommendation = "Recommended to reserve all long running instances";
+        instances_reserved.what = this.checks_what;
+        instances_reserved.why =this.checks_why;
+        instances_reserved.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allDomains) {
             const regionDomains = allDomains[region];
@@ -34,7 +37,7 @@ export class ESInstancesReservationAnalyzer extends BaseAnalyzer {
                 const domainInstancesAnalysis: IResourceAnalysisResult = {};
                 domainInstancesAnalysis.resource = domain;
                 domainInstancesAnalysis.resourceSummary = {
-                    name: "DomainInstanceType",
+                    name: this.checks_name,
                     value: `${domain.DomainName} | ${instanceType}`,
                 };
 

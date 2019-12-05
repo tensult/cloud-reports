@@ -36,6 +36,7 @@
       </mat-select>
     </mat-form-field>
   </div>
+  
   <div style="margin-right: 10px">
     <mat-form-field>
       <mat-select placeholder="Severity" [(value)]="selectedSeverity" multiple (selectionChange)=reload()>
@@ -87,11 +88,11 @@
   <span>No data for the selected filters. Try removing few filters.</span>
 </div>
 <div *ngIf="tableData && tableData.length>0">
-  <mat-form-field>
+  <!-- <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-  </mat-form-field>
+  </mat-form-field> -->
   <div class="check-detail-container mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table [dataSource]="dataSource" matSort cellspacing ="10">
 
       <ng-container matColumnDef="service">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Service </th>
@@ -103,6 +104,12 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Category </th>
         <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
           {{element.checkCategory}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Details </th>
+        <td mat-cell *matCellDef="let element" [ngClass]="element.severity=='Good' ?  'good': (element.severity=='Warning' || element.severity=='Info' ? 'warning' : 'failure')">
+          <button mat-button (click)="onClick(element)">Details</button></td>
       </ng-container>
 
       <ng-container matColumnDef="region">

@@ -6,7 +6,11 @@ import { CommonUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class RDSInstancesReservationAnalyzer extends BaseAnalyzer {
-
+    public  checks_what: string = "Are there any long running instances which should be reserved?";
+    public  checks_why : string =  `You can reserve the RDS instance which
+    are you going to run for long time to save the cost.`;
+    public checks_recommendation: string = "Recommended to reserve all long running instances";
+    public checks_name : string = "DBInstance";
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         const allReservedInstances = params.reserved_instances;
@@ -14,10 +18,9 @@ export class RDSInstancesReservationAnalyzer extends BaseAnalyzer {
             return undefined;
         }
         const instances_reserved: ICheckAnalysisResult = { type: CheckAnalysisType.CostOptimization };
-        instances_reserved.what = "Are there any long running instances which should be reserved?";
-        instances_reserved.why = `You can reserve the RDS instance which
-         are you going to run for long time to save the cost.`;
-        instances_reserved.recommendation = "Recommended to reserve all long running instances";
+        instances_reserved.what = this.checks_what;
+        instances_reserved.why =this.checks_why;
+        instances_reserved.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -28,7 +31,7 @@ export class RDSInstancesReservationAnalyzer extends BaseAnalyzer {
                 const instanceAnalysis: IResourceAnalysisResult = {};
                 instanceAnalysis.resource = instance;
                 instanceAnalysis.resourceSummary = {
-                    name: "DBInstance",
+                    name: this.checks_name,
                     value: instance.DBInstanceIdentifier,
                 };
 

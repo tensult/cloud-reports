@@ -300,10 +300,27 @@ export class CloudReportService {
             }
         }
 
+        if (ArrayUtil.isNotBlank(severities)) {
+            for (const serviceIndex in filterredData) {
+                for (const checkCategoryIndex in filterredData[serviceIndex]) {
+                    for (const region in filterredData[serviceIndex][checkCategoryIndex].regions) {
+                        filterredData[serviceIndex][checkCategoryIndex].regions[region] =
+                            filterredData[serviceIndex][checkCategoryIndex].regions[region]
+                                .filter((resource) => {
+                                    return severities.includes(resource.severity);
+                                });
+                    }
+                }
+            }
+        }
+
+
+
         if (ArrayUtil.isNotBlank(region)) {
             for (const serviceIndex in filterredData) {
                 for (const checkCategoryIndex in filterredData[serviceIndex]) {
-                    if (filterredData[serviceIndex][checkCategoryIndex].regions[region]) {
+                    if (filterredData[serviceIndex][checkCategoryIndex].regions[region] &&
+                        filterredData[serviceIndex][checkCategoryIndex].regions[region].length) {
                         filterredData[serviceIndex][checkCategoryIndex].regions = {
                             [region]: filterredData[serviceIndex][checkCategoryIndex].regions[region]
                         };

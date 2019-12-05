@@ -5,20 +5,23 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class LambdaFunctionAliasesUsageAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are you using aliasing for Lambda functions?";
+    public  checks_why : string =  `We need to use aliasing for Lambda functions;
+    when every we make major updates to the function,
+    it is important that we use alias with traffic shaping between
+    multiple aliases so that we can perform A/B testing and smoothly migrate applications.`;
+    public checks_recommendation : string = `Recommended to use aliasing while
+    deploying major changes to the Lambda functions`;
+    public checks_name : string = "Function";
     public analyze(params: any, fullReport?: any): any {
         const allFunctionAliases = params.function_aliases;
         if (!allFunctionAliases) {
             return undefined;
         }
         const function_aliases_used: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
-        function_aliases_used.what = "Are you using aliasing for Lambda functions?";
-        function_aliases_used.why = `We need to use aliasing for Lambda functions;
-        when every we make major updates to the function,
-        it is important that we use alias with traffic shaping between
-        multiple aliases so that we can perform A/B testing and smoothly migrate applications.`;
-        function_aliases_used.recommendation = `Recommended to use aliasing while
-        deploying major changes to the Lambda functions`;
+        function_aliases_used.what = this.checks_what;
+        function_aliases_used.why =this.checks_why;
+        function_aliases_used.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allFunctionAliases) {
             const regionFunctionAliases = allFunctionAliases[region];
@@ -28,7 +31,7 @@ export class LambdaFunctionAliasesUsageAnalyzer extends BaseAnalyzer {
                 const functionAliases = this.getNonDefaultAlias(regionFunctionAliases[functionName]);
                 functionAnalysis.resource = { functionName, aliases: functionAliases };
                 functionAnalysis.resourceSummary = {
-                    name: "Function",
+                    name: this.checks_name,
                     value: functionName,
                 };
                 if (functionAliases.length) {

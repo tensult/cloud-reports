@@ -3,17 +3,20 @@ import { BaseAnalyzer } from "../../base";
 
 const millsIn30Days = 30 * 24 * 60 * 60 * 1000;
 export class DomainsExpiryAnalyzer extends BaseAnalyzer {
-
+    public checks_what : string ="Are there any domain expiring soon?";
+    public checks_why : string = "When domains get expired, someone may claim them so it is import to keep an eye on them";
+    public checks_recommendation : string = `It is recommended to enable AutoRenewable to automatically renew the domain or
+    we can periodically check the expiry and renew it manually`;
+    public checks_name : string = "Domain";
     public analyze(params: any): any {
         const allDomains = params.domains;
         if (!allDomains || allDomains.length === 0) {
             return undefined;
         }
         const domains_expiry: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        domains_expiry.what = "Are there any domain expiring soon?";
-        domains_expiry.why = "When domains get expired, someone may claim them so it is import to keep an eye on them";
-        domains_expiry.recommendation = `It is recommended to enable AutoRenewable to automatically renew the domain or
-        we can periodically check the expiry and renew it manually`;
+        domains_expiry.what = this.checks_what;
+        domains_expiry.why = this.checks_why;
+        domains_expiry.recommendation = this.checks_recommendation;
         const allDomainAnalysis: IResourceAnalysisResult[] = [];
 
         for (const domain of allDomains) {
@@ -26,7 +29,7 @@ export class DomainsExpiryAnalyzer extends BaseAnalyzer {
             }
             domain_analysis.resource = domain;
             domain_analysis.resourceSummary = {
-                name: "Domain",
+                name: this.checks_name,
                 value: domain.DomainName,
             };
             allDomainAnalysis.push(domain_analysis);

@@ -2,7 +2,9 @@ import { CheckAnalysisType, ICheckAnalysisResult, IResourceAnalysisResult, Sever
 import { BaseAnalyzer } from "../../base";
 
 export class CloudTrailsBucketAccessLogsAnalyzer extends BaseAnalyzer {
-
+    public  checks_what:string = "Are access logs enabled for buckets containing Cloud Trails?";
+    public  checks_recommendation : string ="Recommended to enable access logs for buckets containing Cloud Trails";
+    public  checks_name : string ="Bucket";
     public analyze(params: any, fullReport: any): any {
         const allBucketAccessLogs = params.bucket_access_logs;
         if (!allBucketAccessLogs || !fullReport["aws.trails"] || !fullReport["aws.trails"].cloud_trails) {
@@ -11,14 +13,14 @@ export class CloudTrailsBucketAccessLogsAnalyzer extends BaseAnalyzer {
         const allCloudTrails = fullReport["aws.trails"].cloud_trails;
 
         const bucket_access_logs: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        bucket_access_logs.what = "Are access logs enabled for buckets containing Cloud Trails?";
-        bucket_access_logs.recommendation = "Recommended to enable access logs for buckets containing Cloud Trails";
+        bucket_access_logs.what = this.checks_what;
+        bucket_access_logs.recommendation = this.checks_recommendation;
         const allBucketsAnalysis: IResourceAnalysisResult[] = [];
         const cloudTrailBuckets = this.getCloudTrailBuckets(allCloudTrails);
         for (const bucketName of cloudTrailBuckets) {
             const bucketAccessLogs = allBucketAccessLogs[bucketName];
             const bucketAnalysis: IResourceAnalysisResult = {};
-            bucketAnalysis.resourceSummary = { name: "Bucket", value: bucketName };
+            bucketAnalysis.resourceSummary = { name: this.checks_name, value: bucketName };
             if (bucketAccessLogs && bucketAccessLogs.LoggingEnabled) {
                 bucketAnalysis.resource = { bucketName, bucketAccessLogs };
                 bucketAnalysis.severity = SeverityStatus.Good;

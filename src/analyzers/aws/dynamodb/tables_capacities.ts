@@ -5,17 +5,20 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class DynamoDBTablesCapacitiesAnalyzer extends BaseAnalyzer {
-
+    public checks_what : string = "Are you reviewing DynamoDB table capacities regularly?";
+    public checks_why : string = `DynamoDB table capacities effect both
+    performance and cost so we need to review them regularly`;
+    public checks_recommendation: string = "Recommended to review DynamoDB table capacities at least once in a month";
+    public checks_name : string = "Table";
     public analyze(params: any, fullReport?: any): any {
         const allTablesDetails = params.tables_details;
         if (!allTablesDetails) {
             return undefined;
         }
         const tables_capacities: ICheckAnalysisResult = { type: CheckAnalysisType.PerformanceEfficiency };
-        tables_capacities.what = "Are you reviewing DynamoDB table capacities regularly?";
-        tables_capacities.why = `DynamoDB table capacities effect both
-        performance and cost so we need to review them regularly`;
-        tables_capacities.recommendation = "Recommended to review DynamoDB table capacities at least once in a month";
+        tables_capacities.what = this.checks_what;
+        tables_capacities.why = this.checks_why;
+        tables_capacities.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allTablesDetails) {
             const regionTablesDetails = allTablesDetails[region];
@@ -27,7 +30,7 @@ export class DynamoDBTablesCapacitiesAnalyzer extends BaseAnalyzer {
                     tableName: table.TableName,
                 };
                 tableStatusAnalysis.resourceSummary = {
-                    name: "Table",
+                    name: this.checks_name,
                     value: table.TableName,
                 };
 

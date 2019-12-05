@@ -5,7 +5,12 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there any default security groups used for RDS instances?";
+    public  checks_why : string = `Default security groups are open to world by
+    default and requires extra setup make them secure`;
+    public checks_recommendation: string = `Recommended not to use default security
+        groups instead create a custom one as they make you better understand the security posture`;
+    public checks_name : string = "DBInstance";
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         if (!fullReport["aws.rds"] || !fullReport["aws.rds"].security_groups || !allInstances) {
@@ -15,11 +20,9 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
         const allVpcSecurityGroups = fullReport["aws.rds"].security_groups;
 
         const default_security_groups_used: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        default_security_groups_used.what = "Are there any default security groups used for RDS instances?";
-        default_security_groups_used.why = `Default security groups are open to world by
-        default and requires extra setup make them secure`;
-        default_security_groups_used.recommendation = `Recommended not to use default security
-        groups instead create a custom one as they make you better understand the security posture`;
+        default_security_groups_used.what = this.checks_what;
+        default_security_groups_used.why = this.checks_why;
+        default_security_groups_used.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -33,7 +36,7 @@ export class DefaultSecurityGroupsUsedAnalyzer extends BaseAnalyzer {
                     security_groups: instance.VpcSecurityGroups,
                 };
                 instanceAnalysis.resourceSummary = {
-                    name: "DBInstance",
+                    name: this.checks_name,
                     value: instance.DBInstanceIdentifier,
                 };
                 if (this.isCommonSecurityGroupExist(defaultSecurityGroups, instance.VpcSecurityGroups)) {

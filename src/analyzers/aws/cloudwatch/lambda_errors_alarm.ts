@@ -5,7 +5,11 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class LambdaErrorsAlarmAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string ="Are alarms are enabled for Lambda function Errors?";
+    public  checks_why : string = `It is important to set Errors alarm for all Lambda functions so
+    that when Lambda functions are failing we will be notified.`;
+    public  checks_recommendation: string = "Recommended to set errors alarm for all Lambda functions.";
+    public  checks_name: string = "LambdaFunction";
     public analyze(params: any, fullReport?: any): any {
         const allAlarms: any[] = params.alarms;
         if (!allAlarms || !fullReport["aws.lambda"] || !fullReport["aws.lambda"].functions) {
@@ -13,10 +17,9 @@ export class LambdaErrorsAlarmAnalyzer extends BaseAnalyzer {
         }
         const allLambdaFunctions: any[] = fullReport["aws.lambda"].functions;
         const lambda_errors_alarm: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        lambda_errors_alarm.what = "Are alarms are enabled for Lambda function Errors?";
-        lambda_errors_alarm.why = `It is important to set Errors alarm for all Lambda functions so
-        that when Lambda functions are failing we will be notified.`;
-        lambda_errors_alarm.recommendation = "Recommended to set errors alarm for all Lambda functions.";
+        lambda_errors_alarm.what = this.checks_what;
+        lambda_errors_alarm.why = this.checks_why;
+        lambda_errors_alarm.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allLambdaFunctions) {
             const regionLambdaFunctions = allLambdaFunctions[region];
@@ -28,7 +31,7 @@ export class LambdaErrorsAlarmAnalyzer extends BaseAnalyzer {
                 const lambdaFunctionAlarms = alarmsMapByLambdaFunction[lambdaFunction.FunctionName];
                 alarmAnalysis.resource = { lambdaFunction, alarms: lambdaFunctionAlarms };
                 alarmAnalysis.resourceSummary = {
-                    name: "LambdaFunction",
+                    name: this.checks_name,
                     value: lambdaFunction.FunctionName,
                 };
 

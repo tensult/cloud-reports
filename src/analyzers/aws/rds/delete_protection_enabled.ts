@@ -6,18 +6,21 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class RdsDeleteProtectionEnabledAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Is delete protection enabled for RDS instances?";
+    public  checks_why : string = `Enabling delete protection for all production
+    RDS instances, protects them from accidental deletion.`;
+    public checks_recommendation: string = `Recommended to enable delete
+         protection for all production RDS instances.`;
+    public checks_name : string = "DBInstance";
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         if (!allInstances) {
             return undefined;
         }
         const delete_protection_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
-        delete_protection_enabled.what = "Is delete protection enabled for RDS instances?";
-        delete_protection_enabled.why = `Enabling delete protection for all production
-        RDS instances, protects them from accidental deletion.`;
-        delete_protection_enabled.recommendation = `Recommended to enable delete
-         protection for all production RDS instances.`;
+        delete_protection_enabled.what = this.checks_what;
+        delete_protection_enabled.why = this.checks_why;
+        delete_protection_enabled.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -26,7 +29,7 @@ export class RdsDeleteProtectionEnabledAnalyzer extends BaseAnalyzer {
                 const instance_analysis: IResourceAnalysisResult = {};
                 instance_analysis.resource = instance;
                 instance_analysis.resourceSummary = {
-                    name: "DBInstance",
+                    name: this.checks_name,
                     value: instance.DBInstanceIdentifier,
                 };
                 if (instance.DeletionProtection) {

@@ -6,17 +6,20 @@ import {
 import { BaseAnalyzer } from "../../base";
 
 export class RdsPubliclyAccessibleAnalyzer extends BaseAnalyzer {
-
+    public  checks_what : string = "Are there any publicly accessible RDS instances?";
+    public  checks_why : string = `It is important to restrict
+    RDS instances for private access only for most of the usecases`;
+    public checks_recommendation: string = "Recommended to disable public access for RDS instances" ;
+    public checks_name : string = "DBInstance";
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         if (!allInstances) {
             return undefined;
         }
         const publicly_accessible: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        publicly_accessible.what = "Are there any publicly accessible RDS instances?";
-        publicly_accessible.why = `It is important to restrict
-        RDS instances for private access only for most of the usecases`;
-        publicly_accessible.recommendation = "Recommended to disable public access for RDS instances";
+        publicly_accessible.what = this.checks_what;
+        publicly_accessible.why = this.checks_why;
+        publicly_accessible.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allInstances) {
             const regionInstances = allInstances[region];
@@ -25,7 +28,7 @@ export class RdsPubliclyAccessibleAnalyzer extends BaseAnalyzer {
                 const instance_analysis: IResourceAnalysisResult = {};
                 instance_analysis.resource = instance;
                 instance_analysis.resourceSummary = {
-                    name: "DBInstance",
+                    name: this.checks_name,
                     value: instance.DBInstanceIdentifier,
                 };
                 if (instance.PubliclyAccessible) {

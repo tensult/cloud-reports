@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CloudReportService } from '../report.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
+import { element } from '@angular/core/src/render3/instructions';
 
 @Component({
     selector: 'app-cloud-report-check-detail',
@@ -11,7 +12,7 @@ import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 })
 export class CloudReportCheckDetailComponent implements OnInit {
 
-    displayedColumns = ['service', 'checkCategory', 'pillar', 'region', 'resourceName', 'resourceValue', 'message', 'severity', 'action'];
+    displayedColumns = ['service', 'checkCategory', 'pillar', 'region', 'resourceName', 'resourceValue','severity', 'message', 'action','details'];
     dataSource;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -28,8 +29,9 @@ export class CloudReportCheckDetailComponent implements OnInit {
     tableData: any[];
     scanReportData: Object;
     removable = true;
-
+    element : string;
     filterSelections: Object[];
+    public name = "akash";
 
     constructor(
         private cloudReportService: CloudReportService,
@@ -108,10 +110,35 @@ export class CloudReportCheckDetailComponent implements OnInit {
                 checkCategory: this.selectedServiceCheckCategory,
                 region: this.selectedRegion,
                 service: this.selectedService,
-                severity: this.selectedSeverity,
                 pillar: this.selectedPillar,
+                severity: this.selectedSeverity
             }
         });
+    }
+
+    onClick(element){
+        this.router.navigate(['/report/checkDetail/details']);
+       // sessionStorage.setItem('seve',element.severity);
+
+        sessionStorage.setItem('services',element.service);
+        sessionStorage.setItem('checkCategorys',element.checkCategory);
+        sessionStorage.setItem('pillars',element.pillar);
+        sessionStorage.setItem('regions',element.region);
+        sessionStorage.setItem('names',element.resourceSummary.name);
+        sessionStorage.setItem('values',element.resourceSummary.value);
+        sessionStorage.setItem('severitys',element.severity);
+        sessionStorage.setItem('messages',element.message);
+        sessionStorage.setItem('recommendations',element.recommendation);
+        
+    //     console.log(element.service);
+    //  console.log(element.checkCategory);
+    //     console.log(element.pillar);
+    //      console.log(element.region);
+    //      console.log(element.resourceSummary.name);
+    //      console.log(element.resourceSummary.value);
+    //      console.log(element.severity);
+    //      console.log(element.message);
+    //      console.log(element.recommendation);
     }
 
     goToServiceDashboard() {
@@ -142,3 +169,7 @@ export class CloudReportCheckDetailComponent implements OnInit {
         return tableData;
     }
 }
+
+
+
+

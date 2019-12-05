@@ -6,17 +6,19 @@ import { BaseAnalyzer } from "../../base";
 
 const millsInOneDay = 24 * 60 * 60 * 1000;
 export class CertificatesExpiryAnalyzer extends BaseAnalyzer {
-
+    public checks_what = "Are certificates expiring soon?";
+    public checks_why = "Expired certificates can make services inaccessible for your customers.";
+    public checks_recommendation = "Recommended to enable AutoRenew option or renew manually before certificates expiry";
+    public checks_name = "Certificate";
     public analyze(params: any, fullReport?: any): any {
         const allCertificates = params.certificate_details;
         if (!allCertificates) {
             return undefined;
         }
         const certificates_expiry: ICheckAnalysisResult = { type: CheckAnalysisType.Reliability };
-        certificates_expiry.what = "Are certificates expiring soon?";
-        certificates_expiry.why = "Expired certificates can make services inaccessible for your customers.";
-        certificates_expiry.recommendation = `Recommended to enable AutoRenew option or
-        renew manually before certificates expiry`;
+        certificates_expiry.what = this.checks_what;
+        certificates_expiry.why = this.checks_why;
+        certificates_expiry.recommendation = this.checks_recommendation;
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allCertificates) {
             allRegionsAnalysis[region] = [];
@@ -28,7 +30,7 @@ export class CertificatesExpiryAnalyzer extends BaseAnalyzer {
                     DomainName: certificate.DomainName,
                 };
                 certificate_analysis.resourceSummary = {
-                    name: "Certificate",
+                    name: this.checks_name,
                     value: `${certificate.DomainName} | ${this.getCertificateId(certificate.CertificateArn)}`,
                 };
                 const expirationTime = new Date(certificate.NotAfter);
