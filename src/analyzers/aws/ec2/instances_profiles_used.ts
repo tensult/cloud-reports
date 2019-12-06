@@ -29,16 +29,16 @@ export class InstanceProfilesUsageAnalyzer extends BaseAnalyzer {
                 const instanceAnalysis: IResourceAnalysisResult = {};
                 instanceAnalysis.resource = instance;
                 instanceAnalysis.resourceSummary = {
-                    name: this.checks_name,
+                    name: "Instance",
                     value: `${ResourceUtil.getNameByTags(instance)} | ${instance.InstanceId}`,
                 };
                 if (instance.IamInstanceProfile) {
                     instanceAnalysis.severity = SeverityStatus.Good;
-                    instanceAnalysis.message = "IAM Instance profile is assigned";
+                    instanceAnalysis.message = "IAM Instance profile is assigned.";
                 } else {
                     instanceAnalysis.severity = SeverityStatus.Info;
-                    instanceAnalysis.message = "IAM Instance profile is not assigned";
-                    instanceAnalysis.action = "Assign IAM Instance profile to the instance";
+                    instanceAnalysis.message = "IAM Instance profile is not assigned.";
+                    instanceAnalysis.action = "Assign IAM Instance profile to the instance.";
                 }
                 allRegionsAnalysis[region].push(instanceAnalysis);
             }

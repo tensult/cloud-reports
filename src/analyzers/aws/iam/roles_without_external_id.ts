@@ -3,23 +3,17 @@ import { CommonUtil } from "../../../utils";
 import { BaseAnalyzer } from "../../base";
 
 export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
-    public  checks_what : string = "Are there cross account roles without ExternalId?";
-    public  checks_why : string = `It is important to associate
-    ExternalId for cross account role access`;
-    public checks_recommendation : string = `Recommended to use ExternalId for
-    roles which give access to third party accounts`;
-    public checks_name : string = "Roles";
+
     public analyze(params: any, fullReport?: any): any {
-        if(!params.roles) {
-            return;
-        }
         const allRolesPolicies = this.getAssumeRolePolicyDocument(params.roles);
         const mainAccountID = this.getAccountIDs(params.roles[0].Arn)[0];
         const permittedAccounts = this.getPermittedAccounts(allRolesPolicies);
         const cross_accounts_without_external_id: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        cross_accounts_without_external_id.what = this.checks_what;
-        cross_accounts_without_external_id.why = this.checks_why;
-        cross_accounts_without_external_id.recommendation = this.checks_recommendation;
+        cross_accounts_without_external_id.what = "Are there cross account roles without ExternalId?";
+        cross_accounts_without_external_id.why = `It is important to associate
+        ExternalId for cross account role access.`;
+        cross_accounts_without_external_id.recommendation = `Recommended to use ExternalId for
+        roles which give access to third party accounts.`;
         const analysis: IResourceAnalysisResult[] = [];
 
         permittedAccounts.forEach((roleAccountsObject) => {
@@ -30,17 +24,17 @@ export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
                 }
                 const crossAccountAnalysis: IResourceAnalysisResult = {
                     resourceSummary: {
-                        name: this.checks_name,
+                        name: "Roles",
                         value: roleAccountsObject.Role,
                     },
                 };
                 if (account.ExternalID) {
                     crossAccountAnalysis.severity = SeverityStatus.Good;
-                    crossAccountAnalysis.message = `Accounts ${account.accountIDs} has ExternalId`;
+                    crossAccountAnalysis.message = `Accounts ${account.accountIDs} has ExternalId.`;
                 } else {
                     crossAccountAnalysis.severity = SeverityStatus.Failure;
-                    crossAccountAnalysis.action = "Add an ExternalId";
-                    crossAccountAnalysis.message = `Accounts ${account.accountIDs} does not have ExternalId`;
+                    crossAccountAnalysis.action = "Add an ExternalId.";
+                    crossAccountAnalysis.message = `Accounts ${account.accountIDs} does not have ExternalId.`;
                 }
                 analysis.push(crossAccountAnalysis);
 

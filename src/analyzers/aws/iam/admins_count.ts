@@ -3,34 +3,31 @@ import { BaseAnalyzer } from "../../base";
 
 const adminPolicyArn = "arn:aws:iam::aws:policy/AdministratorAccess";
 export class AdminCountAnalyzer extends BaseAnalyzer {
-    public  checks_what : string = "Are there too many admins for the account?";
-    public  checks_why : string = `It is hard to manage security goals
-    when there too many admins as chances of mistakes increases`;
-    public checks_recommendation : string = "Recommended to have 2-3 admins per account";
-    public checks_name : string = "AdminUsers";
+
     public analyze(params: any, fullReport?: any): any {
         const adminGroupNames = this.getAdminGroups(params.group_policies);
         let adminUsers: string[] = [];
         adminUsers = adminUsers.concat(this.getAdminsFromGroups(params.group_users, adminGroupNames));
         adminUsers = adminUsers.concat(this.getAdminsFromUsers(params.user_policies));
         const admin_count: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
-        admin_count.what = this.checks_what;
-        admin_count.why = this.checks_why;
-        admin_count.recommendation = this.checks_recommendation;
+        admin_count.what = "Are there too many admins for the account?";
+        admin_count.why = `It is hard to manage security goals
+        when there too many admins as chances of mistakes increases.`;
+        admin_count.recommendation = "Recommended to have 2-3 admins per account.";
         const analysis: IResourceAnalysisResult = {};
         analysis.resource = { adminUsers };
         analysis.resourceSummary = {
-            name: this.checks_name, value: adminUsers.length ? adminUsers.join(", ") : "None",
+            name: "AdminUsers", value: adminUsers.length ? adminUsers.join(", ") : "None",
         };
-        analysis.title = "Number of admins in the account";
+        analysis.title = "Number of admins in the account.";
         if (adminUsers.length > 3) {
             analysis.severity = SeverityStatus.Warning;
-            analysis.message = "Account has more than 3 admins";
-            analysis.action = "Keep only 3 admins";
+            analysis.message = "Account has more than 3 admins.";
+            analysis.action = "Keep only 3 admins.";
         } else if (adminUsers.length === 0) {
             analysis.severity = SeverityStatus.Failure;
-            analysis.message = "Account has no admins";
-            analysis.action = "You should create at least one admin";
+            analysis.message = "Account has no admins.";
+            analysis.action = "You should create at least one admin.";
         } else {
             analysis.severity = SeverityStatus.Good;
             analysis.message = `Account has ${adminUsers.length} admins`;

@@ -13,8 +13,8 @@ export class ClusterEncryptionAnalyzer extends BaseAnalyzer {
         }
         const clusters: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
         clusters.what = "Are Cluster Encryption enabled for RedShift clusters?";
-        clusters.why = "Cluster Encryption is used to secure the clusters since it is always at high risk";
-        clusters.recommendation = "Recommended to enable ClusterEncryption for all RedShift clusters";
+        clusters.why = "Cluster Encryptions are to meet the security compliance requirements.";
+        clusters.recommendation = "Recommended to enable ClusterEncryption for RedShift.";
         const allRegionsAnalysis: IDictionary<IResourceAnalysisResult[]> = {};
         for (const region in allClusterEncryption) {
             const regionClusterEncryption = allClusterEncryption[region];
@@ -28,11 +28,11 @@ export class ClusterEncryptionAnalyzer extends BaseAnalyzer {
                 };
                 if (clusterEncrypt && clusterEncrypt.EncryptionEnabled) {
                     clusters_analysis.severity = SeverityStatus.Good;
-                    clusters_analysis.message = "Cluster encryption is enabled";
+                    clusters_analysis.message = "Cluster encryption is enabled.";
                 } else {
                     clusters_analysis.severity = SeverityStatus.Failure;
-                    clusters_analysis.message = "Cluster encryption is not enabled";
-                    clusters_analysis.action = "Enable Cluster encryption for security";
+                    clusters_analysis.message = "Cluster encryption is not enabled.";
+                    clusters_analysis.action = "Enable Cluster encryption for security.";
                 }
                 allRegionsAnalysis[region].push(clusters_analysis);
             }

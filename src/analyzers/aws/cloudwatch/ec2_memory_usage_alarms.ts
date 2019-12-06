@@ -59,6 +59,9 @@ export class EC2InstanceMemoryUsageAlarmsAnalyzer extends BaseAnalyzer {
     }
 
     private mapAlarmsByInstance(alarms: any[]): IDictionary<any[]> {
+        if (!alarms) {
+            return {};
+        }
         return alarms.reduce((alarmsMap, alarm) => {
             if (alarm.Dimensions) {
                 const instanceDimension = alarm.Dimensions.find((dimension) => {

@@ -13,15 +13,15 @@ export class FieldLevelEncryptionCollector extends BaseCollector {
             const cloudfront = this.getClient("CloudFront", "us-east-1") as AWS.CloudFront;
             let fetchPending = true;
             let marker: string | undefined;
-            let field_level_encrypt: AWS.CloudFront. FieldLevelEncryptionSummary[] = [];
+            let field_level_encrypt: AWS.CloudFront.FieldLevelEncryptionSummary[] = [];
             while (fetchPending) {
                 const cloudfrontFieldLevelEncryptionData:
                     AWS.CloudFront.ListFieldLevelEncryptionConfigsResult =
                     await cloudfront.listFieldLevelEncryptionConfigs({ Marker: marker }).promise();
                 if (cloudfrontFieldLevelEncryptionData.FieldLevelEncryptionList &&
                     cloudfrontFieldLevelEncryptionData.FieldLevelEncryptionList.Items) {
-                    field_level_encrypt = field_level_encrypt.concat(cloudfrontFieldLevelEncryptionData. FieldLevelEncryptionList.Items);
-                    marker = cloudfrontFieldLevelEncryptionData. FieldLevelEncryptionList.NextMarker;
+                    field_level_encrypt = field_level_encrypt.concat(cloudfrontFieldLevelEncryptionData.FieldLevelEncryptionList.Items);
+                    marker = cloudfrontFieldLevelEncryptionData.FieldLevelEncryptionList.NextMarker;
                     fetchPending = marker !== undefined && marker !== null;
                     await CommonUtil.wait(200);
                 } else {

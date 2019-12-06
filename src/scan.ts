@@ -10,11 +10,10 @@ import * as Reporters from "./reporters";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { AWSCredentialsProvider } from "./utils/aws/credentials";
 import { LogUtil } from "./utils/log";
-import { iam } from "./collectors/aws";
 
 const cliArgs = Cli.parse({
     debug: ["d", "if you enable Debug then it will generate intermediate reports", "boolean", false],
-    format: ["f", "output format: html, json, csv or pdf", "string", "json"],
+    format: ["f", "output format: html, json, csv or pdf", "string", "html"],
     issuesOnly: ["i", "should show only issues", "boolean", false],
     logLevel: ["l", "Log level: off=100, info=1, warning=2, error=3", "int", "3"],
     module: ["m", "name of the module", "string"],
@@ -92,8 +91,6 @@ async function scan() {
             writeFileSync(collectorReportFileName, JSON.stringify(collectorResults, null, 2));
             LogUtil.log(`${collectorReportFileName} is generated`);
         }
-        //console.log(collectorResults);
-        //return;
         const analyzedData = AnalyzerMain.analyze(collectorResults);
         const accountNumber = getAccountNumber(analyzedData);
         if (cliArgs.debug) {
@@ -101,8 +98,6 @@ async function scan() {
             writeFileSync(analyzerReportFileName, JSON.stringify(analyzedData, null, 2));
             LogUtil.log(`${analyzerReportFileName} is generated`);
         }
-        //console.log(analyzedData);
-        //return;
         const reportFileData = await makeFileContents(analyzedData);
         if (cliArgs.format !== "html") {
             const reportFileName = makeFileName(accountNumber);

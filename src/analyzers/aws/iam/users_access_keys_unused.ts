@@ -1,14 +1,9 @@
 import { CheckAnalysisType, ICheckAnalysisResult, IResourceAnalysisResult, SeverityStatus } from "../../../types";
 import { BaseAnalyzer } from "../../base";
-import { UserAccountsMfaEnabledAnalyzer } from "./users_mfa_enabled";
 
 const millsIn60Days = 60 * 24 * 60 * 60 * 1000;
 export class UsersAccessKeysUnusedAnalyzer extends BaseAnalyzer {
-    public  checks_what : string = "Are there any user access keys unused?";
-    public  checks_why : string = `It is important to delete unused or
-    unneeded access keys as it reduces risk of misusing them`;
-    public checks_recommendation : string = "Recommended to delete unused user access keys regularly";
-    public checks_name : string = "User";
+
     public analyze(params: any, fullReport?: any): any {
         const credentials: any[] = params.credentials;
         if (!credentials) {
@@ -19,15 +14,16 @@ export class UsersAccessKeysUnusedAnalyzer extends BaseAnalyzer {
                 (credential.access_key_1_active === "true" || credential.access_key_2_active === "true");
         });
         const users_access_keys_unused: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-        users_access_keys_unused.what = this.checks_what;
-        users_access_keys_unused.why = this.checks_why;
-        users_access_keys_unused.recommendation = this.checks_recommendation;
+        users_access_keys_unused.what = "Are there any user access keys unused?";
+        users_access_keys_unused.why = `It is important to delete unused or
+        unneeded access keys as it reduces risk of misusing them.`;
+        users_access_keys_unused.recommendation = "Recommended to delete unused user access keys regularly.";
         const allUsersAccessKeysAnalysis: IResourceAnalysisResult[] = [];
         userCredentials.forEach((credential) => {
             const user_access_keys_unused: IResourceAnalysisResult = {};
             user_access_keys_unused.resource = credential;
             user_access_keys_unused.resourceSummary = {
-                name: this.checks_name,
+                name: "User",
                 value: user_access_keys_unused.resource.user,
             };
             const access_key_1_used = this.isUserAccessKeysActivelyUsed(credential.access_key_1_last_used_date);
@@ -37,11 +33,11 @@ export class UsersAccessKeysUnusedAnalyzer extends BaseAnalyzer {
                 const user_access_key1_unused: IResourceAnalysisResult = Object.assign({}, user_access_keys_unused);
                 if (access_key_1_used) {
                     user_access_key1_unused.severity = SeverityStatus.Good;
-                    user_access_key1_unused.message = "User access key 1 is actively used";
+                    user_access_key1_unused.message = "User access key 1 is actively used.";
                 } else {
                     user_access_key1_unused.severity = SeverityStatus.Failure;
-                    user_access_key1_unused.message = "User access key 1 is unused";
-                    user_access_key1_unused.action = "Delete unused user access key 1";
+                    user_access_key1_unused.message = "User access key 1 is unused.";
+                    user_access_key1_unused.action = "Delete unused user access key 1.";
                 }
                 allUsersAccessKeysAnalysis.push(user_access_key1_unused);
             }
@@ -50,11 +46,11 @@ export class UsersAccessKeysUnusedAnalyzer extends BaseAnalyzer {
                 const user_access_key2_unused: IResourceAnalysisResult = Object.assign({}, user_access_keys_unused);
                 if (access_key_2_used) {
                     user_access_key2_unused.severity = SeverityStatus.Good;
-                    user_access_key2_unused.message = "User access key 2 is actively used";
+                    user_access_key2_unused.message = "User access key 2 is actively used.";
                 } else {
                     user_access_key2_unused.severity = SeverityStatus.Failure;
-                    user_access_key2_unused.message = "User access key 2 is unused";
-                    user_access_key2_unused.action = "Delete unused user access key 2";
+                    user_access_key2_unused.message = "User access key 2 is unused.";
+                    user_access_key2_unused.action = "Delete unused user access key 2.";
                 }
                 allUsersAccessKeysAnalysis.push(user_access_key2_unused);
             }
