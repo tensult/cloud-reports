@@ -9,27 +9,15 @@ export class InstanceProfilesUsageAnalyzer extends BaseAnalyzer {
     public  checks_what : string = "Are there any EC2 instances without IAM Instance Profile?";
     public  checks_why : string = `We should use IAM Instance profile
     roles for granting EC2 instances access to other AWS resources`;
-<<<<<<< HEAD
     public checks_recommendation : string = `Recommended to assign IAM instance profile to
     EC2 instances instead of hard coding IAM credentials`;;
     public checks_name : string = "Instance";
-=======
-    public  checks_recommendation :string =`Recommended to assign IAM instance profile to
-    EC2 instances instead of hard coding IAM credentials`;
-    public  checks_name : string ="Instance";
->>>>>>> e37109bec4da4ef67bd5b6184b5748559393860e
     public analyze(params: any, fullReport?: any): any {
         const allInstances = params.instances;
         if (!allInstances) {
             return undefined;
         }
         const instance_profiles_used: ICheckAnalysisResult = { type: CheckAnalysisType.Security };
-<<<<<<< HEAD
-        instance_profiles_used.what = "Are there any EC2 instances without IAM Instance Profile?";
-        instance_profiles_used.why = `We should use IAM Instance profile roles for granting EC2 instances access to other AWS resources`;
-        instance_profiles_used.recommendation = `Recommended to assign IAM instance profile to EC2 instances instead of hard coding IAM credentials`;
-=======
->>>>>>> e37109bec4da4ef67bd5b6184b5748559393860e
         instance_profiles_used.what = this.checks_what;
         instance_profiles_used.why = this.checks_why;
         instance_profiles_used.recommendation = this.checks_recommendation;

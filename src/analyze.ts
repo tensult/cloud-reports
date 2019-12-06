@@ -7,7 +7,6 @@ export function analyze(collectorData: any) {
     const flatListOfAnalyzers = flat(Analyzers);
     const result: IDictionary<any> = {};
     for (const analyzerName in flatListOfAnalyzers) {
-       // console.log('analyzer',analyzerName);
         if (!analyzerName.endsWith("Analyzer")) {
             continue;
         }
