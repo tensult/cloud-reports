@@ -42,7 +42,6 @@
     "extend": ">=3.0.2",
     "flat": "^4.0.0",
     "moment": "^2.22.2",
-    "puppeteer-core": "^2.0.0",
-    "serialize-javascript": "^2.1.1"
+    "puppeteer-core": "^2.0.0"
   }
 }
