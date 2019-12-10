@@ -1,6 +1,6 @@
 {
   "name": "cloud-reports",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Collects and analyzes cloud resources",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -36,12 +36,12 @@
     "puppeteer": "^2.0.0"
   },
   "dependencies": {
+    "chrome-aws-lambda": "^2.0.0",
+    "cpy": "^7.0.1",
     "ejs": "^2.6.1",
     "extend": ">=3.0.2",
     "flat": "^4.0.0",
     "moment": "^2.22.2",
-    "chrome-aws-lambda": "^2.0.0",
-    "puppeteer-core": "^2.0.0",
-    "cpy": "^7.0.1"
+    "puppeteer-core": "^2.0.0"
   }
 }
