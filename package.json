@@ -43,6 +43,6 @@
     "flat": "^4.0.0",
     "moment": "^2.22.2",
     "puppeteer-core": "^2.0.0",
-    "serialize-javascript": "^2.1.2"
+    "serialize-javascript": "^2.1.1"
   }
 }
