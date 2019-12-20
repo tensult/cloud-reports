@@ -1,0 +1,41 @@
+<div class="checkTableRow <%= analysis.severity.toLowerCase() %>">
+
+    <div class="checkTableCell">
+        <span><%= (typeof serviceName != "undefined" ? serviceName : "") %></span>
+    </div>
+   	
+ 
+     <div class="checkTableCell">
+        <% if (typeof SeverityStatus!= undefined) { %>
+            <span><%= analysis.severity? analysis.severity : SeverityStatus.Info %></span>
+            <% } else {%>
+            <span>There is no info</span>
+            <% } %>
+    </div>
+     <div class="checkTableCell">
+        <% if (typeof SeverityStatus!= undefined) { %>
+            <span><%= analysis.severity? analysis.severity : SeverityStatus.Good %></span>
+            <% } else {%>
+            <span>There is no info</span>
+            <% } %>
+    </div>
+    <div class="checkTableCell">
+        <% if (typeof SeverityStatus!= undefined) { %>
+            <span><%= analysis.severity? analysis.severity : SeverityStatus.Warning %></span>
+            <% } else {%>
+            <span>There is no info</span>
+            <% } %>
+    </div>
+    <div class="checkTableCell">
+        <% if (typeof SeverityStatus != undefined) { %>
+            <span><%= analysis.severity? analysis.severity : SeverityStatus.Failure %></span>
+            <% } else {%>
+            <span>There is no info</span>
+            <% } %>
+    </div> 
+</div>
+
+
+
+
+ 

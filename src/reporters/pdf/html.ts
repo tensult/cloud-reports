@@ -1,6 +1,8 @@
 import * as cpy from "cpy";
 import * as ejs from "ejs";
-
+import { SeverityStatus } from "../../types";
+// import {cloudreportsummary} from "";
+// src\reporters\html\dist\html-report\assets\data.json
 function processReportData(reportData: any, includeOnlyIssues?: boolean) {
     for (const serviceName in reportData) {
         for (const checkName in reportData[serviceName]) {
@@ -46,7 +48,7 @@ export async function generateHTML(reportData: any, options?: {
     reportData = processReportData(reportData, options.showIssuesOnly);
     return await new Promise((resolve, reject) => {
         ejs.renderFile(__dirname + "/template.ejs",
-            { reportData }, {}, function(err, html) {
+            { reportData }, {},SeverityStatus,function(err, html) {
                 if (err) {
                     reject(err);
                 } else {

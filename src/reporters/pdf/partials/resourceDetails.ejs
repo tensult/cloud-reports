@@ -1,4 +1,5 @@
 <div class="checkTableRow <%= analysis.severity.toLowerCase() %>">
+ 
     <% if(regionName != 'global') { %>
         <div class="checkTableCell regionName">
             <span><%= regionName %></span>
@@ -13,4 +14,9 @@
     <div class="checkTableCell">
         <span><%= analysis.action? analysis.action : "All good" %></span>
     </div>
+    <div class="checkTableCell">
+        <span><%= analysis.severity%></span>
+    </div>
+    
+      
 </div>

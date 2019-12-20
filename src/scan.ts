@@ -2,6 +2,7 @@ import * as AWS from "aws-sdk";
 import * as Cli from "cli";
 import * as Moment from "moment";
 import * as opn from "opn";
+// var data = require('./data/data.json');
 
 import * as AnalyzerMain from "./analyze";
 import * as CollectorMain from "./collect";
