@@ -1,26 +1,24 @@
 
-  <div class="checkTable">
-    <div class="checkTableHeading">
-        <span class="title">Cloud report summary</span>
-    </div> 
-    <div class="checkTableRow">          
-        <div class="checkTableHead"><strong>AWS Service</strong></div>
-        <div class="checkTableHead"><strong>No of Info</strong></div>
-        <div class="checkTableHead"><strong>No of success</strong></div>
-        <div class="checkTableHead"><strong>No of warning </strong></div>
-        <div class="checkTableHead"><strong>No of failure</strong></div>
-    </div>
-    
-    <div class="checkTableBody" id="<%= serviceName %>">
-    <% for(var regionName in checkData.regions) { %>
-        <% var regionData = checkData.regions[regionName]; %>   
-        <% for(var r=0; r < regionData.length; r++)  { %>
-            <% var resourceData = regionData[r]; %>
-            <%- include('resourceDetailssummary', { analysis: resourceData,serviceName:serviceName}) %>
-        <% } %> 
-    <% } %>
-    </div>
- </div>   
+
+      <table class="checkTable">
+        <tr checkTableHeading>
+                <span class="title"><strong>Cloud report summary</strong></span>
+        </tr>
+        <tr class="checkTableRow" >
+            <th class="checkTableHead">Services</th>
+            <th class="checkTableHead">totalSeverity</th>
+            
+        </tr>
+         
+             <tr  class="checkTableRow">
+               <td  class="checkTableCell"><%= serviceName %></td>
+               <td  class="checkTableCell"><%= reportData.severity%></td>
+             
+             </tr>    
+           
+            
+         </table> 
+
 
 
 

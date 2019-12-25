@@ -9,7 +9,7 @@ export class ApiLogsAnalyzer extends BaseAnalyzer {
     public analyze(params: any, fullReport?: any): any {
         const allApis: any[] = params.apis;
         const allApiStages: any[] = params.api_stages;
-
+    
         if (!allApis || !allApiStages) {
             return undefined;
         }
@@ -46,7 +46,12 @@ export class ApiLogsAnalyzer extends BaseAnalyzer {
                 }
             }
         }
+
         api_logs_enabled.regions = allRegionsAnalysis;
+
+
+   
+ 
         return { api_logs_enabled };
     }
 

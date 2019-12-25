@@ -12,6 +12,7 @@ import { existsSync, readFileSync, writeFileSync } from "fs";
 import { AWSCredentialsProvider } from "./utils/aws/credentials";
 import { LogUtil } from "./utils/log";
 import { iam } from "./collectors/aws";
+import { SeverityStatus } from "./types";
 
 const cliArgs = Cli.parse({
     debug: ["d", "if you enable Debug then it will generate intermediate reports", "boolean", false],
@@ -86,6 +87,8 @@ function getAccountNumber(analyzedData) {
     }
     return "";
 }
+
+
 async function scan() {
     try {
         const collectorResults = await getCollectorResults();
@@ -95,6 +98,8 @@ async function scan() {
         }
         const analyzedData = AnalyzerMain.analyze(collectorResults);
         const accountNumber = getAccountNumber(analyzedData);
+  
+        
         if (cliArgs.debug) {
             const analyzerReportFileName = cliArgs.outputDir + "/analyzer_report.json";
             writeFileSync(analyzerReportFileName, JSON.stringify(analyzedData, null, 2));
@@ -103,6 +108,7 @@ async function scan() {
         const reportFileData = await makeFileContents(analyzedData);
         if (cliArgs.format !== "html") {
             const reportFileName = makeFileName(accountNumber);
+          
             writeFileSync(reportFileName, reportFileData);
             LogUtil.log(`${reportFileName} is generated`);
             opn(reportFileName, { wait: false });

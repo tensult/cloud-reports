@@ -1,8 +1,7 @@
 import * as cpy from "cpy";
 import * as ejs from "ejs";
 import { SeverityStatus } from "../../types";
-// import {cloudreportsummary} from "";
-// src\reporters\html\dist\html-report\assets\data.json
+
 function processReportData(reportData: any, includeOnlyIssues?: boolean) {
     for (const serviceName in reportData) {
         for (const checkName in reportData[serviceName]) {

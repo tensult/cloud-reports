@@ -1,7 +1,7 @@
 import { IDictionary } from "./dictionary";
 import { IResourceAnalysisResult } from "./resource";
 
-export interface ICheckAnalysisResult {
+export interface ICheckAnalysisResult {   
     why?: string;
     what?: string;
     recommendation?: string;
