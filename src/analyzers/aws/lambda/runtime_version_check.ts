@@ -3,9 +3,8 @@ import {
     IResourceAnalysisResult, SeverityStatus,
 } from "../../../types";
 import { BaseAnalyzer } from "../../base";
-import * as Moment from 'moment';
 import { CommonUtil } from "../../../utils";
-const millsInOneDay = 24 * 60 * 60 * 1000;
+
 export class RuntimeVersionCheckAnalyzer extends BaseAnalyzer {
 
     private static deprecatedRuntimes: IDictionary<Date> = {
@@ -17,6 +16,7 @@ export class RuntimeVersionCheckAnalyzer extends BaseAnalyzer {
         'dotnetcore1.0': new Date("2019-06-27"),
         'nodejs8.10': new Date("2019-12-31"),
     }
+
     public analyze(params: any, fullReport?: any): any {
         const allFunctions = params.functions;
         if (!allFunctions) {
@@ -41,11 +41,13 @@ export class RuntimeVersionCheckAnalyzer extends BaseAnalyzer {
                 if (!RuntimeVersionCheckAnalyzer.deprecatedRuntimes[fn.Runtime]) {
                     runtimeVersionAnalysis.severity = SeverityStatus.Good;
                     runtimeVersionAnalysis.message = "Runtime version is not deprecated";
+                    runtimeVersionAnalysis.action = "All Good";
                 } else {
                     let deprecationDate = RuntimeVersionCheckAnalyzer.deprecatedRuntimes[fn.Runtime];
                     let deprecationDays = CommonUtil.daysFrom(deprecationDate);
-                    if(deprecationDays  < 0) {
-                        runtimeVersionAnalysis.message = `Runtime version is going to be deprecated in ${Math.abs(deprecationDays)} days`;
+                    if (deprecationDays < 0) {
+                        runtimeVersionAnalysis.message = `Runtime version is going to be deprecated in ${Math.abs(deprecationDays)} day`;
+                        runtimeVersionAnalysis.action = "Update the function runtime with latest version so that you are up to date with new feature support.";
                     } else {
                         runtimeVersionAnalysis.message = "Runtime version is deprecated on " + deprecationDate;
                     }
@@ -55,6 +57,8 @@ export class RuntimeVersionCheckAnalyzer extends BaseAnalyzer {
                         runtimeVersionAnalysis.message = "Runtime version is going to be deprecated on " + deprecationDate;
                     } else if (deprecationDays < -90) {
                         runtimeVersionAnalysis.severity = SeverityStatus.Warning;
+                        runtimeVersionAnalysis.message = `Runtime version is going to be deprecated in ${Math.abs(deprecationDays)} day`;
+
                     } else {
                         runtimeVersionAnalysis.severity = SeverityStatus.Failure;
                     }
