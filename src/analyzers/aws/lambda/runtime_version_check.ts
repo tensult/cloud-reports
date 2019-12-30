@@ -55,9 +55,13 @@ export class RuntimeVersionCheckAnalyzer extends BaseAnalyzer {
                     if (deprecationDays < -180) {
                         runtimeVersionAnalysis.severity = SeverityStatus.Info;
                         runtimeVersionAnalysis.message = "Runtime version is going to be deprecated on " + deprecationDate;
+                        runtimeVersionAnalysis.action = "Update the function runtime with latest version so that you are up to date with new feature support.";
+
+
                     } else if (deprecationDays < -90) {
                         runtimeVersionAnalysis.severity = SeverityStatus.Warning;
                         runtimeVersionAnalysis.message = `Runtime version is going to be deprecated in ${Math.abs(deprecationDays)} day`;
+                        runtimeVersionAnalysis.action = "Update the function runtime with latest version so that you are up to date with new feature support.";
 
                     } else {
                         runtimeVersionAnalysis.severity = SeverityStatus.Failure;
