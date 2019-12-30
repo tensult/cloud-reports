@@ -10,11 +10,13 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
                     reportData[serviceName][checkName].isGlobal = true;
                 }
                 let regionDetails = reportData[serviceName][checkName].regions[regionName];
+                // console.log("regionDetails",regionDetails);
                 if (!regionDetails) {
                     continue;
                 }
                 if (includeOnlyIssues && regionDetails.length) {
                     regionDetails = regionDetails.filter((resourceDetails) => {
+                     
                         return resourceDetails.severity === "Warning" ||
                             resourceDetails.severity === "Failure";
                     });
@@ -47,7 +49,7 @@ export async function generateHTML(reportData: any, options?: {
     reportData = processReportData(reportData, options.showIssuesOnly);
     return await new Promise((resolve, reject) => {
         ejs.renderFile(__dirname + "/template.ejs",
-            { reportData }, {},SeverityStatus,function(err, html) {
+            { reportData }, {},function(err, html) {
                 if (err) {
                     reject(err);
                 } else {
