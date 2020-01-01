@@ -18,6 +18,10 @@ export class CommonUtil {
         return Math.floor(Moment.duration(Moment().diff(Moment(date))).asDays());
     }
 
+    public static fromNow(date: string | Date | number) {
+        return Moment(date).fromNow();
+    }
+
     public static uniqId() {
         return `${Date.now()}_${Math.floor(Math.random() * 10000000)}`;
     }
