@@ -8,13 +8,14 @@ import { CommonUtil } from "../../../utils";
 export class RuntimeVersionCheckAnalyzer extends BaseAnalyzer {
 
     private static deprecatedRuntimes: IDictionary<Date> = {
-        'nodejs': new Date("2016-10-31"),
-        'nodejs4.3': new Date("2018-04-30"),
-        'nodejs4.3-edge': new Date("2018-04-30"),
-        'nodejs6.10': new Date("2019-04-30"),
-        'dotnetcore2.0': new Date("2019-04-30"),
-        'dotnetcore1.0': new Date("2019-06-27"),
-        'nodejs8.10': new Date("2019-12-31"),
+        'nodejs': new Date('2016-10-31'),
+        'nodejs4.3': new Date('2018-04-30'),
+        'nodejs4.3-edge': new Date('2018-04-30'),
+        'nodejs6.10': new Date('2019-04-30'),
+        'dotnetcore2.0': new Date('2019-04-30'),
+        'dotnetcore1.0': new Date('2019-06-27'),
+        'nodejs8.10': new Date('2019-12-31'),
+        'python2.7': new Date('2020-01-01')
     }
 
     public analyze(params: any, fullReport?: any): any {
@@ -35,37 +36,35 @@ export class RuntimeVersionCheckAnalyzer extends BaseAnalyzer {
                 const runtimeVersionAnalysis: IResourceAnalysisResult = {};
                 runtimeVersionAnalysis.resource = fn;
                 runtimeVersionAnalysis.resourceSummary = {
-                    name: "Lambda-Runtime",
-                    value: fn.Runtime,
+                    name: "Function",
+                    value: fn.FunctionName,
                 };
+                const deprecationDate = RuntimeVersionCheckAnalyzer.deprecatedRuntimes[fn.Runtime];
+                const deprecationDays = CommonUtil.daysFrom(deprecationDate);
+                const deprecationDaysRelative = CommonUtil.fromNow(deprecationDate);
                 if (!RuntimeVersionCheckAnalyzer.deprecatedRuntimes[fn.Runtime]) {
                     runtimeVersionAnalysis.severity = SeverityStatus.Good;
-                    runtimeVersionAnalysis.message = "Runtime version is not deprecated";
+                    runtimeVersionAnalysis.message = `Runtime version (${fn.Runtime}) is not deprecated`;
                     runtimeVersionAnalysis.action = "All Good";
-                } else {
-                    let deprecationDate = RuntimeVersionCheckAnalyzer.deprecatedRuntimes[fn.Runtime];
-                    let deprecationDays = CommonUtil.daysFrom(deprecationDate);
-                    if (deprecationDays < 0) {
-                        runtimeVersionAnalysis.message = `Runtime version is going to be deprecated in ${Math.abs(deprecationDays)} day`;
-                        runtimeVersionAnalysis.action = "Update the function runtime with latest version so that you are up to date with new feature support.";
-                    } else {
-                        runtimeVersionAnalysis.message = "Runtime version is deprecated on " + deprecationDate;
-                    }
-
-                    if (deprecationDays < -180) {
-                        runtimeVersionAnalysis.severity = SeverityStatus.Info;
-                        runtimeVersionAnalysis.message = "Runtime version is going to be deprecated on " + deprecationDate;
-                        runtimeVersionAnalysis.action = "Update the function runtime with latest version so that you are up to date with new feature support.";
-
-
-                    } else if (deprecationDays < -90) {
-                        runtimeVersionAnalysis.severity = SeverityStatus.Warning;
-                        runtimeVersionAnalysis.message = `Runtime version is going to be deprecated in ${Math.abs(deprecationDays)} day`;
-                        runtimeVersionAnalysis.action = "Update the function runtime with latest version so that you are up to date with new feature support.";
-
-                    } else {
-                        runtimeVersionAnalysis.severity = SeverityStatus.Failure;
-                    }
+                }
+                else if (deprecationDays > 0) {
+                    runtimeVersionAnalysis.severity = SeverityStatus.Failure;
+                    runtimeVersionAnalysis.message = `Runtime version (${fn.Runtime}) is deprecated ${deprecationDaysRelative} `;
+                    runtimeVersionAnalysis.action = "Update is disabled for this function. Please create new function";
+                } else if (deprecationDays > -90 && deprecationDays <= 0) {
+                    runtimeVersionAnalysis.severity = SeverityStatus.Failure;
+                    runtimeVersionAnalysis.message = `Runtime version (${fn.Runtime}) is  going to be deprecated ${deprecationDaysRelative}`;
+                    runtimeVersionAnalysis.action = "Update the function runtime with latest version so that you are up to date with new feature support.";
+                }
+                else if (deprecationDays > -120 && deprecationDays < -90) {
+                    runtimeVersionAnalysis.severity = SeverityStatus.Warning;
+                    runtimeVersionAnalysis.message = `Runtime version(${fn.Runtime}) is going to be deprecated ${deprecationDaysRelative}`;
+                    runtimeVersionAnalysis.action = "Update the function runtime with latest version so that you are up to date with new feature support.";
+                }
+                else if (deprecationDays < - 120) {
+                    runtimeVersionAnalysis.severity = SeverityStatus.Info;
+                    runtimeVersionAnalysis.message = `Runtime version(${fn.Runtime}) is going to be deprecated ${deprecationDaysRelative}`;
+                    runtimeVersionAnalysis.action = "Update the function runtime with latest version so that you are up to date with new feature support.";
                 }
                 allRegionsAnalysis[region].push(runtimeVersionAnalysis);
             }
