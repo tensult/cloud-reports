@@ -1,13 +1,33 @@
-<div class="reportDetails">
-<% for(var serviceName in reportData) { %>
-    <% var serviceData = reportData[serviceName]; 
-        if(!serviceData.isUsed) {
-            continue;
-        }
-       serviceName = serviceName.replace('aws.', '');
-    %>
+<div class="checkTable">
+    <div class="checkTableHeading">
+        <span class="title">Cloud report summary</span>
+    </div>
+    <div class="checkTableRow">
+        <div class="checkTableHead"><strong>AWS Service</strong></div>
+        <div class="checkTableHead"><strong>No of Info</strong></div>
+        <div class="checkTableHead"><strong>No of success</strong></div>
+        <div class="checkTableHead"><strong>No of warning </strong></div>
+        <div class="checkTableHead"><strong>No of failure</strong></div>
+    </div>
+    <div class="checkTableRow">
+        <div class="checkTableCell">0</div>
+        <div class="checkTableCell">0</div>
+        <div class="checkTableCell">0</div>
+        <div class="checkTableCell">0</div>
+        <div class="checkTableCell">0</div>
+    </div>
+</div>
+
+<div class="reportDetails" style='page-break-before: always; margin-top:30px;'>
+    <% for(var serviceName in totalData.servicesData) { %>
+    <% var serviceData = totalData.servicesData[serviceName]; 
+            if(!serviceData.isUsed) {
+                continue;
+            }
+           serviceName = serviceName.replace('aws.', '');
+        %>
     <div class="serviceDetails" id="<%= serviceName %>">
-      <%- include('serviceDetails', {serviceData: serviceData, serviceName: serviceName}) %>
-    </div>   
-<% } %>
+        <%- include('serviceDetails', {serviceData: serviceData, serviceName: serviceName}) %>
+    </div>
+    <% } %>
 </div>

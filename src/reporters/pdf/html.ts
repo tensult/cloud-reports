@@ -1,22 +1,26 @@
 import * as cpy from "cpy";
 import * as ejs from "ejs";
-import { SeverityStatus } from "../../types";
+
 
 function processReportData(reportData: any, includeOnlyIssues?: boolean) {
+    const reportSummary: any = {}; // {ec2: {good: 1, failure: 2, info: 1}, ..}
     for (const serviceName in reportData) {
         for (const checkName in reportData[serviceName]) {
             for (const regionName in reportData[serviceName][checkName].regions) {
+
                 if (regionName === "global") {
                     reportData[serviceName][checkName].isGlobal = true;
                 }
                 let regionDetails = reportData[serviceName][checkName].regions[regionName];
-                // console.log("regionDetails",regionDetails);
                 if (!regionDetails) {
                     continue;
                 }
+
+                // Put the logic to add to reportSummary 
                 if (includeOnlyIssues && regionDetails.length) {
+
                     regionDetails = regionDetails.filter((resourceDetails) => {
-                     
+
                         return resourceDetails.severity === "Warning" ||
                             resourceDetails.severity === "Failure";
                     });
@@ -31,7 +35,8 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
             }
         }
     }
-    return reportData;
+    
+    return { servicesData: reportData, summaryData: reportSummary };
 }
 
 function copyEJSFiles() {
@@ -42,14 +47,15 @@ function copyEJSFiles() {
 
 export async function generateHTML(reportData: any, options?: {
     showIssuesOnly?: boolean,
-    debug?: boolean,
+    debug?: boolean
 }) {
     options = options || { showIssuesOnly: false };
     // await copyEJSFiles();
-    reportData = processReportData(reportData, options.showIssuesOnly);
+    const totalData = processReportData(reportData, options.showIssuesOnly);
     return await new Promise((resolve, reject) => {
         ejs.renderFile(__dirname + "/template.ejs",
-            { reportData }, {},function(err, html) {
+            { totalData }, {}, function (err, html) {
+
                 if (err) {
                     reject(err);
                 } else {

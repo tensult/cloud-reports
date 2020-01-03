@@ -1,38 +1,7 @@
-
-
-      <table class="checkTable">
-        <tr checkTableHeading>
-                <span class="title"><strong>Cloud report summary</strong></span>
-        </tr>
-        <tr class="checkTableRow" >
-            <th class="checkTableHead">AWS_Service</th>
-            <th class="checkTableHead">totalSeverity</th> 
-                      
-        </tr>
-         
-        <tr  class="checkTableRow">
-               <td  class="checkTableCell"><%= serviceName %></td>
-               <td  class="checkTableCell"><%= reportData.severity%></td>
-            
-                
-                
-                 
-              
-              
-        </tr>    
-            
-         </table> 
-        
-    
-
-
-
-
-
-<div class="checkTable" style='page-break-before: always; margin-top:30px;'>
-    <div class="checkTableHeading" >
+<div class="checkTable">
+    <div class="checkTableHeading">
         <span class="title"><%= checkData.type %>: <%= serviceName %>: <%= checkName %></span>
-    </div> 
+    </div>
     <div class="checkTableRow">
         <span class="checkTableHead"><%= checkData.what %></span>
     </div>
@@ -48,7 +17,7 @@
 <div class="checkTable">
     <div class="checkTableRow">
         <% if(!checkData.isGlobal) { %>
-            <div class="checkTableHead"><strong>Region</strong></div>
+        <div class="checkTableHead"><strong>Region</strong></div>
         <% } %>
         <div class="checkTableHead"><strong><%= checkData.resourceName %></strong></div>
         <div class="checkTableHead"><strong>Message</strong></div>
@@ -56,12 +25,12 @@
         <div class="checkTableHead"><strong>Severity</strong></div>
     </div>
     <div class="checkTableBody">
-    <% for(var regionName in checkData.regions) { %>
-        <% var regionData = checkData.regions[regionName]; %>   
+        <% for(var regionName in checkData.regions) { %>
+        <% var regionData = checkData.regions[regionName]; %>
         <% for(var r=0; r < regionData.length; r++)  { %>
-            <% var resourceData = regionData[r]; %>
-            <%- include('resourceDetails', { regionName, resourceValue: resourceData.resourceSummary.value, analysis: resourceData}) %>
-        <% } %> 
-    <% } %>
+        <% var resourceData = regionData[r]; %>
+        <%- include('resourceDetails', { regionName, resourceValue: resourceData.resourceSummary.value, analysis: resourceData}) %>
+        <% } %>
+        <% } %>
     </div>
 </div>
