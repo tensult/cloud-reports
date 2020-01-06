@@ -1,22 +1,41 @@
 import * as cpy from "cpy";
 import * as ejs from "ejs";
 
-
 function processReportData(reportData: any, includeOnlyIssues?: boolean) {
-    const reportSummary: any = {}; // {ec2: {good: 1, failure: 2, info: 1}, ..}
+    const reportSummary: any[] = [];
     for (const serviceName in reportData) {
+
+        const serviceCheckData = {
+            service: serviceName,
+            noOfChecks: 0,
+            noOfGood: 0,
+            noOfWarning: 0,
+            noOfFailure: 0,
+
+        };
         for (const checkName in reportData[serviceName]) {
             for (const regionName in reportData[serviceName][checkName].regions) {
-
                 if (regionName === "global") {
                     reportData[serviceName][checkName].isGlobal = true;
                 }
                 let regionDetails = reportData[serviceName][checkName].regions[regionName];
+
+                for (const regionData of reportData[serviceName][checkName].regions[regionName]) {
+                    let severity = regionData.severity;
+                    if (severity === 'Good') {
+                        serviceCheckData.noOfGood++;
+                        serviceCheckData.noOfChecks++;
+                    } else if (severity === 'Warning') {
+                        serviceCheckData.noOfWarning++;
+                        serviceCheckData.noOfChecks++;
+                    } else if (severity === 'Failure') {
+                        serviceCheckData.noOfFailure++;
+                        serviceCheckData.noOfChecks++;
+                    }
+                }
                 if (!regionDetails) {
                     continue;
                 }
-
-                // Put the logic to add to reportSummary 
                 if (includeOnlyIssues && regionDetails.length) {
 
                     regionDetails = regionDetails.filter((resourceDetails) => {
@@ -34,8 +53,9 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
                 reportData[serviceName].isUsed = true;
             }
         }
+        reportSummary.push(serviceCheckData);
     }
-    
+    console.log(reportSummary);
     return { servicesData: reportData, summaryData: reportSummary };
 }
 

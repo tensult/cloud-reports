@@ -2,20 +2,43 @@
     <div class="checkTableHeading">
         <span class="title">Cloud report summary</span>
     </div>
+
     <div class="checkTableRow">
-        <div class="checkTableHead"><strong>AWS Service</strong></div>
-        <div class="checkTableHead"><strong>No of Info</strong></div>
-        <div class="checkTableHead"><strong>No of success</strong></div>
-        <div class="checkTableHead"><strong>No of warning </strong></div>
-        <div class="checkTableHead"><strong>No of failure</strong></div>
+        <div class="checkTableHead"><strong>Services</strong></div>
+        <div class="checkTableHead"><strong>No. of checks</strong></div>
+        <div class="checkTableHead"><strong>No. of success</strong></div>
+        <div class="checkTableHead"><strong>No. of warning </strong></div>
+        <div class="checkTableHead"><strong>No. of failure</strong></div>
     </div>
-    <div class="checkTableRow">
-        <div class="checkTableCell">0</div>
-        <div class="checkTableCell">0</div>
-        <div class="checkTableCell">0</div>
-        <div class="checkTableCell">0</div>
-        <div class="checkTableCell">0</div>
+
+
+    <% for(var data of totalData.summaryData) { %>
+    <% if(data.noOfFailure) {%>
+    <div class="checkTableRow failure">
+        <div class="checkTableCell"><%= data.service.split('.')[1] %></div>
+        <div class="checkTableCell"><%= data.noOfChecks %></div>
+        <div class="checkTableCell"><%= data.noOfGood %></div>
+        <div class="checkTableCell"><%= data.noOfWarning %></div>
+        <div class="checkTableCell"><%= data.noOfFailure %></div>
     </div>
+    <% } else if (data.noOfWarning) { %>
+    <div class="checkTableRow warning">
+        <div class="checkTableCell"><%= data.service.split('.')[1] %></div>
+        <div class="checkTableCell"><%= data.noOfChecks %></div>
+        <div class="checkTableCell"><%= data.noOfGood %></div>
+        <div class="checkTableCell"><%= data.noOfWarning %></div>
+        <div class="checkTableCell"><%= data.noOfFailure %></div>
+    </div>
+    <% } else{ %>
+    <div class="checkTableRow good">
+        <div class="checkTableCell"><%= data.service.split('.')[1] %></div>
+        <div class="checkTableCell"><%= data.noOfChecks %></div>
+        <div class="checkTableCell"><%= data.noOfGood %></div>
+        <div class="checkTableCell"> <%= data.noOfWarning %></div>
+        <div class="checkTableCell"><%= data.noOfFailure %></div>
+    </div>
+    <% } %>
+    <% } %>
 </div>
 
 <div class="reportDetails" style='page-break-before: always; margin-top:30px;'>
@@ -24,7 +47,7 @@
             if(!serviceData.isUsed) {
                 continue;
             }
-           serviceName = serviceName.replace('aws.', '');
+            serviceName = serviceName.replace('aws.', '');
         %>
     <div class="serviceDetails" id="<%= serviceName %>">
         <%- include('serviceDetails', {serviceData: serviceData, serviceName: serviceName}) %>

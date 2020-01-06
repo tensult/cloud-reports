@@ -363,7 +363,6 @@ export class CloudReportService {
                 }
             }
         }
-        // console.log(regionsHaveData)
         return regionsHaveData;
     }
 
