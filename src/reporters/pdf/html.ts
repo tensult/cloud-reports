@@ -11,8 +11,7 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
             noOfGood: 0,
             noOfWarning: 0,
             noOfFailure: 0,
-
-        };
+        };        
         for (const checkName in reportData[serviceName]) {
             for (const regionName in reportData[serviceName][checkName].regions) {
                 if (regionName === "global") {
@@ -55,7 +54,6 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
         }
         reportSummary.push(serviceCheckData);
     }
-    console.log(reportSummary);
     return { servicesData: reportData, summaryData: reportSummary };
 }
 
@@ -75,7 +73,6 @@ export async function generateHTML(reportData: any, options?: {
     return await new Promise((resolve, reject) => {
         ejs.renderFile(__dirname + "/template.ejs",
             { totalData }, {}, function (err, html) {
-
                 if (err) {
                     reject(err);
                 } else {

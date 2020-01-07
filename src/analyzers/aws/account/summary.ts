@@ -25,10 +25,6 @@ export class AccountIdAnalyzer extends BaseAnalyzer {
                 severity: SeverityStatus.Info,
             }],
         };
-
-
         return { summary };
     }
-
-
 }

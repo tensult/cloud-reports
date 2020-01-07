@@ -50,7 +50,6 @@ export class CloudReportService {
      * Get report dashboard data
     */
     getDashboardData(data) {
-        // console.log(data);
 
         const dashboardData: object[] = [];
         for (const serviceObjectKey in data) {  // each service
@@ -71,10 +70,8 @@ export class CloudReportService {
                 } else {
                     for (const region in data[serviceObjectKey][checkObjectKey].regions) {
                         const resources = data[serviceObjectKey][checkObjectKey].regions[region];
-                        // console.log(resources)
                         for (let i = 0; i < resources.length; i++) {
                             const severity = resources[i].severity;
-                            // console.log(serviceObjectKey +' '+ checkObjectKey +' '+ severity);
                             serviceData['noOfChecks']++;
                             if (severity === 'Warning' || severity === 'Failure') {
                                 serviceData['noOfFailures']++;
@@ -145,7 +142,6 @@ export class CloudReportService {
      * Check Category functions
      * */
     getCheckCategoryData(service, region, data) {
-        // console.log(service, region)
         const checkCategoryData: object[] = [];
         const regionsHaveData = [];
         for (const serviceObjectKey in data) {
