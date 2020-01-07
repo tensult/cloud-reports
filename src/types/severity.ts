@@ -3,4 +3,5 @@ export enum SeverityStatus {
     Warning = "Warning",
     Info = "Info",
     Good = "Good",
+    
 }

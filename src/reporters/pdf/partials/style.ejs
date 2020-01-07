@@ -1,109 +1,126 @@
-    <style>
-        .status {
-            font-weight: bold;
-        }
+<style>
+    .status {
+        font-weight: bold;
+    }  
 
-        .info {
-            background-color: #3773b3;
-        }
+    .info {
+        background-color: #3773b3;
+    }
 
-        .good {
-            background-color: #40a977;
-        }
+    .good {
+        background-color: #40a977;
+    }
 
-        .warning {
-            background-color: #FFC300;
-        }
+    .warning {
+        background-color: #FFC300;
+    }
 
-        .failure {
-            background-color: #FF3933;
-        }
+    .failure {
+        background-color: #FF3933;       
+    }
 
-        .detailed.danger,
-        .detailed.warning {
-            font-weight: bold;
-        }
+    .detailed.danger,
+    .detailed.warning {
+        font-weight: bold;
+    }
 
-        .header {
-            margin-bottom: 2px;
-        }
+    .header {
+        margin-bottom: 2px;
+    }
 
-        h3,
-        h4,
-        .header-body {
-            color: #40a977;
-        }
+    h3,
+    h4,
+    .header-body {
+        color: #33acdd;
+    }
 
-        .service {
-            text-transform: uppercase;
-        }
+    .service {
+        text-transform: uppercase;
+    }
 
-        .capitalize {
-            text-transform: capitalize;
-        }
+    .capitalize {
+        text-transform: capitalize;
+    }
 
-        .normal {
-            text-transform: none !important;
-        }
+    .normal {
+        text-transform: none !important;
+    }
 
-        .service h4 {
-            text-align: center;
-        }
+    .service h4 {
+        text-align: center;
+    }
 
-        .header-body strong {
-            width: 80%;
-        }
+    .header-body strong {
+        width: 80%;
+    }
 
-        .header-body img {
-            float: right;
-            width: 20%;
-        }
+    .header-body img {
+        float: right;
+        width: 20%;
+    }
 
-        hr {
-            clear: both;
-        }
+    hr {
+        clear: both;
+    }
 
-        .checkDetails {
-            margin: 3px;
-            page-break-inside: avoid;
-        }
+    .checkDetails {
+        margin: 3px;
+        page-break-inside: avoid;
+    }
 
-        .checkTable {
-            display: table;
-            width: 100%;
-        }
+    .checkTable {
+        display: table;
+        width: 100%;
+    }
 
-        .checkTableRow {
-            display: table-row;
-        }
+    .checkTableRow {
+        display: table-row;
+        font-family: sans-serif;
+    }
 
-        .checkTableCell.desc {
-            width: 100%;
-        }
+    .checkTableCell.desc {
+        width: 100%;
+    }
 
-        .checkTableCell,
-        .checkTableHead {
-            display: table-cell;
-            padding: 2px;
-            border: 1px solid #999999;
-        }
+    .checkTableCell,
+    .checkTableHead {
+        border: 1px solid #999999;
+        display: table-cell;
+        padding: 2px;
+    }
 
-        .resourceName {
-            max-width: 200px;
-        }
+    .resourceName {
+        max-width: 200px;
+    }
 
-        .checkTableHeading {
-            padding: 2px;
-            display: table-caption;
-            font-weight: bold;
-            page-break-inside: avoid;
-        }
+    .checkTableHeading {
+        display: table-caption;
+        font-weight: bold;
+        font-family: 'Montserrat' !important;
+        padding: 2px;
+        page-break-inside: avoid;
+    }
 
-        .checkTableBody {
-            display: table-row-group;
-        }
+    .checkTableBody {
+        display: table-row-group;
+        font-family: sans-serif;
+    }
 
-        html {
-            -webkit-print-color-adjust: exact;
-        }
-    </style>
+    html {
+        -webkit-print-color-adjust: exact;
+    }
+
+    .page-break {
+        clear: both;
+        page-break-after: always;
+        page-break-inside: avoid;
+        
+    }
+
+    .page-break-before {
+        clear: both;
+        page-break-before: always;
+        page-break-inside: avoid;
+        
+    }
+</style>

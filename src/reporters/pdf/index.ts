@@ -1,6 +1,7 @@
 import fs = require("fs");
 import htmlGenerator = require("./html");
 
+
 const pdfOptions: any = {
     displayHeaderFooter: true,
     footerTemplate: `
@@ -67,11 +68,14 @@ export async function generatePDF(reportData: any, options?: {
     try {
         options = options || {};
         const html = await htmlGenerator.generateHTML(reportData, options);
+
         if (options.debug) {
             console.log("./scan_report.html is generated");
             fs.writeFileSync("scan_report.html", html);
         }
+
         const pdf = await createPDF(html);
+
         return pdf;
     } catch (error) {
         throw error;

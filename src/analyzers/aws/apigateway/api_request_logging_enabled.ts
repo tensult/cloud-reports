@@ -14,7 +14,7 @@ export class ApiRequestLogsAnalyzer extends BaseAnalyzer {
         if (!allApis || !allApiStages) {
             return undefined;
         }
-        const api_logs_enabled: ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
+        const api_logs_enabled : ICheckAnalysisResult = { type: CheckAnalysisType.OperationalExcellence };
         api_logs_enabled.what = "Are APIs logging requests and response?";
         api_logs_enabled.why = "Logging request and response helps to debug APIs better";
         api_logs_enabled.recommendation = `Recommended to enable logs for all Apis which doesn't handle

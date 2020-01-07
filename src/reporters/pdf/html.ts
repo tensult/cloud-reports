@@ -2,18 +2,43 @@ import * as cpy from "cpy";
 import * as ejs from "ejs";
 
 function processReportData(reportData: any, includeOnlyIssues?: boolean) {
+    const reportSummary: any[] = [];
     for (const serviceName in reportData) {
+
+        const serviceCheckData = {
+            service: serviceName,
+            noOfChecks: 0,
+            noOfGood: 0,
+            noOfWarning: 0,
+            noOfFailure: 0,
+        };        
         for (const checkName in reportData[serviceName]) {
             for (const regionName in reportData[serviceName][checkName].regions) {
                 if (regionName === "global") {
                     reportData[serviceName][checkName].isGlobal = true;
                 }
                 let regionDetails = reportData[serviceName][checkName].regions[regionName];
+
+                for (const regionData of reportData[serviceName][checkName].regions[regionName]) {
+                    let severity = regionData.severity;
+                    if (severity === 'Good') {
+                        serviceCheckData.noOfGood++;
+                        serviceCheckData.noOfChecks++;
+                    } else if (severity === 'Warning') {
+                        serviceCheckData.noOfWarning++;
+                        serviceCheckData.noOfChecks++;
+                    } else if (severity === 'Failure') {
+                        serviceCheckData.noOfFailure++;
+                        serviceCheckData.noOfChecks++;
+                    }
+                }
                 if (!regionDetails) {
                     continue;
                 }
                 if (includeOnlyIssues && regionDetails.length) {
+
                     regionDetails = regionDetails.filter((resourceDetails) => {
+
                         return resourceDetails.severity === "Warning" ||
                             resourceDetails.severity === "Failure";
                     });
@@ -27,8 +52,9 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
                 reportData[serviceName].isUsed = true;
             }
         }
+        reportSummary.push(serviceCheckData);
     }
-    return reportData;
+    return { servicesData: reportData, summaryData: reportSummary };
 }
 
 function copyEJSFiles() {
@@ -39,14 +65,14 @@ function copyEJSFiles() {
 
 export async function generateHTML(reportData: any, options?: {
     showIssuesOnly?: boolean,
-    debug?: boolean,
+    debug?: boolean
 }) {
     options = options || { showIssuesOnly: false };
     // await copyEJSFiles();
-    reportData = processReportData(reportData, options.showIssuesOnly);
+    const totalData = processReportData(reportData, options.showIssuesOnly);
     return await new Promise((resolve, reject) => {
         ejs.renderFile(__dirname + "/template.ejs",
-            { reportData }, {}, function(err, html) {
+            { totalData }, {}, function (err, html) {
                 if (err) {
                     reject(err);
                 } else {

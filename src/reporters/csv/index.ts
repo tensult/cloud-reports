@@ -32,6 +32,7 @@ function prepareRecords(reportData, options) {
                         (regionResourceDetails.message || "").replace(/,/g, " "),
                         (regionResourceDetails.action || "").replace(/,/g, " "),
                         (regionResourceDetails.severity || "")
+                        
                     ]);
                 }
 
