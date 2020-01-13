@@ -1,6 +1,6 @@
 {
   "name": "cloud-reports",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Collects and analyzes cloud resources",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
