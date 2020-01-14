@@ -4,38 +4,41 @@
     </div>
 
     <div class="checkTableRow">
-        <div class="checkTableHead"><strong>Services</strong></div>
-        <div class="checkTableHead"><strong>No. of checks</strong></div>
-        <div class="checkTableHead"><strong>No. of success</strong></div>
-        <div class="checkTableHead"><strong>No. of warning </strong></div>
-        <div class="checkTableHead"><strong>No. of failure</strong></div>
+        <div class="checkTableHead"><strong>Service</strong></div>
+        <div class="checkTableHead" align="center"><strong>Total Checks</strong></div>
+        <div class="checkTableHead" align="center"><strong>Passed</strong></div>
+        <div class="checkTableHead" align="center"><strong>Failed </strong></div>
+        <div class="checkTableHead" align="center"><strong>Warning</strong></div>
     </div>
 
 
     <% for(var data of totalData.summaryData) { %>
     <% if(data.noOfFailure) {%>
     <div class="checkTableRow failure">
-        <div class="checkTableCell"><%= data.service.split('.')[1] %></div>
-        <div class="checkTableCell"><%= data.noOfChecks %></div>
-        <div class="checkTableCell"><%= data.noOfGood %></div>
-        <div class="checkTableCell"><%= data.noOfWarning %></div>
-        <div class="checkTableCell"><%= data.noOfFailure %></div>
+        <div class="checkTableCell"><%= data.service %></div>
+        <div class="checkTableCell" align="center"><%= data.noOfChecks %></div>
+        <div class="checkTableCell" align="center"><%= data.noOfGood %></div>
+        <div class="checkTableCell" align="center"><%= data.noOfFailure %></div>
+        <div class="checkTableCell" align="center"><%= data.noOfWarning %></div>
+
     </div>
     <% } else if (data.noOfWarning) { %>
     <div class="checkTableRow warning">
-        <div class="checkTableCell"><%= data.service.split('.')[1] %></div>
-        <div class="checkTableCell"><%= data.noOfChecks %></div>
-        <div class="checkTableCell"><%= data.noOfGood %></div>
-        <div class="checkTableCell"><%= data.noOfWarning %></div>
-        <div class="checkTableCell"><%= data.noOfFailure %></div>
+        <div class="checkTableCell"><%= data.service %></div>
+        <div class="checkTableCell" align="center"><%= data.noOfChecks %></div>
+        <div class="checkTableCell" align="center"><%= data.noOfGood %></div>
+        <div class="checkTableCell" align="center"><%= data.noOfFailure %></div>
+        <div class="checkTableCell" align="center"><%= data.noOfWarning %></div>
+
     </div>
     <% } else{ %>
     <div class="checkTableRow good">
-        <div class="checkTableCell"><%= data.service.split('.')[1] %></div>
-        <div class="checkTableCell"><%= data.noOfChecks %></div>
-        <div class="checkTableCell"><%= data.noOfGood %></div>
-        <div class="checkTableCell"> <%= data.noOfWarning %></div>
-        <div class="checkTableCell"><%= data.noOfFailure %></div>
+        <div class="checkTableCell"><%= data.service %></div>
+        <div class="checkTableCell" align="center"><%= data.noOfChecks %></div>
+        <div class="checkTableCell" align="center"><%= data.noOfGood %></div>
+        <div class="checkTableCell" align="center"><%= data.noOfFailure %></div>
+        <div class="checkTableCell" align="center"> <%= data.noOfWarning %></div>
+
     </div>
     <% } %>
     <% } %>
