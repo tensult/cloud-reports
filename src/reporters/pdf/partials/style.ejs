@@ -19,6 +19,18 @@
         background-color: #FF3933;
     }
 
+    .goodcell {
+        color: #40a977;
+    }
+
+    .warningcell {
+        color: #FFC300;
+    }
+
+    .failurecell {
+        color: #FF3933;
+    }
+
     .detailed.danger,
     .detailed.warning {
         font-weight: bold;
@@ -78,6 +90,15 @@
         font-family: sans-serif;
     }
 
+    .checkTableRowsummary {
+        display: table-row;
+        font-family: sans-serif;
+    }
+
+    .checkTableRowsummary:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
     .checkTableCell.desc {
         width: 100%;
     }
@@ -100,6 +121,17 @@
         padding: 2px;
         page-break-inside: avoid;
         color: #33acdd;
+    }
+
+    .checkTableHeadsummary {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        background-color: #0000A0;
+        color: white;
+        border: 1px solid #999999;
+        display: table-cell;
+        padding: 2px;
+
     }
 
     .checkTableBody {
