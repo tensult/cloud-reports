@@ -1,28 +1,130 @@
-<div class="checkTable">
-    <div class="checkTableHeading">
-        <span class="title">Cloud report summary</span>
-    </div>
+<div class="cloudreportdatetime">
+    <html>
 
-    <div class="checkTableRow">
-        <div class="checkTableHeadsummary"><strong>Service</strong></div>
-        <div class="checkTableHeadsummary" align="center"><strong>Total Checks</strong></div>
-        <div class="checkTableHeadsummary" align="center"><strong>Passed</strong></div>
-        <div class="checkTableHeadsummary" align="center"><strong>Failed </strong></div>
-        <div class="checkTableHeadsummary" align="center"><strong>Warning</strong></div>
-    </div>
+    <body>
+        <h2>Cloud Report</h2>
+        <p id="cloudreportdatetime"></p>
+        <script>
+            var d = new Date();
+            document.getElementById("cloudreportdatetime").innerHTML = d;
+        </script>
+    </body>
 
-    <% for(var data of totalData.summaryData) { %>
-    <div class="checkTableRowsummary">
-        <div class="checkTableCell"><%= data.service %></div>
-        <div class="checkTableCell" align="center"><%= data.noOfChecks %></div>
-        <div class="checkTableCell goodcell" align="center"><%= data.noOfGood %></div>
-        <div class="checkTableCell warningcell" align="center"><%= data.noOfFailure %></div>
-        <div class="checkTableCell failurecell" align="center"><%= data.noOfWarning %></div>
-    </div>
-    <% } %>
+    </html>
 </div>
 
-<div class="reportDetails" style='page-break-before: always; margin-top:30px;'>
+<div style='page-break-before: always; margin-top:30px;'>
+    <p class="toc_title">Table Of Contents</p>
+    <ul class=leaders>
+        <li><span>1. Cloud Report Summary</span>
+            <span>2</span>
+        <li><span>2. Services</span>
+            <span>3</span>
+            <ul style="list-style-type:disc;">
+                <li><span><a href="#account" class="alink">account</a></span>
+                    <span>4</span>
+                <li><span><a href="#apigateway" class="alink">apigateway</a></span>
+                    <span>4</span>
+                <li><span><a href="#cloudwatch" class="alink">cloudwatch</a></span>
+                    <span>5</span>
+                <li><span><a href="#dynamodb" class="alink">dynamodb</a></span>
+                    <span>12</span>
+                <li><span><a href="#ebs" class="alink">ebs</a></span>
+                    <span>13</span>
+                <li><span><a href="#ec2" class="alink">ec2</a></span>
+                    <span>14</span>
+                <li><span><a href="#elasticsearch" class="alink">elasticsearch</a></span>
+                    <span>19</span>
+                <li><span><a href="#iam" class="alink"> iam</a></span>
+                    <span>19</span>
+                <li><span><a href="#lambda" class="alink">lambda</a></span>
+                    <span>23</span>
+                <li><span><a href="#resourcegroups" class="alink">resourcegroups</a></span>
+                    <span>36</span>
+                <li><span><a href="#route53" class="alink">route53</a></span>
+                    <span>36</span>
+                <li><span><a href="#s3" class="alink">s3</a></span>
+                    <span>37</span>
+                <li><span><a href="#sns" class="alink">sns</a></span>
+                    <span>37</span>
+                <li><span><a href="#sqs" class="alink">sqs</a></span>
+                    <span>37</span>
+                <li><span><a href="#trails" class="alink">trails</a></span>
+                    <span>38</span>
+                <li><span><a href="#vpc" class="alink">vpc</a></span>
+                    <span>38</span>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+
+
+
+<div style='page-break-before: always;'>
+    <div class="checkTablesummary">
+        <h3 class="totalreportsummarytitle">TOTAL CLOUD REPORT
+            SUMMARY</h3>
+        <div class="checkTableRow">
+            <div class="checkTableHeadsummary" align="center"><strong>Total </strong></div>
+            <div class="checkTableHeadsummary" align="center"><strong>Passed</strong></div>
+            <div class="checkTableHeadsummary" align="center"><strong>Failed </strong></div>
+            <div class="checkTableHeadsummary" align="center"><strong>Warning</strong></div>
+        </div>
+        <!-- <%if (totalData.summaryData.length >0){ %>
+        <% totalData.summaryData.forEach(function(row){ %>
+        <div class="checkTableRowsummary">
+            <div class="checkTableCell" align="center"><%= row.noOfChecks %></div>
+            <div class="checkTableCell goodsummary" align="center">0</div>
+            <div class="checkTableCell failuresummary" align="center">0</div>
+            <div class="checkTableCell warningsummary" align="center">0</div>
+        </div>
+        <% })}else{ %>
+        <p>no records</p>
+        <% } %> -->
+
+        <div class="checkTableRowsummary">
+            <div class="checkTableCell" align="center">0</div>
+            <div class="checkTableCell goodsummary" align="center">0</div>
+            <div class="checkTableCell failuresummary" align="center">0</div>
+            <div class="checkTableCell warningsummary" align="center">0</div>
+        </div>
+    </div>
+
+    <div class="checkTablesummary">
+        <h3 class="servicesummarytitle">SERVICE DETAILS SUMMARY
+        </h3>
+        <div class="checkTableRow">
+            <div class="checkTableHeadsummary"><strong>Service</strong></div>
+            <div class="checkTableHeadsummary" align="center"><strong>Total Checks</strong></div>
+            <div class="checkTableHeadsummary" align="center"><strong>Passed</strong></div>
+            <div class="checkTableHeadsummary" align="center"><strong>Failed </strong></div>
+            <div class="checkTableHeadsummary" align="center"><strong>Warning</strong></div>
+        </div>
+
+        <% for(var data of totalData.summaryData) { %>
+        <div class="checkTableRowsummary">
+            <div class="checkTableCell"><%= data.service %></div>
+            <div class="checkTableCell" align="center"><%= data.noOfChecks %></div>
+            <div class="checkTableCell goodsummary" align="center"><%= data.noOfGood %></div>
+            <div class="checkTableCell failuresummary" align="center"><%= data.noOfFailure %></div>
+            <div class="checkTableCell warningsummary" align="center"><%= data.noOfWarning %></div>
+        </div>
+        <% } %>
+    </div>
+    <div class="cloudreportrepresents">
+        <h3 class="cloudreportrepresentstitle">CLOUD REPORT
+            REPRESENTS</h3>
+        <div class="representscontainer">
+            <div class="failedbox">FAILED</div>
+            <div class="warningbox">WARNING</div>
+            <div class="goodbox">GOOD</div>
+            <div class="infobox">INFO</div>
+        </div>
+    </div>
+</div>
+
+<div class="reportDetails" style='page-break-before: always;'>
     <% for(var serviceName in totalData.servicesData) { %>
     <% var serviceData = totalData.servicesData[serviceName]; 
             if(!serviceData.isUsed) {

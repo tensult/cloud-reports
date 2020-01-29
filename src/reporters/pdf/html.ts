@@ -3,6 +3,7 @@ import * as ejs from "ejs";
 
 function processReportData(reportData: any, includeOnlyIssues?: boolean) {
   const reportSummary: any[] = [];
+
   for (const serviceName in reportData) {
     const serviceCheckData = {
       service: serviceName,
@@ -11,6 +12,7 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
       noOfWarning: 0,
       noOfFailure: 0
     };
+
     for (const checkName in reportData[serviceName]) {
       for (const regionName in reportData[serviceName][checkName].regions) {
         if (regionName === "global") {
@@ -23,6 +25,7 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
           regionName
         ]) {
           let severity = regionData.severity;
+
           if (severity === "Good") {
             serviceCheckData.noOfGood++;
             serviceCheckData.noOfChecks++;
@@ -34,6 +37,7 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
             serviceCheckData.noOfChecks++;
           }
         }
+
         if (!regionDetails) {
           continue;
         }
