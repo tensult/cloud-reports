@@ -30,7 +30,7 @@ export class DynamoDBTablesBackupEnabledAnalyzer extends BaseAnalyzer {
                     name: "Table",
                     value: tableName,
                 };
-                if (tableBackupStatus.ContinuousBackupsStatus) {
+                if (tableBackupStatus.ContinuousBackupsStatus === "ENABLED") {
                     tableBackupEnableStatusAnalysis.severity = SeverityStatus.Good;
                     tableBackupEnableStatusAnalysis.message = "Backup already enabled";
                 } else {
@@ -50,7 +50,7 @@ export class DynamoDBTablesBackupEnabledAnalyzer extends BaseAnalyzer {
                     name: "Table",
                     value: tableName,
                 };
-                if (tableBackupStatus.PointInTimeRecoveryDescription.PointInTimeRecoveryStatus) {
+                if (tableBackupStatus.PointInTimeRecoveryDescription.PointInTimeRecoveryStatus === "ENABLED") {
                     tablePointInTimeRecoveryStatusAnalysis.severity = SeverityStatus.Good;
                     tablePointInTimeRecoveryStatusAnalysis.message = "PointInTimeRecovery already enabled";
                 } else {
