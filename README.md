@@ -152,7 +152,7 @@ You may want to run the report for multiple accounts with different set of crede
                                     });
     analysisPromise.then((analysisJsons) => console.log(JSON.stringify(analysisJsons, null, 2)));
 ```
-### Update service regions
+### Update service regions [Broken as AWS changed the documentation UI]
 We have written a [script](https://github.com/tensult/cloud-reports/blob/master/src/scripts/updateAwsServiceRegionsData.js) which updates the [AWS regions data](https://github.com/tensult/cloud-reports/blob/master/src/utils/aws/regions_data.ts)
 ```
 node src/scripts/updateAwsServiceRegionsData.js
