@@ -104,6 +104,10 @@ npm run scan -- --profile Your-AWS-profile  -f csv -i # This will only report is
 ```
 npm run scan -- --profile Your-AWS-profile  -f json
 ```
+* To generate report with custom name
+```
+npm run scan -- --profile Your-AWS-profile  -f json -o my-dev-account
+```
 #### [Sample reports](https://github.com/tensult/cloud-reports/tree/master/sample-reports)
 
 ### Debugging
