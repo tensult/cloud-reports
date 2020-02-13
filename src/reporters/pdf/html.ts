@@ -3,8 +3,12 @@ import * as ejs from "ejs";
 
 function processReportData(reportData: any, includeOnlyIssues?: boolean) {
   const reportSummary: any[] = [];
+  const totalreportSummary: any = {};
 
   for (const serviceName in reportData) {
+    if(serviceName === 'aws.account') {
+      continue;
+    }
     const serviceCheckData = {
       service: serviceName,
       noOfChecks: 0,
@@ -12,10 +16,10 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
       noOfWarning: 0,
       noOfFailure: 0
     };
-
-    for (const checkName in reportData[serviceName]) {
-      for (const regionName in reportData[serviceName][checkName].regions) {
-        if (regionName === "global") {
+  
+  for (const checkName in reportData[serviceName]) {
+    for (const regionName in reportData[serviceName][checkName].regions) {
+      if (regionName === "global") {
           reportData[serviceName][checkName].isGlobal = true;
         }
         let regionDetails =
@@ -25,16 +29,14 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
           regionName
         ]) {
           let severity = regionData.severity;
+          serviceCheckData.noOfChecks++;
 
           if (severity === "Good") {
             serviceCheckData.noOfGood++;
-            serviceCheckData.noOfChecks++;
           } else if (severity === "Warning") {
             serviceCheckData.noOfWarning++;
-            serviceCheckData.noOfChecks++;
           } else if (severity === "Failure") {
             serviceCheckData.noOfFailure++;
-            serviceCheckData.noOfChecks++;
           }
         }
 
@@ -61,18 +63,25 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
         reportData[serviceName].isUsed = true;
       }
     }
+
+
     reportSummary.push(serviceCheckData);
+    totalreportSummary.noOfChecks= (totalreportSummary.noOfChecks || 0) + serviceCheckData.noOfChecks;
+    totalreportSummary.noOfFailure= (totalreportSummary.noOfFailure || 0) + serviceCheckData.noOfFailure;
+    totalreportSummary.noOfGood= (totalreportSummary.noOfGood || 0) + serviceCheckData.noOfGood;
+    totalreportSummary.noOfWarning= (totalreportSummary.noOfWarning || 0) + serviceCheckData.noOfWarning;  
+  
   }
   return {
     servicesData: reportData,
-    summaryData: modifyServiceNames(reportSummary)
+    summaryData: modifyServiceNames(reportSummary),
+    totalsummaryData:totalreportSummary
   };
 }
 
 function modifyServiceNames(reportSummary) {
   const newReportSummary = reportSummary;
-  const serviceNameMap = {
-    "aws.account": "AWS account",
+  const serviceNameMap = {    
     "aws.acm": "AWS ACM",
     "aws.apigateway": "Amazon API Gateway",
     "aws.cloudfront": "Amazon CloudFront",

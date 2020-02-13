@@ -1,6 +1,5 @@
 <div class="cloudreportdatetime">
     <html>
-
     <body>
         <h2>Cloud Report</h2>
         <p id="cloudreportdatetime"></p>
@@ -9,7 +8,6 @@
             document.getElementById("cloudreportdatetime").innerHTML = d;
         </script>
     </body>
-
     </html>
 </div>
 
@@ -20,9 +18,7 @@
             <span>2</span>
         <li><span>2. Services</span>
             <span>3</span>
-            <ul style="list-style-type:disc;">
-                <li><span><a href="#account" class="alink">account</a></span>
-                    <span>4</span>
+            <ul style="list-style-type:disc;">               
                 <li><span><a href="#apigateway" class="alink">apigateway</a></span>
                     <span>4</span>
                 <li><span><a href="#cloudwatch" class="alink">cloudwatch</a></span>
@@ -58,9 +54,6 @@
     </ul>
 </div>
 
-
-
-
 <div style='page-break-before: always;'>
     <div class="checkTablesummary">
         <h3 class="totalreportsummarytitle">TOTAL CLOUD REPORT
@@ -71,23 +64,12 @@
             <div class="checkTableHeadsummary" align="center"><strong>Failed </strong></div>
             <div class="checkTableHeadsummary" align="center"><strong>Warning</strong></div>
         </div>
-        <!-- <%if (totalData.summaryData.length >0){ %>
-        <% totalData.summaryData.forEach(function(row){ %>
+      
         <div class="checkTableRowsummary">
-            <div class="checkTableCell" align="center"><%= row.noOfChecks %></div>
-            <div class="checkTableCell goodsummary" align="center">0</div>
-            <div class="checkTableCell failuresummary" align="center">0</div>
-            <div class="checkTableCell warningsummary" align="center">0</div>
-        </div>
-        <% })}else{ %>
-        <p>no records</p>
-        <% } %> -->
-
-        <div class="checkTableRowsummary">
-            <div class="checkTableCell" align="center">0</div>
-            <div class="checkTableCell goodsummary" align="center">0</div>
-            <div class="checkTableCell failuresummary" align="center">0</div>
-            <div class="checkTableCell warningsummary" align="center">0</div>
+            <div class="checkTableCell" align="center"><%= totalData.totalsummaryData.noOfChecks %></div>
+            <div class="checkTableCell goodsummary" align="center"><%= totalData.totalsummaryData.noOfGood %></div>
+            <div class="checkTableCell failuresummary" align="center"><%= totalData.totalsummaryData.noOfFailure %></div>
+            <div class="checkTableCell warningsummary" align="center"><%= totalData.totalsummaryData.noOfWarning %></div>
         </div>
     </div>
 
@@ -112,6 +94,7 @@
         </div>
         <% } %>
     </div>
+    
     <div class="cloudreportrepresents">
         <h3 class="cloudreportrepresentstitle">CLOUD REPORT
             REPRESENTS</h3>
@@ -131,7 +114,7 @@
                 continue;
             }
             serviceName = serviceName.replace('aws.', '');
-        %>
+    %>
     <div class="serviceDetails" id="<%= serviceName %>">
         <%- include('serviceDetails', {serviceData: serviceData, serviceName: serviceName}) %>
     </div>
