@@ -1,3 +1,4 @@
+[![Board Status](https://dev.azure.com/tensult/2c29ab5b-9000-4fa6-9749-f4e61e2ade0f/cf3227c2-a417-4152-9b04-adb28ea85230/_apis/work/boardbadge/fc868809-c7e9-4f6b-9d31-c36850a90084)](https://dev.azure.com/tensult/2c29ab5b-9000-4fa6-9749-f4e61e2ade0f/_boards/board/t/cf3227c2-a417-4152-9b04-adb28ea85230/Microsoft.RequirementCategory)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=73QY55FZWSPRJ)
 
 # Cloud Reports
