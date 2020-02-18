@@ -68,8 +68,6 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
     totalreportSummary.noOfGood = (totalreportSummary.noOfGood || 0) + serviceCheckData.noOfGood;
     totalreportSummary.noOfWarning = (totalreportSummary.noOfWarning || 0) + serviceCheckData.noOfWarning;
   }
-  // console.log(reportData)
-  require("fs").writeFileSync("reportData.json", JSON.stringify(reportData), 'utf8');
   return {
     servicesData: reportData,
     summaryData: modifyServiceNames(reportSummary),
@@ -149,8 +147,9 @@ export async function generateHTML(
   options = options || { showIssuesOnly: false };
   // await copyEJSFiles();
   const totalData = processReportData(reportData, options.showIssuesOnly);
+  const awsAccountId = totalData.servicesData["aws.account"].summary.regions.global[0].resourceSummary.value;
   return await new Promise((resolve, reject) => {
-    ejs.renderFile(__dirname + "/template.ejs", { totalData }, {}, function (
+    ejs.renderFile(__dirname + "/template.ejs", { totalData, awsAccountId }, {}, function (
       err,
       html
     ) {

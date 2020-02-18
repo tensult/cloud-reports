@@ -1,17 +1,18 @@
-
 <div class="cloudreportdatetime">
     <html>
+
     <body>
         <br><br>
-        <h2 style="color: #33acdd;">Cloud Reports</h2>      
-      <br>
-        <h3 id="cloudreportdatetime">
-        <script>            
-            var d = new Date();
-            document.getElementById("cloudreportdatetime").innerHTML = d;
-        </script> 
-        </h3>
+        <h2 style="color: #33acdd;">Cloud Reports</h2>
+        <h5 id="cloudreportdatetime">
+            <script>
+                var d = new Date();
+                document.getElementById("cloudreportdatetime").innerHTML = d;
+            </script>
+        </h5>
+        <h5 style="color: #33acdd;"> AWS Account ID : <%= awsAccountId %></h5>
     </body>
+
     </html>
 </div>
 <div style='page-break-before: always; margin-top:30px;'>
@@ -21,7 +22,7 @@
             <span>2</span>
         <li><span>2. Services</span>
             <span>3</span>
-            <ul style="list-style-type:disc;color: #33acdd;">                
+            <ul style="list-style-type:disc;color: #33acdd;">
                 <li><span><a href="#apigateway" class="alink">apigateway</a></span>
                     <span>4</span>
                 <li><span><a href="#cloudwatch" class="alink">cloudwatch</a></span>
@@ -58,31 +59,33 @@
 </div>
 
 <div style='page-break-before: always;'>
-    <h3 style="color: #33acdd;font-weight: bold;">TOTAL CLOUD REPORTS SUMMARY</h3>    
-    <div class="checkTablesummary">       
+    <h3 style="color: #33acdd;font-weight: bold;">TOTAL CLOUD REPORTS SUMMARY</h3>
+    <div class="checkTablesummary">
         <div class="checkTableRow">
             <div class="checkTableHeadsummary" align="center"><strong>Total </strong></div>
             <div class="checkTableHeadsummary" align="center"><strong>Failed </strong></div>
             <div class="checkTableHeadsummary" align="center"><strong>Warning</strong></div>
-            <div class="checkTableHeadsummary" align="center"><strong>Passed</strong></div>           
-        </div>      
+            <div class="checkTableHeadsummary" align="center"><strong>Passed</strong></div>
+        </div>
         <div class="checkTableRowsummary">
             <div class="checkTableCell" align="center"><%= totalData.totalsummaryData.noOfChecks %></div>
-            <div class="checkTableCell failuresummary" align="center"><%= totalData.totalsummaryData.noOfFailure %></div>
-            <div class="checkTableCell warningsummary" align="center"><%= totalData.totalsummaryData.noOfWarning %></div>
+            <div class="checkTableCell failuresummary" align="center"><%= totalData.totalsummaryData.noOfFailure %>
+            </div>
+            <div class="checkTableCell warningsummary" align="center"><%= totalData.totalsummaryData.noOfWarning %>
+            </div>
             <div class="checkTableCell goodsummary" align="center"><%= totalData.totalsummaryData.noOfGood %></div>
-           
+
         </div>
     </div>
-<br>
-<h3 style="color: #33acdd;font-weight: bold;">SERVICE DETAILS SUMMARY</h3>
-    <div class="checkTablesummary">       
-        <div class="checkTableRow" >
+    <br>
+    <h3 style="color: #33acdd;font-weight: bold;">SERVICE DETAILS SUMMARY</h3>
+    <div class="checkTablesummary">
+        <div class="checkTableRow">
             <div class="checkTableservice" align="center"><strong>Service</strong></div>
             <div class="checkTableservice" align="center"><strong>Total Checks</strong></div>
             <div class="checkTableservice" align="center"><strong>Failed </strong></div>
             <div class="checkTableservice" align="center"><strong>Warning</strong></div>
-            <div class="checkTableservice" align="center"><strong>Passed</strong></div>      
+            <div class="checkTableservice" align="center"><strong>Passed</strong></div>
         </div>
 
         <% for(var data of totalData.summaryData) { %>
@@ -91,7 +94,7 @@
             <div class="checkTableCell" align="center"><%= data.noOfChecks %></div>
             <div class="checkTableCell failuresummary" align="center"><%= data.noOfFailure %></div>
             <div class="checkTableCell warningsummary" align="center"><%= data.noOfWarning %></div>
-            <div class="checkTableCell goodsummary" align="center"><%= data.noOfGood %></div>       
+            <div class="checkTableCell goodsummary" align="center"><%= data.noOfGood %></div>
         </div>
         <% } %>
     </div>
