@@ -1,38 +1,35 @@
+
 import * as cpy from "cpy";
 import * as ejs from "ejs";
-import moment = require("moment");
-
 function processReportData(reportData: any, includeOnlyIssues?: boolean) {
   const reportSummary: any[] = [];
   const totalreportSummary: any = {};
- 
   for (const serviceName in reportData) {
-    if(serviceName === 'aws.account') {
+    if (serviceName === 'aws.account') {
       continue;
-  } 
-
-
-  const serviceCheckData = {
-    service: serviceName,
-    noOfChecks: 0,
-    noOfGood: 0,
-    noOfWarning: 0,
-    noOfFailure: 0
-  };  
-  for (const checkName in reportData[serviceName]) {
-    for (const regionName in reportData[serviceName][checkName].regions) {
-      if (regionName === "global") {
+    }
+    const serviceCheckData = {
+      service: serviceName,
+      noOfChecks: 0,
+      noOfGood: 0,
+      noOfWarning: 0,
+      noOfFailure: 0
+    };
+    for (const checkName in reportData[serviceName]) {
+      reportData[serviceName][checkName].allRegionsData = [];
+      for (const regionName in reportData[serviceName][checkName].regions) {
+        let regionsData = reportData[serviceName][checkName].regions[regionName].map(e => { e.region = regionName; return e; });
+        reportData[serviceName][checkName].allRegionsData = reportData[serviceName][checkName].allRegionsData.concat(regionsData);
+        if (regionName === "global") {
           reportData[serviceName][checkName].isGlobal = true;
         }
         let regionDetails =
           reportData[serviceName][checkName].regions[regionName];
-          
         for (const regionData of reportData[serviceName][checkName].regions[
           regionName
         ]) {
           let severity = regionData.severity;
           serviceCheckData.noOfChecks++;
-
           if (severity === "Good") {
             serviceCheckData.noOfGood++;
           } else if (severity === "Warning") {
@@ -41,7 +38,6 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
             serviceCheckData.noOfFailure++;
           }
         }
-
         if (!regionDetails) {
           continue;
         }
@@ -52,33 +48,64 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
               resourceDetails.severity === "Failure"
             );
           });
-         
-         reportData[serviceName][checkName].regions[regionName] = regionDetails;
+          reportData[serviceName][checkName].regions[
+            regionName
+          ] = regionDetails;
         }
         if (regionDetails && regionDetails.length) {
           reportData[serviceName][checkName].resourceName =
             regionDetails[0].resourceSummary.name;
         }
       }
+      reportData[serviceName][checkName].allRegionsData = sortRegionData(reportData[serviceName][checkName].allRegionsData);
       if (reportData[serviceName][checkName].resourceName) {
         reportData[serviceName].isUsed = true;
       }
+    }
+    reportSummary.push(serviceCheckData);
+    totalreportSummary.noOfChecks = (totalreportSummary.noOfChecks || 0) + serviceCheckData.noOfChecks;
+    totalreportSummary.noOfFailure = (totalreportSummary.noOfFailure || 0) + serviceCheckData.noOfFailure;
+    totalreportSummary.noOfGood = (totalreportSummary.noOfGood || 0) + serviceCheckData.noOfGood;
+    totalreportSummary.noOfWarning = (totalreportSummary.noOfWarning || 0) + serviceCheckData.noOfWarning;
   }
-  reportSummary.push(serviceCheckData);
-  totalreportSummary.noOfChecks= (totalreportSummary.noOfChecks || 0) + serviceCheckData.noOfChecks;
-  totalreportSummary.noOfFailure= (totalreportSummary.noOfFailure || 0) + serviceCheckData.noOfFailure;
-  totalreportSummary.noOfGood= (totalreportSummary.noOfGood || 0) + serviceCheckData.noOfGood;
-  totalreportSummary.noOfWarning= (totalreportSummary.noOfWarning || 0) + serviceCheckData.noOfWarning;  
+  // console.log(reportData)
+  require("fs").writeFileSync("reportData.json", JSON.stringify(reportData), 'utf8');
+  return {
+    servicesData: reportData,
+    summaryData: modifyServiceNames(reportSummary),
+    totalsummaryData: totalreportSummary
+  };
 }
-return {
-  servicesData: reportData,
-  summaryData: modifyServiceNames(reportSummary),
-  totalsummaryData:totalreportSummary
-};
+function sortRegionData(regionData: any[]) {
+  if (regionData.length === 0) {
+    return regionData;
+  }
+  const newRegionData: any[] = [];
+  while (regionData.findIndex(e => e.severity === "Failure") !== -1) {
+    const index = regionData.findIndex(e => e.severity === "Failure");
+    newRegionData.push(regionData[index]);
+    regionData.splice(index, 1);
+  }
+  while (regionData.findIndex(e => e.severity === "Warning") !== -1) {
+    const index = regionData.findIndex(e => e.severity === "Warning");
+    newRegionData.push(regionData[index]);
+    regionData.splice(index, 1);
+  }
+  while (regionData.findIndex(e => e.severity === "Info") !== -1) {
+    const index = regionData.findIndex(e => e.severity === "Info");
+    newRegionData.push(regionData[index]);
+    regionData.splice(index, 1);
+  }
+  while (regionData.findIndex(e => e.severity === "Good") !== -1) {
+    const index = regionData.findIndex(e => e.severity === "Good");
+    newRegionData.push(regionData[index]);
+    regionData.splice(index, 1);
+  }
+  return newRegionData;
 }
 function modifyServiceNames(reportSummary) {
   const newReportSummary = reportSummary;
-  const serviceNameMap = {    
+  const serviceNameMap = {
     "aws.acm": "AWS ACM",
     "aws.apigateway": "Amazon API Gateway",
     "aws.cloudfront": "Amazon CloudFront",
@@ -106,14 +133,12 @@ function modifyServiceNames(reportSummary) {
   }
   return newReportSummary;
 }
-
 function copyEJSFiles() {
   return cpy(["reporters/**/*.ejs"], "../dist", {
     cwd: "src",
     parents: true
   });
 }
-
 export async function generateHTML(
   reportData: any,
   options?: {
@@ -125,7 +150,7 @@ export async function generateHTML(
   // await copyEJSFiles();
   const totalData = processReportData(reportData, options.showIssuesOnly);
   return await new Promise((resolve, reject) => {
-    ejs.renderFile(__dirname + "/template.ejs", { totalData }, {}, function(
+    ejs.renderFile(__dirname + "/template.ejs", { totalData }, {}, function (
       err,
       html
     ) {
@@ -137,3 +162,5 @@ export async function generateHTML(
     });
   });
 }
+
+
