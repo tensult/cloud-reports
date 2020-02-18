@@ -1,10 +1,13 @@
+
 import * as cpy from "cpy";
 import * as ejs from "ejs";
-
 function processReportData(reportData: any, includeOnlyIssues?: boolean) {
   const reportSummary: any[] = [];
-
+  const totalreportSummary: any = {};
   for (const serviceName in reportData) {
+    if (serviceName === 'aws.account') {
+      continue;
+    }
     const serviceCheckData = {
       service: serviceName,
       noOfChecks: 0,
@@ -12,32 +15,29 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
       noOfWarning: 0,
       noOfFailure: 0
     };
-
     for (const checkName in reportData[serviceName]) {
+      reportData[serviceName][checkName].allRegionsData = [];
       for (const regionName in reportData[serviceName][checkName].regions) {
+        let regionsData = reportData[serviceName][checkName].regions[regionName].map(e => { e.region = regionName; return e; });
+        reportData[serviceName][checkName].allRegionsData = reportData[serviceName][checkName].allRegionsData.concat(regionsData);
         if (regionName === "global") {
           reportData[serviceName][checkName].isGlobal = true;
         }
         let regionDetails =
           reportData[serviceName][checkName].regions[regionName];
-
         for (const regionData of reportData[serviceName][checkName].regions[
           regionName
         ]) {
           let severity = regionData.severity;
-
+          serviceCheckData.noOfChecks++;
           if (severity === "Good") {
             serviceCheckData.noOfGood++;
-            serviceCheckData.noOfChecks++;
           } else if (severity === "Warning") {
             serviceCheckData.noOfWarning++;
-            serviceCheckData.noOfChecks++;
           } else if (severity === "Failure") {
             serviceCheckData.noOfFailure++;
-            serviceCheckData.noOfChecks++;
           }
         }
-
         if (!regionDetails) {
           continue;
         }
@@ -57,22 +57,53 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
             regionDetails[0].resourceSummary.name;
         }
       }
+      reportData[serviceName][checkName].allRegionsData = sortRegionData(reportData[serviceName][checkName].allRegionsData);
       if (reportData[serviceName][checkName].resourceName) {
         reportData[serviceName].isUsed = true;
       }
     }
     reportSummary.push(serviceCheckData);
+    totalreportSummary.noOfChecks = (totalreportSummary.noOfChecks || 0) + serviceCheckData.noOfChecks;
+    totalreportSummary.noOfFailure = (totalreportSummary.noOfFailure || 0) + serviceCheckData.noOfFailure;
+    totalreportSummary.noOfGood = (totalreportSummary.noOfGood || 0) + serviceCheckData.noOfGood;
+    totalreportSummary.noOfWarning = (totalreportSummary.noOfWarning || 0) + serviceCheckData.noOfWarning;
   }
   return {
     servicesData: reportData,
-    summaryData: modifyServiceNames(reportSummary)
+    summaryData: modifyServiceNames(reportSummary),
+    totalsummaryData: totalreportSummary
   };
 }
-
+function sortRegionData(regionData: any[]) {
+  if (regionData.length === 0) {
+    return regionData;
+  }
+  const newRegionData: any[] = [];
+  while (regionData.findIndex(e => e.severity === "Failure") !== -1) {
+    const index = regionData.findIndex(e => e.severity === "Failure");
+    newRegionData.push(regionData[index]);
+    regionData.splice(index, 1);
+  }
+  while (regionData.findIndex(e => e.severity === "Warning") !== -1) {
+    const index = regionData.findIndex(e => e.severity === "Warning");
+    newRegionData.push(regionData[index]);
+    regionData.splice(index, 1);
+  }
+  while (regionData.findIndex(e => e.severity === "Info") !== -1) {
+    const index = regionData.findIndex(e => e.severity === "Info");
+    newRegionData.push(regionData[index]);
+    regionData.splice(index, 1);
+  }
+  while (regionData.findIndex(e => e.severity === "Good") !== -1) {
+    const index = regionData.findIndex(e => e.severity === "Good");
+    newRegionData.push(regionData[index]);
+    regionData.splice(index, 1);
+  }
+  return newRegionData;
+}
 function modifyServiceNames(reportSummary) {
   const newReportSummary = reportSummary;
   const serviceNameMap = {
-    "aws.account": "AWS account",
     "aws.acm": "AWS ACM",
     "aws.apigateway": "Amazon API Gateway",
     "aws.cloudfront": "Amazon CloudFront",
@@ -100,14 +131,12 @@ function modifyServiceNames(reportSummary) {
   }
   return newReportSummary;
 }
-
 function copyEJSFiles() {
   return cpy(["reporters/**/*.ejs"], "../dist", {
     cwd: "src",
     parents: true
   });
 }
-
 export async function generateHTML(
   reportData: any,
   options?: {
@@ -118,8 +147,9 @@ export async function generateHTML(
   options = options || { showIssuesOnly: false };
   // await copyEJSFiles();
   const totalData = processReportData(reportData, options.showIssuesOnly);
+  const awsAccountId = totalData.servicesData["aws.account"].summary.regions.global[0].resourceSummary.value;
   return await new Promise((resolve, reject) => {
-    ejs.renderFile(__dirname + "/template.ejs", { totalData }, {}, function(
+    ejs.renderFile(__dirname + "/template.ejs", { totalData, awsAccountId }, {}, function (
       err,
       html
     ) {
@@ -131,3 +161,5 @@ export async function generateHTML(
     });
   });
 }
+
+

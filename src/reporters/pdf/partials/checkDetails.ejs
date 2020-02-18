@@ -22,15 +22,14 @@
         <div class="checkTableHead"><strong><%= checkData.resourceName %></strong></div>
         <div class="checkTableHead"><strong>Message</strong></div>
         <div class="checkTableHead"><strong>Action</strong></div>
-
     </div>
     <div class="checkTableBody">
-        <% for(var regionName in checkData.regions) { %>
-        <% var regionData = checkData.regions[regionName]; %>
-        <% for(var r=0; r < regionData.length; r++)  { %>
-        <% var resourceData = regionData[r]; %>
-        <%- include('resourceDetails', { regionName, resourceValue: resourceData.resourceSummary.value, analysis: resourceData}) %>
-        <% } %>
+        <% for(var i=0; i < checkData.allRegionsData.length; i++) { 
+            var data = checkData.allRegionsData[i];
+            var region = data.region;
+            var resourceValue = data.resourceSummary.value;
+        %>
+        <%- include('resourceDetails', { region, resourceValue, analysis: data}) %>
         <% } %>
     </div>
 </div>
