@@ -1,7 +1,10 @@
 <style>
+    #cloudreportdatetime{
+        color: #33acdd;
+    }
     .status {
         font-weight: bold;
-    }
+    }    
 
     .info {
         background-color: #3773b3;
@@ -71,6 +74,7 @@
     .checkTable {
         display: table;
         width: 100%;
+        
     }
 
     .checkTableRow {
@@ -80,14 +84,14 @@
     }
 
     .checkTableCell.desc {
-        width: 100%;
+        width: 0%;
     }
 
     .checkTableCell,
     .checkTableHead {
         border: 1px solid #999999;
         display: table-cell;
-        padding: 2px;
+        padding: 2px;        
     }
 
     .resourceName {
@@ -102,7 +106,6 @@
         page-break-inside: avoid;
         color: #33acdd;
     }
-
 
     .checkTableBody {
         display: table-row-group;
@@ -127,7 +130,6 @@
 
     }
 
-    /* -------------------------------------------------PDF CSS ------------------------------------------------ */
     .cloudreportdatetime {
         font: 10pt sans-serif;
         color: black;
@@ -137,31 +139,12 @@
         padding-top: 50px;
     }
 
-    .totalreportsummarytitle {
-        color: black;
-        font-weight: bold;
-        font-size: larger;
-
-    }
-
-    .servicesummarytitle {
-        color: black;
-        font-weight: bold;
-        font-size: larger;
-    }
-
-    .representscontainer {
-        width: 100%;
-        height: 200px;
-        background-color: white;
-    }
-
-
 
     .checkTablesummary {
         display: table;
-        width: 100%;
-
+        width: 100%; 
+        padding: 0px;
+        margin: 0px
     }
 
     .goodsummary {
@@ -176,32 +159,28 @@
         color: #FF3933;
     }
 
-    .checkTableHeadingsummary {
-        display: table-caption;
-        font-weight: bold;
-        font-family: 'Montserrat' !important;
+    .checkTableservice{
+        padding-top: 12px;
+        padding-bottom: 12px;
+        background-color:#33acdd;
+        color: white;       
+        border: 1px solid #999999;
+        display: table-cell;
         padding: 2px;
-        page-break-inside: avoid;
-        color: #33acdd;
-        font-size: 800%;
-        padding-top: 15px;
-        padding-bottom: 20px;
-        margin-left: 190px;
-
-    }
-
+         width: 28%;
+}
 
     .checkTableHeadsummary {
         padding-top: 12px;
         padding-bottom: 12px;
-        background-color: #0000A0;
-        color: white;
+        background-color:#33acdd;
+        color: white;        
         border: 1px solid #999999;
         display: table-cell;
         padding: 2px;
-
-
+        width: 25%;
     }
+   
 
     .checkTableRowsummary {
         display: table-row;
@@ -218,20 +197,25 @@
         text-align: center;
         font-weight: bolder;
         font-size: x-large;
+        color: #33acdd;
     }
 
     ul.leaders {
         max-width: 40em;
         padding: 0;
         overflow-x: hidden;
-        list-style: none
+        list-style: none;
+        color: #33acdd;
+
     }
 
     ul.leaders li:before {
         float: left;
         width: 0;
         white-space: nowrap;
+        color: #33acdd;
         content:
+       
             ". . . . . . . . . . . . . . . . . . . . "
             ". . . . . . . . . . . . . . . . . . . . "
             ". . . . . . . . . . . . . . . . . . . . "
@@ -251,74 +235,10 @@
         background: white
     }
 
-
-
     .alink {
         text-decoration: none;
-        color: black;
-    }
-
-    .cloudreportrepresents {
-
-        padding-top: 55px;
+        color:#33acdd;
     }
 
 
-    .cloudreportrepresentstitle {
-        color: black;
-        font-weight: bolder;
-        font-size: larger;
-    }
-
-    .failedbox {
-        width: 23%;
-        height: 25%;
-        float: left;
-        margin: 1%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        font-weight: bolder;
-        background-color: #FF3933;
-    }
-
-    .warningbox {
-        width: 23%;
-        height: 25%;
-        float: left;
-        margin: 1%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        font-weight: bolder;
-        background-color: #FFC300;
-    }
-
-    .goodbox {
-        width: 23%;
-        height: 25%;
-        float: left;
-        margin: 1%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        font-weight: bolder;
-        background-color: #40a977;
-    }
-
-    .infobox {
-        width: 23%;
-        height: 25%;
-        float: left;
-        margin: 1%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        font-weight: bolder;
-        background-color: #3773b3;
-    }
 </style>

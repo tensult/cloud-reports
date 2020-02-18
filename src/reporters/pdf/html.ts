@@ -1,22 +1,24 @@
 import * as cpy from "cpy";
 import * as ejs from "ejs";
+import moment = require("moment");
 
 function processReportData(reportData: any, includeOnlyIssues?: boolean) {
   const reportSummary: any[] = [];
   const totalreportSummary: any = {};
-
+ 
   for (const serviceName in reportData) {
     if(serviceName === 'aws.account') {
       continue;
-    }
-    const serviceCheckData = {
-      service: serviceName,
-      noOfChecks: 0,
-      noOfGood: 0,
-      noOfWarning: 0,
-      noOfFailure: 0
-    };
-  
+  } 
+
+
+  const serviceCheckData = {
+    service: serviceName,
+    noOfChecks: 0,
+    noOfGood: 0,
+    noOfWarning: 0,
+    noOfFailure: 0
+  };  
   for (const checkName in reportData[serviceName]) {
     for (const regionName in reportData[serviceName][checkName].regions) {
       if (regionName === "global") {
@@ -24,7 +26,7 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
         }
         let regionDetails =
           reportData[serviceName][checkName].regions[regionName];
-
+          
         for (const regionData of reportData[serviceName][checkName].regions[
           regionName
         ]) {
@@ -50,9 +52,8 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
               resourceDetails.severity === "Failure"
             );
           });
-          reportData[serviceName][checkName].regions[
-            regionName
-          ] = regionDetails;
+         
+         reportData[serviceName][checkName].regions[regionName] = regionDetails;
         }
         if (regionDetails && regionDetails.length) {
           reportData[serviceName][checkName].resourceName =
@@ -62,23 +63,19 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
       if (reportData[serviceName][checkName].resourceName) {
         reportData[serviceName].isUsed = true;
       }
-    }
-
-
-    reportSummary.push(serviceCheckData);
-    totalreportSummary.noOfChecks= (totalreportSummary.noOfChecks || 0) + serviceCheckData.noOfChecks;
-    totalreportSummary.noOfFailure= (totalreportSummary.noOfFailure || 0) + serviceCheckData.noOfFailure;
-    totalreportSummary.noOfGood= (totalreportSummary.noOfGood || 0) + serviceCheckData.noOfGood;
-    totalreportSummary.noOfWarning= (totalreportSummary.noOfWarning || 0) + serviceCheckData.noOfWarning;  
-  
   }
-  return {
-    servicesData: reportData,
-    summaryData: modifyServiceNames(reportSummary),
-    totalsummaryData:totalreportSummary
-  };
+  reportSummary.push(serviceCheckData);
+  totalreportSummary.noOfChecks= (totalreportSummary.noOfChecks || 0) + serviceCheckData.noOfChecks;
+  totalreportSummary.noOfFailure= (totalreportSummary.noOfFailure || 0) + serviceCheckData.noOfFailure;
+  totalreportSummary.noOfGood= (totalreportSummary.noOfGood || 0) + serviceCheckData.noOfGood;
+  totalreportSummary.noOfWarning= (totalreportSummary.noOfWarning || 0) + serviceCheckData.noOfWarning;  
 }
-
+return {
+  servicesData: reportData,
+  summaryData: modifyServiceNames(reportSummary),
+  totalsummaryData:totalreportSummary
+};
+}
 function modifyServiceNames(reportSummary) {
   const newReportSummary = reportSummary;
   const serviceNameMap = {    

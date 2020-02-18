@@ -24,13 +24,15 @@
         <div class="checkTableHead"><strong>Action</strong></div>
 
     </div>
+  
     <div class="checkTableBody">
         <% for(var regionName in checkData.regions) { %>
-        <% var regionData = checkData.regions[regionName]; %>
+        <% var regionData = checkData.regions[regionName];%>
         <% for(var r=0; r < regionData.length; r++)  { %>
-        <% var resourceData = regionData[r]; %>
+        <% var resourceData = regionData[r];%> 
         <%- include('resourceDetails', { regionName, resourceValue: resourceData.resourceSummary.value, analysis: resourceData}) %>
         <% } %>
         <% } %>
     </div>
+   
 </div>
