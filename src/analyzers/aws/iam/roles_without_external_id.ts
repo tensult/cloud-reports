@@ -5,6 +5,9 @@ import { BaseAnalyzer } from "../../base";
 export class RolesWithoutExternalIDAnalyzer extends BaseAnalyzer {
 
     public analyze(params: any, fullReport?: any): any {
+        if(!params.roles) {
+            return undefined;
+        }
         const allRolesPolicies = this.getAssumeRolePolicyDocument(params.roles);
         const mainAccountID = this.getAccountIDs(params.roles[0].Arn)[0];
         const permittedAccounts = this.getPermittedAccounts(allRolesPolicies);

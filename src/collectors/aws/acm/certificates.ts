@@ -3,39 +3,51 @@ import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
+import { IDictionary } from "../../../types";
+
 export class CertificateCollector extends BaseCollector {
-    public collect(callback: (err?: Error, data?: any) => void) {
-        return this.getAllCertificates();
-    }
+  private context: IDictionary<any> = {};
+  public getContext() {
+    return this.context;
+  }
 
-    private async getAllCertificates() {
+  public collect(callback: (err?: Error, data?: any) => void) {
+    return this.getAllCertificates();
+  }
 
-        const serviceName = "ACM";
-        const acmRegions = this.getRegions(serviceName);
-        const certificates = {};
+  private async getAllCertificates() {
+    const serviceName = "ACM";
+    const acmRegions = this.getRegions(serviceName);
+    const certificates = {};
 
-        for (const region of acmRegions) {
-            try {
-                const acm = this.getClient(serviceName, region) as AWS.ACM;
-                certificates[region] = [];
-                let fetchPending = true;
-                let marker: string | undefined;
-                while (fetchPending) {
-                    const certificatesResponse: AWS.ACM.ListCertificatesResponse = await acm.listCertificates({
-                        NextToken: marker,
-                    }).promise();
-                    if (certificatesResponse.CertificateSummaryList) {
-                        certificates[region] = certificates[region].concat(certificatesResponse.CertificateSummaryList);
-                    }
-                    marker = certificatesResponse.NextToken;
-                    fetchPending = marker !== undefined;
-                    await CommonUtil.wait(200);
-                }
-            } catch (error) {
-                AWSErrorHandler.handle(error);
-                continue;
-            }
+    for (const region of acmRegions) {
+      try {
+        const acm = this.getClient(serviceName, region) as AWS.ACM;
+        certificates[region] = [];
+        this.context[region] = region;
+
+        let fetchPending = true;
+        let marker: string | undefined;
+        while (fetchPending) {
+          const certificatesResponse: AWS.ACM.ListCertificatesResponse = await acm
+            .listCertificates({
+              NextToken: marker
+            })
+            .promise();
+          if (certificatesResponse.CertificateSummaryList) {
+            certificates[region] = certificates[region].concat(
+              certificatesResponse.CertificateSummaryList
+            );
+          }
+          marker = certificatesResponse.NextToken;
+          fetchPending = marker !== undefined;
+          await CommonUtil.wait(200);
         }
-        return { certificates };
+      } catch (error) {
+        AWSErrorHandler.handle(error);
+        continue;
+      }
     }
+    return { certificates };
+  }
 }

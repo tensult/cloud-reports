@@ -17,7 +17,7 @@ export class AWSErrorHandler {
 
     private static makeError(error: AWSError, params: any[]) {
         if (params && params.length) {
-            return new Error(error.code + ":" + error.message + " " + params);
+            return new Error(error.code + ":" + error.message + " " + JSON.stringify(params, null, 2));
         }
         return error;
     }

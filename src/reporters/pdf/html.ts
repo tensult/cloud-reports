@@ -147,7 +147,7 @@ export async function generateHTML(
   options = options || { showIssuesOnly: false };
   // await copyEJSFiles();
   const totalData = processReportData(reportData, options.showIssuesOnly);
-  const awsAccountId = totalData.servicesData["aws.account"].summary.regions.global[0].resourceSummary.value;
+  const awsAccountId = totalData.servicesData["aws.account"] ? totalData.servicesData["aws.account"].summary.regions.global[0].resourceSummary.value : "";
   return await new Promise((resolve, reject) => {
     ejs.renderFile(__dirname + "/template.ejs", { totalData, awsAccountId }, {}, function (
       err,
