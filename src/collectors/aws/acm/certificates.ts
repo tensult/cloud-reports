@@ -24,6 +24,8 @@ export class CertificateCollector extends BaseCollector {
       try {
         const acm = this.getClient(serviceName, region) as AWS.ACM;
         certificates[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

@@ -26,6 +26,8 @@ export class RDSClustersCollector extends BaseCollector {
       try {
         const rds = self.getClient(serviceName, region) as AWS.RDS;
         clusters[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

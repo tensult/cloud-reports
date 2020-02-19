@@ -29,6 +29,8 @@ export class ElbV2AttributesCollector extends BaseCollector {
         try {
           const elbService = this.getClient(serviceName, region) as AWS.ELBv2;
           const regionElbs = elbs[region];
+          this.context[region] = region;
+
           const allRegionElbAttributes = {};
           for (const elb of regionElbs) {
             const regionElbAttributes: AWS.ELBv2.DescribeLoadBalancerAttributesOutput = await elbService

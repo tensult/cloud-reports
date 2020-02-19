@@ -29,6 +29,8 @@ export class ResourceGroupsCollector extends BaseCollector {
           region
         ) as AWS.ResourceGroups;
         resource_groups[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

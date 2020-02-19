@@ -26,6 +26,8 @@ export class LogGroupsCollector extends BaseCollector {
           region
         ) as AWS.CloudWatchLogs;
         log_groups[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

@@ -30,6 +30,10 @@ export class QueueAttributesCollector extends BaseCollector {
         try {
           const sqs = this.getClient(serviceName, region) as AWS.SQS;
           queue_attributes[region] = {};
+          this.context[region] = region;
+
+          this.context[region] = region;
+
           for (const queueUrl of queue_urls[region]) {
             const getQueueAttributesResult: AWS.SQS.GetQueueAttributesResult = await sqs
               .getQueueAttributes({

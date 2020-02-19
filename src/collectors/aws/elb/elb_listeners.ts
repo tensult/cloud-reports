@@ -30,6 +30,8 @@ export class ElbV2ListenersCollector extends BaseCollector {
         try {
           const elbService = self.getClient(serviceName, region) as AWS.ELBv2;
           const regionElbs = elbs[region];
+          this.context[region] = region;
+
           const allRegionElbListeners = {};
           for (const elb of regionElbs) {
             const regionElbListeners: AWS.ELBv2.DescribeListenersOutput = await elbService

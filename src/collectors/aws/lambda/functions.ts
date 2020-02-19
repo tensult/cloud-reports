@@ -26,6 +26,8 @@ export class LambdaFunctionsCollector extends BaseCollector {
       try {
         const lambda = self.getClient(serviceName, region) as AWS.Lambda;
         functions[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

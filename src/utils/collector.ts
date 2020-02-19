@@ -16,7 +16,7 @@ export class CollectorUtil {
             }
             return await sessionCache.collectors[collectorName];
         } catch (error) {
-            AWSErrorHandler.handle(error);
+            AWSErrorHandler.handle(error, collector.getContext());
         }
     }
 }

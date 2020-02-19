@@ -37,6 +37,8 @@ export class ESDomainConfigsCollector extends BaseCollector {
         try {
           const es = this.getClient(serviceName, region) as AWS.ES;
           domain_configs[region] = {};
+          this.context[region] = region;
+
           for (const domainName of domainNames[region]) {
             const domainConfigResponse: AWS.ES.DescribeElasticsearchDomainConfigResponse = await es
               .describeElasticsearchDomainConfig({ DomainName: domainName })

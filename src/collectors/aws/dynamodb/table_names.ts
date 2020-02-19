@@ -24,6 +24,8 @@ export class DynamoDBTableNamesCollector extends BaseCollector {
       try {
         const dynamoDB = this.getClient(serviceName, region) as AWS.DynamoDB;
         tableNames[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

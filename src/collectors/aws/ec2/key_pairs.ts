@@ -18,6 +18,7 @@ export class KeyPairsCollector extends BaseCollector {
     for (const region of ec2Regions) {
       try {
         const ec2 = this.getClient(serviceName, region) as AWS.EC2;
+        this.context[region] = region;
         const keyPairsResponse: AWS.EC2.DescribeKeyPairsResult = await ec2
           .describeKeyPairs()
           .promise();

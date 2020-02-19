@@ -26,6 +26,8 @@ export class RDSReservedInstancesCollector extends BaseCollector {
         let fetchPending = true;
         let marker: string | undefined;
         reserved_instances[region] = [];
+        this.context[region] = region;
+
         while (fetchPending) {
           const instancesResponse: AWS.RDS.ReservedDBInstanceMessage = await rds
             .describeReservedDBInstances({ Marker: marker })

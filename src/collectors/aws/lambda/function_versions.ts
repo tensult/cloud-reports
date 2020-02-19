@@ -30,6 +30,8 @@ export class LambdaFunctionVersionsCollector extends BaseCollector {
       const functions = functionsData.functions;
       for (const region of lambdaRegions) {
         function_versions[region] = {};
+        this.context[region] = region;
+
         try {
           const lambda = self.getClient(serviceName, region) as AWS.Lambda;
           for (const fn of functions[region]) {

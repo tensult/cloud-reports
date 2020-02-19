@@ -18,6 +18,8 @@ export class SecurityGroupsCollector extends BaseCollector {
     for (const region of ec2Regions) {
       try {
         const ec2 = this.getClient(serviceName, region) as AWS.EC2;
+        this.context[region] = region;
+
         const securityGroupsResponse: AWS.EC2.DescribeSecurityGroupsResult = await ec2
           .describeSecurityGroups()
           .promise();

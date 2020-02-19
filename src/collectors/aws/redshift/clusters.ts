@@ -26,6 +26,8 @@ export class RedshiftClustersCollector extends BaseCollector {
       try {
         const redshift = self.getClient(serviceName, region) as AWS.Redshift;
         clusters[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

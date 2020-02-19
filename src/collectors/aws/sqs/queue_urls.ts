@@ -23,6 +23,8 @@ export class QueueUrlsCollector extends BaseCollector {
       try {
         const sqs = this.getClient(serviceName, region) as AWS.SQS;
         queue_urls[region] = [];
+        this.context[region] = region;
+
         const queueUrlsResponse: AWS.SQS.ListQueuesResult = await sqs
           .listQueues()
           .promise();

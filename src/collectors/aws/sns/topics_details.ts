@@ -29,6 +29,8 @@ export class TopicsDetailsCollector extends BaseCollector {
         try {
           const snsService = self.getClient(serviceName, region) as AWS.SNS;
           const regionTopics = topics[region];
+          this.context[region] = region;
+
           const allRegionTopicDetails: AWS.SNS.TopicAttributesMap[] = [];
           for (const topic of regionTopics) {
             if (topic.TopicArn) {

@@ -26,6 +26,8 @@ export class ESDomainNamesCollector extends BaseCollector {
         const domainsResponse: AWS.ES.ListDomainNamesResponse = await es
           .listDomainNames()
           .promise();
+        this.context[region] = region;
+
         if (domainsResponse && domainsResponse.DomainNames) {
           domain_names[region] = domainsResponse.DomainNames.map(domain => {
             return domain.DomainName;

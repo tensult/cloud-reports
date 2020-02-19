@@ -34,6 +34,8 @@ export class VolumeSnapshotsCollector extends BaseCollector {
         try {
           const ec2 = this.getClient(serviceName, region) as AWS.EC2;
           snapshots[region] = {};
+          this.context[region] = region;
+
           for (const volume of volumesData.volumes[region]) {
             snapshots[region][volume.VolumeId] = [];
             let fetchPending = true;

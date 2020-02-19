@@ -23,6 +23,8 @@ export class ElasticIPsCollector extends BaseCollector {
     for (const region of ec2Regions) {
       try {
         const ec2 = this.getClient(serviceName, region) as AWS.EC2;
+        this.context[region] = region;
+
         const elasticIPsResponse: AWS.EC2.DescribeAddressesResult = await ec2
           .describeAddresses()
           .promise();

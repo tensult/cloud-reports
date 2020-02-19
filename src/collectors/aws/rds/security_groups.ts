@@ -26,6 +26,8 @@ export class RDSSecurityGroupsCollector extends BaseCollector {
       try {
         const rds = self.getClient(serviceName, region) as AWS.RDS;
         security_groups[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

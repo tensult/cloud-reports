@@ -31,6 +31,8 @@ export class DynamoDBTableBackupsCollector extends BaseCollector {
         try {
           const dynamoDB = this.getClient(serviceName, region) as AWS.DynamoDB;
           tables_backup[region] = {};
+          this.context[region] = region;
+
           for (const tableName of tableNames[region]) {
             const tableBackupResponse: AWS.DynamoDB.DescribeContinuousBackupsOutput = await dynamoDB
               .describeContinuousBackups({ TableName: tableName })

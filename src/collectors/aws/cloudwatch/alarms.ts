@@ -26,6 +26,8 @@ export class AlarmsCollector extends BaseCollector {
           region
         ) as AWS.CloudWatch;
         alarms[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

@@ -10,7 +10,7 @@ function getModules(moduleNames?: string | string[]) {
         return [];
     }
     if (Array.isArray(moduleNames)) {
-        return moduleNames;
+        moduleNames;
     } else if (typeof moduleNames === "string") {
         return moduleNames.split(",");
     }
@@ -33,6 +33,7 @@ export async function collect(moduleNames?: string | string[], credentials?: any
                 return false;
             }
             if (modules.length) {
+                modules.push("account");
                 return modules.some((moduleName) => {
                     return collectorName.split(".").indexOf(moduleName) !== -1;
                 });

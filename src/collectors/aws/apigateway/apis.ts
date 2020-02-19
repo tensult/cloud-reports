@@ -27,6 +27,8 @@ export class ApisCollector extends BaseCollector {
           region
         ) as AWS.APIGateway;
         apis[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

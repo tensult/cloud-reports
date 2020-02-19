@@ -24,6 +24,8 @@ export class ESReservedInstancesCollector extends BaseCollector {
       try {
         const es = this.getClient(serviceName, region) as AWS.ES;
         reserved_instances[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

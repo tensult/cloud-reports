@@ -23,6 +23,8 @@ export class SubscriptionsCollector extends BaseCollector {
       try {
         const sns = this.getClient(serviceName, region) as AWS.SNS;
         subscriptions[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

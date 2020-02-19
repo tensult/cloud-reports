@@ -30,6 +30,8 @@ export class DynamoDBTablesDetailsCollector extends BaseCollector {
       try {
         const dynamoDB = this.getClient(serviceName, region) as AWS.DynamoDB;
         tables_details[region] = [];
+        this.context[region] = region;
+
         for (const tableName of tableNames[region]) {
           const tableResponse: AWS.DynamoDB.DescribeTableOutput = await dynamoDB
             .describeTable({ TableName: tableName })

@@ -26,6 +26,8 @@ export class ElbV2sCollector extends BaseCollector {
       try {
         const elb = self.getClient(serviceName, region) as AWS.ELBv2;
         elbs[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

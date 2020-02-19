@@ -24,6 +24,8 @@ export class VolumesCollector extends BaseCollector {
       try {
         const ec2 = this.getClient(serviceName, region) as AWS.EC2;
         volumes[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

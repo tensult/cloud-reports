@@ -26,6 +26,8 @@ export class FlowLogsCollector extends BaseCollector {
       try {
         const ec2 = self.getClient(serviceName, region) as AWS.EC2;
         flow_logs[region] = [];
+        this.context[region] = region;
+
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {

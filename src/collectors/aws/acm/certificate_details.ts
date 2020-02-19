@@ -32,6 +32,8 @@ export class CertificateDetailsCollector extends BaseCollector {
         try {
           const acmService = self.getClient(serviceName, region) as AWS.ACM;
           const regionCertificates = certificates[region];
+          this.context[region] = region;
+
           const allRegionCertificateDetails: AWS.ACM.CertificateDetail[] = [];
           for (const certificate of regionCertificates) {
             const regionCertificateDetails: AWS.ACM.DescribeCertificateResponse = await acmService

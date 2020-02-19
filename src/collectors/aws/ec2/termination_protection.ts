@@ -31,6 +31,8 @@ export class TerminationProtectionCollector extends BaseCollector {
         try {
           const ec2 = this.getClient(serviceName, region) as AWS.EC2;
           termination_protection[region] = {};
+          this.context[region] = region;
+
           for (const instance of instances[region]) {
             const instanceAttributeResponse: AWS.EC2.InstanceAttribute = await ec2
               .describeInstanceAttribute({
