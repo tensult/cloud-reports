@@ -3,7 +3,14 @@ import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
+import { IDictionary } from "../../../types";
+
 export class AlarmsCollector extends BaseCollector {
+  private context: IDictionary<any> = {};
+  public getContext() {
+    return this.context;
+  }
+
   public collect(callback: (err?: Error, data?: any) => void) {
     return this.getAllAlarms();
   }
@@ -14,13 +21,17 @@ export class AlarmsCollector extends BaseCollector {
     const alarms = {};
     for (const region of CloudWatchRegions) {
       try {
-        const CloudWatchService = self.getClient(serviceName, region) as AWS.CloudWatch;
+        const CloudWatchService = self.getClient(
+          serviceName,
+          region
+        ) as AWS.CloudWatch;
         alarms[region] = [];
         let fetchPending = true;
         let marker: string | undefined;
         while (fetchPending) {
-          const alarmsResponse: AWS.CloudWatch.Types.DescribeAlarmsOutput =
-            await CloudWatchService.describeAlarms({ NextToken: marker }).promise();
+          const alarmsResponse: AWS.CloudWatch.Types.DescribeAlarmsOutput = await CloudWatchService.describeAlarms(
+            { NextToken: marker }
+          ).promise();
           if (alarmsResponse.MetricAlarms) {
             alarms[region] = alarms[region].concat(alarmsResponse.MetricAlarms);
           }

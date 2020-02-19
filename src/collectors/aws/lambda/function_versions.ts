@@ -4,42 +4,53 @@ import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 import { LambdaFunctionsCollector } from "./functions";
 
+import { IDictionary } from "../../../types";
+
 export class LambdaFunctionVersionsCollector extends BaseCollector {
-    public collect() {
-        return this.getAllFunctionVersions();
-    }
+  private context: IDictionary<any> = {};
+  public getContext() {
+    return this.context;
+  }
 
-    private async getAllFunctionVersions() {
+  public collect() {
+    return this.getAllFunctionVersions();
+  }
 
-        const self = this;
-        const serviceName = "Lambda";
-        const lambdaRegions = self.getRegions(serviceName);
-        const lambdaFunctionsCollector = new LambdaFunctionsCollector();
-        lambdaFunctionsCollector.setSession(this.getSession());
-        const function_versions = {};
+  private async getAllFunctionVersions() {
+    const self = this;
+    const serviceName = "Lambda";
+    const lambdaRegions = self.getRegions(serviceName);
+    const lambdaFunctionsCollector = new LambdaFunctionsCollector();
+    lambdaFunctionsCollector.setSession(this.getSession());
+    const function_versions = {};
+    try {
+      const functionsData = await CollectorUtil.cachedCollect(
+        lambdaFunctionsCollector
+      );
+      const functions = functionsData.functions;
+      for (const region of lambdaRegions) {
+        function_versions[region] = {};
         try {
-            const functionsData = await CollectorUtil.cachedCollect(lambdaFunctionsCollector);
-            const functions = functionsData.functions;
-            for (const region of lambdaRegions) {
-                function_versions[region] = {};
-                try {
-                    const lambda = self.getClient(serviceName, region) as AWS.Lambda;
-                    for (const fn of functions[region]) {
-                        const functionVersionsResponse:
-                            AWS.Lambda.ListVersionsByFunctionResponse =
-                            await lambda.listVersionsByFunction
-                                ({ FunctionName: fn.FunctionName, MaxItems: 7 }).promise();
-                        function_versions[region][fn.FunctionName] = functionVersionsResponse.Versions;
-                        await CommonUtil.wait(1000);
-                    }
-                } catch (error) {
-                    AWSErrorHandler.handle(error);
-                    continue;
-                }
-            }
+          const lambda = self.getClient(serviceName, region) as AWS.Lambda;
+          for (const fn of functions[region]) {
+            const functionVersionsResponse: AWS.Lambda.ListVersionsByFunctionResponse = await lambda
+              .listVersionsByFunction({
+                FunctionName: fn.FunctionName,
+                MaxItems: 7
+              })
+              .promise();
+            function_versions[region][fn.FunctionName] =
+              functionVersionsResponse.Versions;
+            await CommonUtil.wait(1000);
+          }
         } catch (error) {
-            AWSErrorHandler.handle(error);
+          AWSErrorHandler.handle(error);
+          continue;
         }
-        return { function_versions };
+      }
+    } catch (error) {
+      AWSErrorHandler.handle(error);
     }
+    return { function_versions };
+  }
 }

@@ -3,30 +3,38 @@ import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
+import { IDictionary } from "../../../types";
+
 export class ElasticIPsCollector extends BaseCollector {
-    public collect() {
-        return this.getAllElasticIPs();
-    }
+  private context: IDictionary<any> = {};
+  public getContext() {
+    return this.context;
+  }
 
-    private async getAllElasticIPs() {
+  public collect() {
+    return this.getAllElasticIPs();
+  }
 
-        const serviceName = "EC2";
-        const ec2Regions = this.getRegions(serviceName);
-        const elastic_ips = {};
+  private async getAllElasticIPs() {
+    const serviceName = "EC2";
+    const ec2Regions = this.getRegions(serviceName);
+    const elastic_ips = {};
 
-        for (const region of ec2Regions) {
-            try {
-                const ec2 = this.getClient(serviceName, region) as AWS.EC2;
-                const elasticIPsResponse: AWS.EC2.DescribeAddressesResult = await ec2.describeAddresses().promise();
-                if (elasticIPsResponse && elasticIPsResponse.Addresses) {
-                    elastic_ips[region] = elasticIPsResponse.Addresses;
-                }
-                await CommonUtil.wait(200);
-            } catch (error) {
-                AWSErrorHandler.handle(error);
-                continue;
-            }
+    for (const region of ec2Regions) {
+      try {
+        const ec2 = this.getClient(serviceName, region) as AWS.EC2;
+        const elasticIPsResponse: AWS.EC2.DescribeAddressesResult = await ec2
+          .describeAddresses()
+          .promise();
+        if (elasticIPsResponse && elasticIPsResponse.Addresses) {
+          elastic_ips[region] = elasticIPsResponse.Addresses;
         }
-        return { elastic_ips };
+        await CommonUtil.wait(200);
+      } catch (error) {
+        AWSErrorHandler.handle(error);
+        continue;
+      }
     }
+    return { elastic_ips };
+  }
 }

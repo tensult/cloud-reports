@@ -4,39 +4,49 @@ import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 import { DynamoDBTableNamesCollector } from "./table_names";
 
+import { IDictionary } from "../../../types";
+
 export class DynamoDBTableBackupsCollector extends BaseCollector {
-    public collect() {
-        return this.getAllTableBackups();
-    }
+  private context: IDictionary<any> = {};
+  public getContext() {
+    return this.context;
+  }
 
-    private async getAllTableBackups() {
+  public collect() {
+    return this.getAllTableBackups();
+  }
 
-        const serviceName = "DynamoDB";
-        const dynamoDBRegions = this.getRegions(serviceName);
-        const tables_backup = {};
-        const dynamoDBTableNamesCollector = new DynamoDBTableNamesCollector();
-        dynamoDBTableNamesCollector.setSession(this.getSession());
+  private async getAllTableBackups() {
+    const serviceName = "DynamoDB";
+    const dynamoDBRegions = this.getRegions(serviceName);
+    const tables_backup = {};
+    const dynamoDBTableNamesCollector = new DynamoDBTableNamesCollector();
+    dynamoDBTableNamesCollector.setSession(this.getSession());
+    try {
+      const tablesData = await CollectorUtil.cachedCollect(
+        dynamoDBTableNamesCollector
+      );
+      const tableNames = tablesData.tableNames;
+      for (const region of dynamoDBRegions) {
         try {
-            const tablesData = await CollectorUtil.cachedCollect(dynamoDBTableNamesCollector);
-            const tableNames = tablesData.tableNames;
-            for (const region of dynamoDBRegions) {
-                try {
-                    const dynamoDB = this.getClient(serviceName, region) as AWS.DynamoDB;
-                    tables_backup[region] = {};
-                    for (const tableName of tableNames[region]) {
-                        const tableBackupResponse: AWS.DynamoDB.DescribeContinuousBackupsOutput =
-                            await dynamoDB.describeContinuousBackups({ TableName: tableName }).promise();
-                        tables_backup[region][tableName] = tableBackupResponse.ContinuousBackupsDescription;
-                        await CommonUtil.wait(200);
-                    }
-                } catch (err) {
-                    AWSErrorHandler.handle(err, region);
-                    continue;
-                }
-            }
+          const dynamoDB = this.getClient(serviceName, region) as AWS.DynamoDB;
+          tables_backup[region] = {};
+          for (const tableName of tableNames[region]) {
+            const tableBackupResponse: AWS.DynamoDB.DescribeContinuousBackupsOutput = await dynamoDB
+              .describeContinuousBackups({ TableName: tableName })
+              .promise();
+            tables_backup[region][tableName] =
+              tableBackupResponse.ContinuousBackupsDescription;
+            await CommonUtil.wait(200);
+          }
         } catch (err) {
-            AWSErrorHandler.handle(err);
+          AWSErrorHandler.handle(err, region);
+          continue;
         }
-        return { tables_backup };
+      }
+    } catch (err) {
+      AWSErrorHandler.handle(err);
     }
+    return { tables_backup };
+  }
 }

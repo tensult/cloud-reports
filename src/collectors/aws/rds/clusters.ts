@@ -3,38 +3,47 @@ import { CommonUtil } from "../../../utils";
 import { AWSErrorHandler } from "../../../utils/aws";
 import { BaseCollector } from "../../base";
 
+import { IDictionary } from "../../../types";
+
 export class RDSClustersCollector extends BaseCollector {
-    public collect() {
-        return this.getAllClusters();
-    }
+  private context: IDictionary<any> = {};
+  public getContext() {
+    return this.context;
+  }
 
-    private async getAllClusters() {
+  public collect() {
+    return this.getAllClusters();
+  }
 
-        const self = this;
+  private async getAllClusters() {
+    const self = this;
 
-        const serviceName = "RDS";
-        const rdsRegions = self.getRegions(serviceName);
-        const clusters = {};
+    const serviceName = "RDS";
+    const rdsRegions = self.getRegions(serviceName);
+    const clusters = {};
 
-        for (const region of rdsRegions) {
-            try {
-                const rds = self.getClient(serviceName, region) as AWS.RDS;
-                clusters[region] = [];
-                let fetchPending = true;
-                let marker: string | undefined;
-                while (fetchPending) {
-                    const clustersResponse: AWS.RDS.DBClusterMessage =
-                        await rds.describeDBClusters({ Marker: marker }).promise();
-                    clusters[region] = clusters[region].concat(clustersResponse.DBClusters);
-                    marker = clustersResponse.Marker;
-                    fetchPending = marker !== undefined;
-                    await CommonUtil.wait(200);
-                }
-            } catch (error) {
-                AWSErrorHandler.handle(error);
-                continue;
-            }
+    for (const region of rdsRegions) {
+      try {
+        const rds = self.getClient(serviceName, region) as AWS.RDS;
+        clusters[region] = [];
+        let fetchPending = true;
+        let marker: string | undefined;
+        while (fetchPending) {
+          const clustersResponse: AWS.RDS.DBClusterMessage = await rds
+            .describeDBClusters({ Marker: marker })
+            .promise();
+          clusters[region] = clusters[region].concat(
+            clustersResponse.DBClusters
+          );
+          marker = clustersResponse.Marker;
+          fetchPending = marker !== undefined;
+          await CommonUtil.wait(200);
         }
-        return { clusters };
+      } catch (error) {
+        AWSErrorHandler.handle(error);
+        continue;
+      }
     }
+    return { clusters };
+  }
 }
