@@ -4,10 +4,14 @@
     <body>
         <br><br>
         <h2 style="color: #33acdd;">Cloud Reports</h2>
-        <h5 id="cloudreportdatetime">
+        <h5 id="cloudreportrundate" style="color: #33acdd;">
             <script>
-                var d = new Date();
-                document.getElementById("cloudreportdatetime").innerHTML = d;
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
+                today = dd + '/' + mm + '/' + yyyy;
+                document.getElementById("cloudreportrundate").innerHTML = today;
             </script>
         </h5>
         <h5 style="color: #33acdd;"> AWS Account ID : <%= awsAccountId %></h5>
@@ -19,40 +23,65 @@
     <p class="toc_title">Table Of Contents</p>
     <ul class=leaders>
         <li><span>1. Cloud Report Summary</span>
-            <span>2</span>
         <li><span>2. Services</span>
-            <span>3</span>
             <ul style="list-style-type:disc;color: #33acdd;">
-                <li><span><a href="#apigateway" class="alink">apigateway</a></span>
-                    <span>4</span>
-                <li><span><a href="#cloudwatch" class="alink">cloudwatch</a></span>
-                    <span>5</span>
-                <li><span><a href="#dynamodb" class="alink">dynamodb</a></span>
-                    <span>12</span>
-                <li><span><a href="#ebs" class="alink">ebs</a></span>
-                    <span>13</span>
-                <li><span><a href="#ec2" class="alink">ec2</a></span>
-                    <span>14</span>
-                <li><span><a href="#elasticsearch" class="alink">elasticsearch</a></span>
-                    <span>19</span>
-                <li><span><a href="#iam" class="alink">iam</a></span>
-                    <span>19</span>
-                <li><span><a href="#lambda" class="alink">lambda</a></span>
-                    <span>23</span>
-                <li><span><a href="#resourcegroups" class="alink">resourcegroups</a></span>
-                    <span>36</span>
-                <li><span><a href="#route53" class="alink">route53</a></span>
-                    <span>36</span>
-                <li><span><a href="#s3" class="alink">s3</a></span>
-                    <span>37</span>
-                <li><span><a href="#sns" class="alink">sns</a></span>
-                    <span>37</span>
-                <li><span><a href="#sqs" class="alink">sqs</a></span>
-                    <span>37</span>
-                <li><span><a href="#trails" class="alink">trails</a></span>
-                    <span>38</span>
-                <li><span><a href="#vpc" class="alink">vpc</a></span>
-                    <span>38</span>
+                <%if (servicesHasData.indexOf("acm")!==-1) { %>
+                <li><span><a href="#acm" class="alink">AWS ACM</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("apigateway")!==-1) { %>
+                <li><span><a href="#apigateway" class="alink">Amazon API Gateway</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("cloudfront")!==-1) { %>
+                <li><span><a href="#cloudfront" class="alink">Amazon CloudFront</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("cloudwatch")!==-1) { %>
+                <li><span><a href="#cloudwatch" class="alink">Amazon CloudWatch</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("dynamodb")!==-1) { %>
+                <li><span><a href="#dynamodb" class="alink">AWS DynamoDB</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("ebs")!==-1) { %>
+                <li><span><a href="#ebs" class="alink">Amazon EBS</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("ec2")!==-1) { %>
+                <li><span><a href="#ec2" class="alink">Amazon EC2</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("elasticsearch")!==-1) { %>
+                <li><span><a href="#elasticsearch" class="alink">Amazon Elasticsearch</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("elb")!==-1) { %>
+                <li><span><a href="#elb" class="alink">Elastic Load Balancing</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("iam")!==-1) { %>
+                <li><span><a href="#iam" class="alink">AWS IAM</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("lambda")!==-1) { %>
+                <li><span><a href="#lambda" class="alink">AWS Lambda</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("resourcegroups")!==-1) { %>
+                <li><span><a href="#resourcegroups" class="alink">AWS Resource Groups</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("route53")!==-1) { %>
+                <li><span><a href="#route53" class="alink">Amazon Route 53</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("s3")!==-1) { %>
+                <li><span><a href="#s3" class="alink">Amazon S3</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("sns")!==-1) { %>
+                <li><span><a href="#sns" class="alink">Amazon SNS</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("sqs")!==-1) { %>
+                <li><span><a href="#sqs" class="alink">Amazon SQS</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("trails")!==-1) { %>
+                <li><span><a href="#trails" class="alink">AWS CloudTrail</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("vpc")!==-1) { %>
+                <li><span><a href="#vpc" class="alink">Amazon VPC</a></span></li>
+                <% } %>
+                <%if (servicesHasData.indexOf("redshift")!==-1) { %>
+                <li><span><a href="#redshift" class="alink">Amazon Redshift</a></span></li>
+                <% } %>
             </ul>
         </li>
     </ul>
