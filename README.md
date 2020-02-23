@@ -74,17 +74,19 @@ npm run scan -- --profile Your-AWS-profile
   * Once the above conditions are met, CloudReports can run on the instance using instance profile role so no need to pass the profile parameter.
 
 ```
-npm run scan -- --module s3,acm
+npm run scan -- -m s3,acm
 ```
-
-
 * To run for specific module
 ```
-npm run scan -- --profile Your-AWS-profile --module s3,acm
+npm run scan -- --profile Your-AWS-profile -m s3,acm
 ```
 * To run for single module
 ```
-npm run scan -- --profile Your-AWS-profile  --module s3
+npm run scan -- --profile Your-AWS-profile  -m s3
+```
+* To run for specific regions
+```
+npm run scan -- --profile Your-AWS-profile -m s3,acm -r ap-south-1,ap-southeast-1
 ```
 * We can generate report in following formats: 
 * To generate HTML report file

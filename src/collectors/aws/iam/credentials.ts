@@ -22,7 +22,7 @@ export class CredentialsReportCollector extends BaseCollector {
       let credsReport: AWS.IAM.GetCredentialReportResponse = {};
       await iam.generateCredentialReport().promise();
       while (fetchPending) {
-        await CommonUtil.wait(3000);
+        await CommonUtil.wait(5000);
         credsReport = await iam.getCredentialReport().promise();
         fetchPending = credsReport.Content === undefined;
       }

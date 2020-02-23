@@ -17,7 +17,8 @@ const cliArgs = Cli.parse({
     format: ["f", "output format: html, json, csv or pdf", "string", "html"],
     issuesOnly: ["i", "should show only issues", "boolean", false],
     logLevel: ["l", "Log level: off=100, info=1, warning=2, error=3", "int", "3"],
-    module: ["m", "name of the module", "string"],
+    module: ["m", "name of the module(s)", "string"],
+    regions: ["r", "name of the region(s)", "string"],
     output: ["o", "Report file name", "string", "scan_report"],
     outputDir: ["D", "Output directory", "string", "."],
     profile: ["p", "AWS profile name", "string", "default"],
@@ -77,7 +78,7 @@ async function getCollectorResults() {
         return JSON.parse(readFileSync(collectorReportFileName, { encoding: "utf-8" }));
     }
     const credentials = await AWSCredentialsProvider.getCredentials(cliArgs.profile);
-    return await CollectorMain.collect(cliArgs.module, credentials);
+    return await CollectorMain.collect({moduleNames: cliArgs.module, credentials, regions: cliArgs.regions});
 }
 function getAccountNumber(analyzedData) {
     if (analyzedData["aws.account"]) {

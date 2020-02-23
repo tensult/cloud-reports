@@ -33,4 +33,16 @@ export class CommonUtil {
             return [obj];
         }
     }
+
+    public static string2Array(names?: string | string[]) {
+        if (!names || names === "all") {
+          return [];
+        }
+        if (Array.isArray(names)) {
+          names;
+        } else if (typeof names === "string") {
+          return names.split(",");
+        }
+        return [];
+      }
 }
