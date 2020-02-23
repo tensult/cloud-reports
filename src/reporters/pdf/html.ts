@@ -122,7 +122,8 @@ function modifyServiceNames(reportSummary) {
     "aws.sns": "Amazon SNS",
     "aws.sqs": "Amazon SQS",
     "aws.trails": "AWS CloudTrail",
-    "aws.vpc": "Amazon VPC"
+    "aws.vpc": "Amazon VPC",
+    "aws.redshift": "Amazon Redshift"
   };
   for (let data of newReportSummary) {
     if (serviceNameMap[data.service]) {
@@ -137,6 +138,20 @@ function copyEJSFiles() {
     parents: true
   });
 }
+
+function getServicesHasData(totalData) {
+  const services: string[] = [];
+  for (var service in totalData.servicesData) {
+    for (var check in totalData.servicesData[service]) {
+      if (totalData.servicesData[service][check].allRegionsData && totalData.servicesData[service][check].allRegionsData.length > 0) {
+        services.push(service.replace('aws.', ''));
+        break;
+      }
+    }
+  }
+  return services;
+}
+
 export async function generateHTML(
   reportData: any,
   options?: {
@@ -147,9 +162,10 @@ export async function generateHTML(
   options = options || { showIssuesOnly: false };
   // await copyEJSFiles();
   const totalData = processReportData(reportData, options.showIssuesOnly);
+  const servicesHasData = getServicesHasData(totalData);
   const awsAccountId = totalData.servicesData["aws.account"] ? totalData.servicesData["aws.account"].summary.regions.global[0].resourceSummary.value : "";
   return await new Promise((resolve, reject) => {
-    ejs.renderFile(__dirname + "/template.ejs", { totalData, awsAccountId }, {}, function (
+    ejs.renderFile(__dirname + "/template.ejs", { totalData, awsAccountId, servicesHasData }, {}, function (
       err,
       html
     ) {
