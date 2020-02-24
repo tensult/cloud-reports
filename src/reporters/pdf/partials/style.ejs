@@ -1,10 +1,11 @@
 <style>
-    #cloudreportdatetime{
+    #cloudreportdatetime {
         color: #33acdd;
     }
+
     .status {
         font-weight: bold;
-    }    
+    }
 
     .info {
         background-color: #3773b3;
@@ -74,7 +75,7 @@
     .checkTable {
         display: table;
         width: 100%;
-        
+
     }
 
     .checkTableRow {
@@ -84,14 +85,14 @@
     }
 
     .checkTableCell.desc {
-        width: 0%;
+        min-width: 196px;
     }
 
     .checkTableCell,
     .checkTableHead {
         border: 1px solid #999999;
         display: table-cell;
-        padding: 2px;        
+        padding: 2px;
     }
 
     .resourceName {
@@ -142,9 +143,9 @@
 
     .checkTablesummary {
         display: table;
-        width: 100%; 
+        width: 100%;
         padding: 0px;
-        margin: 0px
+        margin: 0px;
     }
 
     .goodsummary {
@@ -159,28 +160,27 @@
         color: #FF3933;
     }
 
-    .checkTableservice{
+    .checkTableservice {
         padding-top: 12px;
         padding-bottom: 12px;
-        background-color:#33acdd;
-        color: white;       
+        background-color: #33acdd;
+        color: white;
         border: 1px solid #999999;
         display: table-cell;
         padding: 2px;
-         width: 28%;
-}
+        width: auto;
+    }
 
     .checkTableHeadsummary {
         padding-top: 12px;
         padding-bottom: 12px;
-        background-color:#33acdd;
-        color: white;        
+        background-color: #33acdd;
+        color: white;
         border: 1px solid #999999;
         display: table-cell;
         padding: 2px;
-        width: 25%;
     }
-   
+
 
     .checkTableRowsummary {
         display: table-row;
@@ -206,7 +206,7 @@
         overflow-x: hidden;
         list-style: none;
         color: #33acdd;
-
+        font-family: sans-serif
     }
 
     ul.leaders li:before {
@@ -215,7 +215,7 @@
         white-space: nowrap;
         color: #33acdd;
         content:
-       
+
             ". . . . . . . . . . . . . . . . . . . . "
             ". . . . . . . . . . . . . . . . . . . . "
             ". . . . . . . . . . . . . . . . . . . . "
@@ -237,8 +237,11 @@
 
     .alink {
         text-decoration: none;
-        color:#33acdd;
+        color: #33acdd;
     }
 
-
+    .overallSnapshot {
+        margin: auto;
+        width: 60%;
+    }
 </style>

@@ -1,29 +1,15 @@
 <div class="cloudreportdatetime">
-    <html>
-
-    <body>
-        <br><br>
-        <h2 style="color: #33acdd;">Cloud Reports</h2>
-        <h5 id="cloudreportrundate" style="color: #33acdd;">
-            <script>
-                var today = new Date();
-                var dd = String(today.getDate()).padStart(2, '0');
-                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                var yyyy = today.getFullYear();
-                today = dd + '/' + mm + '/' + yyyy;
-                document.getElementById("cloudreportrundate").innerHTML = today;
-            </script>
-        </h5>
-        <h5 style="color: #33acdd;"> AWS Account ID : <%= awsAccountId %></h5>
-    </body>
-
-    </html>
+    <h2 style="color: #33acdd;">Cloud Reports</h2>
+    <h5 style="color: #33acdd;">Date of Run: <%= currentDate %></h5>
+    <h5 style="color: #33acdd;"> AWS Account ID : <%= awsAccountId %></h5>
 </div>
+
 <div style='page-break-before: always; margin-top:30px;'>
-    <p class="toc_title">Table Of Contents</p>
+    <h3 style="color: #33acdd;font-weight: bold; text-align: center; font-family: sans-serif;">Table of Contents</h3>
     <ul class=leaders>
-        <li><span>1. Cloud Report Summary</span>
-        <li><span>2. Services</span>
+        <li><span>1. <a href="#overallSnapshot" class="alink">Overall Snapshot</a></span></li>
+        <li><span>2. <a href="#serviceDetailsSummary" class="alink">Service Details Summary</a></span></li>
+        <li><span>3. Services</span>
             <ul style="list-style-type:disc;color: #33acdd;">
                 <%if (servicesHasData.indexOf("acm")!==-1) { %>
                 <li><span><a href="#acm" class="alink">AWS ACM</a></span></li>
@@ -87,14 +73,15 @@
     </ul>
 </div>
 
-<div style='page-break-before: always;'>
-    <h3 style="color: #33acdd;font-weight: bold;">TOTAL CLOUD REPORTS SUMMARY</h3>
-    <div class="checkTablesummary">
+<div style='page-break-before: always;' id="overallSnapshot">
+    <h3 style="color: #33acdd;font-weight: bold; text-align: center; font-family: sans-serif;">Overall Snapshot</h3>
+    <div class="checkTablesummary overallSnapshot">
         <div class="checkTableRow">
             <div class="checkTableHeadsummary" align="center"><strong>Total </strong></div>
             <div class="checkTableHeadsummary" align="center"><strong>Failed </strong></div>
             <div class="checkTableHeadsummary" align="center"><strong>Warning</strong></div>
             <div class="checkTableHeadsummary" align="center"><strong>Passed</strong></div>
+            <div class="checkTableHeadsummary" align="center"><strong>Info </strong></div>
         </div>
         <div class="checkTableRowsummary">
             <div class="checkTableCell" align="center"><%= totalData.totalsummaryData.noOfChecks %></div>
@@ -103,11 +90,43 @@
             <div class="checkTableCell warningsummary" align="center"><%= totalData.totalsummaryData.noOfWarning %>
             </div>
             <div class="checkTableCell goodsummary" align="center"><%= totalData.totalsummaryData.noOfGood %></div>
-
+            <div class="checkTableCell" style="color: blue;" align="center"><%= totalData.totalsummaryData.noOfInfo %></div>
         </div>
     </div>
-    <br>
-    <h3 style="color: #33acdd;font-weight: bold;">SERVICE DETAILS SUMMARY</h3>
+    <div style="color: #33acdd; font-family: sans-serif;">
+        <br><br>
+        <h3 style="color: #33acdd;font-weight: bold; font-family: sans-serif;">What it means</h3>
+        <br>
+        <b>Failed</b> <br>
+        These are high severity issues that need your immediate attention and action. They can range from an open
+        unrestricted port that is considered risky (say SSH open to 0.0.0.0/0) or disk usage alerts not being configured
+        which can cause you application to go down without notice. This also has more dangerous issues such as keeping
+        the root user credentials active, which has unlimited access privileges. If someone gets access to it, they can
+        even terminate your account with a single API call ! All issues in Failure state need to be fixed without any
+        delays. <br><br>
+
+        <b>Warning</b> <br>
+        A warning is not a critical issue, but still needs attention. These could be simple things such as unused key
+        pairs, or instances without termination protection. Issues in this category also depend on the environment under
+        question. These can be ignored for Dev or Test infrastructure, but need to be addressed in Production and
+        sometimes in Staging environments. When it is log or monitoring related, it is also possible that you are using
+        external logging tools or monitoring dashboards to handle some of the recommendations, and can be safely ignored
+        if so. <br><br>
+
+        <b>Passed</b> <br>
+        These are the resources which are in a healthy and secure state. Great job and keep it up. Your end goal should
+        be to have 0 Failures, limited warnings and most of your checks in Passed state.
+        <br><br>
+
+        <b>Info</b> <br>
+        These are the checks which are informational in nature and no immediate action is needed on these checks.  
+        They fall in the category of good-to-have rather than must-have and it's upto your discretion to act on them.
+        <br> <br>
+    </div>
+</div>
+
+<div id="serviceDetailsSummary" style="page-break-before: always;">
+    <h3 style="color: #33acdd;font-weight: bold; text-align: center; font-family: sans-serif;">Service Details Summary</h3>
     <div class="checkTablesummary">
         <div class="checkTableRow">
             <div class="checkTableservice" align="center"><strong>Service</strong></div>
@@ -115,6 +134,7 @@
             <div class="checkTableservice" align="center"><strong>Failed </strong></div>
             <div class="checkTableservice" align="center"><strong>Warning</strong></div>
             <div class="checkTableservice" align="center"><strong>Passed</strong></div>
+            <div class="checkTableservice" align="center"><strong>Info</strong></div>
         </div>
 
         <% for(var data of totalData.summaryData) { %>
@@ -124,12 +144,13 @@
             <div class="checkTableCell failuresummary" align="center"><%= data.noOfFailure %></div>
             <div class="checkTableCell warningsummary" align="center"><%= data.noOfWarning %></div>
             <div class="checkTableCell goodsummary" align="center"><%= data.noOfGood %></div>
+            <div class="checkTableCell" style="color: blue;" align="center"><%= data.noOfInfo %></div>
         </div>
         <% } %>
     </div>
 </div>
 
-<div class="reportDetails" style='page-break-before: always;'>
+<div style="page-break-before: always;">
     <% for(var serviceName in totalData.servicesData) { %>
     <% var serviceData = totalData.servicesData[serviceName]; 
             if(!serviceData.isUsed) {
@@ -137,7 +158,7 @@
             }
             serviceName = serviceName.replace('aws.', '');
     %>
-    <div class="serviceDetails" id="<%= serviceName %>">
+    <div id="<%= serviceName %>">
         <%- include('serviceDetails', {serviceData: serviceData, serviceName: serviceName}) %>
     </div>
     <% } %>

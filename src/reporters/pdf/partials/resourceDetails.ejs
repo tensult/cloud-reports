@@ -1,13 +1,13 @@
 <div class="checkTableRow <%= analysis.severity.toLowerCase() %>">
     <% if(region != 'global') { %>
-    <div class="checkTableCell regionName">
+    <div class="checkTableCell" style="width:auto;">
         <span><%= region %></span>
     </div>
     <% } %>
-    <div class="checkTableCell resourceName">
+    <div class="checkTableCell resourceName" style="word-wrap: break-word;">
         <span><%= resourceValue %></span>
     </div>
-    <div class="checkTableCell">
+    <div class="checkTableCell" style="word-wrap: break-word;">
         <span><%= analysis.message %></span>
     </div>
     <div class="checkTableCell">
