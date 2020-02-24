@@ -13,7 +13,8 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
       noOfChecks: 0,
       noOfGood: 0,
       noOfWarning: 0,
-      noOfFailure: 0
+      noOfFailure: 0,
+      noOfInfo: 0
     };
     for (const checkName in reportData[serviceName]) {
       reportData[serviceName][checkName].allRegionsData = [];
@@ -36,6 +37,8 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
             serviceCheckData.noOfWarning++;
           } else if (severity === "Failure") {
             serviceCheckData.noOfFailure++;
+          } else if (severity === "Info") {
+            serviceCheckData.noOfInfo++;
           }
         }
         if (!regionDetails) {
@@ -67,6 +70,7 @@ function processReportData(reportData: any, includeOnlyIssues?: boolean) {
     totalreportSummary.noOfFailure = (totalreportSummary.noOfFailure || 0) + serviceCheckData.noOfFailure;
     totalreportSummary.noOfGood = (totalreportSummary.noOfGood || 0) + serviceCheckData.noOfGood;
     totalreportSummary.noOfWarning = (totalreportSummary.noOfWarning || 0) + serviceCheckData.noOfWarning;
+    totalreportSummary.noOfInfo = (totalreportSummary.noOfInfo || 0) + serviceCheckData.noOfInfo;
   }
   return {
     servicesData: reportData,
@@ -152,6 +156,14 @@ function getServicesHasData(totalData) {
   return services;
 }
 
+function getCurrentDate() {
+  const dateObj = new Date();
+  var dd = String(dateObj.getDate()).padStart(2, '0');
+  var mm = String(dateObj.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = dateObj.getFullYear();
+  return dd + '/' + mm + '/' + yyyy;
+}
+
 export async function generateHTML(
   reportData: any,
   options?: {
@@ -165,7 +177,12 @@ export async function generateHTML(
   const servicesHasData = getServicesHasData(totalData);
   const awsAccountId = totalData.servicesData["aws.account"] ? totalData.servicesData["aws.account"].summary.regions.global[0].resourceSummary.value : "";
   return await new Promise((resolve, reject) => {
-    ejs.renderFile(__dirname + "/template.ejs", { totalData, awsAccountId, servicesHasData }, {}, function (
+    ejs.renderFile(__dirname + "/template.ejs", {
+      totalData,
+      awsAccountId,
+      servicesHasData,
+      currentDate: getCurrentDate()
+    }, {}, function (
       err,
       html
     ) {
