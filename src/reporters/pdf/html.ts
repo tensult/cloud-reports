@@ -1,6 +1,8 @@
 
 import * as cpy from "cpy";
 import * as ejs from "ejs";
+import * as fs from "fs";
+
 function processReportData(reportData: any, includeOnlyIssues?: boolean) {
   const reportSummary: any[] = [];
   const totalreportSummary: any = {};
@@ -164,6 +166,10 @@ function getCurrentDate() {
   return dd + '/' + mm + '/' + yyyy;
 }
 
+function writeFile(fileName, data) {
+  fs.writeFileSync(fileName, data, "utf-8");
+}
+
 export async function generateHTML(
   reportData: any,
   options?: {
@@ -174,6 +180,7 @@ export async function generateHTML(
   options = options || { showIssuesOnly: false };
   // await copyEJSFiles();
   const totalData = processReportData(reportData, options.showIssuesOnly);
+  // writeFile("totalData.json", JSON.stringify(totalData));
   const servicesHasData = getServicesHasData(totalData);
   const awsAccountId = totalData.servicesData["aws.account"] ? totalData.servicesData["aws.account"].summary.regions.global[0].resourceSummary.value : "";
   return await new Promise((resolve, reject) => {
