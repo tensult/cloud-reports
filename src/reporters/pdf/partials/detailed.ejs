@@ -1,7 +1,7 @@
 <div class="cloudreportdatetime">
     <h2 style="color: #33acdd;">Cloud Reports</h2>
     <h5 style="color: #33acdd;">Date of Run: <%= currentDate %></h5>
-    <h5 style="color: #33acdd;"> AWS Account ID : <%= awsAccountId %></h5>
+    <%if (awsAccountId) { %> <h5 style="color: #33acdd;"> AWS Account ID : <%= awsAccountId %></h5><% } %>
 </div>
 
 <div style='page-break-before: always; margin-top:30px;'>

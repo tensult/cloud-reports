@@ -1,6 +1,8 @@
 
 import * as cpy from "cpy";
 import * as ejs from "ejs";
+import * as fs from "fs";
+
 function processReportData(reportData: any, includeOnlyIssues?: boolean) {
   const reportSummary: any[] = [];
   const totalreportSummary: any = {};
@@ -162,6 +164,10 @@ function getCurrentDate() {
   var mm = String(dateObj.getMonth() + 1).padStart(2, '0'); //January is 0!
   var yyyy = dateObj.getFullYear();
   return dd + '/' + mm + '/' + yyyy;
+}
+
+function writeFile(fileName, data) {
+  fs.writeFileSync(fileName, data, "utf-8");
 }
 
 export async function generateHTML(
