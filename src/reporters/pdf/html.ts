@@ -180,7 +180,6 @@ export async function generateHTML(
   options = options || { showIssuesOnly: false };
   // await copyEJSFiles();
   const totalData = processReportData(reportData, options.showIssuesOnly);
-  // writeFile("totalData.json", JSON.stringify(totalData));
   const servicesHasData = getServicesHasData(totalData);
   const awsAccountId = totalData.servicesData["aws.account"] ? totalData.servicesData["aws.account"].summary.regions.global[0].resourceSummary.value : "";
   return await new Promise((resolve, reject) => {
