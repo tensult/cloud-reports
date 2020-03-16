@@ -53,6 +53,7 @@ async function createPDF(html) {
         await page.setContent(html);
         return await page.pdf(pdfOptions);
     } catch (error) {
+        console.error(error);
         throw error;
     } finally {
         if (browser) {
